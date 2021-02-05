@@ -1,9 +1,15 @@
-#include <ark/core.hpp>
+#include <Windows.h>
 
+#include <ark/core.hpp>
+#include <ark/log.hpp>
 #include <ark/mod.hpp>
 #include <ark/mods/sniper.hpp>
 
-#include <Windows.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
+#include <filesystem>
+#include <iostream>
 
 namespace ark
 {
@@ -11,21 +17,20 @@ namespace ark
         : hmodule_{ hmodule }
         , version_{ "0.0.19" }
     {
-        ark::make_console();
-        init_logger();
+        //ark::load_console(console_);
+        ark::init_logger((uintptr_t)hmodule_);
         ark_trace("Initialize ark::core version {}", version_);
 
         ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
         //core.load<ark::mods::zombie>();
-        load<ark::mods::sniper>();
+        //load<ark::mods::sniper>();
         //core.load<ark::mods::testing>();
     }
 
     core::~core()
     {
-        FreeConsole();
-        FreeLibraryAndExitThread(hmodule_, 0);
+        //ark::unload_console(console_);
     }
 
     void core::run()
@@ -36,6 +41,29 @@ namespace ark
             {
                 break;
             }
+
+            /*
+            if (GetAsyncKeyState('Q') & 1)
+            {
+                INPUT ip;
+
+                // Press the "A" key
+                ip.ki.wVk = 'A'; // virtual-key code for the "a" key
+                ip.ki.dwFlags = 0; // 0 for key press
+                SendInput(1, &ip, sizeof(INPUT));
+            }
+            else if (GetAsyncKeyState('Q'))
+            {
+                INPUT ip;
+                ip.type = INPUT_KEYBOARD;
+                ip.ki.wVk = 'A';
+                ip.ki.wScan = 0; // hardware scan code for key
+                ip.ki.time = 0;
+                ip.ki.dwExtraInfo = 0;
+                // Release the "A" key
+                ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+                SendInput(1, &ip, sizeof(INPUT));
+            }*/
         }
     }
 } // ark

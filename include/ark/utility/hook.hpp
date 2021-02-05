@@ -4,7 +4,7 @@
 
 #include <rcmp/codegen.hpp>
 #include <autogen/Object.hpp>
-#include <ark/utility/logger.hpp>
+#include <ark/log.hpp>
 
 template <class Signature, class F>
 void hook_method(const char* namespace_, const char* class_, const char* method, F&& callback) {

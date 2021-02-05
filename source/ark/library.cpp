@@ -1,14 +1,31 @@
 #include <Windows.h>
 
-#include <iostream>
-
 #include <ark/core.hpp>
 
 DWORD WINAPI HackThread(HMODULE hmodule)
 {
-    ark::core core{ hmodule };
-    core.run();
+    FILE* console_;
+    if (!AllocConsole())
+    {
+        ark_trace("console allocation failed");
+        return 0;
+    }
+    freopen_s(&console_, "CONOUT$", "w", stdout);
 
+    SetConsoleOutputCP(65001);
+
+
+        ark::core core{hmodule};
+        core.run();
+
+
+    ark::unload_console(console_);
+
+/*
+fclose(f);
+FreeConsole();*/
+
+    FreeLibraryAndExitThread(hmodule, 0);
     return 0;
 }
 
@@ -27,11 +44,9 @@ extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HMODULE hmodule, DWORD fdwR
             break;
 
         case DLL_PROCESS_DETACH:
-            std::cout << "DLL_PROCESS_DETACH " << fdwReason;
             break;
 
         default:
-            std::cout << "dll error " << fdwReason;
             break;
     }
     return true;

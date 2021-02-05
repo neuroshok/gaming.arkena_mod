@@ -2,7 +2,10 @@
 
 #include <spdlog/spdlog.h>
 
-void init_logger();
+namespace ark
+{
+    void init_logger(std::uintptr_t);
+} // ark
 
 template<class... Ts>
 void ark_trace(Ts&&... ts)

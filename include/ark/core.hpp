@@ -5,7 +5,7 @@
 
 #include <ark/mod.hpp>
 #include <ark/utility/hook.hpp>
-#include <ark/utility/logger.hpp>
+#include <ark/log.hpp>
 #include <ark/utility/console.hpp>
 
 #include <autogen/GameData.hpp>
@@ -31,8 +31,6 @@ namespace ark
     class core
     {
     public:
-        static std::string version;
-
         explicit core(HMODULE);
         ~core();
 
@@ -57,6 +55,7 @@ namespace ark
 
     private:
         HMODULE hmodule_;
+        FILE* console_;
         std::string version_;
         std::vector<std::unique_ptr<ark::mod>> mods_;
     };

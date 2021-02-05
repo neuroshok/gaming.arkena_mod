@@ -4,7 +4,7 @@
 #include <ark/utility/dynamic_proc.hpp>
 
 #include <rcmp/low_level.hpp>
-#include <ark/utility/logger.hpp>
+#include <ark/log.hpp>
 
 
 inline const auto il2cpp_object_get_virtual_method = dynamic_proc<const il2cpp::MethodInfo*(il2cpp::Il2CppObject*, const il2cpp::MethodInfo*)>("GameAssembly.dll", "il2cpp_object_get_virtual_method");

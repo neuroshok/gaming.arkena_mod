@@ -75,49 +75,43 @@ bool process_has_dll(HANDLE process_handle, std::string_view dll_path) {
     return false;
 }
 
-const char* default_dll_name = "arkena_mod.dll";
 const char* default_process_name = "Among Us.exe";
 
 int main(int argc, const char** argv)
 {
     using namespace std::string_view_literals;
 
-    const char* short_dll_path = default_dll_name;
-    const char* process_name = default_process_name;
+    std::string module_name = "arkena_mod";
+    std::string process_name = "Among Us.exe";
+
 
     // get path of DLL
-    std::array<char, MAX_PATH> dll_path{};
-    ::GetFullPathNameA(short_dll_path, dll_path.size(), dll_path.data(), nullptr);
+    std::array<char, MAX_PATH> module_path{};
+    ::GetFullPathNameA(module_name.c_str(), module_path.size(), module_path.data(), nullptr);
 
     auto ids = find_process(process_name);
-    std::cout << ids.size();
 
     if (ids.size() == 0)
     {
-        std::cout << "dll not found";
+        std::cout << process_name << " not found";
         return 0;
     }
 
-    for (const auto& id : ids)
+    for (int i = 0; i < ids.size(); ++i)
     {
-        HANDLE process_handle = ::OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION, FALSE, id);
+        std::cout << "injecting in PID " << ids[i] << "..." << "\n";
+        HANDLE process_handle = ::OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION, FALSE, ids[i]);
 
 
-        if (!process_has_dll(process_handle, dll_path.data()))
-        {
-            LPVOID allocated_memory = ::VirtualAllocEx(process_handle, nullptr, dll_path.size(), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-            ::WriteProcessMemory(process_handle, allocated_memory, dll_path.data(), dll_path.size(), nullptr);
+        auto module_instance_name = module_name + std::to_string(i);
+        auto module_instance_path = module_path.data() + std::to_string(i) + ".dll";
+
+
+            LPVOID allocated_memory = ::VirtualAllocEx(process_handle, nullptr, module_instance_path.size(), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+            ::WriteProcessMemory(process_handle, allocated_memory, module_instance_path.c_str(), module_instance_path.size(), nullptr);
             auto r = ::CreateRemoteThread(process_handle, nullptr, 0, (LPTHREAD_START_ROUTINE) LoadLibraryA, allocated_memory, 0, nullptr);
-            std::cout << "injection ok " << r;
-        } else
-        {
-            std::cout << "already loaded, try reload" << "\n";
+            std::cout << "injection " << module_instance_path << " succeed" << "\n";
 
-            LPVOID allocated_memory = ::VirtualAllocEx(process_handle, nullptr, dll_path.size(), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-            ::WriteProcessMemory(process_handle, allocated_memory, dll_path.data(), dll_path.size(), nullptr);
-            auto r = ::CreateRemoteThread(process_handle, nullptr, 0, (LPTHREAD_START_ROUTINE) LoadLibraryA, allocated_memory, 0, nullptr);
-            std::cout << "reload ok " << r;
-        }
 
         ::CloseHandle(process_handle);
     }

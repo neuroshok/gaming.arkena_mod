@@ -39,6 +39,7 @@ set_target_properties(arkena_mod PROPERTIES
     OUTPUT_NAME "arkena_mod"
 )
 
+# launcher
 add_executable(launcher ${PROJECT_SOURCE_DIR}/source/launcher.cpp)
 target_include_directories(launcher PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
@@ -47,8 +48,17 @@ set_target_properties(launcher PROPERTIES
     OUTPUT_NAME "arkmongus"
 )
 
+# injector
 add_executable(injector ${PROJECT_SOURCE_DIR}/source/injector.cpp)
+add_dependencies(injector arkena_mod)
 target_include_directories(injector PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+add_custom_command(TARGET injector POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod0.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod1.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod2.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod3.dll
+)
 
 set_target_properties(injector PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
