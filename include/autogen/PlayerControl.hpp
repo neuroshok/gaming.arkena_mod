@@ -5,6 +5,9 @@
 #include <autogen/UnityEngine/MessageReader.hpp>
 #include <ark/utility/mod_info.hpp>
 
+#include <autogen/GameData.hpp>
+#include <autogen/UnityEngine/Vector2.hpp>
+
 struct PlayerTask;
 struct CustomNetworkTransform;
 struct MessageWriter;
@@ -20,7 +23,7 @@ struct PlayerControl : InnerNet::InnerNetObject {
     float MaxReportDistance; // [marker]
     bool moveable;
     bool inVent;
-    struct GameData_PlayerInfo_o *_cachedData;
+    struct GameData::PlayerInfo *_cachedData;
     struct UnityEngine_AudioSource_o *FootSteps;
     struct UnityEngine_AudioClip_o *KillSfx;
     struct KillAnimation_array *KillAnimations;
@@ -49,28 +52,21 @@ struct PlayerControl : InnerNet::InnerNetObject {
     bool infectedSet;
 
     struct StaticFields {
-        PlayerControl* instance;
+        PlayerControl* instance = nullptr;
     };
 
     static PlayerControl* instance() {
+        if (get_class()->static_fields == nullptr) return nullptr;
         return get_class()->statics()->instance;
     }
 
-    static Class<PlayerControl>* get_class() {
-        switch (mod_info::get_game_version()) {
-            case game_version::v2020_6_9s:   return Class<PlayerControl>::find("PlayerControl");
-            case game_version::v2020_9_22s:  return Class<PlayerControl>::find("PlayerControl");
-            case game_version::v2020_10_8i:  return Class<PlayerControl>::find("IHFJHCCJLKB");
-            case game_version::v2020_10_22s: return Class<PlayerControl>::find("GLHCHLEDNBA");
-            case game_version::v2020_11_4s:  return Class<PlayerControl>::find("APNNOJFGDGP");
-            case game_version::v2020_11_17s: return Class<PlayerControl>::find("JENJGDMOEOC");
-            case game_version::v2020_12_9s:  return Class<PlayerControl>::find("FFGALNAPKCD");
-        }
-        return nullptr;
-    }
+    static Class<PlayerControl>* get_class() { return Class<PlayerControl>::find("FFGALNAPKCD"); }
+
+    UnityEngine::Vector2 GetTruePosition() { return get_method<UnityEngine::Vector2 (*)(PlayerControl*)>("GetTruePosition")(this); }
 
     void SetTasks(void*);
     void SetColor(std::uint8_t);
+    void SetHat(std::uint32_t id, std::int32_t n = 1) { get_method<void (*)(PlayerControl*, std::uint32_t, std::int32_t)>("SetHat")(this, id, n); }
     void SetKillTimer(float value)
     {
         get_method<void (*)(PlayerControl*, float)>("SetKillTimer")(this, value);
@@ -88,12 +84,15 @@ struct PlayerControl : InnerNet::InnerNetObject {
     {
         get_method<void (*)(PlayerControl*, std::uint8_t)>("RpcSetColor")(this, v);
     }
-    void RpcSetHat(std::uint32_t);
+    void RpcSetHat(std::uint32_t v) { get_method<void (*)(PlayerControl*, std::uint32_t)>("RpcSetHat")(this, v); }
     void RpcMurderPlayer(PlayerControl*);
+
+	void HEJHHOBBOBI(bool HIJOHCLAKMG);
+	void OMPDACJGDIJ(bool HIJOHCLAKMG);
 
     // RpcMurderPlayer
 };
-CHECK_TYPE(PlayerControl, 0x94);
+
 
 template <>
 const inline char* get_method_name<&PlayerControl::SetTasks>() {
@@ -109,7 +108,13 @@ const inline char* get_method_name<&PlayerControl::SetTasks>() {
     return nullptr;
 }
 
+template<> inline const char* get_method_name<&PlayerControl::HEJHHOBBOBI>() { return "HEJHHOBBOBI"; }
+template<> inline const char* get_method_name<&PlayerControl::OMPDACJGDIJ>() { return "OMPDACJGDIJ"; }
+
+template<> inline const char* get_method_name<&PlayerControl::GetTruePosition>() { return "GetTruePosition"; }
+
 template<> inline const char* get_method_name<&PlayerControl::RpcSetHat>() { return "RpcSetHat"; }
+template<> inline const char* get_method_name<&PlayerControl::SetHat>() { return "SetHat"; }
 template<> inline const char* get_method_name<&PlayerControl::SetColor>() { return "SetColor"; }
 template<> inline const char* get_method_name<&PlayerControl::RpcSetColor>() { return "RpcSetColor"; }
 template<> inline const char* get_method_name<&PlayerControl::RpcMurderPlayer>() { return "RpcMurderPlayer"; }

@@ -2,6 +2,10 @@
 
 #include <spdlog/spdlog.h>
 
+#include <cassert>
+
+#define ark_assert(C, M) if (!C) {ark_trace("Asssertion failed: {}", M);} assert(C)
+
 namespace ark
 {
     void init_logger(std::uintptr_t);

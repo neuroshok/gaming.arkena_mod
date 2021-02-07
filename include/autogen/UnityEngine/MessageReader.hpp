@@ -32,10 +32,8 @@ struct alignas(4) MessageReader : ::Object
         return get_method<std::uint32_t(*)(MessageReader*)>("get_BytesRemaining")(this);
     }
 
-    void set_Position(int v)
-    {
-        get_method<void(*)(MessageReader*, int)>("set_Position")(this, v);
-    }
+    int get_Position(){ return get_method<int(*)(MessageReader*)>("get_Position")(this); }
+    void set_Position(int v){get_method<void(*)(MessageReader*, int)>("set_Position")(this, v);}
 
     std::string read_string(int size)
     {

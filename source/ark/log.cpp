@@ -24,7 +24,7 @@ namespace ark
         file_logger->set_level(spdlog::level::trace);
         logger->set_level(spdlog::level::trace);
         file_logger->flush_on(spdlog::level::trace);
-        logger->flush_on(spdlog::level::trace);
+        //logger->flush_on(spdlog::level::trace);
 
         spdlog::set_default_logger(logger);
     }

@@ -17,7 +17,7 @@ namespace ark::mods
         explicit sniper(ark::core& core);
 
         void on_begin(ShipStatus*) override;
-        void do_kill(PlayerControl* );
+        void do_kill();
 
         void on_kill(std::uint8_t source_id, std::uint8_t target_id);
         void on_mark(std::uint8_t marked_id);

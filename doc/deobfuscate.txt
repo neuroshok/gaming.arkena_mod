@@ -1,5 +1,7 @@
 ? KOHGPBDBBJI : network class
+? LIMNONMAAFA : MovementComponent
 
+playerContrl = GLPINCNEBDJ
 player = IIEKJBMPELC
 amount = AMMANIHDKKA
 initialState = BILBBBFMCOB

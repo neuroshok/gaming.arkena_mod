@@ -4,9 +4,8 @@
 #include <ark/log.hpp>
 #include <ark/mod.hpp>
 #include <ark/mods/sniper.hpp>
+#include <ark/mods/testing.hpp>
 
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
 
 #include <filesystem>
 #include <iostream>
@@ -15,7 +14,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.0.19" }
+        , version_{ "0.0.24" }
     {
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
@@ -23,13 +22,14 @@ namespace ark
 
         ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
-        //core.load<ark::mods::zombie>();
-        //load<ark::mods::sniper>();
-        //core.load<ark::mods::testing>();
+        //load<ark::mods::zombie>();
+        load<ark::mods::sniper>();
+        //load<ark::mods::testing>();
     }
 
     core::~core()
     {
+        //::remove_hook<&PlayerControl::HandleRpc>([](auto o, std::uint8_t, MessageReader*){});
         //ark::unload_console(console_);
     }
 

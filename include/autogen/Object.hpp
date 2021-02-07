@@ -27,7 +27,7 @@ struct Class : il2cpp::Il2CppClass {
     }
 
     static Class* find(const char* namespace_, const char* class_) {
-        static const auto result = reinterpret_cast<Class<T>*>(::find_class(namespace_, class_));
+        const auto result = reinterpret_cast<Class<T>*>(::find_class(namespace_, class_));
         if (!result) ark_trace("class {class_} not found", class_);
         return result;
     }

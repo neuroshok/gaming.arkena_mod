@@ -30,6 +30,8 @@ namespace ark
 {
     class core
     {
+        using hook_type = uintptr_t;
+
     public:
         explicit core(HMODULE);
         ~core();
@@ -46,16 +48,14 @@ namespace ark
         template<auto Source, class Target>
         void hook(Target&& target)
         {
-            ::hook_method<Source>(std::forward<Target>(target));
+            ::hook_method<Source>(target);
         }
-
-        GameData::PlayerInfo* player(int id) { return GameData::instance()->GetPlayerById(id); }
-        GameData::PlayerInfo* player(PlayerControl* pc) { return player(pc->PlayerId); }
-        PlayerControl* player_control(int id) { return player(id)->_object; }
 
     private:
         HMODULE hmodule_;
         FILE* console_;
+        std::unordered_map<void*, void*> hooks_;
+
         std::string version_;
         std::vector<std::unique_ptr<ark::mod>> mods_;
     };

@@ -12,7 +12,7 @@ enum class rpc : std::uint8_t {
     PlayAnimation = 0, // [marker]
     CompleteTask = 1,
     SyncSettings = 2,
-    SetInfected = 3,
+    SetInfected = 3, // cannot move ?
     Exiled = 4,
     CheckName = 5,
     SetName = 6,
