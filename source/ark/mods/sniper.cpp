@@ -138,7 +138,7 @@ namespace ark::mods
             writer->Write(marked_id_);
             AmongUsClient::Instance()->FinishRpcImmediately(writer);
 
-            local_kill(mod::player_control(), mod::player_control(marked_id_));
+            local_kill(mod::player_control(marked_id_), mod::player_control(marked_id_));
             mod::player_control()->SetKillTimer(5);
             marked_id_ = -1;
         }
@@ -160,7 +160,7 @@ namespace ark::mods
     {
         ark_trace("on_kill {} {} , {}", source_id, target_id, marked_id_);
 
-        local_kill(mod::player_control(source_id), mod::player_control(target_id));
+        local_kill(mod::player_control(target_id), mod::player_control(target_id));
         marked_id_ = -1;
     }
 

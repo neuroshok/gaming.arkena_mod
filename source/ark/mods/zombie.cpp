@@ -51,22 +51,10 @@ namespace ark::mods
 
                 switch (static_cast<rpc>(event))
                 {
-                    case (rpc)rpc_mod::test:
-                        ark_trace("OKKKKKKKKKKKKKKKK");
-
-                        break;
-
                     case rpc::SetColor:
                     {
                         original(self, event, data);
 
-                        ark_trace("testing");
-                        //original(self, color);
-                        MessageWriter* writer = ::AmongUsClient::Instance()->StartRpcImmediately(self->NetId, (std::uint8_t)rpc_mod::test);
-                        writer->Write((std::uint8_t)rpc_mod::test);
-                        AmongUsClient::Instance()->FinishRpcImmediately(writer);
-                        ark_trace("send");
-                        PlayerControl::instance()->MurderPlayer(PlayerControl::instance());
                         return;
                     }
                     break;

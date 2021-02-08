@@ -5,6 +5,7 @@
 
 #include <autogen/PlayerControl.hpp>
 
+// LIMNONMAAFA
 struct PlayerMovement : InnerNet::InnerNetObject {
     float Speed; // 0x24
 	float GhostSpeed; // 0x28

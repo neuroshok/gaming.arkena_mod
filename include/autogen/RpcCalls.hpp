@@ -12,7 +12,7 @@ enum class rpc : std::uint8_t {
     PlayAnimation = 0, // [marker]
     CompleteTask = 1,
     SyncSettings = 2,
-    SetInfected = 3, // cannot move ?
+    SetInfected = 3, // set the impostors ?
     Exiled = 4,
     CheckName = 5,
     SetName = 6,
@@ -44,7 +44,9 @@ enum class rpc : std::uint8_t {
 
 enum class rpc_mod : std::uint8_t
 {
-    test = 31,
+    // generic
+    generic_kill = 31,
+    generic_ability,
 
     // sniper
     sniper_kill,

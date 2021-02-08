@@ -22,6 +22,11 @@ namespace ark
         source->MurderPlayer(target);
     }
 
+    void mod::local_kill(std::uint8_t source, std::uint8_t target)
+    {
+        mod::local_kill(mod::player_control(source), mod::player_control(target));
+    }
+
     float mod::player_distance(PlayerControl* source, PlayerControl* target)
     {
         auto source_pos = source->GetTruePosition();
@@ -32,13 +37,12 @@ namespace ark
 
     PlayerControl* mod::closest_player(PlayerControl* source)
     {
-        ark_trace("closest_player");
         auto min = std::numeric_limits<float>::max();
         PlayerControl* closest = nullptr;
 
         for (auto* player : *GameData::instance()->AllPlayers)
         {
-            if (player->PlayerId != source->PlayerId)
+            if (player->PlayerId != source->PlayerId && !player->IsDead)
             {
                 auto distance = player_distance(mod::player_control(player->PlayerId), source);
                 if (distance < min)
@@ -74,7 +78,4 @@ namespace ark
     GameData::PlayerInfo* mod::player(int id) { return GameData::instance()->GetPlayerById(id); }
     GameData::PlayerInfo* mod::player(PlayerControl* pc) { return player(pc->PlayerId); }
     PlayerControl* mod::player_control(int id) { return player(id)->_object; }
-
-
-
 } // ark

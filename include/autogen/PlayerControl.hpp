@@ -65,7 +65,7 @@ struct PlayerControl : InnerNet::InnerNetObject {
     UnityEngine::Vector2 GetTruePosition() { return get_method<UnityEngine::Vector2 (*)(PlayerControl*)>("GetTruePosition")(this); }
 
     void SetTasks(void*);
-    void SetColor(std::uint8_t);
+    void SetColor(std::uint8_t v) { get_method<void (*)(PlayerControl*, std::uint8_t)>("SetColor")(this, v); }
     void SetHat(std::uint32_t id, std::int32_t n = 1) { get_method<void (*)(PlayerControl*, std::uint32_t, std::int32_t)>("SetHat")(this, id, n); }
     void SetKillTimer(float value)
     {

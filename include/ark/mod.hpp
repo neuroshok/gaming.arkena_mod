@@ -27,9 +27,10 @@ namespace ark
         static GameData::PlayerInfo* player(PlayerControl* pc);
         static PlayerControl* player_control(int id);
 
+        static void local_kill(std::uint8_t source, std::uint8_t target);
         static void local_kill(PlayerControl* source, PlayerControl* target);
         static float player_distance(PlayerControl* source, PlayerControl* target);
-        static PlayerControl* closest_player(PlayerControl* source);
+        static PlayerControl* closest_player(PlayerControl* source = mod::player_control());
 
     private:
         ark::core& core_;

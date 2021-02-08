@@ -4,6 +4,8 @@
 #include <ark/log.hpp>
 #include <ark/mod.hpp>
 #include <ark/mods/sniper.hpp>
+#include <ark/mods/whisperer.hpp>
+
 #include <ark/mods/testing.hpp>
 
 
@@ -14,7 +16,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.0.24" }
+        , version_{ "0.0.25" }
     {
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
@@ -23,7 +25,8 @@ namespace ark
         ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
         //load<ark::mods::zombie>();
-        load<ark::mods::sniper>();
+        //load<ark::mods::sniper>();
+        load<ark::mods::whisperer>();
         //load<ark::mods::testing>();
     }
 
