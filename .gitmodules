@@ -1,0 +1,9 @@
+[submodule "third_party/spdlog"]
+	path = third_party/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "third_party/rcmp"]
+	path = third_party/rcmp
+	url = https://github.com/Smertig/rcmp
+[submodule "third_party/imgui"]
+	path = third_party/imgui
+	url = https://github.com/ocornut/imgui

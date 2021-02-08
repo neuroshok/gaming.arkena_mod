@@ -20,9 +20,10 @@ namespace ark::mods
 {
     whisperer::whisperer(ark::core& c)
         : mod(c)
+        , whisperer_id_{ 255 }
         , is_marked_{ false }
         , marked_id_{ 0 }
-        , kill_delay_{ 15 }
+        , kill_delay_{ 5 }
         , whisper_timer_{ 25 }
         , whisper_range_{ 1.2 }
         , whisper_kill_range_{ 1.8 }
@@ -58,7 +59,8 @@ namespace ark::mods
             [this](auto original, KillButtonManager* self)
         {
             ark_trace("TryKill");
-            do_whisper(self);
+            if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
+            else original(self);
         });
 
 
@@ -82,6 +84,13 @@ namespace ark::mods
 
                 switch (static_cast<rpc>(event))
                 {
+                    case rpc::SetInfected:
+                    {
+                        auto killers_count =data->ReadByte();
+                        whisperer_id_ = data->ReadByte();
+                        break;
+                    }
+
                     case rpc::EnterVent:
                             KillButtonManager::instance()->isActive = false;
                             //invent_time_ = std::chrono::system_clock::now();
@@ -130,13 +139,9 @@ namespace ark::mods
         kill_time_ = now + std::chrono::seconds(kill_delay_);
 
         last_kill_time_ = now;
-        mod::player_control(marked_id_)->SetColor(mod::player()->ColorId);
+        //mod::player_control(marked_id_)->SetColor(mod::player()->ColorId);
         mod::player_control()->SetKillTimer(whisper_timer_);
         kill_button->isActive = false;
-    }
-    void whisperer::on_whisper(std::uint8_t target)
-    {
-
     }
 
     void whisperer::do_kill()

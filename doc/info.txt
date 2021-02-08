@@ -1,15 +1,7 @@
 rpc (hors context) : ban / server side check
 host can call rpc
 
-MessageWriter writer = FMLLKEACGIO.Instance.StartRpcImmediately(FFGALNAPKCD.LocalPlayer.NetId, (byte)CustomRPC.SheriffKill, Hazel.SendOption.None, -1);
-                            writer.Write(FFGALNAPKCD.LocalPlayer.PlayerId);
-                            writer.Write(FFGALNAPKCD.LocalPlayer.PlayerId);
-                            FMLLKEACGIO.Instance.FinishRpcImmediately(writer);
-                            FFGALNAPKCD.LocalPlayer.MurderPlayer(FFGALNAPKCD.LocalPlayer);
-
-                          FFGALNAPKCD killer = PlayerControlPatch.getPlayerById(ALMCIJKELCP.ReadByte());
-                            FFGALNAPKCD target = PlayerControlPatch.getPlayerById(ALMCIJKELCP.ReadByte());
-
+SetInfected : 1st byte ? 2nd byte :
 
 
 TEST :

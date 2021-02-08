@@ -26,6 +26,7 @@ namespace ark::mods
 
 
     private:
+        std::uint8_t whisperer_id_;
         bool is_marked_;
         std::uint8_t marked_id_;
         std::chrono::system_clock::time_point kill_time_;
