@@ -59,8 +59,9 @@ namespace ark::mods
             [this](auto original, KillButtonManager* self)
         {
             ark_trace("TryKill");
-            if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
-            else original(self);
+            do_whisper(self);
+            //if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
+            //else original(self);
         });
 
 

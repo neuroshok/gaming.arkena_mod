@@ -8,15 +8,22 @@
 
 #include <ark/mods/testing.hpp>
 
-
 #include <filesystem>
 #include <iostream>
+
+#include <ark/utility/d3dhook.hpp>
+/*
+#include <backends/imgui_impl_opengl2.h>
+#include <backends/imgui_impl_win32.h>
+#include <imgui.h>*/
+#include <kiero.h>
+#include <minhook/include/MinHook.h>
 
 namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.0.25" }
+        , version_{ "0.0.26" }
     {
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
@@ -27,7 +34,9 @@ namespace ark
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         load<ark::mods::whisperer>();
-        //load<ark::mods::testing>();
+        //oad<ark::mods::testing>();
+
+        init_ui();
     }
 
     core::~core()
@@ -44,29 +53,32 @@ namespace ark
             {
                 break;
             }
-
-            /*
-            if (GetAsyncKeyState('Q') & 1)
-            {
-                INPUT ip;
-
-                // Press the "A" key
-                ip.ki.wVk = 'A'; // virtual-key code for the "a" key
-                ip.ki.dwFlags = 0; // 0 for key press
-                SendInput(1, &ip, sizeof(INPUT));
-            }
-            else if (GetAsyncKeyState('Q'))
-            {
-                INPUT ip;
-                ip.type = INPUT_KEYBOARD;
-                ip.ki.wVk = 'A';
-                ip.ki.wScan = 0; // hardware scan code for key
-                ip.ki.time = 0;
-                ip.ki.dwExtraInfo = 0;
-                // Release the "A" key
-                ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
-                SendInput(1, &ip, sizeof(INPUT));
-            }*/
         }
+    }
+
+    void core::init_ui()
+    {
+        ark_trace("Initialize UI");
+        auto init_status = kiero::init(kiero::RenderType::Auto);
+        if (init_status != kiero::Status::Success) ark_trace("UI init error {}", init_status);
+
+        original_render_function = GetD3D11PresentFunction();
+
+        auto hook_status = kiero::bind(8, (void**)&original_render_function, &render_function);
+        if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", hook_status);
+
+        // unload
+        /* ImGui_ImplDX11_Shutdown();
+        ImGui_ImplWin32_Shutdown();
+        ImGui::DestroyContext();
+
+         void CleanupDeviceD3D()
+{
+    CleanupRenderTarget();
+    if (g_pSwapChain) { g_pSwapChain->Release(); g_pSwapChain = NULL; }
+    if (g_pd3dDeviceContext) { g_pd3dDeviceContext->Release(); g_pd3dDeviceContext = NULL; }
+    if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = NULL; }
+}
+        CleanupDeviceD3D();*/
     }
 } // ark

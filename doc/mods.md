@@ -25,3 +25,28 @@ une seule fois par game
 # lovers
 Les Lovers ne sont pas impos
 Quand un lover meurt, le 2e peut tuer un impo 
+
+# The village
+Chaque joueur a un role
+Chaque role est associé à X team
+Chaque role est associé à X compétences
+Les fantomes peuvent utiliser des compétences (spécifiques aux fantomes)
+
+**Exemple**
+
+The whisperer : 
+ - Team : Sorcerers & Lover
+ - Ability1 : 
+    - whisper(alive): Ordonne à un joueur de tuer dans les X prochaines secondes 
+    - whisper(dead): Ordonne à un joueur de ne plus bouger pendant X secondes 
+    
+## Win condition
+Les win conditions sont basées sur des points ?
+A 10 points, la team gagne la partie
+
+Chaque team possède X win condition
+
+**Exemple**
+Les sorcerers doivent tuer X personnes
+
+Les villageois doivent compléter toutes les tasks ou éliminer au vote toutes les personnes d'une même team

@@ -51,6 +51,8 @@ namespace ark
             ::hook_method<Source>(target);
         }
 
+        static void init_ui();
+
     private:
         HMODULE hmodule_;
         FILE* console_;

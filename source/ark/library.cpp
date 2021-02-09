@@ -15,8 +15,8 @@ DWORD WINAPI HackThread(HMODULE hmodule)
     SetConsoleOutputCP(65001);
 
 
-        ark::core core{hmodule};
-        core.run();
+    ark::core core{ hmodule };
+    core.run();
 
 
     ark::unload_console(console_);
