@@ -7,3 +7,6 @@
 [submodule "third_party/imgui"]
 	path = third_party/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "third_party/kiero"]
+	path = third_party/kiero
+	url = https://github.com/Rebzzel/kiero
