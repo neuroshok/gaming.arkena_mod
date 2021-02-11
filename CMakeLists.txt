@@ -22,6 +22,19 @@ target_sources(lib_imgui INTERFACE
 target_include_directories(lib_imgui INTERFACE
         ${PROJECT_SOURCE_DIR}/third_party/imgui)
 
+# lib_discord_sdk
+add_library(lib_discord_sdk INTERFACE)
+
+file(GLOB_RECURSE DISCORD_SDK_SOURCES
+        ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/source/*)
+
+target_sources(lib_discord_sdk INTERFACE ${DISCORD_SDK_SOURCES})
+
+target_include_directories(lib_discord_sdk INTERFACE
+        ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/source/)
+
+target_link_libraries(lib_discord_sdk INTERFACE ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/lib/discord_game_sdk.dll.lib)
+
 # kiero
 add_library(lib_kiero INTERFACE)
 target_include_directories(lib_kiero INTERFACE ${PROJECT_SOURCE_DIR}/third_party/kiero)
@@ -45,7 +58,7 @@ add_library(arkena_mod SHARED ${ARK_SOURCES})
 target_compile_features(arkena_mod PRIVATE cxx_std_20)
 
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_imgui lib_kiero rcmp spdlog)
+target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero rcmp spdlog)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(arkena_mod PROPERTIES
