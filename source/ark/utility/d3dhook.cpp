@@ -1,6 +1,9 @@
+/*
 #include <ark/utility/d3dhook.hpp>
 
 #include <ark/log.hpp>
+
+#include <array>
 
 #pragma comment (lib, "d3d11.lib")
 
@@ -49,29 +52,38 @@ BOOL __stdcall render_function(IDXGISwapChain* pSwapChain, UINT SyncInterval, UI
         device->CreateRenderTargetView(pBackBuffer, nullptr, &renderTargetView);
         pBackBuffer->Release();
 
-        /*
-        ImGui::GetStyle().WindowRounding = 0.0F;
-        ImGui::GetStyle().ChildRounding = 0.0F;
-        ImGui::GetStyle().FrameRounding = 0.0F;
-        ImGui::GetStyle().GrabRounding = 0.0F;
-        ImGui::GetStyle().PopupRounding = 0.0F;
-        ImGui::GetStyle().ScrollbarRounding = 0.0F;*/
-
 		init = true;
-	}
+
+        ImGuiIO &io = ImGui::GetIO();
+        auto *font  = io.Fonts->AddFontFromFileTTF("D:/project/arkmongus/bin/test.otf", 18);
+
+    }
 
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 
 	ImGui::NewFrame();
 
+
     ImGui::SetNextWindowPos({0, 0});
-    ImGui::SetNextWindowSize({200, 50});
-    ImGui::SetNextWindowBgAlpha(0.8);
+    ImGui::SetNextWindowSize({200, 100});
+
+
+
+
     ImGui::Begin("Arkmongus", nullptr, ImGuiWindowFlags_NoTitleBar);
 
+
+
 	ImGui::Text("Arkmongus menu test");
-	ImGui::Button("Mods");
+
+    if (ImGui::BeginTabBar("test"))
+    {
+        ImGui::TabItemButton("Mods");
+        ImGui::TabItemButton("Logs");
+        ImGui::TabItemButton("About");
+        ImGui::EndTabBar();
+    }
 
 	ImGui::End();
 
@@ -166,12 +178,13 @@ LRESULT CALLBACK WndProcHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     ImGui::GetIO().MousePos.x = mPos.x;
     ImGui::GetIO().MousePos.y = mPos.y;
 
-    /*
+
     if (uMsg == WM_KEYUP && wParam == VK_DELETE)
-        CWState::ShowMenu = !CWState::ShowMenu;*/
-/*
+        CWState::ShowMenu = !CWState::ShowMenu;
+
     if (CWState::ShowMenu)
-        ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);*/
+        ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 
     return CallWindowProcW(OriginalWndProcFunction, hWnd, uMsg, wParam, lParam);
 }
+*/

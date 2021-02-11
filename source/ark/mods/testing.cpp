@@ -16,7 +16,7 @@
 namespace ark::mods
 {
     testing::testing(ark::core& pcore)
-        : mod(pcore)
+        : mod(pcore, "testing")
     {
         // preload calls
         // require data->get_BytesRemaining()

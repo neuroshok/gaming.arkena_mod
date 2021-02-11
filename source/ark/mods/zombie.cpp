@@ -15,7 +15,7 @@
 namespace ark::mods
 {
     zombie::zombie(ark::core& pcore)
-        : mod(pcore)
+        : mod(pcore, "zombie")
     {
         // PlayerControl::RpcMurderPlayer
         core().template hook<&PlayerControl::RpcMurderPlayer>(

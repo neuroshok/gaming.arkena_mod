@@ -11,10 +11,14 @@ host can call rpc
 
 - [ ] launcher, autoupdater (nano)
 - [x] load/unload mod via injection
-- [ ] D3D hook (imgui)
+- [x] D3D hook (imgui)
 - [-] discord api (sdk)
 - [ ] il2cppdumper to structured_dump (RE tool)
 - [ ] generate c++ headers from structured_dump (RE tool)
 - [ ] generate code analysis from structured_dump (RE tool)
 - [ ] deobfuscation (RE tool)
 - [ ] trace test from memory address (RE)
+- [ ] role based mod
+- [ ] game api
+- [ ] mod settings
+- [ ] enable/disable mods

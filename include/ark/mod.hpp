@@ -13,12 +13,20 @@ namespace ark
     class mod
     {
     public:
-        explicit mod(ark::core& core);
+        bool enabled_state = false;
+
+        explicit mod(ark::core& core, std::string name);
 
         ark::core& core();
 
         virtual void on_begin(ShipStatus*) {}
         //virtual void do_kill(PlayerControl* self, PlayerControl* target);
+
+        virtual void enable();
+        virtual void disable();
+
+        const std::string& name() const;
+        bool enabled() const;
 
         static GameData::PlayerInfo* player();
         static PlayerControl* player_control();
@@ -34,6 +42,8 @@ namespace ark
 
     private:
         ark::core& core_;
+        std::string name_;
+        bool enabled_;
     };
 }// ark
 

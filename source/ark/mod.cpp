@@ -6,16 +6,24 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
 
+#include <ark/mods/sniper.hpp>
+#include <ark/mods/testing.hpp>
+#include <ark/mods/whisperer.hpp>
 #include <cmath>
 
 namespace ark
 {
-    mod::mod(ark::core& core)
+    mod::mod(ark::core& core, std::string name)
         : core_{ core }
+        , name_{ std::move(name) }
+        , enabled_{ false }
     {
     }
 
     ark::core& mod::core() { return core_; }
+
+    void mod::enable() { enabled_ = true; ark_trace("enable mod {}", name_); }
+    void mod::disable() { enabled_ = false; ark_trace("disable mod {}", name_); }
 
     void mod::local_kill(PlayerControl* source, PlayerControl* target)
     {
@@ -78,4 +86,7 @@ namespace ark
     GameData::PlayerInfo* mod::player(int id) { return GameData::instance()->GetPlayerById(id); }
     GameData::PlayerInfo* mod::player(PlayerControl* pc) { return player(pc->PlayerId); }
     PlayerControl* mod::player_control(int id) { return player(id)->_object; }
+
+    const std::string& mod::name() const { return name_; }
+    bool mod::enabled() const { return enabled_; }
 } // ark

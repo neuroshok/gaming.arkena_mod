@@ -3,10 +3,12 @@
 
 #include <autogen/UnityEngine/Application.hpp>
 
-#include <ark/mod.hpp>
-#include <ark/utility/hook.hpp>
+#include <ark/discord.hpp>
 #include <ark/log.hpp>
+#include <ark/ui.hpp>
+#include <ark/mod.hpp>
 #include <ark/utility/console.hpp>
+#include <ark/utility/hook.hpp>
 
 #include <autogen/GameData.hpp>
 #include <autogen/PlayerControl.hpp>
@@ -14,7 +16,6 @@
 #include <vector>
 #include <variant>
 #include <concepts>
-
 
 namespace Concept
 {
@@ -41,8 +42,14 @@ namespace ark
         template<Concept::mod Mod>
         void load()
         {
-            ark_trace("Loading mod {}", Mod::name);
             mods_.emplace_back(std::make_unique<Mod>(*this));
+            ark_trace("Mod {} loaded", mods_.back()->name());
+        }
+
+        void unload(const std::string& name)
+        {
+            mods_.erase(std::remove_if(mods_.begin(), mods_.end(), [&name](auto&& mod) { return mod->name() == name; }), mods_.end());
+            ark_trace("Mod {} unloaded", name);
         }
 
         template<auto Source, class Target>
@@ -51,13 +58,17 @@ namespace ark
             ::hook_method<Source>(target);
         }
 
-        static void init_ui();
+        const std::vector<std::unique_ptr<ark::mod>>& mods();
+        const std::string& version() const;
 
     private:
         HMODULE hmodule_;
         FILE* console_;
+        ark::ui ui_;
+
         std::unordered_map<void*, void*> hooks_;
 
+        //ark::discord discord_;
         std::string version_;
         std::vector<std::unique_ptr<ark::mod>> mods_;
     };

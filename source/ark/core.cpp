@@ -24,6 +24,7 @@ namespace ark
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
         , version_{ "0.0.26" }
+        , ui_{ *this }
     {
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
@@ -31,16 +32,17 @@ namespace ark
 
         ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
-        //load<ark::mods::zombie>();
-        //load<ark::mods::sniper>();
-        load<ark::mods::whisperer>();
-        //oad<ark::mods::testing>();
+        ui_.load();
 
-        init_ui();
+        //load<ark::mods::zombie>();
+        load<ark::mods::sniper>();
+        load<ark::mods::whisperer>();
+        load<ark::mods::testing>();
     }
 
     core::~core()
     {
+        ui_.unload();
         //::remove_hook<&PlayerControl::HandleRpc>([](auto o, std::uint8_t, MessageReader*){});
         //ark::unload_console(console_);
     }
@@ -49,36 +51,23 @@ namespace ark
     {
         while (true)
         {
+            //discord_.run();
+
+            /*
             if (GetAsyncKeyState(VK_F2) & 1)
             {
                 break;
-            }
+            }*/
         }
     }
 
-    void core::init_ui()
+    const std::string &core::version() const
     {
-        ark_trace("Initialize UI");
-        auto init_status = kiero::init(kiero::RenderType::Auto);
-        if (init_status != kiero::Status::Success) ark_trace("UI init error {}", init_status);
+        return version_;
+    }
 
-        original_render_function = GetD3D11PresentFunction();
-
-        auto hook_status = kiero::bind(8, (void**)&original_render_function, &render_function);
-        if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", hook_status);
-
-        // unload
-        /* ImGui_ImplDX11_Shutdown();
-        ImGui_ImplWin32_Shutdown();
-        ImGui::DestroyContext();
-
-         void CleanupDeviceD3D()
-{
-    CleanupRenderTarget();
-    if (g_pSwapChain) { g_pSwapChain->Release(); g_pSwapChain = NULL; }
-    if (g_pd3dDeviceContext) { g_pd3dDeviceContext->Release(); g_pd3dDeviceContext = NULL; }
-    if (g_pd3dDevice) { g_pd3dDevice->Release(); g_pd3dDevice = NULL; }
-}
-        CleanupDeviceD3D();*/
+    const std::vector<std::unique_ptr<ark::mod>> &core::mods()
+    {
+        return mods_;
     }
 } // ark

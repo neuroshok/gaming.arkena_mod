@@ -5,7 +5,7 @@
 namespace ark::mods
 {
     analysis::analysis(ark::core& pcore)
-        : mod(pcore)
+        : mod(pcore, "analysis")
     {
 
 

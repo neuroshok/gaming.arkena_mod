@@ -12,8 +12,6 @@ namespace ark::mods
     class testing : public mod
     {
     public:
-        inline static constexpr auto name = "testing";
-
         explicit testing(ark::core& core);
 
     private:

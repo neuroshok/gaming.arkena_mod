@@ -14,7 +14,7 @@
 namespace ark::mods
 {
     sniper::sniper(ark::core& c)
-        : mod(c)
+        : mod(c, "sniper")
         , marked_id_{ -1 }
     {
         // ShipStatus::Begin

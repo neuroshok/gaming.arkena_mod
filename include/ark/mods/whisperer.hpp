@@ -15,8 +15,6 @@ namespace ark::mods
     class whisperer : public mod
     {
     public:
-        inline static constexpr auto name = "whisperer";
-
         explicit whisperer(ark::core& core);
 
         void do_kill();

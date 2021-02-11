@@ -14,7 +14,6 @@ DWORD WINAPI HackThread(HMODULE hmodule)
 
     SetConsoleOutputCP(65001);
 
-
     ark::core core{ hmodule };
     core.run();
 
@@ -28,6 +27,8 @@ FreeConsole();*/
     FreeLibraryAndExitThread(hmodule, 0);
     return 0;
 }
+
+
 
 extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HMODULE hmodule, DWORD fdwReason, LPVOID lpvReserved)
 {
