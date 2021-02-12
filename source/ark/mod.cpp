@@ -18,12 +18,24 @@ namespace ark
         , name_{ std::move(name) }
         , enabled_{ false }
     {
+
     }
 
     ark::core& mod::core() { return core_; }
 
-    void mod::enable() { enabled_ = true; ark_trace("enable mod {}", name_); }
-    void mod::disable() { enabled_ = false; ark_trace("disable mod {}", name_); }
+    void mod::enable()
+    {
+        ark_trace("enable mod {}", name_);
+        enabled_ = true;
+        on_enable();
+    }
+
+    void mod::disable()
+    {
+        enabled_ = false;
+        ark_trace("disable mod {}", name_);
+        for (const auto& hook_deleter : hooks_) hook_deleter();
+    }
 
     void mod::local_kill(PlayerControl* source, PlayerControl* target)
     {

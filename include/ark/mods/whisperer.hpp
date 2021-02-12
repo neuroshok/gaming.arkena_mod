@@ -17,6 +17,8 @@ namespace ark::mods
     public:
         explicit whisperer(ark::core& core);
 
+        void on_enable() override;
+
         void do_kill();
         void on_kill(std::uint8_t source, std::uint8_t target);
         void do_whisper(KillButtonManager*);

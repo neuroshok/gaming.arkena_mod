@@ -16,7 +16,6 @@ namespace ark::mods
 
         explicit sniper(ark::core& core);
 
-        void on_begin(ShipStatus*) override;
         void do_kill();
 
         void on_kill(std::uint8_t source_id, std::uint8_t target_id);

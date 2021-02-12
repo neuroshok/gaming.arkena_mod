@@ -1,6 +1,7 @@
 #include <ark/mods/whisperer.hpp>
 
 #include <ark/core.hpp>
+#include <ark/hook.hpp>
 
 #include <autogen/PlayerControl.hpp>
 #include <autogen/KillButtonManager.hpp>
@@ -14,6 +15,8 @@
 // settings
 // other players can identify a marked player 5s before the kill ?
 
+static bool original_value;
+
 using namespace std::chrono_literals;
 
 namespace ark::mods
@@ -24,104 +27,10 @@ namespace ark::mods
         , is_marked_{ false }
         , marked_id_{ 0 }
         , kill_delay_{ 5 }
-        , whisper_timer_{ 25 }
+        , whisper_timer_{ 5 }
         , whisper_range_{ 1.2 }
         , whisper_kill_range_{ 1.8 }
-    {
-        // ShipStatus::Begin
-        core().hook<&ShipStatus::Begin>(
-            [this](auto original, ShipStatus* self)
-            {
-                original(self);
-                ark_trace("Game start");
-
-                last_kill_time_ = std::chrono::system_clock::now();
-
-                for (auto* player : *GameData::instance()->AllPlayers)
-                {
-                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
-                }
-            }
-        );
-
-        ::hook_method<&InnerNet::InnerNetClient::Update>([&](auto original, InnerNet::InnerNetClient* self)
-        {
-            if (is_marked_)
-            {
-                auto now = std::chrono::system_clock::now();
-                if (now >= kill_time_) do_kill();
-            }
-
-            original(self);
-        });
-
-        core().hook<&KillButtonManager::PerformKill>(
-            [this](auto original, KillButtonManager* self)
-        {
-            ark_trace("TryKill");
-            do_whisper(self);
-            //if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
-            //else original(self);
-        });
-
-
-        // PlayerControl::MurderPlayer
-        core().hook<&PlayerControl::MurderPlayer>(
-            [this](auto original, PlayerControl* source, PlayerControl* target)
-        {
-            // force local kill
-            auto original_value = source->_cachedData->IsImpostor;
-            source->_cachedData->IsImpostor = true;
-            original(source, target);
-            source->_cachedData->IsImpostor = original_value;
-        });
-
-        // PlayerControl::HandleRpc
-        core().template hook<&PlayerControl::HandleRpc>(
-            [this](auto original, PlayerControl* self, auto event, MessageReader* data)
-            {
-                ark_trace("HandleRpc {}", event);
-                auto original_position = data->get_Position();
-
-                switch (static_cast<rpc>(event))
-                {
-                    case rpc::SetInfected:
-                    {
-                        auto killers_count =data->ReadByte();
-                        whisperer_id_ = data->ReadByte();
-                        break;
-                    }
-
-                    case rpc::EnterVent:
-                            KillButtonManager::instance()->isActive = false;
-                            //invent_time_ = std::chrono::system_clock::now();
-
-                        break;
-                    case rpc::ExitVent:
-                            KillButtonManager::instance()->isActive = true;
-
-
-                        break;
-
-                        //
-
-                    case (rpc)rpc_mod::generic_ability:
-                            //on_whisper(data->ReadByte());
-                        return;
-                    case (rpc)rpc_mod::generic_kill:
-                    {
-                        auto source_id = data->ReadByte();
-                        auto target_id = data->ReadByte();
-                        on_kill(source_id, target_id);
-                        return;
-                    }
-                }
-
-              data->set_Position(original_position);
-              original(self, event, data);
-            }
-        );
-    }
+    {}
 
 
     void whisperer::do_whisper(KillButtonManager* kill_button)
@@ -166,5 +75,101 @@ namespace ark::mods
     {
         ark_trace("mark {} kill {}", source_id, target_id);
         local_kill(mod::player_control(source_id), mod::player_control(target_id));
+    }
+
+    void whisperer::on_enable()
+    {
+        last_kill_time_ = std::chrono::system_clock::now();
+
+        // ShipStatus::Begin
+        ark::hook<&ShipStatus::Begin>::after(this, [this](ShipStatus* self)
+            {
+                ark_trace("Game start");
+
+                last_kill_time_ = std::chrono::system_clock::now();
+
+                for (auto* player : *GameData::instance()->AllPlayers)
+                {
+                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+                }
+            }
+        );
+
+        ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [&](InnerNet::InnerNetClient* self)
+        {
+            if (is_marked_)
+            {
+                auto now = std::chrono::system_clock::now();
+                if (now >= kill_time_) do_kill();
+            }
+        });
+
+        ark::hook<&KillButtonManager::PerformKill>::overwrite(this,
+            [this](KillButtonManager* self)
+        {
+            ark_trace("TryKill");
+            do_whisper(self);
+            //if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
+            //else original(self);
+        });
+
+
+        // PlayerControl::MurderPlayer
+        ark::hook<&PlayerControl::MurderPlayer>::before(this, [this](PlayerControl* source, PlayerControl* target)
+        {
+            // force local kill
+            original_value = source->_cachedData->IsImpostor;
+            source->_cachedData->IsImpostor = true;
+        });
+
+        ark::hook<&PlayerControl::MurderPlayer>::after(this, [this](PlayerControl* source, PlayerControl* target)
+        {
+            source->_cachedData->IsImpostor = original_value;
+        });
+
+        // PlayerControl::HandleRpc
+        ark::hook<&PlayerControl::HandleRpc>::before(this,
+            [this](PlayerControl* self, auto event, MessageReader* data)
+            {
+                ark_trace("HandleRpc {}", event);
+                auto original_position = data->get_Position();
+
+                switch (static_cast<rpc>(event))
+                {
+                    case rpc::SetInfected:
+                    {
+                        auto killers_count =data->ReadByte();
+                        whisperer_id_ = data->ReadByte();
+                        break;
+                    }
+
+                    case rpc::EnterVent:
+                            KillButtonManager::instance()->isActive = false;
+                            //invent_time_ = std::chrono::system_clock::now();
+
+                        break;
+                    case rpc::ExitVent:
+                            KillButtonManager::instance()->isActive = true;
+
+
+                        break;
+
+                        //
+
+                    case (rpc)rpc_mod::generic_ability:
+                            //on_whisper(data->ReadByte());
+                        return;
+                    case (rpc)rpc_mod::generic_kill:
+                    {
+                        auto source_id = data->ReadByte();
+                        auto target_id = data->ReadByte();
+                        on_kill(source_id, target_id);
+                        return;
+                    }
+                }
+
+              data->set_Position(original_position);
+            }
+        );
     }
 } // ark::mods

@@ -110,22 +110,6 @@ namespace ark::mods
         );
     }
 
-    void sniper::on_begin(ShipStatus* ship)
-    {
-        ark_trace("Game begin");
-
-        std::random_device rd;
-        std::mt19937 g(rd());
-
-        for (auto* player : *GameData::instance()->AllPlayers)
-        {
-            ark_trace("Name : {} - {}", player->PlayerName->to_utf8(), player->IsImpostor);
-            ark_trace("Impostor : {}", player->IsImpostor);
-            //if (player->IsImpostor) sniper_id_ = player->PlayerId;
-            //players_.emplace_back(const_cast<GameData::PlayerInfo*>(player));
-        }
-    }
-
 
     void sniper::do_kill()
     {

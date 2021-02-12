@@ -19,11 +19,10 @@ namespace ark
 
         ark::core& core();
 
-        virtual void on_begin(ShipStatus*) {}
-        //virtual void do_kill(PlayerControl* self, PlayerControl* target);
+        virtual void on_enable() {}
 
-        virtual void enable();
-        virtual void disable();
+        void enable();
+        void disable();
 
         const std::string& name() const;
         bool enabled() const;
@@ -39,6 +38,8 @@ namespace ark
         static void local_kill(PlayerControl* source, PlayerControl* target);
         static float player_distance(PlayerControl* source, PlayerControl* target);
         static PlayerControl* closest_player(PlayerControl* source = mod::player_control());
+
+        std::vector<std::function<void()>> hooks_;
 
     private:
         ark::core& core_;

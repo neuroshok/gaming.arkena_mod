@@ -13,6 +13,8 @@
 
 #include <autogen/PlayerMovement.hpp>
 
+#include <ark/hook.hpp>
+
 namespace ark::mods
 {
     testing::testing(ark::core& pcore)
@@ -23,11 +25,6 @@ namespace ark::mods
         // preload hooks
         // require<&PlayerControl::RpcMurderPlayer> // prepatch postpatch patch
 
-
-        ::hook_method<&InnerNet::InnerNetClient::Update>([&](auto original, InnerNet::InnerNetClient *self)
-        {
-            original(self);
-        });
 
 /*
         core().template hook<&PlayerMovement::WalkPlayerTo>(
@@ -43,6 +40,7 @@ namespace ark::mods
         });*/
 
 
+        /*
         core().template hook<&KillButtonManager::PerformKill>(
             [this](auto original, KillButtonManager* self)
         {
@@ -118,5 +116,14 @@ namespace ark::mods
                 }
             }
         );
+         */
+    }
+
+    void testing::on_enable()
+    {
+        ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [&](auto&& self)
+        {
+            ark_trace("hook 1");
+        });
     }
 } // ark

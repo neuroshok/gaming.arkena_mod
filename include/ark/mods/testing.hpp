@@ -14,6 +14,8 @@ namespace ark::mods
     public:
         explicit testing(ark::core& core);
 
+        void on_enable() override;
+
     private:
 
     };

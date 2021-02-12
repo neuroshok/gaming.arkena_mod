@@ -52,14 +52,14 @@ namespace ark
             ark_trace("Mod {} unloaded", name);
         }
 
+        const std::vector<std::unique_ptr<ark::mod>>& mods();
+        const std::string& version() const;
+
         template<auto Source, class Target>
-        void hook(Target&& target)
+        static void hook(Target&& target)
         {
             ::hook_method<Source>(target);
         }
-
-        const std::vector<std::unique_ptr<ark::mod>>& mods();
-        const std::string& version() const;
 
     private:
         HMODULE hmodule_;

@@ -62,10 +62,6 @@ namespace ark
                             else mod->enable();
                         }
                     }
-
-                    ImGui::Checkbox("Whisperer", &mod_state1);
-                    ImGui::Checkbox("Sniper", &mod_state2);
-                    ImGui::Checkbox("Sheriff", &mod_state3);
                     ImGui::EndTabItem();
                 }
 
