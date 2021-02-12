@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ark/mod.hpp>
-#include <ark/utility/hook.hpp>
+#include <ark/utility/function.hpp>
 
 #include <functional>
 #include <vector>
@@ -10,26 +10,11 @@ namespace ark
 {
     void init_hook();
 
-    namespace internal
-    {
-        template<class Signature>
-        struct function_trait;
-
-        template<class Class, class Return, class... Args>
-        struct function_trait<Return(Class::*)(Args...)> {
-            using method_type = std::function<Return(Class*, Args...)>;
-            using class_type = Class;
-        };
-
-        template<class Class, class Return, class... Args>
-        struct function_trait<Return(Class::*)(Args...) const> : function_trait<Return(Class::*)(Args...)>{};
-    } // internal
-
     template<auto T>
     class hook
     {
-        using method_type = typename internal::function_trait<decltype(T)>::method_type;
-        using class_type = typename internal::function_trait<decltype(T)>::class_type;
+        using method_type = typename ark::function_trait<decltype(T)>::method_type;
+        using class_type = typename ark::function_trait<decltype(T)>::class_type;
 
     public:
         static void load()

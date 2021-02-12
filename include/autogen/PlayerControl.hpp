@@ -1,5 +1,11 @@
 #pragma once
 
+#include <ark/utility/function.hpp>
+#include <ark/utility/meta.hpp>
+
+#define method_call(Name, ...) get_method<ark::function_trait<decltype(&PlayerControl::Name)>::flat_method_type>(#Name)(this, __VA_ARGS__)
+#define method_str(Name, Str_name) template<> inline const char* get_method_name<&PlayerControl::Name>() { return Str_name; }
+
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/System/Collections/Generic/List.hpp>
 #include <autogen/UnityEngine/MessageReader.hpp>
@@ -7,6 +13,39 @@
 
 #include <autogen/GameData.hpp>
 #include <autogen/UnityEngine/Vector2.hpp>
+#include <autogen/UnityEngine/Color.hpp>
+
+namespace UnityEngine
+{
+    struct TextRenderer : UnityEngine::MonoBehaviour
+    {
+        void* TextAsset;// FontData; // 0xC
+        float scale; // 0x10
+        float TabWidth; // 0x14
+        bool Centered; // 0x18
+        bool RightAligned; // 0x19
+        void* textLinkPrefab; // 0x1C
+        void* JAKKLJIKCCB; // 0x20
+        void* render; // 0x24
+        void* Text; // 0x28
+        void* LAHIBHEEDMH; // 0x2C
+        Color color; // 0x30
+        Color BHOFIDCCIGG; // 0x40
+        Color OutlineColor; // 0x50
+        Color OOAFCPMNNJD; // 0x60
+        float maxWidth; // 0x70
+
+            struct StaticFields {
+        TextRenderer* instance = nullptr;
+        };
+
+        static TextRenderer* instance() {
+            if (get_class()->static_fields == nullptr) return nullptr;
+            return get_class()->statics()->instance;
+        }
+        static Class<TextRenderer>* get_class() { return Class<TextRenderer>::find("AELDHKGBIFD"); }
+    };
+}
 
 struct PlayerTask;
 struct CustomNetworkTransform;
@@ -17,7 +56,9 @@ struct MessageWriter;
 // APNNOJFGDGP in 2020.11.4s
 // JENJGDMOEOC in 2020.11.17s
 // FFGALNAPKCD in 2020.12.9s
-struct PlayerControl : InnerNet::InnerNetObject {
+struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> {
+    static inline auto internal_name = "FFGALNAPKCD";
+
     std::int32_t LastStartCounter;
     std::uint8_t PlayerId;
     float MaxReportDistance; // [marker]
@@ -29,7 +70,7 @@ struct PlayerControl : InnerNet::InnerNetObject {
     struct KillAnimation_array *KillAnimations;
     float killTimer;
     std::int32_t RemainingEmergencies;
-    struct TextRenderer_o *nameText;
+    struct UnityEngine::TextRenderer *nameText;
     struct LightSource_o *LightPrefab;
     struct LightSource_o *myLight;
     struct UnityEngine_Collider2D_o *Collider;
@@ -51,21 +92,14 @@ struct PlayerControl : InnerNet::InnerNetObject {
     std::uint8_t scannerCount;
     bool infectedSet;
 
-    struct StaticFields {
-        PlayerControl* instance = nullptr;
-    };
-
-    static PlayerControl* instance() {
-        if (get_class()->static_fields == nullptr) return nullptr;
-        return get_class()->statics()->instance;
-    }
-
-    static Class<PlayerControl>* get_class() { return Class<PlayerControl>::find("FFGALNAPKCD"); }
 
     UnityEngine::Vector2 GetTruePosition() { return get_method<UnityEngine::Vector2 (*)(PlayerControl*)>("GetTruePosition")(this); }
 
     void SetTasks(void*);
-    void SetColor(std::uint8_t v) { get_method<void (*)(PlayerControl*, std::uint8_t)>("SetColor")(this, v); }
+
+    void SetColor(std::uint8_t v) { method_call(SetColor, v); }
+
+
     void SetHat(std::uint32_t id, std::int32_t n = 1) { get_method<void (*)(PlayerControl*, std::uint32_t, std::int32_t)>("SetHat")(this, id, n); }
     void SetKillTimer(float value)
     {
@@ -110,9 +144,7 @@ const inline char* get_method_name<&PlayerControl::SetTasks>() {
 
 template<> inline const char* get_method_name<&PlayerControl::HEJHHOBBOBI>() { return "HEJHHOBBOBI"; }
 template<> inline const char* get_method_name<&PlayerControl::OMPDACJGDIJ>() { return "OMPDACJGDIJ"; }
-
 template<> inline const char* get_method_name<&PlayerControl::GetTruePosition>() { return "GetTruePosition"; }
-
 template<> inline const char* get_method_name<&PlayerControl::RpcSetHat>() { return "RpcSetHat"; }
 template<> inline const char* get_method_name<&PlayerControl::SetHat>() { return "SetHat"; }
 template<> inline const char* get_method_name<&PlayerControl::SetColor>() { return "SetColor"; }

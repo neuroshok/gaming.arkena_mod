@@ -4,9 +4,10 @@
 #include <ark/core.hpp>
 #include <ark/log.hpp>
 #include <ark/mod.hpp>
+
 #include <ark/mods/sniper.hpp>
 #include <ark/mods/whisperer.hpp>
-
+#include <ark/mods/zombie.hpp>
 #include <ark/mods/testing.hpp>
 #include <ark/mods/analysis.hpp>
 

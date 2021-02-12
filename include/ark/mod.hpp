@@ -20,6 +20,7 @@ namespace ark
         ark::core& core();
 
         virtual void on_enable() {}
+        virtual void on_disable() {}
 
         void enable();
         void disable();

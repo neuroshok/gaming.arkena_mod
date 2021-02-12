@@ -33,6 +33,7 @@ namespace ark
     void mod::disable()
     {
         enabled_ = false;
+        on_disable();
         ark_trace("disable mod {}", name_);
         for (const auto& hook_deleter : hooks_) hook_deleter();
     }

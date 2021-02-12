@@ -121,9 +121,27 @@ namespace ark::mods
 
     void testing::on_enable()
     {
+        if(mod::player_control())
+        {
+            //mod::set_player_name_color(1, 1, 1)
+
+            mod::player_control()->nameText->color.r = 0.12345f;
+            mod::player_control()->nameText->color.g = 0;
+            mod::player_control()->nameText->color.b = 0;
+        }
+
         ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [&](auto&& self)
         {
             ark_trace("hook 1");
         });
+    }
+    void testing::on_disable()
+    {
+        if(mod::player_control())
+        {
+            mod::player_control()->nameText->color.r = 0.123455f;
+            mod::player_control()->nameText->color.g = 0;
+            mod::player_control()->nameText->color.b = 0;
+        }
     }
 } // ark

@@ -1,5 +1,5 @@
-? KOHGPBDBBJI : network class
-? LIMNONMAAFA : MovementComponent
+maybe_network_class = KOHGPBDBBJI
+maybe_MovementComponent = LIMNONMAAFA
 
 playerContrl = GLPINCNEBDJ
 player = IIEKJBMPELC
