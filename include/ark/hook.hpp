@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <ark/mod.hpp>
 #include <ark/utility/function.hpp>
 
@@ -17,9 +18,10 @@ namespace ark
         using class_type = typename ark::function_trait<decltype(T)>::class_type;
 
     public:
+        template<class Return_type = void>
         static void load()
         {
-            ::hook_method<T>([&](auto&& original, auto&& self, auto&&... args)
+            ::hook_method<T>([&](auto&& original, auto&& self, auto&&... args) -> Return_type
             {
                 if (overwrite_hooks.size() > 0)
                 {
@@ -28,7 +30,7 @@ namespace ark
                 else
                 {
                     for (const auto &[_, hk] : before_hooks) hk(self, args...);
-                    original(self, args...);
+                    return original(self, args...);
                     for (const auto &[_, hk] : after_hooks) hk(self, args...);
                 }
             });

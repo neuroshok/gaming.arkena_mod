@@ -26,8 +26,8 @@ namespace ark::mods
         , whisperer_id_{ 255 }
         , is_marked_{ false }
         , marked_id_{ 0 }
-        , kill_delay_{ 5 }
-        , whisper_timer_{ 5 }
+        , kill_delay_{ 8 }
+        , whisper_timer_{ 25 }
         , whisper_range_{ 1.2 }
         , whisper_kill_range_{ 1.8 }
     {}
@@ -127,19 +127,32 @@ namespace ark::mods
             source->_cachedData->IsImpostor = original_value;
         });
 
+
         // PlayerControl::HandleRpc
-        ark::hook<&PlayerControl::HandleRpc>::before(this,
+        ark::hook<&PlayerControl::HandleRpc>::after(this,
             [this](PlayerControl* self, auto event, MessageReader* data)
             {
                 ark_trace("HandleRpc {}", event);
                 auto original_position = data->get_Position();
+                //ark_trace("original_position {}", original_position);
+                data->set_Position(2);
 
                 switch (static_cast<rpc>(event))
                 {
                     case rpc::SetInfected:
                     {
-                        auto killers_count =data->ReadByte();
+                        auto killers_count = data->ReadByte();
+
+                        ark_trace("killers_count {}", killers_count);
+
                         whisperer_id_ = data->ReadByte();
+                        if (whisperer_id_ == mod::player()->PlayerId)
+                        {
+                            mod::set_player_name_color(mod::player_control(whisperer_id_), 0.5, 0, 0.5);
+                        }
+                        ark_trace("whisperer_id_ {}", whisperer_id_);
+                        ark_trace("killer 2 {}", data->ReadByte());
+
                         break;
                     }
 
@@ -168,7 +181,7 @@ namespace ark::mods
                     }
                 }
 
-              data->set_Position(original_position);
+              //data->set_Position(original_position);
             }
         );
     }

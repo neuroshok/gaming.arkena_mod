@@ -5,7 +5,7 @@
 
 #include <ark/discord.hpp>
 #include <ark/log.hpp>
-#include <ark/ui.hpp>
+#include <ark/ui/core.hpp>
 #include <ark/mod.hpp>
 #include <ark/utility/console.hpp>
 #include <ark/utility/hook.hpp>
@@ -61,10 +61,10 @@ namespace ark
             ::hook_method<Source>(target);
         }
 
-    private:
+    public:
         HMODULE hmodule_;
         FILE* console_;
-        ark::ui ui_;
+        ui::core ui_;
 
         std::unordered_map<void*, void*> hooks_;
 

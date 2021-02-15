@@ -1,6 +1,5 @@
 #pragma once
 
-#include <ark/utility/mod_info.hpp>
 #include <autogen/Object.hpp>
 #include <autogen/System/String.hpp>
 

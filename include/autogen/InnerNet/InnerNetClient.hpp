@@ -62,18 +62,7 @@ struct InnerNetClient : UnityEngine::MonoBehaviour {
         get_method<void (*)(InnerNetClient*, MessageWriter*)>("FinishRpcImmediately")(this, writer);
     }
 
-    static Class<InnerNetClient>* get_class() {
-        switch (mod_info::get_game_version()) {
-            case game_version::v2020_6_9s:   return Class<InnerNetClient>::find("InnerNet", "InnerNetClient");
-            case game_version::v2020_9_22s:  return Class<InnerNetClient>::find("InnerNet", "InnerNetClient");
-            case game_version::v2020_10_8i:  return Class<InnerNetClient>::find("PJBHKAHJEMG");
-            case game_version::v2020_10_22s: return Class<InnerNetClient>::find("DNAFMCDBMCI");
-            case game_version::v2020_11_4s:  return Class<InnerNetClient>::find("DBDDAJAICFN");
-            case game_version::v2020_11_17s: return Class<InnerNetClient>::find("FMJPJKCNIKM");
-            case game_version::v2020_12_9s:  return Class<InnerNetClient>::find("KHNHJFFECBP");
-        }
-        return nullptr;
-    }
+    static Class<InnerNetClient>* get_class() { return Class<InnerNetClient>::find("KHNHJFFECBP");}
 
     // No [marker], name shouldn't change
     void Update();
@@ -86,15 +75,4 @@ template<> inline const char* get_method_name<&InnerNet::InnerNetClient::StartRp
 
 
 template <>
-const inline char* get_method_name<&InnerNet::InnerNetClient::Update>() {
-    switch (mod_info::get_game_version()) {
-        case game_version::v2020_6_9s:   return "Update";
-        case game_version::v2020_9_22s:  return "Update";
-        case game_version::v2020_10_8i:  return "Update";
-        case game_version::v2020_10_22s: return "Update";
-        case game_version::v2020_11_4s:  return "Update";
-        case game_version::v2020_11_17s: return "Update";
-        case game_version::v2020_12_9s:  return "Update";
-    }
-    return nullptr;
-}
+const inline char* get_method_name<&InnerNet::InnerNetClient::Update>() { return "Update";}

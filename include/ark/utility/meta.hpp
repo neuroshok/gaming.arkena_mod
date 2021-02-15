@@ -2,6 +2,15 @@
 
 namespace ark
 {
+    namespace method_info
+    {
+        template<auto Method>
+        inline const char* name();
+
+        template<auto Method>
+        inline uintptr_t rva();
+    } // method_info
+
     template<class K>
     struct meta
     {

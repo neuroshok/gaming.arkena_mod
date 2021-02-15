@@ -10,7 +10,7 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/KillButtonManager.hpp>
 #include <autogen/InnerNet/InnerNetClient.hpp>
-
+#include <autogen/IntroCutscene.hpp>
 #include <autogen/PlayerMovement.hpp>
 
 #include <ark/hook.hpp>
@@ -121,27 +121,36 @@ namespace ark::mods
 
     void testing::on_enable()
     {
-        if(mod::player_control())
+         auto class_ = ::find_method<void(*)(PlayerControl*, std::uint8_t)>("", "FFGALNAPKCD", "SetColor");
+
+         mod::player_control()->SetColor(9);
+
+         ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::after(this, [&](auto&& self) -> bool
         {
-            //mod::set_player_name_color(1, 1, 1)
+            ark_trace("MoveNext {}", (uintptr_t)IntroCutScene::instance());
+        });
 
-            mod::player_control()->nameText->color.r = 0.12345f;
-            mod::player_control()->nameText->color.g = 0;
-            mod::player_control()->nameText->color.b = 0;
-        }
+         /*
+        spdlog::error(": {}", (uintptr_t)class_->_1.nestedTypes);
+        spdlog::error(": {}", class_->_2.nested_type_count);
 
+        spdlog::error(": {}", (uintptr_t)(*class_->_1.nestedTypes));
+        spdlog::error(": {}", (*class_->_1.nestedTypes)->_1.name);
+        spdlog::error(": {}", (*(class_->_1.nestedTypes + 1))->_1.name);*/
+
+        /*
+        ark::hook<&IntroCutScene::MoveNext>::after(this, [&](auto&& self) -> bool
+        {
+            ark_trace("data {}", (uintptr_t)IntroCutScene::instance());
+        });*/
+        /*
         ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [&](auto&& self)
         {
             ark_trace("hook 1");
-        });
+        });*/
     }
     void testing::on_disable()
     {
-        if(mod::player_control())
-        {
-            mod::player_control()->nameText->color.r = 0.123455f;
-            mod::player_control()->nameText->color.g = 0;
-            mod::player_control()->nameText->color.b = 0;
-        }
+
     }
 } // ark

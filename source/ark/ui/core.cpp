@@ -1,7 +1,8 @@
-#include <ark/ui.hpp>
+#include <ark/ui/core.hpp>
 
 #include <ark/core.hpp>
 #include <ark/log.hpp>
+#include <ark/ui/loader.hpp>
 
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
@@ -12,15 +13,15 @@
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-namespace ark
+namespace ark::ui
 {
-    ui::ui(ark::core& core)
+    core::core(ark::core& core)
         : core_{ core }
     {
         instance_ = this;
     }
 
-    void ui::make_main()
+    void core::make_main()
     {
         ImGui::StyleColorsDark();
         ImGuiStyle& style = ImGui::GetStyle();
@@ -28,7 +29,7 @@ namespace ark
 
         ImGuiIO& io = ImGui::GetIO();
 
-        float menu_height = 20;
+        float menu_height = 24;
         float width = 200;
         float main_height = io.DisplaySize.y - menu_height;
 
@@ -38,7 +39,10 @@ namespace ark
 
         ImGui::Begin("Arkmongus", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
             auto title = "Arkmongus " + core_.version();
-            if (ImGui::Button(title.c_str())) main_state_ = !main_state_;
+
+            ImGui::Image((void*)my_texture_, ImVec2(24, 24));
+            ImGui::SameLine();
+            if (ImGui::Button(title.c_str(), ImVec2(width - 24, 24))) main_state_ = !main_state_;
         ImGui::End();
 
         ImGui::PopStyleVar();
@@ -83,29 +87,30 @@ namespace ark
 
         ImGui::End();
     }
-    void ui::load()
+    void core::load()
     {
         ark_trace("Initialize UI");
         auto init_status = kiero::init(kiero::RenderType::Auto);
         if (init_status != kiero::Status::Success) ark_trace("UI init error {}", init_status);
 
         original_render_function = GetD3D11PresentFunction();
-        auto hook_status = kiero::bind(8, (void**)&original_render_function, &ui::render_function);
+        auto hook_status = kiero::bind(8, (void**)&original_render_function, &ui::core::render_function);
         if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", hook_status);
     }
 
-    void ui::unload()
+    void core::unload()
     {
+
+        kiero::unbind(8);
+
         ImGui_ImplDX11_Shutdown();
         ImGui_ImplWin32_Shutdown();
         ImGui::DestroyContext();
 
-        CleanupDeviceD3D();
-
-        CleanupRenderTarget();
+        //CleanupDeviceD3D();
     }
 
-    ui::render_function_type ui::GetD3D11PresentFunction()
+    core::render_function_type core::GetD3D11PresentFunction()
     {
         if (GetD3D11SwapchainDeviceContext(&swapChain, &device, &context))
         {
@@ -118,7 +123,7 @@ namespace ark
         return nullptr;
     }
 
-    void ui::CleanupDeviceD3D()
+    void core::CleanupDeviceD3D()
     {
         CleanupRenderTarget();
         if (device) { device->Release(); device = nullptr; }
@@ -126,12 +131,12 @@ namespace ark
         if (device) { device->Release(); device = nullptr; }
     }
 
-    void ui::CleanupRenderTarget()
+    void core::CleanupRenderTarget()
     {
         if (renderTargetView) { renderTargetView->Release(); renderTargetView = nullptr; }
     }
 
-    bool ui::GetD3D11SwapchainDeviceContext(IDXGISwapChain** pSwapchain, ID3D11Device** pDevice, ID3D11DeviceContext** pContextTable)
+    bool core::GetD3D11SwapchainDeviceContext(IDXGISwapChain** pSwapchain, ID3D11Device** pDevice, ID3D11DeviceContext** pContextTable)
     {
         WNDCLASSEX wc{0};
         wc.cbSize        = sizeof(wc);
@@ -186,7 +191,7 @@ namespace ark
         return true;
     }
 
-    bool ui::render_function(IDXGISwapChain *pSwapChain, UINT SyncInterval, UINT Flags)
+    bool core::render_function(IDXGISwapChain *pSwapChain, UINT SyncInterval, UINT Flags)
     {
         static bool init = false;
 
@@ -213,6 +218,9 @@ namespace ark
             device->CreateRenderTargetView(pBackBuffer, nullptr, &renderTargetView);
             pBackBuffer->Release();
 
+            bool ret = ark::load_texture(&my_texture_);
+            ark_trace("Load resources");
+
             init = true;
         }
 
@@ -220,10 +228,9 @@ namespace ark
         ImGui_ImplWin32_NewFrame();
 
         ImGui::NewFrame();
-
-        ui::instance().make_main();
-
+        ui::core::instance().make_main();
         ImGui::EndFrame();
+
         ImGui::Render();
 
         context->OMSetRenderTargets(1, &renderTargetView, nullptr);
@@ -232,7 +239,7 @@ namespace ark
         return original_render_function(pSwapChain, SyncInterval, Flags);
     }
 
-    LRESULT CALLBACK ui::WndProcHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    LRESULT CALLBACK core::WndProcHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         ImGuiIO& io = ImGui::GetIO();
         POINT mPos;
@@ -242,16 +249,11 @@ namespace ark
         ImGui::GetIO().MousePos.x = mPos.x;
         ImGui::GetIO().MousePos.y = mPos.y;
 
-
-        //if (uMsg == WM_KEYUP && wParam == VK_DELETE)
-            //CWState::ShowMenu = !CWState::ShowMenu;
-
-        //if (CWState::ShowMenu)
         ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 
         return CallWindowProcW(OriginalWndProcFunction, hWnd, uMsg, wParam, lParam);
     }
-    ui& ui::instance()
+    ui::core& core::instance()
     {
         assert(instance_);
         return *instance_;

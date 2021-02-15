@@ -68,6 +68,12 @@ struct Array {
     T* m_Items[65535];
 };
 
+struct String {
+    il2cpp::Il2CppObject obj;
+    int32_t length;
+    uint16_t* chars;
+};
+
 template <auto>
 const char* get_method_name();
 

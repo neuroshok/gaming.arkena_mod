@@ -28,6 +28,8 @@ namespace ark
         const std::string& name() const;
         bool enabled() const;
 
+        static void set_player_name_color(PlayerControl*, float r, float g, float b, float a = 1);
+
         static GameData::PlayerInfo* player();
         static PlayerControl* player_control();
 

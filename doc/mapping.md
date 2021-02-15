@@ -68,13 +68,11 @@ $deobfuscated_name : variable of deobfuscated name (PlayerControl)
 
 #include <ark/utility/function.hpp>
 #include <ark/utility/meta.hpp>
-
-#define method_call(Name, ...) get_method<ark::function_trait<decltype(&PlayerControl::Name)>::flat_method_type>(#Name)(this, __VA_ARGS__)
-#define method_str(Name, Str_name) template<> inline const char* get_method_name<&PlayerControl::Name>() { return Str_name; }
+#include <ark/utility/preprocessor.hpp>
 
 struct PlayerControl : InnerNetObject, ark::meta<PlayerControl>
 {
-    static inline auto internal_name = "$original_name";
+    static constexpr auto internal_name = "$original_name";
 
     std::int32_t MKMDLEOKDIN;
     std::uint8_t PlayerId;
@@ -82,9 +80,11 @@ struct PlayerControl : InnerNetObject, ark::meta<PlayerControl>
     void* KillAnimations // MNGKAKKOKPN or // $original_line
 }
 
-// for each method method_str($deobfuscated_name, "$original_name")
-method_str(SetColor, "SetColor")
-method_str(SetColor, "SetColor")
-method_str(SetColor, "SetColor")
+namespace ark::method_info
+{
+    // for each method method_str($deobfuscated_name, "$original_name")
+    method_address(PlayerControl::SetColor, 0x8F0AE0);
+    inline uintptr_t rva<&PlayerControl::SetColor>() { return 0x8F0AE0 ; }
+}
 etc...
 ````

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <ark/utility/mod_info.hpp>
-
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/UnityEngine/Vector2.hpp>
 #include <autogen/UnityEngine/Color.hpp>
@@ -63,18 +61,7 @@ struct ShipStatus : InnerNet::InnerNetObject {
         ShipStatus* Instance;
     };
 
-    static Class<ShipStatus>* get_class() {
-        switch (mod_info::get_game_version()) {
-            case game_version::v2020_6_9s:   return Class<ShipStatus>::find("ShipStatus");
-            case game_version::v2020_9_22s:  return Class<ShipStatus>::find("ShipStatus");
-            case game_version::v2020_10_8i:  return Class<ShipStatus>::find("FMDGHKGPBPP");
-            case game_version::v2020_10_22s: return Class<ShipStatus>::find("DAFPFFMKPJJ");
-            case game_version::v2020_11_4s:  return Class<ShipStatus>::find("OLEKJGCEKAM");
-            case game_version::v2020_11_17s: return Class<ShipStatus>::find("EIEMHBCHLNI");
-            case game_version::v2020_12_9s:  return Class<ShipStatus>::find("HLBNNHFCNAJ");
-        }
-        return nullptr;
-    }
+    static Class<ShipStatus>* get_class() { return Class<ShipStatus>::find("HLBNNHFCNAJ"); }
 
     static ShipStatus* instance() {
         return get_class()->statics()->Instance;
@@ -88,18 +75,7 @@ struct ShipStatus : InnerNet::InnerNetObject {
 CHECK_TYPE(ShipStatus, 0xD4);
 
 template <> inline
-const char* get_method_name<&ShipStatus::Begin>() {
-    switch (mod_info::get_game_version()) {
-        case game_version::v2020_6_9s:   return "Begin";
-        case game_version::v2020_9_22s:  return "Begin";
-        case game_version::v2020_10_8i:  return "Begin";
-        case game_version::v2020_10_22s: return "Begin";
-        case game_version::v2020_11_4s:  return "Begin";
-        case game_version::v2020_11_17s: return "Begin";
-        case game_version::v2020_12_9s:  return "Awake";
-    }
-    return nullptr;
-}
+const char* get_method_name<&ShipStatus::Begin>() { return "Awake";}
 
 
 template <> inline const char* get_method_name<&ShipStatus::zeta>() { return "CheckTaskCompletion"; }

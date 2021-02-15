@@ -25,18 +25,7 @@ struct AmongUsClient : InnerNet::InnerNetClient {
         AmongUsClient* Instance;
     };
 
-    static Class<AmongUsClient>* get_class() {
-        switch (mod_info::get_game_version()) {
-            case game_version::v2020_6_9s:   return Class<AmongUsClient>::find("AmongUsClient");
-            case game_version::v2020_9_22s:  return Class<AmongUsClient>::find("AmongUsClient");
-            case game_version::v2020_10_8i:  return Class<AmongUsClient>::find("KIIHPMJOOGI");
-            case game_version::v2020_10_22s: return Class<AmongUsClient>::find("JNFEHNLGIFF");
-            case game_version::v2020_11_4s:  return Class<AmongUsClient>::find("HJNEPPHDLBA");
-            case game_version::v2020_11_17s: return Class<AmongUsClient>::find("MMMGPAPEEBJ");
-            case game_version::v2020_12_9s:  return Class<AmongUsClient>::find("FMLLKEACGIO");
-        }
-        return nullptr;
-    }
+    static Class<AmongUsClient>* get_class() {  return Class<AmongUsClient>::find("FMLLKEACGIO"); }
 
     static AmongUsClient* Instance() {
         return get_class()->statics()->Instance;

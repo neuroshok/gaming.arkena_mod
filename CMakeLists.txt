@@ -57,6 +57,10 @@ file(GLOB_RECURSE ARK_SOURCES
 add_library(arkena_mod SHARED ${ARK_SOURCES})
 target_compile_features(arkena_mod PRIVATE cxx_std_20)
 
+if (NO_UI)
+    target_compile_definitions(arkena_mod PUBLIC ARK_NO_UI=1)
+endif()
+
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
 target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero rcmp spdlog)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
@@ -67,13 +71,15 @@ set_target_properties(arkena_mod PROPERTIES
 )
 
 # launcher
-add_executable(launcher ${PROJECT_SOURCE_DIR}/source/launcher.cpp)
+set(ARK_ICON "${PROJECT_SOURCE_DIR}/resource/icon.rc" "${PROJECT_SOURCE_DIR}/resource/icon.ico")
+
+add_executable(launcher ${PROJECT_SOURCE_DIR}/source/launcher.cpp ${ARK_ICON})
 add_dependencies(launcher arkena_mod)
 target_include_directories(launcher PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(launcher PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
-    OUTPUT_NAME "arkmongus"
+    OUTPUT_NAME "Arkmongus"
 )
 
 # injector
@@ -93,10 +99,18 @@ set_target_properties(injector PROPERTIES
     OUTPUT_NAME "injector"
 )
 
-#
+# generator
 add_executable(generator ${PROJECT_SOURCE_DIR}/source/generator.cpp)
 
 set_target_properties(generator PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
     OUTPUT_NAME "generator"
+)
+
+# bin2cpp
+add_executable(bin2cpp ${PROJECT_SOURCE_DIR}/source/bin2cpp.cpp)
+
+set_target_properties(bin2cpp PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+    OUTPUT_NAME "bin2cpp"
 )

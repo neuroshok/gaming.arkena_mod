@@ -22,7 +22,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.0.27" }
+        , version_{ "0.0.28" }
         , ui_{ *this }
     {
         //ark::load_console(console_);
@@ -31,7 +31,9 @@ namespace ark
 
         ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
+        #ifndef ARK_NO_UI
         ui_.load();
+        #endif
         ark::init_hook();
 
         //load<ark::mods::zombie>();
@@ -43,9 +45,6 @@ namespace ark
 
     core::~core()
     {
-        ui_.unload();
-        //::remove_hook<&PlayerControl::HandleRpc>([](auto o, std::uint8_t, MessageReader*){});
-        //ark::unload_console(console_);
     }
 
     void core::run()
@@ -54,11 +53,11 @@ namespace ark
         {
             //discord_.run();
 
-            /*
+
             if (GetAsyncKeyState(VK_F2) & 1)
             {
                 break;
-            }*/
+            }
         }
     }
 

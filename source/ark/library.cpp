@@ -1,6 +1,7 @@
 #include <Windows.h>
 
 #include <ark/core.hpp>
+#include <minhook/include/MinHook.h>
 
 DWORD WINAPI HackThread(HMODULE hmodule)
 {
@@ -17,12 +18,9 @@ DWORD WINAPI HackThread(HMODULE hmodule)
     ark::core core{ hmodule };
     core.run();
 
+    MH_Uninitialize();
 
     ark::unload_console(console_);
-
-/*
-fclose(f);
-FreeConsole();*/
 
     FreeLibraryAndExitThread(hmodule, 0);
     return 0;

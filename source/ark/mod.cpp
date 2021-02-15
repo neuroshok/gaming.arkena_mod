@@ -102,4 +102,12 @@ namespace ark
 
     const std::string& mod::name() const { return name_; }
     bool mod::enabled() const { return enabled_; }
+
+    void mod::set_player_name_color(PlayerControl* pc, float r, float g, float b, float a)
+    {
+        pc->nameText->color.r = r;
+        pc->nameText->color.g = g;
+        pc->nameText->color.b = b;
+        pc->nameText->color.a = a;
+    }
 } // ark

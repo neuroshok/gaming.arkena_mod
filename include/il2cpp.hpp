@@ -6,6 +6,9 @@
 #include <rcmp/low_level.hpp>
 #include <ark/log.hpp>
 
+inline uintptr_t GetBaseAddress() {
+    return (uintptr_t)GetModuleHandleW(L"GameAssembly.dll");
+}
 
 inline const auto il2cpp_object_get_virtual_method = dynamic_proc<const il2cpp::MethodInfo*(il2cpp::Il2CppObject*, const il2cpp::MethodInfo*)>("GameAssembly.dll", "il2cpp_object_get_virtual_method");
 inline const auto il2cpp_class_get_method_from_name = dynamic_proc<const il2cpp::MethodInfo*(il2cpp::Il2CppClass*, const char*, int)>("GameAssembly.dll", "il2cpp_class_get_method_from_name");
@@ -16,8 +19,17 @@ inline const auto il2cpp_assembly_get_image = dynamic_proc<const il2cpp::Il2CppI
 inline const auto il2cpp_method_get_param_count = dynamic_proc<uint32_t(const il2cpp::MethodInfo*)>("GameAssembly.dll", "il2cpp_method_get_param_count");
 inline const auto il2cpp_method_get_name = dynamic_proc<const char*(const il2cpp::MethodInfo*)>("GameAssembly.dll", "il2cpp_method_get_name");
 
+template <class Signature>
+Signature direct_call(uintptr_t rva)
+{
+    auto address = GetBaseAddress() + rva;
+    ark_trace("address {}", address);
+
+    return rcmp::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+}
+
 inline il2cpp::Il2CppClass* find_class(const char* namespace_, const char* class_) {
-    //ark_trace("looking for class {} in namespace {}", class_, namespace_[0] ? namespace_ : "(none)");
+    ark_trace("looking for class {} in namespace {}", class_, namespace_[0] ? namespace_ : "(none)");
 
     auto dom = il2cpp_domain_get();
 
@@ -84,6 +96,8 @@ Signature find_method(il2cpp::Il2CppClass* class_, const char* method) {
         dump_methods(class_);
         return nullptr;
     }
+
+    ark_trace("ptr {}", (uintptr_t)(method_ptr->methodPointer));
 
     return rcmp::bit_cast<Signature>(method_ptr->methodPointer);
 }
