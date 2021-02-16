@@ -21,6 +21,6 @@ namespace UnityEngine
         struct Vector3* FGJMDFDIKEK; // 0x44
         struct Vector3* IOHLPLMJHIB; // 0x50
         struct HDJGDMFCHDN* SkipVoteButton; // 0x5C
-        ::Array<PlayerVoteArea>[] HBDFFAHBIGI; // 0x60
+        il2cpp::array<PlayerVoteArea>[] HBDFFAHBIGI; // 0x60
     };
 }

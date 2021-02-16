@@ -9,19 +9,16 @@
 #include <autogen/ShipStatus.hpp>
 #include <autogen/System/String.hpp>
 #include <autogen/System/String.hpp>
-#include <minhook/include/MinHook.h>
 
-#define hkr(R, H) hook<&H>::load<R>()
-#define hk(H) hook<&H>::load<>()
 
-inline const auto il2cpp_string_new_utf16 = dynamic_proc<::String*(const uint16_t * text, int32_t len)>("GameAssembly.dll", "il2cpp_string_new_utf16");
+#define hkr(R, H) hook<&H>::init<R>()
+#define hk(H) hook<&H>::init<>()
 
-bool (*original)(IntroCutScene::CKACLKCOJFO*) = nullptr;
 
-bool f(IntroCutScene::CKACLKCOJFO* p){
-
-    auto v = original(p);
-
+void f(PlayerControl* p, std::int8_t c){
+ark_trace("color ok {}", c);
+    //auto v = original(p, std::int8_t);
+/*
     ark_trace("p {}", (uintptr_t)p);
     ark_trace("crew {}", p->__this->Title->Text->to_utf8());
     p->__this->Title->color.r = 0.5;
@@ -33,10 +30,12 @@ bool f(IntroCutScene::CKACLKCOJFO* p){
 
     ::String* str = il2cpp_string_new_utf16((uint16_t*)test.data(), test.size());
     p->__this->Title->Text = reinterpret_cast<System::String*>(str);
+*/
 
-
-    return v;
 }
+
+
+
 
 namespace ark
 {
@@ -46,20 +45,7 @@ namespace ark
             MH_Initialize();
         #endif
 
-        //auto h = [](std::uint8_t v){ ark_trace("color hook {}", v); original(v); };
-        auto hooked = (void*)uintptr_t(GetBaseAddress() + 0xFB07B0);
-        original = (decltype(original))hooked;
-
-        if (MH_CreateHook(hooked, &f, reinterpret_cast<void**>(&original)) != MH_OK)
-        {
-            ark_trace("MH_CreateHook failed");
-        }
-
-        if (MH_EnableHook(hooked) != MH_OK)
-        {
-            ark_trace("MH_EnableHook failed");
-        }
-
+        hk(PlayerControl::SetColor);
         hk(PlayerControl::HandleRpc);
         /*
         hkr(bool, IntroCutScene::MoveNext);

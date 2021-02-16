@@ -51,28 +51,9 @@ struct InnerNetClient : UnityEngine::MonoBehaviour {
     struct System_Collections_Generic_List_Action__o *TempQueue;
     bool appPaused;
 
-    // virtual : base InnerNetClient
-    MessageWriter* StartRpcImmediately(std::uint32_t NetId, std::uint8_t RPC, std::uint8_t SendOption = 0, std::int32_t m = -1)
-    {
-        return get_virtual_method<MessageWriter* (*)(InnerNetClient*, std::uint32_t, std::uint8_t, std::uint8_t, std::int32_t)>("StartRpcImmediately")
-        (this, NetId, RPC, SendOption, m);
-    }
-    void FinishRpcImmediately(MessageWriter* writer)
-    {
-        get_method<void (*)(InnerNetClient*, MessageWriter*)>("FinishRpcImmediately")(this, writer);
-    }
-
-    static Class<InnerNetClient>* get_class() { return Class<InnerNetClient>::find("KHNHJFFECBP");}
 
     // No [marker], name shouldn't change
     void Update();
 };
-CHECK_TYPE(InnerNetClient, 0x68);
 
 } // namespace InnerNet
-
-template<> inline const char* get_method_name<&InnerNet::InnerNetClient::StartRpcImmediately>() { return "StartRpcImmediately"; }
-
-
-template <>
-const inline char* get_method_name<&InnerNet::InnerNetClient::Update>() { return "Update";}

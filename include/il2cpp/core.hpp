@@ -1,14 +1,38 @@
 #pragma once
 
+#include <Windows.h>
+
 #include <cstddef>
 #include <cstdint>
+#include <bit>
 
-namespace il2cpp {
-    typedef void(*Il2CppMethodPointer)();
+#include <ark/module.hpp>
+
+namespace il2cpp
+{
+    using Il2CppMethodPointer = void(*)();
+
+    template <class Signature>
+    inline Signature call(uintptr_t rva)
+    {
+        auto address = ark::base_address() + rva;
+        return std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+    }
 
     struct MethodInfo;
     struct Il2CppImage;
-    struct Il2CppDomain;
+
+    struct Il2CppDomain
+    {
+        struct Il2CppAppDomain* domain;
+        struct Il2CppAppDomainSetup* setup;
+        struct Il2CppAppContext* default_context;
+        const char* friendly_name;
+        uint32_t domain_id;
+        volatile int threadpool_jobs;
+        void* agent_info;
+    };
+
     struct Il2CppAssembly;
     struct Il2CppClass;
 
@@ -142,4 +166,4 @@ namespace il2cpp {
         uint8_t bitflags;
     };
 
-} // namespace il2cpp
+} // il2cpp

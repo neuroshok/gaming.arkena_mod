@@ -1,14 +1,13 @@
 #include <ark/mod.hpp>
 
 #include <ark/core.hpp>
-#include <ark/utility/hook.hpp>
 
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
 
-#include <ark/mods/sniper.hpp>
+/*#include <ark/mods/sniper.hpp>
 #include <ark/mods/testing.hpp>
-#include <ark/mods/whisperer.hpp>
+#include <ark/mods/whisperer.hpp>*/
 #include <cmath>
 
 namespace ark

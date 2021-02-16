@@ -22,4 +22,3 @@ struct CustomNetworkTransform : InnerNet::InnerNetObject {
     UnityEngine::Vector2 prevPosSent;
     UnityEngine::Vector2 prevVelSent;
 };
-CHECK_TYPE(CustomNetworkTransform, 0x58);

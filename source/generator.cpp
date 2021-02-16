@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+/*
 using namespace std::string_literals;
 
 enum class parse_type{ field, method };
@@ -94,12 +95,84 @@ void generate_class(const std::vector<::method>& methods)
     {
         std::cout << "\n" << method.return_type << " " << method.name << "(" << ")";
     }
-}
+}*/
+
+#include <Windows.h>
+#include <il2cpp/core.hpp>
+#include <spdlog/spdlog.h>
+
+
+class assembly
+{
+public:
+    assembly() : hmodule_{ LoadLibrary("GameAssembly.dll") } {}
+
+    int init(const char* domain_name) { return process<int(*)(const char* domain_name)>("il2cpp_init", domain_name); }
+    il2cpp::Il2CppDomain* domain_get() { return process<il2cpp::Il2CppDomain*(*)()>("il2cpp_domain_get"); }
+
+    const il2cpp::Il2CppAssembly** domain_get_assemblies(const il2cpp::Il2CppDomain* d, size_t* s)
+    { return process<const il2cpp::Il2CppAssembly**(*)(const il2cpp::Il2CppDomain*, size_t*)>("il2cpp_domain_get_assemblies", d, s); }
+    decltype(auto) assembly_get_image(const il2cpp::Il2CppAssembly* as)
+    { return process<const il2cpp::Il2CppImage*(*)(const il2cpp::Il2CppAssembly*)>("il2cpp_assembly_get_image", as); }
+    decltype(auto) class_from_name(const il2cpp::Il2CppImage* img, const char* ns, const char* k)
+    { return process<il2cpp::Il2CppClass*(*)(const il2cpp::Il2CppImage*, const char*, const char*)>("il2cpp_class_from_name", img, ns, k); }
+
+    il2cpp::Il2CppClass* get_class(const char* namespace_, const char* class_)
+    {
+        spdlog::info("looking for class {} in namespace {}", class_, namespace_[0] ? namespace_ : "(none)");
+        auto dom = domain_get();
+        std::cout << dom->default_context;
+        return nullptr;
+        if (!init(dom->friendly_name)) spdlog::error("init error");
+
+        std::size_t assembly_count = 0;
+        const auto assemblies = domain_get_assemblies(dom, &assembly_count);
+        std::cout << assemblies;
+
+        for (auto it = assemblies; it != assemblies + assembly_count; ++it) {
+            auto img = assembly_get_image(*it);
+            if (!img) {
+                spdlog::error("null assembly..");
+                continue;
+            }
+
+            auto cls = class_from_name(img, namespace_, class_);
+            if (!cls) {
+                continue;
+            }
+
+            return cls;
+        }
+
+        spdlog::error("class not found {}:{}", class_, namespace_[0] ? namespace_ : "(none)");
+        return nullptr;
+    }
+
+private:
+    HMODULE hmodule_ = nullptr;
+
+
+    template<class T, class... Args>
+    decltype(auto) process(const char* name, Args&&... args)
+    {
+        return reinterpret_cast<T>(GetProcAddress(hmodule_, name))(std::forward<Args>(args)...);
+    }
+};
+
+
+
+
+
 
 int main(int argc, const char** argv)
 {
+    //csto_tracer(436407, 436808);
 
-    csto_tracer(436407, 436808);
+    assembly as;
+    auto v = as.get_class("", "NJAHILONGKN");
+    spdlog::info(v->_2.field_count);
+
+    //spdlog::debug("data {}", as.get_class("", "FFGALNAPKCD")->_2.field_count);
 
     return 0;
 }

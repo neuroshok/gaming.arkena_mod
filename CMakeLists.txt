@@ -4,7 +4,6 @@ project(arkena_mod)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-add_subdirectory(third_party/rcmp)
 add_subdirectory(third_party/spdlog)
 
 # imgui
@@ -62,7 +61,7 @@ if (NO_UI)
 endif()
 
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero rcmp spdlog)
+target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(arkena_mod PROPERTIES
@@ -101,7 +100,8 @@ set_target_properties(injector PROPERTIES
 
 # generator
 add_executable(generator ${PROJECT_SOURCE_DIR}/source/generator.cpp)
-
+target_include_directories(generator PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(generator PRIVATE spdlog)
 set_target_properties(generator PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
     OUTPUT_NAME "generator"

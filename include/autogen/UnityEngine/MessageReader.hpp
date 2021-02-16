@@ -1,11 +1,10 @@
 #pragma once
 
 #include <cstdint>
-#include <autogen/Object.hpp>
 
-struct alignas(4) MessageReader : ::Object
+struct alignas(4) MessageReader : il2cpp::Il2CppClass
 {
-    ::Array<std::byte>* buffer;//struct Byte__Array *Buffer;
+    il2cpp::array<std::byte>* buffer;//struct Byte__Array *Buffer;
 
     uint8_t Tag;
     int32_t Length;
@@ -18,22 +17,19 @@ struct alignas(4) MessageReader : ::Object
         MessageReader* instance;
     };
 
-    static MessageReader* instance() {
-        return Class<MessageReader>::find("Hazel", "MessageReader")->statics()->instance;
-    }
 
     std::uint8_t ReadByte()
     {
-        return get_method<std::uint8_t(*)(MessageReader*)>("ReadByte")(this);
+        return 0;
     }
 
     std::uint32_t get_BytesRemaining()
     {
-        return get_method<std::uint32_t(*)(MessageReader*)>("get_BytesRemaining")(this);
+        return 0;
     }
 
-    int get_Position(){ return get_method<int(*)(MessageReader*)>("get_Position")(this); }
-    void set_Position(int v){get_method<void(*)(MessageReader*, int)>("set_Position")(this, v);}
+    int get_Position(){ return 0; }
+    void set_Position(int v){}
 
     std::string read_string(int size)
     {

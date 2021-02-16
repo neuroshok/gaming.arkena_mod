@@ -121,14 +121,12 @@ namespace ark::mods
 
     void testing::on_enable()
     {
-         auto class_ = ::find_method<void(*)(PlayerControl*, std::uint8_t)>("", "FFGALNAPKCD", "SetColor");
+         ark::hook<&PlayerControl::SetColor>::after(this, [](auto&& pc, auto&& c){ ark_trace("data {}", c); });
 
-         mod::player_control()->SetColor(9);
-
-         ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::after(this, [&](auto&& self) -> bool
+        /*ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::after(this, [&](auto&& self) -> bool
         {
             ark_trace("MoveNext {}", (uintptr_t)IntroCutScene::instance());
-        });
+        });*/
 
          /*
         spdlog::error(": {}", (uintptr_t)class_->_1.nestedTypes);

@@ -6,6 +6,4 @@ namespace UnityEngine {
 
 struct MonoBehaviour : Behaviour {};
 
-CHECK_TYPE(MonoBehaviour, 0x4);
-
 } // namespace UnityEngine

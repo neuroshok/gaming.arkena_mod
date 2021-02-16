@@ -21,4 +21,3 @@ struct PlayerTask : UnityEngine::MonoBehaviour {
     bool HasLocation;
     bool LocationDirty;
 };
-CHECK_TYPE(PlayerTask, 0x20);

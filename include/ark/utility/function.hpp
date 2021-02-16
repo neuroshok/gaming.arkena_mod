@@ -1,17 +1,21 @@
 #pragma once
 
+#include <functional>
+
 namespace ark
 {
-    template<class Signature>
-    struct function_trait;
+    template<class T>
+    struct function_trait : public function_trait<decltype(&std::decay_t<T>::operator())> {};
+
+    template<class Class, class Return, class... Args>
+    struct function_trait<Return(Class::*)(Args...) const> : function_trait<Return(Class::*)(Args...)>{};
 
     template<class Class, class Return, class... Args>
     struct function_trait<Return(Class::*)(Args...)> {
         using class_type = Class;
+        using return_type = Return;
         using method_type = std::function<Return(Class*, Args...)>;
         using flat_method_type = Return(*)(Class*, Args...);
+        using functional_type = Return(Args...);
     };
-
-    template<class Class, class Return, class... Args>
-    struct function_trait<Return(Class::*)(Args...) const> : function_trait<Return(Class::*)(Args...)>{};
 } // ark

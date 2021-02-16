@@ -1,27 +1,72 @@
 #pragma once
 
-
+#include <ark/module.hpp>
 #include <ark/mod.hpp>
 #include <ark/utility/function.hpp>
 
+#include <minhook/include/MinHook.h>
+
 #include <functional>
+#include <optional>
 #include <vector>
 
 namespace ark
 {
     void init_hook();
 
-    template<auto T>
+    template<auto T, class Callback, class F>
+    struct hooking;
+
+    template<auto T, class Callback, class Return, class... Args>
+    struct hooking<T, Callback, Return(Args...)>
+    {
+        using class_type = typename ark::function_trait<decltype(T)>::class_type;
+        using flat_method_type = typename ark::function_trait<decltype(T)>::flat_method_type;
+
+        static void hook_function(class_type* k, Args... args)
+        {
+            (*callback)(original, k, args...);
+        }
+
+        static void make(Callback&& f)
+        {
+            original = reinterpret_cast<flat_method_type>(address);
+
+            if (MH_CreateHook((void*)address, reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original)) != MH_OK)
+            {
+                ark_trace("MH_CreateHook failed");
+            }
+            if (MH_EnableHook((void*)address) != MH_OK)
+            {
+                ark_trace("MH_EnableHook failed");
+            }
+
+            callback = std::move(f);
+        }
+
+        static inline uintptr_t address = ark::base_address() + ark::method_info::rva<T>();
+        static inline flat_method_type original = nullptr;
+        static inline std::optional<Callback> callback = std::nullopt;
+    };
+
+    template<auto Method>
     class hook
     {
-        using method_type = typename ark::function_trait<decltype(T)>::method_type;
-        using class_type = typename ark::function_trait<decltype(T)>::class_type;
+        using method_type = typename ark::function_trait<decltype(Method)>::method_type;
+        using class_type = typename ark::function_trait<decltype(Method)>::class_type;
 
     public:
-        template<class Return_type = void>
-        static void load()
+        template<class F>
+        static void process(F&& f)
         {
-            ::hook_method<T>([&](auto&& original, auto&& self, auto&&... args) -> Return_type
+            using functional_type = typename ark::function_trait<decltype(Method)>::functional_type;
+            hooking<Method, F, functional_type>::make(std::forward<F>(f));
+        }
+
+        template<class Return_type = void>
+        static void init()
+        {
+            process([](auto&& original, auto&& self, auto... args) -> Return_type
             {
                 if (overwrite_hooks.size() > 0)
                 {
@@ -30,7 +75,7 @@ namespace ark
                 else
                 {
                     for (const auto &[_, hk] : before_hooks) hk(self, args...);
-                    return original(self, args...);
+                    original(self, args...);
                     for (const auto &[_, hk] : after_hooks) hk(self, args...);
                 }
             });

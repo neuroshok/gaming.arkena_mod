@@ -5,11 +5,12 @@
 #include <ark/log.hpp>
 #include <ark/mod.hpp>
 
+/*
 #include <ark/mods/sniper.hpp>
 #include <ark/mods/whisperer.hpp>
 #include <ark/mods/zombie.hpp>
+#include <ark/mods/analysis.hpp>*/
 #include <ark/mods/testing.hpp>
-#include <ark/mods/analysis.hpp>
 
 #include <filesystem>
 #include <iostream>
@@ -22,29 +23,30 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.0.28" }
+        , version_{ "0.0.30" }
         , ui_{ *this }
     {
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
         ark_trace("Initialize ark::core version {}", version_);
 
-        ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
-
         #ifndef ARK_NO_UI
         ui_.load();
         #endif
         ark::init_hook();
 
+        //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
+
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
-        load<ark::mods::whisperer>();
+        //load<ark::mods::whisperer>();
         load<ark::mods::testing>();
         //load<ark::mods::analysis>();
     }
 
     core::~core()
     {
+        MH_Uninitialize();
     }
 
     void core::run()
@@ -52,7 +54,6 @@ namespace ark
         while (true)
         {
             //discord_.run();
-
 
             if (GetAsyncKeyState(VK_F2) & 1)
             {

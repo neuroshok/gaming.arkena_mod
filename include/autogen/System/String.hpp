@@ -1,11 +1,11 @@
 #pragma once
 
-#include <autogen/Object.hpp>
 #include <ark/utility/encoding.hpp>
+#include <il2cpp/core.hpp>
 
 namespace System {
 
-struct String : ::Object {
+struct String : il2cpp::Il2CppClass {
     std::int32_t m_stringLength;
     char16_t m_firstChar;
 
@@ -17,6 +17,5 @@ struct String : ::Object {
         return ::to_utf8(to_view());
     }
 };
-CHECK_TYPE(String, 0x8);
 
 } // namespace System

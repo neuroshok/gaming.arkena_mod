@@ -13,18 +13,10 @@ struct KillButtonManager : ::UnityEngine::MonoBehaviour
 	bool isActive; // 0x19
 	UnityEngine::Vector2 FFHAJFJBHHN; // 0x1C
 
-    struct StaticFields { KillButtonManager* instance; };
-    static KillButtonManager* instance() { return get_class()->statics()->instance; }
+    void PerformKill() {}
 
-    static Class<KillButtonManager>* get_class() { return Class<KillButtonManager>::find("MLPJGKEACMM"); }
-
-    void PerformKill() { get_method<void (*)(KillButtonManager*)>("PerformKill")(this); }
-
-    void SetCoolDown(float a, float b) { get_method<void (*)(KillButtonManager*, float, float)>("SetCoolDown")(this, a, b); }
+    void SetCoolDown(float a, float b) {  }
 
 
     //void SetTarget(PlayerControl* playerControl) { get_method<void (*)(KillButtonManager*, PlayerControl*)>("SetTarget")(this, playerControl); }
 };
-
-template<> inline const char* get_method_name<&KillButtonManager::PerformKill>() { return "PerformKill"; }
-template<> inline const char* get_method_name<&KillButtonManager::SetCoolDown>() { return "SetCoolDown"; }

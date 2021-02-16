@@ -1,21 +1,16 @@
 #ifndef INCLUDE_ARK_CORE_HPP_ARKENA_MOD
 #define INCLUDE_ARK_CORE_HPP_ARKENA_MOD
 
-#include <autogen/UnityEngine/Application.hpp>
-
 #include <ark/discord.hpp>
 #include <ark/log.hpp>
-#include <ark/ui/core.hpp>
 #include <ark/mod.hpp>
-#include <ark/utility/console.hpp>
-#include <ark/utility/hook.hpp>
-
-#include <autogen/GameData.hpp>
-#include <autogen/PlayerControl.hpp>
+#include <ark/ui/core.hpp>
 
 #include <vector>
 #include <variant>
 #include <concepts>
+
+namespace ark { class mod; }
 
 namespace Concept
 {
@@ -44,6 +39,7 @@ namespace ark
         {
             mods_.emplace_back(std::make_unique<Mod>(*this));
             ark_trace("Mod {} loaded", mods_.back()->name());
+            mods_.back()->enable();
         }
 
         void unload(const std::string& name)
@@ -58,7 +54,7 @@ namespace ark
         template<auto Source, class Target>
         static void hook(Target&& target)
         {
-            ::hook_method<Source>(target);
+            //ark::hook_method<Source>(target);
         }
 
     public:

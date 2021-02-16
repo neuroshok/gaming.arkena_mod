@@ -1,8 +1,6 @@
 #pragma once
 
-#include <ark/utility/function.hpp>
-#include <ark/utility/meta.hpp>
-#include <ark/utility/preprocessor.hpp>
+#include <ark/class.hpp>
 
 #include <autogen/UnityEngine/MonoBehaviour.hpp>
 #include <autogen/UnityEngine/Color.hpp>
@@ -13,7 +11,6 @@
 struct IntroCutScene : UnityEngine::MonoBehaviour, ark::meta<IntroCutScene> // TypeDefIndex: 8688
 {
     static constexpr auto internal_name = "PENEIDJGGAF";
-
 	UnityEngine::TextRenderer* Title; // 0xC
 	UnityEngine::TextRenderer* ImpostorText; // 0x10
 	struct FOONEKDGJBL* PlayerPrefab; // 0x14
@@ -24,7 +21,7 @@ struct IntroCutScene : UnityEngine::MonoBehaviour, ark::meta<IntroCutScene> // T
 	struct AudioClip* IntroStinger; // 0x28
 	float BaseY; // 0x2C
 
-    struct CKACLKCOJFO : ::Object
+    struct CKACLKCOJFO : il2cpp::Il2CppClass
     {
         // Fields
         int __state; // 0x8
@@ -46,5 +43,5 @@ struct IntroCutScene : UnityEngine::MonoBehaviour, ark::meta<IntroCutScene> // T
 namespace ark::method_info
 {
     //method_address(PlayerControl::SetColor, 0x8F0AE0);
-    inline uintptr_t rva<&IntroCutScene::CKACLKCOJFO::MoveNext>() { return 0xFB07B0; }
+    method_rva(IntroCutScene::CKACLKCOJFO::MoveNext, 0xFB07B0)
 }

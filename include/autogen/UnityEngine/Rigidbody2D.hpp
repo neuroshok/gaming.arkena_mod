@@ -14,6 +14,5 @@ struct Rigidbody2D : Component {
         return get_cached_method<&Rigidbody2D::get_velocity>("get_velocity")(this);
     }
 };
-CHECK_TYPE(Rigidbody2D, 0x4);
 
 } // namespace UnityEngine

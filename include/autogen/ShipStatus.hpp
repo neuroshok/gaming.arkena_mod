@@ -4,10 +4,6 @@
 #include <autogen/UnityEngine/Vector2.hpp>
 #include <autogen/UnityEngine/Color.hpp>
 
-// FMDGHKGPBPP in 2020.10.8i
-// DAFPFFMKPJJ in 2020.10.22s
-// OLEKJGCEKAM in 2020.11.4s
-// EIEMHBCHLNI in 2020.11.17s
 // HLBNNHFCNAJ in 2020.12.9s
 struct ShipStatus : InnerNet::InnerNetObject {
     enum class MapType : std::int32_t {
@@ -57,25 +53,7 @@ struct ShipStatus : InnerNet::InnerNetObject {
     MapType Type;
     std::int32_t HBFNNGCEGNI;
 
-    struct StaticFields {
-        ShipStatus* Instance;
-    };
-
-    static Class<ShipStatus>* get_class() { return Class<ShipStatus>::find("HLBNNHFCNAJ"); }
-
-    static ShipStatus* instance() {
-        return get_class()->statics()->Instance;
-    }
 
     // No [marker], name shouldn't change
     void Begin();
-
-    void zeta();
 };
-CHECK_TYPE(ShipStatus, 0xD4);
-
-template <> inline
-const char* get_method_name<&ShipStatus::Begin>() { return "Awake";}
-
-
-template <> inline const char* get_method_name<&ShipStatus::zeta>() { return "CheckTaskCompletion"; }

@@ -1,26 +1,22 @@
 #include <Windows.h>
 
 #include <ark/core.hpp>
-#include <minhook/include/MinHook.h>
 
 DWORD WINAPI HackThread(HMODULE hmodule)
 {
     FILE* console_;
-    if (!AllocConsole())
-    {
-        ark_trace("console allocation failed");
-        return 0;
-    }
+    if (!AllocConsole()) ark_trace("console allocation failed");
     freopen_s(&console_, "CONOUT$", "w", stdout);
 
     SetConsoleOutputCP(65001);
 
-    ark::core core{ hmodule };
-    core.run();
+    {
+        ark::core core{hmodule};
+        core.run();
+    }
 
-    MH_Uninitialize();
-
-    ark::unload_console(console_);
+    fclose(console_);
+    FreeConsole();
 
     FreeLibraryAndExitThread(hmodule, 0);
     return 0;

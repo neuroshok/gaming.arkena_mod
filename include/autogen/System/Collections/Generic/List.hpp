@@ -1,12 +1,12 @@
 #pragma once
 
-#include <autogen/Object.hpp>
+#include <il2cpp/type.hpp>
 
 namespace System::Collections::Generic {
 
 template <class T>
-struct List : ::Object {
-    ::Array<T>* _items;
+struct List : il2cpp::Il2CppClass {
+    il2cpp::array<T>* _items;
     std::int32_t _size;
     std::int32_t _version;
     struct Il2CppObject* _syncRoot;

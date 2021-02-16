@@ -1,5 +1,7 @@
 #pragma once
 
+#include <il2cpp/core.hpp>
+
 namespace ark
 {
     namespace method_info
@@ -12,15 +14,15 @@ namespace ark
     } // method_info
 
     template<class K>
-    struct meta
+    struct meta : il2cpp::Il2CppClass
     {
         struct StaticFields { K* instance = nullptr; };
 
         static K* instance() {
+            return nullptr;
+            /*
             if (K::get_class()->static_fields == nullptr) return nullptr;
-            return K::get_class()->statics()->instance;
+            return K::get_class()->statics()->instance;*/
         }
-
-        static Class<K>* get_class() { return Class<K>::find(K::internal_name); }
     };
 } // ark
