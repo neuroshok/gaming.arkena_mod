@@ -12,7 +12,7 @@ struct PlayerControl;
 struct GameData : InnerNet::InnerNetObject, ark::meta<GameData> {
 
     // EGLJNOMOGNP.CAAACHLJJNE in 2020.12.9s
-    struct TaskInfo : il2cpp::Il2CppClass {
+    struct TaskInfo : il2cpp::Il2CppObject {
         // [marker] is PlayerInfo.Tasks
         std::uint32_t Id;
         std::uint8_t TypeId;
@@ -21,7 +21,7 @@ struct GameData : InnerNet::InnerNetObject, ark::meta<GameData> {
 
 
     // EGLJNOMOGNP.DCJMABDDJCF in 2020.12.9s
-    struct PlayerInfo : il2cpp::Il2CppClass {
+    struct PlayerInfo : il2cpp::Il2CppObject {
         // [marker] is GameData.AllPlayers
         std::uint8_t PlayerId;
         System::String* PlayerName;

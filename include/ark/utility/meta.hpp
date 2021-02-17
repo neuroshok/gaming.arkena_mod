@@ -13,8 +13,9 @@ namespace ark
         inline uintptr_t rva();
     } // method_info
 
+    // sizeof(meta) == 0
     template<class K>
-    struct meta : il2cpp::Il2CppClass
+    struct meta
     {
         struct StaticFields { K* instance = nullptr; };
 

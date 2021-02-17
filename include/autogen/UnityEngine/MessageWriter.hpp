@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-struct alignas(4) MessageWriter : il2cpp::Il2CppClass
+struct alignas(4) MessageWriter : il2cpp::Il2CppObject
 {
     void Write(std::uint8_t v)
     {

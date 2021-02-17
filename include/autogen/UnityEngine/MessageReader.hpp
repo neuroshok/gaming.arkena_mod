@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-struct alignas(4) MessageReader : il2cpp::Il2CppClass
+struct alignas(4) MessageReader : il2cpp::Il2CppObject
 {
     il2cpp::array<std::byte>* buffer;//struct Byte__Array *Buffer;
 

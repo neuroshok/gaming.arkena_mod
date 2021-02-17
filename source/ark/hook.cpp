@@ -8,34 +8,11 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
 #include <autogen/System/String.hpp>
-#include <autogen/System/String.hpp>
 
+#include <il2cpp/api.hpp>
 
 #define hkr(R, H) hook<&H>::init<R>()
 #define hk(H) hook<&H>::init<>()
-
-
-void f(PlayerControl* p, std::int8_t c){
-ark_trace("color ok {}", c);
-    //auto v = original(p, std::int8_t);
-/*
-    ark_trace("p {}", (uintptr_t)p);
-    ark_trace("crew {}", p->__this->Title->Text->to_utf8());
-    p->__this->Title->color.r = 0.5;
-    p->__this->Title->color.g = 0.5;
-    p->__this->Title->color.b = 0.5;
-
-    std::u16string test{ u"Arkena" };
-    ark_trace("length {} {}", p->__this->Title->Text->m_stringLength, reinterpret_cast<::String*>(p->__this->Title->Text)->length);
-
-    ::String* str = il2cpp_string_new_utf16((uint16_t*)test.data(), test.size());
-    p->__this->Title->Text = reinterpret_cast<System::String*>(str);
-*/
-
-}
-
-
-
 
 namespace ark
 {
@@ -45,8 +22,10 @@ namespace ark
             MH_Initialize();
         #endif
 
-        hk(PlayerControl::SetColor);
-        hk(PlayerControl::HandleRpc);
+
+        //hk(PlayerControl::SetColor);
+        //hk(PlayerControl::HandleRpc);
+        hkr(bool, IntroCutScene::CKACLKCOJFO::MoveNext);
         /*
         hkr(bool, IntroCutScene::MoveNext);
         hk(InnerNet::InnerNetClient::Update);
@@ -59,3 +38,4 @@ namespace ark
 } // ark
 
 #undef hk
+#undef hkr

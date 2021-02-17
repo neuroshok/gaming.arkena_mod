@@ -5,7 +5,7 @@
 namespace System::Collections::Generic {
 
 template <class T>
-struct List : il2cpp::Il2CppClass {
+struct List : il2cpp::Il2CppObject {
     il2cpp::array<T>* _items;
     std::int32_t _size;
     std::int32_t _version;
@@ -14,11 +14,11 @@ struct List : il2cpp::Il2CppClass {
     using value_type = const T*;
 
     const value_type* begin() const {
-        return _items->m_Items;
+        return &_items->m_Items;
     }
 
     const value_type* end() const {
-        return _items->m_Items + size();
+        return &_items->m_Items + size();
     }
 
     std::size_t size() const {

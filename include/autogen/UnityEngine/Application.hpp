@@ -6,7 +6,7 @@
 
 namespace UnityEngine
 {
-    struct Application : il2cpp::Il2CppClass
+    struct Application : il2cpp::Il2CppObject
     {
         static std::string get_version()
         {

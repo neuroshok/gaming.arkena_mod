@@ -8,6 +8,8 @@
 #include <cstdint>
 #include <type_traits>
 
+using Il2CppChar = uint16_t;
+
 namespace il2cpp
 {
     template <class T>
@@ -15,7 +17,7 @@ namespace il2cpp
         il2cpp::Il2CppObject obj;
         il2cpp::Il2CppArrayBounds *bounds;
         il2cpp::il2cpp_array_size_t max_length;
-        T* m_Items[65535];
+        T* m_Items;
     };
 
     struct string {

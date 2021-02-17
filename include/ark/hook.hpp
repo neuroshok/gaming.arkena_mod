@@ -23,9 +23,9 @@ namespace ark
         using class_type = typename ark::function_trait<decltype(T)>::class_type;
         using flat_method_type = typename ark::function_trait<decltype(T)>::flat_method_type;
 
-        static void hook_function(class_type* k, Args... args)
+        static Return hook_function(class_type* k, Args... args)
         {
-            (*callback)(original, k, args...);
+            return (*callback)(original, k, args...);
         }
 
         static void make(Callback&& f)
@@ -68,16 +68,30 @@ namespace ark
         {
             process([](auto&& original, auto&& self, auto... args) -> Return_type
             {
-                if (overwrite_hooks.size() > 0)
+                if constexpr (!std::is_same_v<Return_type, void>)
                 {
-                    for (const auto& [_, hk] : overwrite_hooks) hk(self, args...);
+                    Return_type v;
+                    if (overwrite_hooks.size() > 0) for (const auto& [_, hk] : overwrite_hooks) hk(self, args...);
+                    else
+                    {
+                        for (const auto &[_, hk] : before_hooks) hk(self, args...);
+                        v = original(self, args...);
+                        for (const auto &[_, hk] : after_hooks) hk(self, args...);
+                    }
+
+                    return v;
                 }
                 else
                 {
-                    for (const auto &[_, hk] : before_hooks) hk(self, args...);
-                    original(self, args...);
-                    for (const auto &[_, hk] : after_hooks) hk(self, args...);
+                    if (overwrite_hooks.size() > 0) for (const auto& [_, hk] : overwrite_hooks) hk(self, args...);
+                    else
+                    {
+                        for (const auto &[_, hk] : before_hooks) hk(self, args...);
+                        original(self, args...);
+                        for (const auto &[_, hk] : after_hooks) hk(self, args...);
+                    }
                 }
+
             });
         }
 

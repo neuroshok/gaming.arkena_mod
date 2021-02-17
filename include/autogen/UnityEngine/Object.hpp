@@ -5,7 +5,7 @@
 namespace UnityEngine
 {
 
-    struct Object : il2cpp::Il2CppClass {
+    struct Object : il2cpp::Il2CppObject {
         std::intptr_t m_CachedPtr;
     };
 
