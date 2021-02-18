@@ -6,14 +6,16 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/KillButtonManager.hpp>
 #include <autogen/RpcCalls.hpp>
-#include <autogen/UnityEngine/MessageReader.hpp>
-#include <autogen/UnityEngine/MessageWriter.hpp>
+#include <autogen/Hazel/MessageReader.hpp>
+#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/AmongUsClient.hpp>
 
 #include <random>
 
 // settings
 // other players can identify a marked player 5s before the kill ?
+
+//using namespace Hazel;
 
 static bool original_value;
 
@@ -25,9 +27,9 @@ namespace ark::mods
         : mod(c, "whisperer")
         , whisperer_id_{ 255 }
         , is_marked_{ false }
-        , marked_id_{ 0 }
-        , kill_delay_{ 8 }
-        , whisper_timer_{ 25 }
+        , marked_id_{ 255 }
+        , kill_delay_{ 2 }
+        , whisper_timer_{ 5 }
         , whisper_range_{ 1.2 }
         , whisper_kill_range_{ 1.8 }
     {}
@@ -35,13 +37,14 @@ namespace ark::mods
 
     void whisperer::do_whisper(KillButtonManager* kill_button)
     {
+        ark_trace("do whisper");
         auto closest_player = mod::closest_player(mod::player_control())->PlayerId;
         auto marked_distance = mod::player_distance(mod::player_control(), mod::player_control(closest_player));
 
         auto now = std::chrono::system_clock::now();
-        ark_trace("time {} {}", std::chrono::duration_cast<std::chrono::seconds>(now - last_kill_time_ ).count(), std::chrono::seconds(whisper_timer_).count());
+        ark_trace("time {} {}", std::chrono::duration_cast<std::chrono::seconds>(now - last_kill_time_).count(), std::chrono::seconds(whisper_timer_).count());
         if (marked_distance > whisper_kill_range_
-            || std::chrono::duration_cast<std::chrono::seconds>(now - last_kill_time_ ) < std::chrono::seconds(whisper_timer_)) return;
+            || std::chrono::duration_cast<std::chrono::seconds>(now - last_kill_time_) < std::chrono::seconds(whisper_timer_)) return;
 
 
         marked_id_ = closest_player;
@@ -62,10 +65,10 @@ namespace ark::mods
         // marked too far from a target, selfkill
         if (mod::player_distance(mod::player_control(marked_id_), marked_target) > whisper_kill_range_) marked_target = mod::player_control(marked_id_);
 
-        MessageWriter* writer = AmongUsClient::Instance()->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpc_mod::generic_kill);
+        MessageWriter* writer = AmongUsClient::statics()->instance->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpc_mod::generic_kill);
         writer->Write(marked_id_);
         writer->Write(marked_target->PlayerId);
-        AmongUsClient::Instance()->FinishRpcImmediately(writer);
+        AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
 
         on_kill(marked_id_, marked_target->PlayerId);
         marked_id_ = 0;
@@ -81,21 +84,31 @@ namespace ark::mods
     {
         last_kill_time_ = std::chrono::system_clock::now();
 
+        mod::hook_intro();
+
         // ShipStatus::Begin
         ark::hook<&ShipStatus::Begin>::after(this, [this](ShipStatus* self)
             {
                 ark_trace("Game start");
 
-                last_kill_time_ = std::chrono::system_clock::now();
-
-                for (auto* player : *GameData::instance()->AllPlayers)
+                for (auto* player : *GameData::statics()->instance->AllPlayers)
                 {
+                    auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
                     ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+
                 }
+
+                if (whisperer_id_ == mod::player()->PlayerId)
+                {
+                    mod::set_player_name_color(mod::player_control(whisperer_id_), 0.5, 0, 0.5);
+                    mod::set_intro( {.title = "Whisperer", .subtitle = std::to_string(whisperer_id_), .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
+                }
+                else mod::set_intro( {.title = mod::player()->PlayerName->to_utf8(), .subtitle = "Whisper someone", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
+
             }
         );
 
-        ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [&](InnerNet::InnerNetClient* self)
+        ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [this](InnerNet::InnerNetClient* self)
         {
             if (is_marked_)
             {
@@ -108,9 +121,9 @@ namespace ark::mods
             [this](KillButtonManager* self)
         {
             ark_trace("TryKill");
-            do_whisper(self);
             //if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
-            //else original(self);
+            //else do_kill();
+            do_whisper(self);
         });
 
 
@@ -142,27 +155,30 @@ namespace ark::mods
                     case rpc::SetInfected:
                     {
                         auto killers_count = data->ReadByte();
+                        for (int i = 0; i < killers_count; ++i)
+                        {
+                            auto killer_id = data->ReadByte();
+                            if (i == 0) whisperer_id_ = killer_id;
+                        }
 
-                        ark_trace("killers_count {}", killers_count);
 
-                        whisperer_id_ = data->ReadByte();
                         if (whisperer_id_ == mod::player()->PlayerId)
                         {
                             mod::set_player_name_color(mod::player_control(whisperer_id_), 0.5, 0, 0.5);
+                            mod::set_intro( {.title = "Whisperer", .subtitle = std::to_string(whisperer_id_), .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
                         }
-                        ark_trace("whisperer_id_ {}", whisperer_id_);
-                        ark_trace("killer 2 {}", data->ReadByte());
+                        else mod::set_intro( {.title = mod::player()->PlayerName->to_utf8(), .subtitle = "Whisper someone", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
 
-                        break;
-                    }
+                            break;
+                        }
 
                     case rpc::EnterVent:
-                            KillButtonManager::instance()->isActive = false;
+                            //KillButtonManager::instance()->isActive = false;
                             //invent_time_ = std::chrono::system_clock::now();
 
                         break;
                     case rpc::ExitVent:
-                            KillButtonManager::instance()->isActive = true;
+                            //KillButtonManager::instance()->isActive = true;
 
 
                         break;

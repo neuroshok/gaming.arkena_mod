@@ -5,8 +5,8 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/KillButtonManager.hpp>
 #include <autogen/RpcCalls.hpp>
-#include <autogen/UnityEngine/MessageReader.hpp>
-#include <autogen/UnityEngine/MessageWriter.hpp>
+#include <autogen/Hazel/MessageReader.hpp>
+#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/AmongUsClient.hpp>
 
 #include <random>
@@ -24,7 +24,7 @@ namespace ark::mods
                 original(self);
                 ark_trace("Game start");
 
-                for (auto* player : *GameData::instance()->AllPlayers)
+                for (auto* player : *GameData::statics()->instance->AllPlayers)
                 {
                     ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
                 }
@@ -117,10 +117,10 @@ namespace ark::mods
         {
             ark_trace("do_kill {} -> {}", mod::player()->PlayerId, marked_id_);
 
-            MessageWriter* writer = AmongUsClient::Instance()->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpc_mod::sniper_kill);
+            MessageWriter* writer = AmongUsClient::statics()->instance->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpc_mod::sniper_kill);
             writer->Write(mod::player()->PlayerId);
             writer->Write(marked_id_);
-            AmongUsClient::Instance()->FinishRpcImmediately(writer);
+            AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
 
             local_kill(mod::player_control(marked_id_), mod::player_control(marked_id_));
             mod::player_control()->SetKillTimer(5);
@@ -132,9 +132,9 @@ namespace ark::mods
             auto target = mod::closest_player(mod::player_control());
             marked_id_ = target->PlayerId;
             ark_trace("do_mark {} -> {}", mod::player()->PlayerId, marked_id_);
-            MessageWriter* writer = AmongUsClient::Instance()->StartRpcImmediately(target->NetId, (std::uint8_t)rpc_mod::sniper_mark);
+            MessageWriter* writer = AmongUsClient::statics()->instance->StartRpcImmediately(target->NetId, (std::uint8_t)rpc_mod::sniper_mark);
             writer->Write(marked_id_);
-            AmongUsClient::Instance()->FinishRpcImmediately(writer);
+            AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
 
             target->SetHat(54);
         }

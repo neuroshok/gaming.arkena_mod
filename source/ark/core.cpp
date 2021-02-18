@@ -7,10 +7,10 @@
 
 /*
 #include <ark/mods/sniper.hpp>
-#include <ark/mods/whisperer.hpp>
 #include <ark/mods/zombie.hpp>
 #include <ark/mods/analysis.hpp>*/
 #include <ark/mods/testing.hpp>
+#include <ark/mods/whisperer.hpp>
 
 #include <filesystem>
 #include <iostream>
@@ -23,7 +23,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.0.30" }
+        , version_{ "0.1.0" }
         , ui_{ *this }
     {
         //ark::load_console(console_);
@@ -39,8 +39,8 @@ namespace ark
 
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
-        //load<ark::mods::whisperer>();
-        load<ark::mods::testing>();
+        load<ark::mods::whisperer>();
+        //load<ark::mods::testing>();
         //load<ark::mods::analysis>();
     }
 

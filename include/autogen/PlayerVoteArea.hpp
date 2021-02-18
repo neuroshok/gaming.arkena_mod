@@ -8,7 +8,7 @@
 #include <autogen/UnityEngine/Color.hpp>
 #include <autogen/UnityEngine/TextRenderer.hpp>
 
-class PlayerVoteArea : UnityEngine::MonoBehaviour, ark::meta<PlayerVoteArea> // TypeDefIndex: 8688
+class PlayerVoteArea : ark::meta<PlayerVoteArea, UnityEngine::MonoBehaviour> // TypeDefIndex: 8688
 {
     static constexpr auto internal_name = "HDJGDMFCHDN";
 

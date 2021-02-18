@@ -9,7 +9,7 @@
 
 namespace UnityEngine
 {
-    struct TextRenderer : UnityEngine::MonoBehaviour, ark::meta<TextRenderer>
+    struct TextRenderer : ark::meta<TextRenderer, UnityEngine::MonoBehaviour>
     {
         static constexpr auto internal_name = "AELDHKGBIFD";
 

@@ -11,8 +11,8 @@
 
 #include <il2cpp/api.hpp>
 
-#define hkr(R, H) hook<&H>::init<R>()
-#define hk(H) hook<&H>::init<>()
+#define hkr(R, H) ark_trace("init hook {}", #H); hook<&H>::init<R>()
+#define hk(H) ark_trace("init hook {}", #H); hook<&H>::init<>()
 
 namespace ark
 {
@@ -22,18 +22,15 @@ namespace ark
             MH_Initialize();
         #endif
 
-
-        //hk(PlayerControl::SetColor);
-        //hk(PlayerControl::HandleRpc);
         hkr(bool, IntroCutScene::CKACLKCOJFO::MoveNext);
-        /*
-        hkr(bool, IntroCutScene::MoveNext);
         hk(InnerNet::InnerNetClient::Update);
         hk(ShipStatus::Begin);
         hk(KillButtonManager::PerformKill);
-        hk(PlayerControl::MurderPlayer);
+
+        hk(PlayerControl::SetColor);
         hk(PlayerControl::HandleRpc);
-        hk(PlayerControl::RpcSetInfected);*/
+        hk(PlayerControl::MurderPlayer);
+        hk(PlayerControl::RpcSetInfected);
     }
 } // ark
 

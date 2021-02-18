@@ -2,20 +2,30 @@
 #define INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD
 
 #include <autogen/GameData.hpp>
+#include <autogen/UnityEngine/Color.hpp>
 
 class PlayerControl;
 class ShipStatus;
 
 namespace ark
 {
+    namespace ui { class core; }
     class core;
 
     class mod
     {
-    public:
-        bool enabled_state = false;
+        friend class ark::ui::core;
 
+    public:
         explicit mod(ark::core& core, std::string name);
+
+        struct intro
+        {
+            std::string title;
+            std::string subtitle;
+            UnityEngine::Color title_color = {};
+            UnityEngine::Color subtitle_color = {};
+        };
 
         ark::core& core();
 
@@ -28,10 +38,15 @@ namespace ark
         const std::string& name() const;
         bool enabled() const;
 
+        void hook_intro();
+        void set_intro(mod::intro intro);
+
         static void set_player_name_color(PlayerControl*, float r, float g, float b, float a = 1);
 
         static GameData::PlayerInfo* player();
         static PlayerControl* player_control();
+        static PlayerControl* player_name();
+
 
         static GameData::PlayerInfo* player(int id);
         static GameData::PlayerInfo* player(PlayerControl* pc);
@@ -42,12 +57,14 @@ namespace ark
         static float player_distance(PlayerControl* source, PlayerControl* target);
         static PlayerControl* closest_player(PlayerControl* source = mod::player_control());
 
-        std::vector<std::function<void()>> hooks_;
+        std::vector<std::function<void()>> hooks_deleter_;
 
     private:
         ark::core& core_;
         std::string name_;
         bool enabled_;
+
+        mod::intro intro_;
     };
 }// ark
 

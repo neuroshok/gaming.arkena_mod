@@ -121,57 +121,33 @@ namespace ark::mods
 
     void testing::on_enable()
     {
-        ark::hook<&PlayerControl::SetColor>::after(this, [](auto&& pc, auto&& c)
-        {
+         auto class_ = ::find_method<void(*)(PlayerControl*, std::uint8_t)>("", "FFGALNAPKCD", "SetColor");
 
+         mod::player_control()->SetColor(9);
+
+         ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::after(this, [&](auto&& self) -> bool
+        {
+            ark_trace("MoveNext {}", (uintptr_t)IntroCutScene::instance());
         });
 
+         /*
+        spdlog::error(": {}", (uintptr_t)class_->_1.nestedTypes);
+        spdlog::error(": {}", class_->_2.nested_type_count);
 
-        ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::before(this, [](auto&& self) -> bool
+        spdlog::error(": {}", (uintptr_t)(*class_->_1.nestedTypes));
+        spdlog::error(": {}", (*class_->_1.nestedTypes)->_1.name);
+        spdlog::error(": {}", (*(class_->_1.nestedTypes + 1))->_1.name);*/
+
+        /*
+        ark::hook<&IntroCutScene::MoveNext>::after(this, [&](auto&& self) -> bool
         {
-            self->subtitle.r = 147.f / 255;
-            self->subtitle.g = 112.f / 255;
-            self->subtitle.b = 219.f / 255;
-            self->fade_out_color.g = 0;
-            self->fade_out_color.r = 0;
-            self->fade_out_color.b = 0;
-            self->title.r = 100.f / 255;
-            self->title.g = 149.f / 255;
-            self->title.b = 237.f / 255;
-
-            self->__this->Title->Text = System::String::make("Sorcerers");
-            self->__this->ImpostorText->Text = System::String::make("Whisperer\n[FFFFFFFF]Arkena John Bernard");
-
-            std::string test;
-
-            PlayerControl* tmp = nullptr;
-            for (auto* player : *self->yourTeam)
-            {
-                tmp = const_cast<PlayerControl*>(player);
-            }
-
-            auto array_size = 3;
-
-            auto ar = il2cpp::api::array_new<PlayerControl>(tmp->klass, array_size);
-
-            for (int i = 0; i < array_size; ++i)
-            {
-                PlayerControl** address = &ar->m_Items + i;
-                *address = tmp;
-            }
-
-            ar->m_Items = tmp;
-            ar->max_length = array_size;
-            ar->obj.klass = tmp->klass;
-            self->yourTeam->_items = ar;
-            self->yourTeam->_size = array_size;
-
-
-            self->isImpostor = false;
-
-          return false;
-        });
-
+            ark_trace("data {}", (uintptr_t)IntroCutScene::instance());
+        });*/
+        /*
+        ark::hook<&InnerNet::InnerNetClient::Update>::before(this, [&](auto&& self)
+        {
+            ark_trace("hook 1");
+        });*/
     }
     void testing::on_disable()
     {

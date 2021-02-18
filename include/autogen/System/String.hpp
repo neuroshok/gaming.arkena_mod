@@ -12,7 +12,7 @@ struct String : il2cpp::Il2CppObject {
 
     static String* make(std::string data)
     {
-        return reinterpret_cast<String*>(il2cpp::api::il2cpp_string_new_len(data.data(), data.size()));
+        return reinterpret_cast<String*>(il2cpp::api::string_new_len(data.data(), data.size()));
     }
 
     std::u16string_view to_view() const {

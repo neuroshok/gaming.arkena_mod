@@ -24,7 +24,6 @@ namespace ark::mods
         void do_whisper(KillButtonManager*);
         void on_whisper(std::uint8_t target);
 
-        //void role_distribution();
 
     private:
         std::uint8_t whisperer_id_;

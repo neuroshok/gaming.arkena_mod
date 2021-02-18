@@ -11,9 +11,9 @@
 
 template<class T> using List = System::Collections::Generic::List<T>;
 
-struct IntroCutScene : UnityEngine::MonoBehaviour// TypeDefIndex: 8688
+struct IntroCutScene : ark::meta<IntroCutScene, UnityEngine::MonoBehaviour> // TypeDefIndex: 8688
 {
-    static constexpr auto internal_name = "PENEIDJGGAF";
+    ark_meta("", "PENEIDJGGAF");
 
 	UnityEngine::TextRenderer* Title; // 0xC
 	UnityEngine::TextRenderer* ImpostorText; // 0x10
@@ -27,6 +27,8 @@ struct IntroCutScene : UnityEngine::MonoBehaviour// TypeDefIndex: 8688
 
     struct CKACLKCOJFO : il2cpp::Il2CppObject
     {
+        ark_meta("", "CKACLKCOJFO");
+
         // Fields
         int __state; // 0x8
         struct object* __current; // 0xC

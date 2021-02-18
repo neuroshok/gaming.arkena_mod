@@ -34,11 +34,11 @@ namespace ark
 
             if (MH_CreateHook((void*)address, reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original)) != MH_OK)
             {
-                ark_trace("MH_CreateHook failed");
+                ark_trace("MH_CreateHook failed {}", (uintptr_t)address);
             }
             if (MH_EnableHook((void*)address) != MH_OK)
             {
-                ark_trace("MH_EnableHook failed");
+                ark_trace("MH_EnableHook  {}", (uintptr_t)address);
             }
 
             callback = std::move(f);
@@ -102,7 +102,7 @@ namespace ark
             before_hooks.emplace(mod->name(), std::move(method));
 
             // deleter
-            mod->hooks_.emplace_back([mod] { before_hooks.erase(mod->name()); });
+            mod->hooks_deleter_.emplace_back([mod] { before_hooks.erase(mod->name()); });
         }
 
         static void after(ark::mod* mod, method_type method)
@@ -112,7 +112,7 @@ namespace ark
             after_hooks.emplace(mod->name(), std::move(method));
 
             // deleter
-            mod->hooks_.emplace_back([mod] { after_hooks.erase(mod->name()); });
+            mod->hooks_deleter_.emplace_back([mod] { after_hooks.erase(mod->name()); });
         }
 
         static void overwrite(ark::mod* mod, method_type method)
@@ -123,7 +123,7 @@ namespace ark
             overwrite_hooks.emplace(mod->name(), std::move(method));
 
             // deleter
-            mod->hooks_.emplace_back([mod] { overwrite_hooks.erase(mod->name()); });
+            mod->hooks_deleter_.emplace_back([mod] { overwrite_hooks.erase(mod->name()); });
         }
 
     private:

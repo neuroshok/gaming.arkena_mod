@@ -10,7 +10,7 @@
 
 namespace UnityEngine
 {
-    struct TextRenderer : InnerNet::InnerNetObject, ark::meta<TextRenderer>
+    struct TextRenderer : ark::meta<TextRenderer, InnerNet::InnerNetObject>
     {
         static constexpr auto internal_name = "OOCJALPKPEP";
         

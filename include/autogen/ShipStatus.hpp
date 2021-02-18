@@ -1,11 +1,14 @@
 #pragma once
 
+#include <ark/class.hpp>
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/UnityEngine/Vector2.hpp>
 #include <autogen/UnityEngine/Color.hpp>
 
 // HLBNNHFCNAJ in 2020.12.9s
-struct ShipStatus : InnerNet::InnerNetObject {
+struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject> {
+    static inline auto internal_name = "HLBNNHFCNAJ";
+
     enum class MapType : std::int32_t {
         Ship = 0,
         Hq = 1,
@@ -57,3 +60,8 @@ struct ShipStatus : InnerNet::InnerNetObject {
     // No [marker], name shouldn't change
     void Begin();
 };
+
+namespace ark::method_info
+{
+    template<> method_rva(ShipStatus::Begin, 0x979B20)
+}

@@ -6,7 +6,7 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
 #include <autogen/RpcCalls.hpp>
-#include <autogen/UnityEngine/MessageWriter.hpp>
+#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/InnerNet/InnerNetClient.hpp>
 
 #include <ark/mods/zombie.hpp>
@@ -89,7 +89,7 @@ namespace ark::mods
     {
         ark_trace("Game start");
 
-        for (auto* player : *GameData::instance()->AllPlayers)
+        for (auto* player : *GameData::statics()->instance->AllPlayers)
         {
             ark_trace("Name : {} - {}", player->PlayerName->to_utf8(), player->IsImpostor);
             ark_trace("Impostor : {}", player->IsImpostor);
@@ -118,8 +118,8 @@ namespace ark::mods
             (*it)->IsImpostor = true;
         }*/
 
-        //auto g = GameData::instance()->get_method<void(*)(GameData*)>("RpcUpdateGameData");
-        //g(GameData::instance());
+        //auto g = GameData::statics()->instance->get_method<void(*)(GameData*)>("RpcUpdateGameData");
+        //g(GameData::statics()->instance);
 
         //zombie_players_.emplace_back(target->PlayerId);
 

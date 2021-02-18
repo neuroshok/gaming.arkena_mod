@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ark/class.hpp>
+#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/System/Collections/Generic/List.hpp>
 #include <autogen/UnityEngine/TextRenderer.hpp>
@@ -10,19 +11,24 @@ template<class T> using List = System::Collections::Generic::List<T>;
 using Vector2 = UnityEngine::Vector2;
 using TextRenderer = UnityEngine::TextRenderer;
 
-struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // TypeDefIndex: 8921
+struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // TypeDefIndex: 8921
 {
-	static inline auto internal_name = "FFGALNAPKCD";
-	std::int32_t MKMDLEOKDIN; // 0x24
+    ark_meta("", "FFGALNAPKCD");
+
+    struct internal_statics
+    {
+        PlayerControl* local; // 0x0
+    };
+
+	std::int32_t LastStartCounter; // 0x24
 	std::int8_t PlayerId; // 0x28
 	float MaxReportDistance; // 0x2C
 	bool moveable; // 0x30
 	bool inVent; // 0x31
-	PlayerControl* LocalPlayer; // 0x0
-	struct EGLJNOMOGNP_DCJMABDDJCF* NDGFFHMFGIG; // 0x34
+	GameData::PlayerInfo* _cachedData; // 0x34
 	struct AudioSource* FootSteps; // 0x38
 	struct AudioClip* KillSfx; // 0x3C
-	struct MNGKAKKOKPN* KillAnimations; // 0x40
+	struct KillAnimation* KillAnimations; // 0x40
 
 	float killTimer; // 0x44
 	std::int32_t RemainingEmergencies; // 0x48
@@ -59,8 +65,8 @@ struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // Typ
 	void NOABIGDJKAG(struct PILBGHDHJLH* OJGILIGMHKL) { return method_call(NOABIGDJKAG, OJGILIGMHKL); } // 0x8ED160
 	void JCLKGBPJOJB(std::int8_t POCIJABNOLE) { return method_call(JCLKGBPJOJB, POCIJABNOLE); } // 0x8E8470
 	void IOKMGLKDMIB(std::int8_t BOFNMFDDECJ) { return method_call(IOKMGLKDMIB, BOFNMFDDECJ); } // 0x8E83E0
-	void KLMOINNFPAD() { return method_call(KLMOINNFPAD, ); } // 0x8E9E60
-	void EFIBDOFNNAN() { return method_call(EFIBDOFNNAN, ); } // 0x8E3FA0
+	void KLMOINNFPAD() { return method_call(KLMOINNFPAD); } // 0x8E9E60
+	void EFIBDOFNNAN() { return method_call(EFIBDOFNNAN); } // 0x8E3FA0
 	void JGOCHENJAIM(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(JGOCHENJAIM, CAKODNGLPDF); } // 0x8E8EF0
 	void PCALDAADHKE(std::uint32_t FHPHKIBKMHO) { return method_call(PCALDAADHKE, FHPHKIBKMHO); } // 0x8EEC10
 	void SetSkin(std::uint32_t EPBONDIDGDF) { return method_call(SetSkin, EPBONDIDGDF); } // 0x8F1840
@@ -72,38 +78,38 @@ struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // Typ
 	void GMINMCCBMLN(struct SkinData* ADLNPGGEOHF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(GMINMCCBMLN, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
 	void GKLFFKMMIBK(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(GKLFFKMMIBK, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E5B20
 	void OGOIANMJKOE(PlayerControl* CAKODNGLPDF) { return method_call(OGOIANMJKOE, CAKODNGLPDF); } // 0x8ED770
-	void RemoveInfected() { return method_call(RemoveInfected, ); } // 0x8EF8E0
+	void RemoveInfected() { return method_call(RemoveInfected); } // 0x8EF8E0
 	void OKLDLAAHNII(struct EGLJNOMOGNP_DCJMABDDJCF* KINIPFCLILM) { return method_call(OKLDLAAHNII, KINIPFCLILM); } // 0x8EE270
 	void SetName(struct string* MLBHDDBAPLO) { return method_call(SetName, MLBHDDBAPLO); } // 0x8F0ED0
-	void EABGDJAGKDL() { return method_call(EABGDJAGKDL, ); } // 0x8E3910
+	void EABGDJAGKDL() { return method_call(EABGDJAGKDL); } // 0x8E3910
 	void Deserialize(struct MessageReader* ALMCIJKELCP, bool BILBBBFMCOB) { return method_call(Deserialize, ALMCIJKELCP, BILBBBFMCOB); } // 0x8E36C0
 	bool PINNDOFILDJ(struct string* PGIBDIEPGIC) { return method_call(PINNDOFILDJ, PGIBDIEPGIC); } // 0x8EF090
-	void _cctor() { return method_call(_cctor, ); } // 0x8F1D50
+	void _cctor() { return method_call(_cctor); } // 0x8F1D50
 	void POLIPJOOJEC(struct string* MLBHDDBAPLO) { return method_call(POLIPJOOJEC, MLBHDDBAPLO); } // 0x8EF3D0
 	void HNHICMKMJEO(std::uint32_t AOONHAJNJLD) { return method_call(HNHICMKMJEO, AOONHAJNJLD); } // 0x8E77E0
 	//// IEnumerator CoStartMeeting(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(CoStartMeeting, CAKODNGLPDF); } // 0x8E2850
 	void OHKFOKNOGPO(std::int8_t BOFNMFDDECJ) { return method_call(OHKFOKNOGPO, BOFNMFDDECJ); } // 0x8ED820
-	void Revive() { return method_call(Revive, ); } // 0x8EFCA0
+	void Revive() { return method_call(Revive); } // 0x8EFCA0
 	void EFCINMDKACB(std::uint32_t AOONHAJNJLD) { return method_call(EFCINMDKACB, AOONHAJNJLD); } // 0x8E3E00
 	void JPAAAADKEGH(struct Renderer* CNJAHEAJNAO) { return method_call(JPAAAADKEGH, CNJAHEAJNAO); } // 0x8E9490
 	void NJCBINJCNMF(std::int8_t BOFNMFDDECJ) { return method_call(NJCBINJCNMF, BOFNMFDDECJ); } // 0x8EC940
 	void MDBMDMHLIIC(std::uint32_t AOONHAJNJLD) { return method_call(MDBMDMHLIIC, AOONHAJNJLD); } // 0x8EAFC0
-	void NIBIJEKAEPN() { return method_call(NIBIJEKAEPN, ); } // 0x8EC650
+	void NIBIJEKAEPN() { return method_call(NIBIJEKAEPN); } // 0x8EC650
 	void AJPLICOEPOE(std::uint32_t AOONHAJNJLD) { return method_call(AJPLICOEPOE, AOONHAJNJLD); } // 0x8E1180
 	void RpcCompleteTask(std::uint32_t AOONHAJNJLD) { return method_call(RpcCompleteTask, AOONHAJNJLD); } // 0x8EFE90
 	void FHHEGFFCAIK(struct Renderer* CNJAHEAJNAO) { return method_call(FHHEGFFCAIK, CNJAHEAJNAO); } // 0x8E4910
 	void AddSystemTask(struct LJFDDJHBOGF* DNKIAHLBJJC) { return method_call(AddSystemTask, DNKIAHLBJJC); } // 0x8E1450
-	void Awake() { return method_call(Awake, ); } // 0x8E1670
+	void Awake() { return method_call(Awake); } // 0x8E1670
 	void SetColor(std::int8_t POCIJABNOLE) { return method_call(SetColor, POCIJABNOLE); } // 0x8F0AE0
 	//void SetPlayerMaterialColors(struct Renderer* CNJAHEAJNAO) { return method_call(SetPlayerMaterialColors, CNJAHEAJNAO); } // 0x8F1560
-	bool JMFFFDJCKDE() { return method_call(JMFFFDJCKDE, ); } // 0x8E92A0
-	void Exiled() { return method_call(Exiled, ); } // 0x8E4340
-	struct EGLJNOMOGNP_DCJMABDDJCF* get_Data() { return method_call(get_Data, ); } // 0x8F2140
-	void LILBDMCOOFB() { return method_call(LILBDMCOOFB, ); } // 0x8EA8B0
+	bool JMFFFDJCKDE() { return method_call(JMFFFDJCKDE); } // 0x8E92A0
+	void Exiled() { return method_call(Exiled); } // 0x8E4340
+	struct EGLJNOMOGNP_DCJMABDDJCF* get_Data() { return method_call(get_Data); } // 0x8F2140
+	void LILBDMCOOFB() { return method_call(LILBDMCOOFB); } // 0x8EA8B0
 	void PAPJPDPAFNN(float IOEIMBPLJDJ) { return method_call(PAPJPDPAFNN, IOEIMBPLJDJ); } // 0x8EEBC0
-	PlayerControl* OAFBLFBAOJJ() { return method_call(OAFBLFBAOJJ, ); } // 0x8ED350
+	PlayerControl* OAFBLFBAOJJ() { return method_call(OAFBLFBAOJJ); } // 0x8ED350
 	void set_Visible(bool HIJOHCLAKMG) { return method_call(set_Visible, HIJOHCLAKMG); } // 0x8F21E0
-	void KCCPOLAGNBE() { return method_call(KCCPOLAGNBE, ); } // 0x8E9520
+	void KCCPOLAGNBE() { return method_call(KCCPOLAGNBE); } // 0x8E9520
 	//void SetSkinImage(struct SkinData* ADLNPGGEOHF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
 	void ONKBPFEBJHJ(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(ONKBPFEBJHJ, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8EE800
 	void FDOIKGIEGGM(std::int8_t POCIJABNOLE) { return method_call(FDOIKGIEGGM, POCIJABNOLE); } // 0x8E46B0
@@ -112,31 +118,31 @@ struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // Typ
 	void SetHat(std::uint32_t CAEHOLMOBNA, std::int32_t NPFHOONFFDI) { return method_call(SetHat, CAEHOLMOBNA, NPFHOONFFDI); } // 0x8F0C30
 	void FGBMJINLILE(std::int8_t POCIJABNOLE) { return method_call(FGBMJINLILE, POCIJABNOLE); } // 0x8E4800
 	void KOEMJMNGPIN(bool EHNJJAPKPMF, std::int8_t PFDMDIMFBFI) { return method_call(KOEMJMNGPIN, EHNJJAPKPMF, PFDMDIMFBFI); } // 0x8E9F90
-	// IEnumerator APHAPNBBNDJ() { return method_call(APHAPNBBNDJ, ); } // 0x8E1330
+	// IEnumerator APHAPNBBNDJ() { return method_call(APHAPNBBNDJ); } // 0x8E1330
 	void LICGEEFNELO(std::int8_t BOFNMFDDECJ) { return method_call(LICGEEFNELO, BOFNMFDDECJ); } // 0x8EA3C0
 	//void SetPlayerMaterialColors(struct Color* HHJCOBKGBFF, struct Renderer* CNJAHEAJNAO) { return method_call(SetPlayerMaterialColors, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8F1430
 	void RpcSetColor(std::int8_t POCIJABNOLE) { return method_call(RpcSetColor, POCIJABNOLE); } // 0x8F02E0
-	void Start() { return method_call(Start, ); } // 0x8F1940
+	void Start() { return method_call(Start); } // 0x8F1940
 	void CLGJLJMBNFP(std::uint32_t FHPHKIBKMHO) { return method_call(CLGJLJMBNFP, FHPHKIBKMHO); } // 0x8E1E50
-	bool MKDHLHMMHAK() { return method_call(MKDHLHMMHAK, ); } // 0x8EB960
-	bool get_CanMove() { return method_call(get_CanMove, ); } // 0x8F1ED0
+	bool MKDHLHMMHAK() { return method_call(MKDHLHMMHAK); } // 0x8EB960
+	bool get_CanMove() { return method_call(get_CanMove); } // 0x8F1ED0
 	void HAAGONNLDOH(struct byte* JPGEIBIBJPJ) { return method_call(HAAGONNLDOH, JPGEIBIBJPJ); } // 0x8E6420
 	void RpcSetName(struct string* MLBHDDBAPLO) { return method_call(RpcSetName, MLBHDDBAPLO); } // 0x8F0570
-	bool Serialize(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(Serialize, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10
+	bool Serialize(MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(Serialize, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10
 	void JNDBNEEOINI(std::int8_t BOFNMFDDECJ) { return method_call(JNDBNEEOINI, BOFNMFDDECJ); } // 0x8E92D0
 	void CKKLCFLFACL(struct PILBGHDHJLH* OJGILIGMHKL) { return method_call(CKKLCFLFACL, OJGILIGMHKL); } // 0x8E1CB0
 	void RemoveTask(struct PILBGHDHJLH* OJGILIGMHKL) { return method_call(RemoveTask, OJGILIGMHKL); } // 0x8EF9D0
-	void NEKDHECGAHD() { return method_call(NEKDHECGAHD, ); } // 0x8EC5D0
+	void NEKDHECGAHD() { return method_call(NEKDHECGAHD); } // 0x8EC5D0
 	void RpcStartMeeting(struct EGLJNOMOGNP_DCJMABDDJCF* KINIPFCLILM) { return method_call(RpcStartMeeting, KINIPFCLILM); } // 0x8F08C0
 	void GKNFBKIGFNO(std::uint32_t FHPHKIBKMHO) { return method_call(GKNFBKIGFNO, FHPHKIBKMHO); } // 0x8E6040
-	bool KKJNEPGMAID(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(KKJNEPGMAID, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10
+	bool KKJNEPGMAID(MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(KKJNEPGMAID, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10
 	void CmdCheckName(struct string* MLBHDDBAPLO) { return method_call(CmdCheckName, MLBHDDBAPLO); } // 0x8E26E0
 	bool HBPIGGMJMPP(struct string* PGIBDIEPGIC) { return method_call(HBPIGGMJMPP, PGIBDIEPGIC); } // 0x8E6F10
 	void KEDGNMIOFDJ(PlayerControl* CAKODNGLPDF) { return method_call(KEDGNMIOFDJ, CAKODNGLPDF); } // 0x8E9920
 	void CFJNKPGNJOP(std::int32_t NPFHOONFFDI, struct Renderer* CNJAHEAJNAO) { return method_call(CFJNKPGNJOP, NPFHOONFFDI, CNJAHEAJNAO); } // 0x8E1940
-	void DKIGBFCJNIH() { return method_call(DKIGBFCJNIH, ); } // 0x8E2B60
+	void DKIGBFCJNIH() { return method_call(DKIGBFCJNIH); } // 0x8E2B60
 	void INEEAAKMPOE(std::uint32_t EPBONDIDGDF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(INEEAAKMPOE, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E8340
-	void EDAHCGIIGEC() { return method_call(EDAHCGIIGEC, ); } // 0x8E3B50
+	void EDAHCGIIGEC() { return method_call(EDAHCGIIGEC); } // 0x8E3B50
 	bool RpcSendChat(struct string* PGIBDIEPGIC) { return method_call(RpcSendChat, PGIBDIEPGIC); } // 0x8F0190
 	void ACDENNDCABE(std::uint32_t EPBONDIDGDF) { return method_call(ACDENNDCABE, EPBONDIDGDF); } // 0x8E1080
 	void CheckColor(std::int8_t POCIJABNOLE) { return method_call(CheckColor, POCIJABNOLE); } // 0x8E2370
@@ -147,36 +153,36 @@ struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // Typ
 	void MurderPlayer(PlayerControl* CAKODNGLPDF) { return method_call(MurderPlayer, CAKODNGLPDF); } // 0x8EBBD0
 	void OJPCECLPCCF(struct byte* JPGEIBIBJPJ) { return method_call(OJPCECLPCCF, JPGEIBIBJPJ); } // 0x8ED8B0
 	void HGBOKFKHBFC(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(HGBOKFKHBFC, IOFBPLNIJIC); } // 0x8E73C0
-	void CKOJBMDNHDC() { return method_call(CKOJBMDNHDC, ); } // 0x8E1DA0
+	void CKOJBMDNHDC() { return method_call(CKOJBMDNHDC); } // 0x8E1DA0
 	void ANPCFADOLNH(struct EGLJNOMOGNP_DCJMABDDJCF* KINIPFCLILM) { return method_call(ANPCFADOLNH, KINIPFCLILM); } // 0x8E1220
 	void PlayAnimation(std::int8_t BOFNMFDDECJ) { return method_call(PlayAnimation, BOFNMFDDECJ); } // 0x8EF4C0
 	void SetTasks(List<struct EGLJNOMOGNP_CAAACHLJJNE*>* JGBINEOMNFJ) { return method_call(SetTasks, JGBINEOMNFJ); } // 0x8F18E0
 	void CmdReportDeadBody(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(CmdReportDeadBody, CAKODNGLPDF); } // 0x8E2790
-	PlayerControl* CLKILNOCHEP() { return method_call(CLKILNOCHEP, ); } // 0x8E2050
+	PlayerControl* CLKILNOCHEP() { return method_call(CLKILNOCHEP); } // 0x8E2050
 	void RpcSetStartCounter(std::int32_t OLDMPECBIHH) { return method_call(RpcSetStartCounter, OLDMPECBIHH); } // 0x8F0840
 	void NLCGJIEDBBG(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(NLCGJIEDBBG, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8EC9D0
 	void NCPOMLBONHO(std::uint32_t FHPHKIBKMHO) { return method_call(NCPOMLBONHO, FHPHKIBKMHO); } // 0x8EC3D0
-	void FixedUpdate() { return method_call(FixedUpdate, ); } // 0x8E5110
-	void LIEICKEPEPE() { return method_call(LIEICKEPEPE, ); } // 0x8EA510
+	void FixedUpdate() { return method_call(FixedUpdate); } // 0x8E5110
+	void LIEICKEPEPE() { return method_call(LIEICKEPEPE); } // 0x8EA510
 	void HandleRpc(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(HandleRpc, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E7980
-	void UseClosest() { return method_call(UseClosest, ); } // 0x8F1CD0
+	void UseClosest() { return method_call(UseClosest); } // 0x8F1CD0
 	void EEPNJCJFCOD(std::int8_t POCIJABNOLE) { return method_call(EEPNJCJFCOD, POCIJABNOLE); } // 0x8E3CB0
 	void LPHKIEICAON(float NPHJCKDCKDD) { return method_call(LPHKIEICAON, NPHJCKDCKDD); } // 0x8EAD00
 	// IEnumerator AFLAGNHDGGH(List<struct EGLJNOMOGNP_CAAACHLJJNE*>* JGBINEOMNFJ) { return method_call(AFLAGNHDGGH, JGBINEOMNFJ); } // 0x8E1120
-	bool get_Visible() { return method_call(get_Visible, ); } // 0x8E92A0
+	bool get_Visible() { return method_call(get_Visible); } // 0x8E92A0
 	void MKAIDPJOJFP(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(MKAIDPJOJFP, CAKODNGLPDF); } // 0x8EB7A0
-	bool PJEDCGOKPII() { return method_call(PJEDCGOKPII, ); } // 0x8E92A0
+	bool PJEDCGOKPII() { return method_call(PJEDCGOKPII); } // 0x8E92A0
 	void MALCOGGEKED(bool EHNJJAPKPMF, std::int8_t PFDMDIMFBFI) { return method_call(MALCOGGEKED, EHNJJAPKPMF, PFDMDIMFBFI); } // 0x8EAE60
 	void KCDBLGOANGO(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(KCDBLGOANGO, CAKODNGLPDF); } // 0x8E9710
-	void PlayStepSound() { return method_call(PlayStepSound, ); } // 0x8EF550
+	void PlayStepSound() { return method_call(PlayStepSound); } // 0x8EF550
 	void LGKFCCNOCGF(std::int8_t POCIJABNOLE) { return method_call(LGKFCCNOCGF, POCIJABNOLE); } // 0x8EA310
 	void PHKNIONIKCK(std::int8_t BOFNMFDDECJ) { return method_call(PHKNIONIKCK, BOFNMFDDECJ); } // 0x8EEF40
 	void SetKillTimer(float NPHJCKDCKDD) { return method_call(SetKillTimer, NPHJCKDCKDD); } // 0x8F0D70
-	void LIJFIPPPLOG() { return method_call(LIJFIPPPLOG, ); } // 0x8EA5C0
+	void LIJFIPPPLOG() { return method_call(LIJFIPPPLOG); } // 0x8EA5C0
 	void PJDHDPBPHOO(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(PJDHDPBPHOO, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8EF1E0
 	void SetPetImage(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F1130
 	void KDOFBFLCHFI(std::int8_t POCIJABNOLE) { return method_call(KDOFBFLCHFI, POCIJABNOLE); } // 0x8E97D0
-	Vector2 GetTruePosition() { return method_call(GetTruePosition, ); } // 0x8E6360
+	Vector2 GetTruePosition() { return method_call(GetTruePosition); } // 0x8E6360
 	bool HGLKLEFOBAF(struct string* PGIBDIEPGIC) { return method_call(HGLKLEFOBAF, PGIBDIEPGIC); } // 0x8E74D0
 	void RpcSetHat(std::uint32_t CAEHOLMOBNA) { return method_call(RpcSetHat, CAEHOLMOBNA); } // 0x8F0380
 	void CheckName(struct string* MLBHDDBAPLO) { return method_call(CheckName, MLBHDDBAPLO); } // 0x8E2490
@@ -184,28 +190,28 @@ struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // Typ
 	void OMPDACJGDIJ(bool HIJOHCLAKMG) { return method_call(OMPDACJGDIJ, HIJOHCLAKMG); } // 0x8EE380
 	void GNDBOKNONJB(std::uint32_t AOONHAJNJLD) { return method_call(GNDBOKNONJB, AOONHAJNJLD); } // 0x8E61C0
 	void PHFBHMLPLPM(struct Color* HHJCOBKGBFF, struct Renderer* CNJAHEAJNAO) { return method_call(PHFBHMLPLPM, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8EEE10
-	bool HEBJKEEOHOK() { return method_call(HEBJKEEOHOK, ); } // 0x8E7060
+	bool HEBJKEEOHOK() { return method_call(HEBJKEEOHOK); } // 0x8E7060
 	void KHLAHAFCHHM(std::uint32_t FHPHKIBKMHO) { return method_call(KHLAHAFCHHM, FHPHKIBKMHO); } // 0x8E9A70
-	void _ctor() { return method_call(_ctor, ); } // 0x8F1DC0
-	PlayerControl* INBICOPCOCN() { return method_call(INBICOPCOCN, ); } // 0x8E8040
+	void _ctor() { return method_call(_ctor); } // 0x8F1DC0
+	PlayerControl* INBICOPCOCN() { return method_call(INBICOPCOCN); } // 0x8E8040
 	void CGOHBBOFFBC(struct string* MLBHDDBAPLO) { return method_call(CGOHBBOFFBC, MLBHDDBAPLO); } // 0x8E1AF0
-	void ENCDNKFILGC() { return method_call(ENCDNKFILGC, ); } // 0x8E4250
+	void ENCDNKFILGC() { return method_call(ENCDNKFILGC); } // 0x8E4250
 	void SetPlayerMaterialColors(std::int32_t NPFHOONFFDI, struct Renderer* CNJAHEAJNAO) { return method_call(SetPlayerMaterialColors, NPFHOONFFDI, CNJAHEAJNAO); } // 0x8F15F0
 	void FIIGIJHGODC(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(FIIGIJHGODC, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E49A0
 	void JGBHNKMJFHA(struct byte* JPGEIBIBJPJ) { return method_call(JGBHNKMJFHA, JPGEIBIBJPJ); } // 0x8E8520
 	void NPBIIAEJFFE(std::int32_t OLDMPECBIHH) { return method_call(NPBIIAEJFFE, OLDMPECBIHH); } // 0x8ED250
-	void EECEFCEEMOI() { return method_call(EECEFCEEMOI, ); } // 0x8E3C30
+	void EECEFCEEMOI() { return method_call(EECEFCEEMOI); } // 0x8E3C30
 	void RpcSyncSettings(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(RpcSyncSettings, IOFBPLNIJIC); } // 0x8F09D0
 	void Die(struct DBLJKMDLJIF* OECOPGMHMKC) { return method_call(Die, OECOPGMHMKC); } // 0x8E3700
 	void FGHBFGPILAE(struct Renderer* CNJAHEAJNAO) { return method_call(FGHBFGPILAE, CNJAHEAJNAO); } // 0x8E4880
 	void GMCHEJDFJLP(struct string* MLBHDDBAPLO) { return method_call(GMCHEJDFJLP, MLBHDDBAPLO); } // 0x8E60E0
 	void JOMBEGNNEDO(struct Color* HHJCOBKGBFF, struct Renderer* CNJAHEAJNAO) { return method_call(JOMBEGNNEDO, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8E9360
-	void OnDestroy() { return method_call(OnDestroy, ); } // 0x8EE8E0
-	void CEFHOMJLDOL() { return method_call(CEFHOMJLDOL, ); } // 0x8E1850
-	void EBEHICLEFIF() { return method_call(EBEHICLEFIF, ); } // 0x8E3990
+	void OnDestroy() { return method_call(OnDestroy); } // 0x8EE8E0
+	void CEFHOMJLDOL() { return method_call(CEFHOMJLDOL); } // 0x8E1850
+	void EBEHICLEFIF() { return method_call(EBEHICLEFIF); } // 0x8E3990
 	void EGKPFCGBADG(struct string* MLBHDDBAPLO) { return method_call(EGKPFCGBADG, MLBHDDBAPLO); } // 0x8E4160
-	void CBMEJKPGHOA() { return method_call(CBMEJKPGHOA, ); } // 0x8E1770
-	void ReportClosest() { return method_call(ReportClosest, ); } // 0x8EFAC0
+	void CBMEJKPGHOA() { return method_call(CBMEJKPGHOA); } // 0x8E1770
+	void ReportClosest() { return method_call(ReportClosest); } // 0x8EFAC0
 	void DNNIKFFODAH(struct string* MLBHDDBAPLO) { return method_call(DNNIKFFODAH, MLBHDDBAPLO); } // 0x8E3520
 	void CompleteTask(std::uint32_t AOONHAJNJLD) { return method_call(CompleteTask, AOONHAJNJLD); } // 0x8E28B0
 	void APMIKIHJHNP(struct string* MLBHDDBAPLO) { return method_call(APMIKIHJHNP, MLBHDDBAPLO); } // 0x8E1380
@@ -213,22 +219,22 @@ struct PlayerControl : InnerNet::InnerNetObject, ark::meta<PlayerControl> // Typ
 	void NMOONHOMEBI(std::int8_t BOFNMFDDECJ) { return method_call(NMOONHOMEBI, BOFNMFDDECJ); } // 0x8ED0D0
 	void FFNCCHAFDMF(std::uint32_t EPBONDIDGDF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(FFNCCHAFDMF, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E4760
 	void KHOKFCBONMN(std::int8_t BOFNMFDDECJ) { return method_call(KHOKFCBONMN, BOFNMFDDECJ); } // 0x8E9C70
-	// IEnumerator BKACPBFANPP() { return method_call(BKACPBFANPP, ); } // 0x8E1720
+	// IEnumerator BKACPBFANPP() { return method_call(BKACPBFANPP); } // 0x8E1720
 	void PMICBFLPPNH(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(PMICBFLPPNH, IOFBPLNIJIC); } // 0x8EF2C0
 	void SetSkinImage(std::uint32_t EPBONDIDGDF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage, EPBONDIDGDF, CAKODNGLPDF); } // 0x8F17A0
-	void ONIGNKDLJMI() { return method_call(ONIGNKDLJMI, ); } // 0x8EE470
+	void ONIGNKDLJMI() { return method_call(ONIGNKDLJMI); } // 0x8EE470
 	void SetPet(std::uint32_t FHPHKIBKMHO) { return method_call(SetPet, FHPHKIBKMHO); } // 0x8F1230
-	bool MDNFIPDDCBO(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(MDNFIPDDCBO, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10
+	bool MDNFIPDDCBO(MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(MDNFIPDDCBO, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10
 	void CKIPOCJFJNJ(struct PILBGHDHJLH* OJGILIGMHKL) { return method_call(CKIPOCJFJNJ, OJGILIGMHKL); } // 0x8E1BC0
 	void FINMJGBNEHP(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(FINMJGBNEHP, CAKODNGLPDF); } // 0x8E4F50
 	void KGLNLIFMIPK(std::uint32_t EPBONDIDGDF) { return method_call(KGLNLIFMIPK, EPBONDIDGDF); } // 0x8E99D0
 	void OFJDBLFDJLM(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, struct SpriteRenderer* CAKODNGLPDF) { return method_call(OFJDBLFDJLM, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8ED670
 	// IEnumerator KNKGODDCEKP(struct EGLJNOMOGNP_DCJMABDDJCF* CAKODNGLPDF) { return method_call(KNKGODDCEKP, CAKODNGLPDF); } // 0x8E9F30
-	void JJONHMOCEMN() { return method_call(JJONHMOCEMN, ); } // 0x8E90B0
+	void JJONHMOCEMN() { return method_call(JJONHMOCEMN); } // 0x8E90B0
 	void KKCAFDPBABB(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(KKCAFDPBABB, IOFBPLNIJIC); } // 0x8E9D00
 	void RpcSetPet(std::uint32_t FHPHKIBKMHO) { return method_call(RpcSetPet, FHPHKIBKMHO); } // 0x8F0610
 	void MIKCFGKJDEK(struct string* MLBHDDBAPLO) { return method_call(MIKCFGKJDEK, MLBHDDBAPLO); } // 0x8EB6B0
-	//Vector2 PAJCEBAEADA() { return method_call(PAJCEBAEADA, ); } // 0x8EEB00
+	//Vector2 PAJCEBAEADA() { return method_call(PAJCEBAEADA); } // 0x8EEB00
 	void FDAKHKKFJIK(struct Color* HHJCOBKGBFF, struct Renderer* CNJAHEAJNAO) { return method_call(FDAKHKKFJIK, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8E4580
 	void MEEAEDBNABI(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(MEEAEDBNABI, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8EB060
 	void RpcSendChatNote(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(RpcSendChatNote, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8F00B0

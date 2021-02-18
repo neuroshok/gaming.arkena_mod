@@ -1,6 +1,11 @@
 #pragma once
 
 #include <il2cpp/core.hpp>
+#include <il2cpp/api.hpp>
+
+#define ark_meta(NS, Name) \
+static inline auto internal_ns = NS; \
+static inline auto internal_name = Name
 
 namespace ark
 {
@@ -14,16 +19,14 @@ namespace ark
     } // method_info
 
     // sizeof(meta) == 0
-    template<class K>
-    struct meta
+    template<class K, class... Bases>
+    struct meta : Bases...
     {
-        struct StaticFields { K* instance = nullptr; };
-
-        static K* instance() {
-            return nullptr;
-            /*
-            if (K::get_class()->static_fields == nullptr) return nullptr;
-            return K::get_class()->statics()->instance;*/
+        static auto statics()
+        {
+            static auto k = il2cpp::api::get_class(K::internal_ns, K::internal_name);
+            assert(k);
+            return reinterpret_cast<typename K::internal_statics*>(k->static_fields);
         }
     };
 } // ark

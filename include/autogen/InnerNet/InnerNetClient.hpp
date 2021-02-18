@@ -1,22 +1,15 @@
 #pragma once
 
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
+#include <ark/class.hpp>
 
-struct MessageWriter;
+#include <autogen/UnityEngine/MonoBehaviour.hpp>
 
 namespace InnerNet {
 
-// PJBHKAHJEMG in 2020.10.8i
-// DNAFMCDBMCI in 2020.10.22s
-// DBDDAJAICFN in 2020.11.4s
-// FMJPJKCNIKM in 2020.11.17s
 // KHNHJFFECBP in 2020.12.9s
-struct InnerNetClient : UnityEngine::MonoBehaviour {
-    // InnerNetClient.IFLBIJFJPMK in 2020.9.22
-    // PJBHKAHJEMG.KDKPEGOCIJA in 2020.10.8i
-    // DNAFMCDBMCI.JPCEFDHGHAK in 2020.10.22s
-    // DBDDAJAICFN.DKEKFCCGGEO in 2020.11.4s
-    // FMJPJKCNIKM.ONHEJJJIKDI in 2020.11.17s
+struct InnerNetClient : ark::meta<InnerNetClient, UnityEngine::MonoBehaviour> {
+    ark_meta("", "KHNHJFFECBP");
+
     // KHNHJFFECBP.KGEKNMMAKKN in 2020.12.9s
     enum class GameStates : std::int32_t {
         NotJoined = 0, // [marker]
@@ -57,3 +50,9 @@ struct InnerNetClient : UnityEngine::MonoBehaviour {
 };
 
 } // namespace InnerNet
+
+using namespace InnerNet;
+namespace ark::method_info
+{
+    template<> method_rva(InnerNetClient::Update, 0xCF6360)
+}

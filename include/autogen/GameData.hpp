@@ -9,7 +9,14 @@
 struct PlayerControl;
 
 // EGLJNOMOGNP in 2020.12.9s
-struct GameData : InnerNet::InnerNetObject, ark::meta<GameData> {
+struct GameData : ark::meta<GameData, InnerNet::InnerNetObject>
+{
+    ark_meta("", "EGLJNOMOGNP");
+
+    struct internal_statics
+    {
+        GameData* instance;
+    };
 
     // EGLJNOMOGNP.CAAACHLJJNE in 2020.12.9s
     struct TaskInfo : il2cpp::Il2CppObject {
@@ -40,16 +47,15 @@ struct GameData : InnerNet::InnerNetObject, ark::meta<GameData> {
     std::int32_t TotalTasks;
     std::int32_t CompletedTasks;
 
-    struct StaticFields {
-        GameData* instance;
-    };
 
-    PlayerInfo* GetPlayerById(std::uint8_t pid)
-    {
-        return nullptr;
-    }
+    PlayerInfo* GetPlayerById(std::uint8_t id) { return method_call(GetPlayerById, id); }
 
     void RpcUpdateGameData();
     void UpdateGameData();
 
 };
+
+namespace ark::method_info
+{
+    method_rva(GameData::GetPlayerById, 0x5EB310)
+}

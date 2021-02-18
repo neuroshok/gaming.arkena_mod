@@ -60,7 +60,7 @@ namespace ark::ui
                 {
                     for (const auto& mod : core_.mods())
                     {
-                        if (ImGui::Checkbox(mod->name().c_str(), &mod->enabled_state))
+                        if (ImGui::Checkbox(mod->name().c_str(), &mod->enabled_))
                         {
                             if (mod->enabled()) mod->disable();
                             else mod->enable();
