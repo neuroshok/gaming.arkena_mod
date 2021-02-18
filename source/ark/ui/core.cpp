@@ -60,7 +60,7 @@ namespace ark::ui
                 {
                     for (const auto& mod : core_.mods())
                     {
-                        if (ImGui::Checkbox(mod->name().c_str(), &mod->enabled_))
+                        if (ImGui::Checkbox(mod->name().c_str(), &mod->ui_enabled_))
                         {
                             if (mod->enabled()) mod->disable();
                             else mod->enable();
@@ -69,15 +69,15 @@ namespace ark::ui
                     ImGui::EndTabItem();
                 }
 
-                if (ImGui::BeginTabItem("Settings"))
+                if (ImGui::BeginTabItem("Control"))
                 {
-                    ImGui::Text("Arkmongus1");
+                    ImGui::Text("soon");
                     ImGui::EndTabItem();
                 }
 
-                if (ImGui::BeginTabItem("Logs"))
+                if (ImGui::BeginTabItem("Settings"))
                 {
-                    ImGui::Text("Arkmongus1");
+                    ImGui::Text("soon");
                     ImGui::EndTabItem();
                 }
 

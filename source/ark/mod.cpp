@@ -19,6 +19,7 @@ namespace ark
         : core_{ core }
         , name_{ std::move(name) }
         , enabled_{ false }
+        , ui_enabled_{ false }
     {
     }
 
@@ -28,12 +29,14 @@ namespace ark
     {
         ark_trace("enable mod {}", name_);
         enabled_ = true;
+        ui_enabled_ = true;
         on_enable();
     }
 
     void mod::disable()
     {
         enabled_ = false;
+        ui_enabled_ = false;
         on_disable();
         ark_trace("disable mod {}", name_);
         for (const auto& hook_deleter : hooks_deleter_) hook_deleter();

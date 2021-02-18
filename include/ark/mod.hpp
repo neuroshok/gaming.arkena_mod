@@ -64,6 +64,8 @@ namespace ark
         std::string name_;
         bool enabled_;
 
+        bool ui_enabled_;
+
         mod::intro intro_;
     };
 }// ark
