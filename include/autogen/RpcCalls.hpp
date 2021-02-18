@@ -44,11 +44,11 @@ enum class rpc : std::uint8_t {
 
 enum class rpc_mod : std::uint8_t
 {
+    // system
+    check_mods = 31,
+    mods_status,
+    sync_mods,
     // generic
-    generic_kill = 31,
+    generic_kill,
     generic_ability,
-
-    // sniper
-    sniper_kill,
-    sniper_mark,
 };

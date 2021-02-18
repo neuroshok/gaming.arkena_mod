@@ -24,7 +24,7 @@ using namespace std::chrono_literals;
 namespace ark::mods
 {
     whisperer::whisperer(ark::core& c)
-        : mod(c, "whisperer")
+        : mod(c, "whisperer", {1, 0, 0})
         , whisperer_id_{ 255 }
         , is_marked_{ false }
         , marked_id_{ 255 }

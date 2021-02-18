@@ -1,34 +1,21 @@
 #include <Windows.h>
 
-#include <ark/hook.hpp>
 #include <ark/core.hpp>
+#include <ark/hook.hpp>
 #include <ark/log.hpp>
 #include <ark/mod.hpp>
-
-/*
-#include <ark/mods/sniper.hpp>
-#include <ark/mods/zombie.hpp>
-#include <ark/mods/analysis.hpp>*/
-#include <ark/mods/testing.hpp>
-#include <ark/mods/whisperer.hpp>
-
-#include <filesystem>
-#include <iostream>
-
-#include <ark/utility/d3dhook.hpp>
-#include <kiero.h>
-#include <minhook/include/MinHook.h>
+#include <ark/mods.hpp>
 
 namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ "0.1.0" }
+        , version_{ ark::version{0, 1, 0} }
         , ui_{ *this }
     {
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
-        ark_trace("Initialize ark::core version {}", version_);
+        ark_info("Initialize ark::core version {}", version_.str());
 
         #ifndef ARK_NO_UI
         ui_.load();
@@ -39,6 +26,7 @@ namespace ark
 
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
+        load<ark::mods::tools>();
         load<ark::mods::whisperer>();
         //load<ark::mods::testing>();
         //load<ark::mods::analysis>();
@@ -62,13 +50,37 @@ namespace ark
         }
     }
 
-    const std::string &core::version() const
+    void core::unload(const std::string &name)
     {
-        return version_;
+        mods_.erase(std::remove_if(mods_.begin(), mods_.end(), [&name](auto&& mod) { return mod->name() == name; }), mods_.end());
+        ark_trace("Mod {} unloaded", name);
+    }
+
+    void core::log(const std::string& mod_name, const std::string& message)
+    {
+        if (logs_.size() > 10) logs_.pop_back();
+        logs_.push_front("[" + mod_name + "] " + message);
     }
 
     const std::vector<std::unique_ptr<ark::mod>> &core::mods()
     {
         return mods_;
+    }
+
+    ark::mod& core::mod(const std::string& name)
+    {
+        auto it = std::find_if(mods_.begin(), mods_.end(), [&name](const auto& mod) { return mod->name() == name; });
+        assert(it != mods_.end());
+        return *(*it);
+    }
+
+    std::string core::version() const
+    {
+        return version_.str();
+    }
+
+    const std::deque<std::string>& core::logs() const
+    {
+        return logs_;
     }
 } // ark

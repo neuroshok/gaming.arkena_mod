@@ -2,11 +2,14 @@
 
 #include <ark/core.hpp>
 #include <ark/log.hpp>
+#include <ark/mod.hpp>
 #include <ark/ui/loader.hpp>
 
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
 #include <imgui.h>
+#include <iostream>
+#include <array>
 #include <kiero.h>
 
 #pragma comment (lib, "d3d11.lib")
@@ -29,8 +32,8 @@ namespace ark::ui
 
         ImGuiIO& io = ImGui::GetIO();
 
-        float menu_height = 24;
-        float width = 200;
+        float menu_height = io.DisplaySize.y / 24;
+        float width = io.DisplaySize.x / 4;
         float main_height = io.DisplaySize.y - menu_height;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
@@ -40,9 +43,9 @@ namespace ark::ui
         ImGui::Begin("Arkmongus", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
             auto title = "Arkmongus " + core_.version();
 
-            ImGui::Image((void*)my_texture_, ImVec2(24, 24));
+            ImGui::Image((void*)my_texture_, ImVec2(menu_height, menu_height));
             ImGui::SameLine();
-            if (ImGui::Button(title.c_str(), ImVec2(width - 24, 24))) main_state_ = !main_state_;
+            if (ImGui::Button(title.c_str(), ImVec2(width - menu_height, menu_height))) main_state_ = !main_state_;
         ImGui::End();
 
         ImGui::PopStyleVar();
@@ -60,7 +63,7 @@ namespace ark::ui
                 {
                     for (const auto& mod : core_.mods())
                     {
-                        if (ImGui::Checkbox(mod->name().c_str(), &mod->ui_enabled_))
+                        if (ImGui::Checkbox(mod->fullname().c_str(), &mod->ui_enabled_))
                         {
                             if (mod->enabled()) mod->disable();
                             else mod->enable();
@@ -71,13 +74,32 @@ namespace ark::ui
 
                 if (ImGui::BeginTabItem("Control"))
                 {
-                    ImGui::Text("soon");
+                    for (const auto& log : core_.logs())
+                    {
+                        ImGui::TextColored({0.8, 0.8, 0.8, 1}, "%s", log.c_str());
+                    }
                     ImGui::EndTabItem();
                 }
 
                 if (ImGui::BeginTabItem("Settings"))
                 {
-                    ImGui::Text("soon");
+                    static const char* current_item = nullptr;
+                    if (ImGui::BeginCombo("##Mod", current_item))
+                    {
+                        for (const auto& mod : core_.mods())
+                        {
+                            bool is_selected = (current_item == mod->name().c_str());
+                            if (ImGui::Selectable(mod->name().c_str(), is_selected)) current_item = mod->name().c_str();
+                            if (is_selected) ImGui::SetItemDefaultFocus();
+                        }
+                        ImGui::EndCombo();
+                    }
+
+
+                    auto cb = [](ImGuiInputTextCallbackData* d)  { std::cout << "ok";  };
+                    std::array<char, 24> data;
+                    ImGui::InputText("timer", data.data(), data.size(), 0, (ImGuiInputTextCallback)&cb);
+
                     ImGui::EndTabItem();
                 }
 

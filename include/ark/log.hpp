@@ -17,3 +17,9 @@ void ark_trace(Ts&&... ts)
     spdlog::trace(ts...);
     spdlog::get("arkena_mod")->trace(ts...);
 }
+template<class... Ts>
+void ark_info(Ts&&... ts)
+{
+    spdlog::info(ts...);
+    spdlog::get("arkena_mod")->info(ts...);
+}

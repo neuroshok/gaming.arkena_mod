@@ -2,6 +2,7 @@
 
 #include <ark/core.hpp>
 
+#include <autogen/GameStartManager.hpp>
 #include <autogen/InnerNet/InnerNetClient.hpp>
 #include <autogen/IntroCutscene.hpp>
 #include <autogen/KillButtonManager.hpp>
@@ -31,6 +32,9 @@ namespace ark
         hk(PlayerControl::HandleRpc);
         hk(PlayerControl::MurderPlayer);
         hk(PlayerControl::RpcSetInfected);
+
+        hk(GameStartManager::Start);
+        hk(GameStartManager::BeginGame);
     }
 } // ark
 

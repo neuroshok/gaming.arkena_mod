@@ -3,11 +3,11 @@
 
 #include <ark/discord.hpp>
 #include <ark/log.hpp>
-#include <ark/mod.hpp>
 #include <ark/ui/core.hpp>
+#include <ark/version.hpp>
 
 #include <vector>
-#include <variant>
+#include <deque>
 #include <concepts>
 
 namespace ark { class mod; }
@@ -26,8 +26,6 @@ namespace ark
 {
     class core
     {
-        using hook_type = uintptr_t;
-
     public:
         explicit core(HMODULE);
         ~core();
@@ -38,35 +36,28 @@ namespace ark
         void load()
         {
             mods_.emplace_back(std::make_unique<Mod>(*this));
-            ark_trace("Mod {} loaded", mods_.back()->name());
+            ark_info("Mod {} {} loaded", mods_.back()->version().str(), mods_.back()->name());
             mods_.back()->enable();
         }
 
-        void unload(const std::string& name)
-        {
-            mods_.erase(std::remove_if(mods_.begin(), mods_.end(), [&name](auto&& mod) { return mod->name() == name; }), mods_.end());
-            ark_trace("Mod {} unloaded", name);
-        }
+        void unload(const std::string& name);
+
+        void log(const std::string& mod_name, const std::string& message);
 
         const std::vector<std::unique_ptr<ark::mod>>& mods();
-        const std::string& version() const;
-
-        template<auto Source, class Target>
-        static void hook(Target&& target)
-        {
-            //ark::hook_method<Source>(target);
-        }
+        ark::mod& mod(const std::string& name);
+        std::string version() const;
+        const std::deque<std::string>& logs() const;
 
     public:
         HMODULE hmodule_;
         FILE* console_;
         ui::core ui_;
 
-        std::unordered_map<void*, void*> hooks_;
-
         //ark::discord discord_;
-        std::string version_;
+        ark::version version_;
         std::vector<std::unique_ptr<ark::mod>> mods_;
+        std::deque<std::string> logs_;
     };
 }// ark
 

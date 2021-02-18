@@ -52,10 +52,12 @@ struct GameData : ark::meta<GameData, InnerNet::InnerNetObject>
 
     void RpcUpdateGameData();
     void UpdateGameData();
+    GameData::PlayerInfo* GetHost() { return method_call(GetHost); }
 
 };
 
 namespace ark::method_info
 {
     method_rva(GameData::GetPlayerById, 0x5EB310)
+    method_rva(GameData::GetHost, 0x5EB280)
 }
