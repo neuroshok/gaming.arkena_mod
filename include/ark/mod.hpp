@@ -25,7 +25,7 @@ namespace ark
         friend class ark::ui::core;
 
     public:
-        explicit mod(ark::core& core, std::string name, ark::version = {0, 0, 1}, bool network = true);
+        explicit mod(ark::core& core, std::string name, ark::version = {0, 0, 1}, bool synchronized = true);
 
         struct intro
         {
@@ -52,7 +52,7 @@ namespace ark
         const std::string& name() const;
         const std::string& fullname() const;
         ark::version version() const;
-        bool is_network() const;
+        bool synchronized() const;
         bool enabled() const;
 
         void hook_intro();
@@ -92,7 +92,7 @@ namespace ark
         std::string name_;
         ark::version version_;
         std::string fullname_;
-        bool network_;
+        bool synchronized_;
         bool enabled_;
 
         bool ui_enabled_;

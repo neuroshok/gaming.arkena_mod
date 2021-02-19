@@ -24,6 +24,7 @@ namespace ark
 
         //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
+        load<ark::mods::core>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         load<ark::mods::tools>();
@@ -74,9 +75,9 @@ namespace ark
         return *(*it);
     }
 
-    std::string core::version() const
+    const ark::version& core::version() const
     {
-        return version_.str();
+        return version_;
     }
 
     const std::deque<std::string>& core::logs() const

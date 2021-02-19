@@ -12,12 +12,12 @@
 
 namespace ark
 {
-    mod::mod(ark::core& core, std::string name, ark::version version, bool network)
+    mod::mod(ark::core& core, std::string name, ark::version version, bool synchronized)
         : core_{ core }
         , name_{ std::move(name) }
         , version_{ version }
         , fullname_{ name_ + "-" + version_.str() }
-        , network_{ network }
+        , synchronized_{ synchronized }
         , enabled_{ false }
         , ui_enabled_{ false }
     {
@@ -33,6 +33,8 @@ namespace ark
 
     void mod::disable()
     {
+        if (name_ == "core") return;
+
         enabled_ = false;
         ui_enabled_ = false;
         on_disable();
@@ -45,7 +47,7 @@ namespace ark
     const std::string& mod::fullname() const { return fullname_; }
     bool mod::enabled() const { return enabled_; }
     ark::version mod::version() const { return version_; }
-    bool mod::is_network() const { return network_; }
+    bool mod::synchronized() const { return synchronized_; }
 
     void mod::set_player_name_color(PlayerControl* pc, float r, float g, float b, float a)
     {

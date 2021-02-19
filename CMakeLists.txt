@@ -101,15 +101,6 @@ set_target_properties(injector PROPERTIES
     OUTPUT_NAME "injector"
 )
 
-# generator
-add_executable(generator ${PROJECT_SOURCE_DIR}/source/generator.cpp)
-target_include_directories(generator PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(generator PRIVATE spdlog)
-set_target_properties(generator PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
-    OUTPUT_NAME "generator"
-)
-
 # bin2cpp
 add_executable(bin2cpp ${PROJECT_SOURCE_DIR}/source/bin2cpp.cpp)
 

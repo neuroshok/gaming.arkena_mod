@@ -41,7 +41,7 @@ namespace ark::ui
         ImGui::SetNextWindowSize({width, menu_height});
 
         ImGui::Begin("Arkmongus", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
-            auto title = "Arkmongus " + core_.version();
+            auto title = "Arkmongus " + core_.version().str();
 
             ImGui::Image((void*)my_texture_, ImVec2(menu_height, menu_height));
             ImGui::SameLine();
@@ -63,10 +63,18 @@ namespace ark::ui
                 {
                     for (const auto& mod : core_.mods())
                     {
-                        if (ImGui::Checkbox(mod->fullname().c_str(), &mod->ui_enabled_))
+                        if (mod->name() == "core")
                         {
-                            if (mod->enabled()) mod->disable();
-                            else mod->enable();
+                            ImGui::TextColored({0.2, 0.8, 0.8, 1}, "%s", mod->fullname().c_str());
+                        }
+                        else
+                        {
+                            if (ImGui::Checkbox(mod->fullname().c_str(), &mod->ui_enabled_))
+                            {
+                                if (mod->enabled()) mod->disable();
+                                else
+                                    mod->enable();
+                            }
                         }
                     }
                     ImGui::EndTabItem();

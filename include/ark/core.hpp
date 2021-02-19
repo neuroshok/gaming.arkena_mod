@@ -46,7 +46,7 @@ namespace ark
 
         const std::vector<std::unique_ptr<ark::mod>>& mods();
         ark::mod& mod(const std::string& name);
-        std::string version() const;
+        const ark::version& version() const;
         const std::deque<std::string>& logs() const;
 
     public:

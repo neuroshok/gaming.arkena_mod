@@ -1,43 +1,21 @@
-#include <ark/mods/tools.hpp>
+#include <ark/mods/core.hpp>
 
 #include <ark/core.hpp>
 #include <ark/hook.hpp>
 #include <ark/version.hpp>
 
-#include <autogen/GameData.hpp>
 #include <autogen/GameStartManager.hpp>
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/PlayerControl.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/Hazel/MessageReader.hpp>
-#include <autogen/RpcCalls.hpp>
-
-void set_clipboard(const std::string& data)
-{
-    const char* output = data.data();
-    const size_t len = data.size() + 1;
-    HGLOBAL hMem =  GlobalAlloc(GMEM_MOVEABLE, len);
-    memcpy(GlobalLock(hMem), output, len);
-    GlobalUnlock(hMem);
-    OpenClipboard(0);
-    EmptyClipboard();
-    SetClipboardData(CF_TEXT, hMem);
-    CloseClipboard();
-}
-
-// game started even with wrong version
+#include <autogen/Hazel/MessageWriter.hpp>
+#include <autogen/PlayerControl.hpp>
 
 namespace ark::mods
 {
-    tools::tools(ark::core& pcore)
-        : mod(pcore, "tools", ark::version{0, 0, 1}, false)
-        , start_manager_{ nullptr }
-        , compatible_players_count_{ 1 }
-    {
-        //add_setting<bool>();
-    }
+    core::core(ark::core& pcore)
+        : mod(pcore, "core", pcore.version(), false)
+    {}
 
-    void tools::on_enable()
+    void core::on_enable()
     {
         ark::hook<&PlayerControl::HandleRpc>::after(this,
         [this](PlayerControl* self, auto event, MessageReader* data)
@@ -79,8 +57,8 @@ namespace ark::mods
                         auto host_version = data->read<ark::version>();
                         auto host_mod_enabled = data->ReadByte();
 
-                        auto& player_mod = core().mod(mod_name);
-                        auto mod_version = core().mod(mod_name).version();
+                        auto& player_mod = mod::core().mod(mod_name);
+                        auto mod_version = mod::core().mod(mod_name).version();
                         if (host_mod_enabled && !player_mod.enabled()) player_mod.enable();
                         if (!host_mod_enabled && player_mod.enabled()) player_mod.disable();
 
@@ -96,19 +74,12 @@ namespace ark::mods
             }
         });
 
-        ark::hook<&GameStartManager::Start>::after(this, [this](auto self)
-        {
-            start_manager_ = self;
-            set_clipboard(self->GameRoomName->Text->to_utf8().substr(6));
-            self->GameRoomName->Text = System::String::make("[6666FFff]BETA TEST\nGAME");
-        });
-
         ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto self)
         {
             // check mods
             auto writer = mod::start_rpc(rpc_mod::check_mods);
-            writer->Write((std::uint32_t)mod::core().mods().size());
-            for (const auto& mod : mod::core().mods())
+            writer->Write((std::uint32_t)mod::mod::core().mods().size());
+            for (const auto& mod : mod::mod::core().mods())
             {
                 writer->Write(mod->name());
                 writer->Write(mod->version());
@@ -116,9 +87,5 @@ namespace ark::mods
             }
             mod::finish_rpc(writer);
         });
-    }
-
-    void tools::on_disable()
-    {
     }
 } // ark

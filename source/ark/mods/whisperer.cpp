@@ -12,6 +12,9 @@
 
 #include <random>
 
+// source killing wrong target
+//
+
 // settings
 // other players can identify a marked player 5s before the kill ?
 
@@ -24,12 +27,12 @@ using namespace std::chrono_literals;
 namespace ark::mods
 {
     whisperer::whisperer(ark::core& c)
-        : mod(c, "whisperer", {1, 0, 0})
+        : mod(c, "whisperer", {0, 1, 0})
         , whisperer_id_{ 255 }
         , is_marked_{ false }
         , marked_id_{ 255 }
-        , kill_delay_{ 2 }
-        , whisper_timer_{ 5 }
+        , kill_delay_{ 5 }
+        , whisper_timer_{ 25 }
         , whisper_range_{ 1.2 }
         , whisper_kill_range_{ 1.8 }
     {}
@@ -71,7 +74,7 @@ namespace ark::mods
         AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
 
         on_kill(marked_id_, marked_target->PlayerId);
-        marked_id_ = 0;
+        marked_id_ = 255;
         is_marked_ = false;
     }
     void whisperer::on_kill(std::uint8_t source_id, std::uint8_t target_id)
@@ -95,15 +98,14 @@ namespace ark::mods
                 {
                     auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
                     ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
-
                 }
 
                 if (whisperer_id_ == mod::player()->PlayerId)
                 {
                     mod::set_player_name_color(mod::player_control(whisperer_id_), 0.5, 0, 0.5);
-                    mod::set_intro( {.title = "Whisperer", .subtitle = std::to_string(whisperer_id_), .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
+                    mod::set_intro( {.title = "Whisperer", .subtitle = "ANNIHILATE THEM", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
                 }
-                else mod::set_intro( {.title = mod::player()->PlayerName->to_utf8(), .subtitle = "Whisper someone", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
+                else mod::set_intro( {.title = mod::player()->PlayerName->to_utf8(), .subtitle = "RUNNNNNNN", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
 
             }
         );
