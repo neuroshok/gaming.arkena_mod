@@ -83,12 +83,9 @@ int main(int argc, const char** argv)
 {
     using namespace std::string_view_literals;
 
-    //std::array<char, 1024> path{};
-    //ExpandEnvironmentStringsA("%systemroot%\\explorer.exe", path.data(), path.size());
-
-    //std::string args{ " steam://rungameid/945360" };
-
-    std::string path { R"("C:\Program Files (x86)\Steam\steam.exe")" };
+    //std::string path { R"("C:\Program Files (x86)\Steam\steam.exe")" };
+    std::array<char, 1024> path{};
+    ExpandEnvironmentStringsA("%systemroot%\\explorer.exe", path.data(), path.size());
     std::string args { " steam://rungameid/945360" };
     ShellExecute(nullptr, "open", path.data(), args.data(), nullptr, 1);
 
@@ -116,6 +113,9 @@ int main(int argc, const char** argv)
     }
 
     HANDLE process_handle = ::OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_VM_WRITE | PROCESS_VM_OPERATION, FALSE, process_id.value());
+
+    // fix hook init fail, wait for process start
+    std::this_thread::sleep_for(std::chrono::seconds(3));
 
     if (!process_has_dll(process_handle, dll_path.data()))
     {
