@@ -56,32 +56,26 @@ try {
 		const [full, name, name2] = brutLines[i].match(/^struct (\w+) : ark::meta<(\w+),/) || [null, null, null]
 		if (full)
 	    	structName = name
-		else if (ignoreObfuscated && brutLines[i].match(/^(void|\w+) ([A-Z0-9]{11})\(([^)]+|)\)\s?{\s?.*/))
+		else if (ignoreObfuscated && brutLines[i].match(/^(void|[\w:*]+) ([A-Z0-9]{11})\(([^)]+|)\)\s?{\s?.*/))
 			console.log("Obfuskated skiped: ", brutLines[i])
-		else if (ignoreNonVoid && brutLines[i].match(/^(?!void)\w* (\w+)\(([^)]+|)\)\s?{\s?.*/))
+		else if (ignoreNonVoid && brutLines[i].match(/^(?!void)[\w:*]+ (\w+)\(([^)]+|)\)\s?{\s?.*/))
 			console.log("Non-void skiped: ", brutLines[i])
-		else if (brutLines[i].match(/^\w* (\w+)\(([^)]+|)\)\s?{\s?.*/))
+		else if (brutLines[i].match(/^[\w:*]+ (\w+)\(([^)]+|)\)\s?{\s?.*/))
 	    	strs.push(brutLines[i])
 	}
 	const results = { inits: [], hooks: [] }
 
 	strs = strs.slice(start, size === "full" ? strs.length : start + size)
 
-
-
 	strs.map(str => {
-		let hook = str.replace(/^\w+ ([\w]+)\(([^)]+|)\).*/, `ark::hook<&${structName}::$1>::${hookType}(this, [](auto&& self, $2) {ark_trace("${structName}::$1 called");});`)
+		let data = JSON.parse(str.replace(/^([\w:*]+) ([\w]+)\(([^)]+|)\).*/, `{"type": "$1","method": "$2","parameters": "$3"}`))
+		let protected = ~protectedMethods.indexOf(`${structName}::${data.method}`)
 
-		let protected = (protectedMethods.length && (match = hook.match(new RegExp(`ark::hook<&(${protectedMethods.join('|')})>::`))))
-		if (protected) {
-			let method = match[1]
-						console.log(`Protected method found: ${method}`)
-			hook = hook.replace(`ark::hook<&${method}>::${hookType}`, `ark::hook<&${method}>::${hookTypeProtected}`)
-		}
+		let hook = `ark::hook<&${structName}::${data.method}>::${protected ? hookTypeProtected : hookType}(this, [](auto&& self${data.parameters ? `, ${data.parameters}` : '' }) -> ${data.type} {ark_trace("${structName}::${data.method} called");${data.type === 'void' ? '' : ` return ${data.type.slice(-1) === '*' ? 'nullptr' : `${data.type}{}`};`}});`
 
 		if (!protected || hookTypeProtected !== 'skip') {
-			results.hooks.push(hook.replace('self, )', 'self)').replace(/, struct \w+\*/, ', auto'))
-			results.inits.push(str.replace(/^(\w+) (\w+)\(([^)]+|)\).*/, `hkr($1, ${structName}::$2);`))
+			results.hooks.push(hook)
+			results.inits.push(`hkr(${data.type}, ${structName}::${data.method});`)
 		}
 	})
 
