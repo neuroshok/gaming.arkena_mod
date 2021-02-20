@@ -17,5 +17,6 @@ namespace ark
         using method_type = std::function<Return(Class*, Args...)>;
         using flat_method_type = Return(*)(Class*, Args...);
         using functional_type = Return(Args...);
+        using overwrite_method_type = std::function<Return(flat_method_type, Class*, Args...)>;
     };
 } // ark

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <autogen/UnityEngine/Component.hpp>
-#include <autogen/UnityEngine/Vector2.hpp>
+#include <autogen/Unity/Component.hpp>
+#include <autogen/Unity/Vector2.hpp>
 
-namespace UnityEngine {
+namespace Unity {
 
 struct Rigidbody2D : Component {
     Vector2 get_position() const {
@@ -15,4 +15,4 @@ struct Rigidbody2D : Component {
     }
 };
 
-} // namespace UnityEngine
+} // namespace Unity

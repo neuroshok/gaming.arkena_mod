@@ -4,11 +4,11 @@
 #include <ark/utility/meta.hpp>
 #include <ark/utility/preprocessor.hpp>
 
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
-#include <autogen/UnityEngine/Color.hpp>
-#include <autogen/UnityEngine/TextRenderer.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
+#include <autogen/Unity/Color.hpp>
+#include <autogen/Unity/TextRenderer.hpp>
 
-class PlayerVoteArea : ark::meta<PlayerVoteArea, UnityEngine::MonoBehaviour> // TypeDefIndex: 8688
+class PlayerVoteArea : ark::meta<PlayerVoteArea, Unity::MonoBehaviour> // TypeDefIndex: 8688
 {
     static constexpr auto internal_name = "HDJGDMFCHDN";
 

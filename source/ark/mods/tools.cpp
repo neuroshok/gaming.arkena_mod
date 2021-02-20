@@ -103,7 +103,7 @@ namespace ark::mods
             self->GameRoomName->Text = System::String::make("[6666FFff]BETA TEST\nGAME");
         });
 
-        ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto self)
+        ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto original, auto self)
         {
             // check mods
             auto writer = mod::start_rpc(rpc_mod::check_mods);

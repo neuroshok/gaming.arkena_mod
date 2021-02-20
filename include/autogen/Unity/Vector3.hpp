@@ -1,6 +1,6 @@
 #pragma once
 
-namespace UnityEngine {
+namespace Unity {
 
 struct Vector3 {
     float x;
@@ -10,4 +10,4 @@ struct Vector3 {
     friend auto operator<=>(const Vector3&, const Vector3&) = default;
 };
 
-} // namespace UnityEngine
+} // namespace Unity

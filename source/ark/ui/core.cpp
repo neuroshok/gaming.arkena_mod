@@ -1,7 +1,6 @@
 #include <ark/ui/core.hpp>
 
 #include <ark/core.hpp>
-#include <ark/log.hpp>
 #include <ark/mod.hpp>
 #include <ark/ui/loader.hpp>
 
@@ -9,8 +8,13 @@
 #include <backends/imgui_impl_win32.h>
 #include <imgui.h>
 #include <iostream>
-#include <array>
 #include <kiero.h>
+
+static int zeta(ImGuiInputTextCallbackData* data)
+{
+    std::cout << "cb";
+    return 0;
+}
 
 #pragma comment (lib, "d3d11.lib")
 
@@ -33,7 +37,7 @@ namespace ark::ui
         ImGuiIO& io = ImGui::GetIO();
 
         float menu_height = io.DisplaySize.y / 24;
-        float width = io.DisplaySize.x / 4;
+        float width = io.DisplaySize.x / 3;
         float main_height = io.DisplaySize.y - menu_height;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0, 0});
@@ -72,8 +76,24 @@ namespace ark::ui
                             if (ImGui::Checkbox(mod->fullname().c_str(), &mod->ui_enabled_))
                             {
                                 if (mod->enabled()) mod->disable();
-                                else
-                                    mod->enable();
+                                else mod->enable();
+                            }
+                        }
+
+                        if (mod->description().size() > 0)
+                        {
+                            ImGui::SameLine();
+                            ImGui::TextUnformatted("?");
+                            if (ImGui::IsItemHovered())
+                            {
+                                if (!mod->description().empty())
+                                {
+                                    ImGui::BeginTooltip();
+                                        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 20.0f);
+                                        ImGui::TextUnformatted(mod->description().c_str());
+                                        ImGui::PopTextWrapPos();
+                                    ImGui::EndTooltip();
+                                }
                             }
                         }
                     }
@@ -91,32 +111,68 @@ namespace ark::ui
 
                 if (ImGui::BeginTabItem("Settings"))
                 {
-                    static const char* current_item = nullptr;
+                    static const char *current_item = "core";
+
+                    auto& mod = core_.mod(current_item);
+                    if (!mod.enabled()) current_item = "core";
+
                     if (ImGui::BeginCombo("##Mod", current_item))
                     {
                         for (const auto& mod : core_.mods())
                         {
-                            bool is_selected = (current_item == mod->name().c_str());
-                            if (ImGui::Selectable(mod->name().c_str(), is_selected)) current_item = mod->name().c_str();
-                            if (is_selected) ImGui::SetItemDefaultFocus();
+                            if (mod->enabled())
+                            {
+                                bool is_selected = (current_item == mod->name().c_str());
+                                if (ImGui::Selectable(mod->name().c_str(), is_selected)) current_item = mod->name().c_str();
+                                if (is_selected) ImGui::SetItemDefaultFocus();
+                            }
                         }
                         ImGui::EndCombo();
                     }
 
+                    if (mod.enabled())
+                    {
+                        for (auto& setting : mod.settings())
+                        {
+                            ImGui::TextUnformatted(setting->name.c_str());
+                            if (ImGui::IsItemHovered())
+                            {
+                                if (!setting->description.empty())
+                                {
+                                    ImGui::BeginTooltip();
+                                    ImGui::PushTextWrapPos(ImGui::GetFontSize() * 20.0f);
+                                    ImGui::TextUnformatted(setting->description.c_str());
+                                    ImGui::PopTextWrapPos();
+                                    ImGui::EndTooltip();
+                                }
+                            }
 
-                    auto cb = [](ImGuiInputTextCallbackData* d)  { std::cout << "ok";  };
-                    std::array<char, 24> data;
-                    ImGui::InputText("timer", data.data(), data.size(), 0, (ImGuiInputTextCallback)&cb);
 
+                            std::string id = "##" + setting->name;
+                            std::visit([&id, &setting](auto&& arg) {
+                                using T = std::decay_t<decltype(arg)>;
+                                if constexpr (std::is_same_v<T, int>)
+                                //if (ImGui::InputInt(id.c_str(), setting->ui_buffer.get(), 1, 1, ImGuiInputTextFlags_EnterReturnsTrue))
+                                {
+
+                                }
+                                //else if constexpr (std::is_same_v<T, float>) std::get<float>(value) = std::stof(str_value);
+                                else if constexpr (std::is_same_v<T, std::string>)
+                                    if (ImGui::InputText(id.c_str(), setting->ui_buffer->data(), setting->ui_buffer->size(), ImGuiInputTextFlags_EnterReturnsTrue))
+                                    {
+                                        //setting->update(*setting->ui_buffer);
+                                    }
+                            }, setting->value);
+                        }
+                    }
                     ImGui::EndTabItem();
                 }
-
                 ImGui::EndTabBar();
             }
         }
-
         ImGui::End();
     }
+
     void core::load()
     {
         ark_trace("Initialize UI");
@@ -196,7 +252,7 @@ namespace ark::ui
         for (D3D_DRIVER_TYPE driverType : DRIVER_TYPE_LIST)
         {
             HRESULT hr = D3D11CreateDeviceAndSwapChain(nullptr, driverType, nullptr, 0, nullptr, 0,
-                D3D11_SDK_VERSION, &swapChainDesc, pSwapchain, pDevice, &featureLevel, nullptr);
+                                                       D3D11_SDK_VERSION, &swapChainDesc, pSwapchain, pDevice, &featureLevel, nullptr);
 
             if (FAILED(hr))
             {

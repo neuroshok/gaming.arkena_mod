@@ -1,12 +1,13 @@
 #ifndef INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD
 #define INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD
 
-#include <ark/version.hpp>
 #include <ark/core.hpp>
+#include <ark/setting.hpp>
+#include <ark/version.hpp>
 
 #include <autogen/GameData.hpp>
 #include <autogen/RpcCalls.hpp>
-#include <autogen/UnityEngine/Color.hpp>
+#include <autogen/Unity/Color.hpp>
 #include <autogen/Hazel/MessageWriter.hpp>
 
 #include <spdlog/formatter.h>
@@ -25,15 +26,21 @@ namespace ark
         friend class ark::ui::core;
 
     public:
-        explicit mod(ark::core& core, std::string name, ark::version = {0, 0, 1}, bool synchronized = true);
+        using settings_type = std::vector<std::unique_ptr<ark::setting>>;
 
         struct intro
         {
             std::string title;
             std::string subtitle;
-            UnityEngine::Color title_color = {};
-            UnityEngine::Color subtitle_color = {};
+            Unity::Color title_color = {};
+            Unity::Color subtitle_color = {};
         };
+
+    public:
+        explicit mod(ark::core& core, std::string name, ark::version = {0, 0, 1}, bool synchronized = true);
+
+        mod(const mod&) = delete;
+        mod& operator=(const mod&) = delete;
 
         template<class... Ts>
         void log(const std::string& message, Ts&&... ts)
@@ -52,11 +59,34 @@ namespace ark
         const std::string& name() const;
         const std::string& fullname() const;
         ark::version version() const;
+        const std::string& description() const;
         bool synchronized() const;
         bool enabled() const;
 
+        //
+        void set_description(const std::string&);
+
+        // common hook
         void hook_intro();
         void set_intro(mod::intro intro);
+
+        // settings
+        //void add_setting(ark::setting);
+        template<class... Ts>
+        void add_setting(Ts&&... ts)
+        {
+            settings_.emplace_back(std::make_unique<ark::setting>(std::forward<Ts>(ts)...));
+        }
+        settings_type& settings();
+        template<class T>
+        T setting(const std::string& name) const
+        {
+            auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting->name == name; });
+            auto& setting_ptr = *setting_it;
+            if (setting_it != settings_.end()) return setting_ptr->template get<T>();
+            ark_trace("setting {} not found", name);
+            return T{};
+        }
 
         // network
         template<class... Ts>
@@ -92,8 +122,10 @@ namespace ark
         std::string name_;
         ark::version version_;
         std::string fullname_;
+        std::string description_;
         bool synchronized_;
         bool enabled_;
+        std::vector<std::unique_ptr<ark::setting>> settings_;
 
         bool ui_enabled_;
 

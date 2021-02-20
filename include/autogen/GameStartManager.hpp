@@ -2,21 +2,21 @@
 
 #include <ark/class.hpp>
 #include <autogen/PlayerControl.hpp>
-#include <autogen/UnityEngine/TextRenderer.hpp>
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
+#include <autogen/Unity/TextRenderer.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
 
-struct GameStartManager : ark::meta<GameStartManager, UnityEngine::MonoBehaviour> /*PPAEIPHJPDH<GameStartManager>*/
+struct GameStartManager : ark::meta<GameStartManager, Unity::MonoBehaviour> /*PPAEIPHJPDH<GameStartManager>*/
 {
     ark_meta("", "ANKMIOIMNFE");
 
 	float INPGMOJAEDP;
 	std::int32_t MinPlayers; // 0x10
-	UnityEngine::TextRenderer* PlayerCounter; // 0x14
+	Unity::TextRenderer* PlayerCounter; // 0x14
 	std::int32_t CurrentPlayers; // 0x18
 	struct GameObject* GameSizePopup; // 0x1C
-	UnityEngine::TextRenderer* GameRoomName; // 0x20
+	Unity::TextRenderer* GameRoomName; // 0x20
 	struct PFLIBLFPGGB* LobbyPrefab; // 0x24
-	UnityEngine::TextRenderer* GameStartText; // 0x28
+	Unity::TextRenderer* GameStartText; // 0x28
 	struct SpriteRenderer* StartButton; // 0x2C
 	struct SpriteRenderer* MakePublicButton; // 0x30
 	struct Sprite* PublicGameImage; // 0x34

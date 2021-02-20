@@ -16,7 +16,7 @@ namespace ark
         : core_{ core }
         , name_{ std::move(name) }
         , version_{ version }
-        , fullname_{ name_ + "-" + version_.str() }
+        , fullname_{ name_ + "-" + version.str() }
         , synchronized_{ synchronized }
         , enabled_{ false }
         , ui_enabled_{ false }
@@ -45,9 +45,12 @@ namespace ark
     ark::core& mod::core() { return core_; }
     const std::string& mod::name() const { return name_; }
     const std::string& mod::fullname() const { return fullname_; }
+    const std::string& mod::description() const { return description_; }
     bool mod::enabled() const { return enabled_; }
     ark::version mod::version() const { return version_; }
     bool mod::synchronized() const { return synchronized_; }
+
+    void mod::set_description(const std::string& desc) { description_ = desc; }
 
     void mod::set_player_name_color(PlayerControl* pc, float r, float g, float b, float a)
     {
@@ -56,6 +59,8 @@ namespace ark
         pc->nameText->color.b = b;
         pc->nameText->color.a = a;
     }
+
+    //
     void mod::set_intro(mod::intro intro)
     {
         intro_ = std::move(intro);
@@ -82,6 +87,18 @@ namespace ark
 
             return false;
         });
+    }
+
+    //
+    /*
+    void mod::add_setting(ark::setting s)
+    {
+        settings_.emplace_back(std::make_unique<ark::setting>(std::move(s)));
+    }*/
+
+    mod::settings_type& mod::settings()
+    {
+        return settings_;
     }
 
     void mod::local_kill(PlayerControl* source, PlayerControl* target)

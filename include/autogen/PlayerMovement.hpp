@@ -1,7 +1,7 @@
 #pragma once
 
 #include <autogen/InnerNet/InnerNetClient.hpp>
-#include <autogen/UnityEngine/Vector2.hpp>
+#include <autogen/Unity/Vector2.hpp>
 
 #include <autogen/PlayerControl.hpp>
 
@@ -25,7 +25,7 @@ struct PlayerMovement : InnerNet::InnerNetObject {
 
 
 
-    void WalkPlayerTo(UnityEngine::Vector2 worldPos, float tolerance)
+    void WalkPlayerTo(Unity::Vector2 worldPos, float tolerance)
     {
 
     }

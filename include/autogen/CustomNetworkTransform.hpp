@@ -1,8 +1,8 @@
 #pragma once
 
 #include <autogen/InnerNet/InnerNetObject.hpp>
-#include <autogen/UnityEngine/Vector2.hpp>
-#include <autogen/UnityEngine/Rigidbody2D.hpp>
+#include <autogen/Unity/Vector2.hpp>
+#include <autogen/Unity/Rigidbody2D.hpp>
 
 // LEAFKMLHONI in 2020.10.8i
 // HLNNOIPCILF in 2020.10.22s
@@ -15,10 +15,10 @@ struct CustomNetworkTransform : InnerNet::InnerNetObject {
     float sendInterval; // [marker]
     float snapThreshold;
     float interpolateMovement;
-    UnityEngine::Rigidbody2D* body;
-    UnityEngine::Vector2 targetSyncPosition;
-    UnityEngine::Vector2 targetSyncVelocity;
+    Unity::Rigidbody2D* body;
+    Unity::Vector2 targetSyncPosition;
+    Unity::Vector2 targetSyncVelocity;
     std::uint16_t lastSequenceId;
-    UnityEngine::Vector2 prevPosSent;
-    UnityEngine::Vector2 prevVelSent;
+    Unity::Vector2 prevPosSent;
+    Unity::Vector2 prevVelSent;
 };

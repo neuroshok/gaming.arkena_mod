@@ -22,14 +22,15 @@ namespace ark
         #endif
         ark::init_hook();
 
-        //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
+        //ark_trace("Game version : {}", ::Unity::Application::get_version());
 
-        load<ark::mods::core>();
+        //load<ark::mods::core>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
-        load<ark::mods::tools>();
-        load<ark::mods::whisperer>();
-        //load<ark::mods::testing>();
+        //load<ark::mods::tools>();
+        //load<ark::mods::tournament>();
+        //load<ark::mods::whisperer>();
+        load<ark::mods::testing>();
         //load<ark::mods::analysis>();
     }
 
@@ -63,7 +64,7 @@ namespace ark
         logs_.push_front("[" + mod_name + "] " + message);
     }
 
-    const std::vector<std::unique_ptr<ark::mod>> &core::mods()
+    const std::vector<std::unique_ptr<ark::mod>>& core::mods()
     {
         return mods_;
     }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace UnityEngine {
+namespace Unity {
 
 struct Color {
     float r = 1;
@@ -9,4 +9,4 @@ struct Color {
     float a = 1;
 };
 
-} // namespace UnityEngine
+} // namespace Unity

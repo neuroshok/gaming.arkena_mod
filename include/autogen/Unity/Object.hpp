@@ -2,11 +2,11 @@
 
 #include <il2cpp/core.hpp>
 
-namespace UnityEngine
+namespace Unity
 {
 
     struct Object : il2cpp::Il2CppObject {
         std::intptr_t m_CachedPtr;
     };
 
-} // namespace UnityEngine
+} // namespace Unity

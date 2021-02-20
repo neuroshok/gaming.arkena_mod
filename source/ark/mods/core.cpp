@@ -74,7 +74,7 @@ namespace ark::mods
             }
         });
 
-        ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto self)
+        ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto original, auto self)
         {
             // check mods
             auto writer = mod::start_rpc(rpc_mod::check_mods);

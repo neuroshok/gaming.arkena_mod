@@ -11,11 +11,11 @@ namespace ark
     void init_logger(std::uintptr_t);
 } // ark
 
-template<class... Ts>
-void ark_trace(Ts&&... ts)
+template<class Message, class... Ts>
+void ark_trace(Message&& m, Ts&&... ts)
 {
-    spdlog::trace(ts...);
-    spdlog::get("arkena_mod")->trace(ts...);
+    spdlog::trace(m, ts...);
+    spdlog::get("arkena_mod")->trace(m, ts...);
 }
 template<class... Ts>
 void ark_info(Ts&&... ts)

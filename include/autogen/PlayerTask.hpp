@@ -1,6 +1,6 @@
 #pragma once
 
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
 #include <autogen/TaskTypes.hpp>
 #include <autogen/SystemTypes.hpp>
 
@@ -11,7 +11,7 @@ struct PlayerControl;
 // FKAPFNAKPBG in 2020.11.4s
 // CLCMPFJIIEN in 2020.11.17s
 // PILBGHDHJLH in 2020.12.9s
-struct PlayerTask : UnityEngine::MonoBehaviour {
+struct PlayerTask : Unity::MonoBehaviour {
     std::int32_t _Index;
     std::uint32_t _Id;
     PlayerControl* _Owner;

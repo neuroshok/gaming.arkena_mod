@@ -5,4 +5,5 @@
 #include <ark/mods/core.hpp>
 #include <ark/mods/testing.hpp>
 #include <ark/mods/tools.hpp>
+#include <ark/mods/tournament.hpp>
 #include <ark/mods/whisperer.hpp>

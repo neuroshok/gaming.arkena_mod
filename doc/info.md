@@ -1,12 +1,26 @@
+# Material
+_BodyColor
+_BackColor : color over the body
+_VisorColor : the visor
+SetPlayerMaterialColors_2 : std::int32_t is renderer ptr
+
+
+
+
+
+
+
+
 rpc (hors context) : ban / server side check
 host can call rpc
 
 SetInfected : 1st byte ? 2nd byte :
 
 
+
+
 TEST :
 rpc owner call
-
 host can call rpc
 
 - [ ] launcher, autoupdater (nano)

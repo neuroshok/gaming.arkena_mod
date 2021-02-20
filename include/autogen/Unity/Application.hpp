@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace UnityEngine
+namespace Unity
 {
     struct Application : il2cpp::Il2CppObject
     {
@@ -17,4 +17,4 @@ namespace UnityEngine
 
         }
     };
-}// namespace UnityEngine
+}// namespace Unity

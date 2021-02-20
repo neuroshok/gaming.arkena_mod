@@ -4,14 +4,18 @@
 
 #include <autogen/AmongUsClient.hpp>
 #include <autogen/GameData.hpp>
-#include <autogen/RpcCalls.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/Hazel/MessageReader.hpp>
-#include <autogen/PlayerControl.hpp>
-#include <autogen/KillButtonManager.hpp>
+#include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/InnerNet/InnerNetClient.hpp>
 #include <autogen/IntroCutscene.hpp>
+#include <autogen/KillButtonManager.hpp>
+#include <autogen/PlayerControl.hpp>
 #include <autogen/PlayerMovement.hpp>
+#include <autogen/RpcCalls.hpp>
+#include <autogen/Unity/Material.hpp>
+#include <autogen/System/String.hpp>
+
+#include <analysis/testing_header.hpp>
 
 #include <ark/hook.hpp>
 
@@ -20,113 +24,23 @@ namespace ark::mods
     testing::testing(ark::core& pcore)
         : mod(pcore, "testing")
     {
-        // preload calls
-        // require data->get_BytesRemaining()
-        // preload hooks
-        // require<&PlayerControl::RpcMurderPlayer> // prepatch postpatch patch
-
-
-/*
-        core().template hook<&PlayerMovement::WalkPlayerTo>(
-            [this](auto original, PlayerMovement* self, UnityEngine::Vector2 worldPos, float tolerance)
-        {
-            ark_trace("WalkPlayerTo {} {} {}", worldPos.x, worldPos.y, tolerance);
-            //ark_trace("PlayerControl::instance() {}", (uintptr_t)PlayerControl::instance());
-            //self->SetTarget(PlayerControl::instance());
-            //PlayerControl::instance()->MurderPlayer(PlayerControl::instance());
-            worldPos.x = 0;
-            worldPos.y = 0;
-            original(self, worldPos, tolerance);
-        });*/
-
-
-        /*
-        core().template hook<&KillButtonManager::PerformKill>(
-            [this](auto original, KillButtonManager* self)
-        {
-            ark_trace("PerformKill");
-            //ark_trace("PlayerControl::instance() {}", (uintptr_t)PlayerControl::instance());
-            //self->SetTarget(PlayerControl::instance());
-            //PlayerControl::instance()->MurderPlayer(PlayerControl::instance());
-            //original(self);
-
-                MessageWriter* writer = AmongUsClient::statics()->instance->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpc_mod::sniper_kill);
-                writer->Write(mod::player_control(1)->PlayerId);
-                writer->Write(mod::player_control(2)->PlayerId);
-                AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
-
-                //mod::player_control(1)->MurderPlayer(mod::player_control(2));
-        });
-
-        // PlayerControl::MurderPlayer
-        core().template hook<&PlayerControl::MurderPlayer>(
-            [this](auto original, PlayerControl* source, PlayerControl* target)
-        {
-            ark_trace("MurderPlayer {} -> {}");
-
-            //auto p = mod::player_control(1);
-            source->_cachedData->IsImpostor = true;
-            original(source, target);
-            source->_cachedData->IsImpostor = false;
-
-            //mod::player(1)->IsImpostor = false;
-        });
-
-        core().template hook<&PlayerControl::HandleRpc>(
-            [this](auto original, PlayerControl* self, auto event, MessageReader* data)
-            {
-                ark_trace("HandleRpc {}", event);
-                auto original_position = data->get_Position();
-
-                switch (static_cast<rpc>(event))
-                {
-                    case (rpc)rpc_mod::sniper_kill:
-                        {
-                            auto source_id = data->ReadByte();
-                            auto target_id = data->ReadByte();
-                            ark_trace("receive sniper_kill {} -> {}", source_id, target_id);
-                            mod::player_control(source_id)->MurderPlayer(mod::player_control(target_id));
-                        }
-                        return;
-
-
-                    case rpc::MurderPlayer: {
-                        ark_trace("OriginalMurderPlayer {}", data->ReadByte());
-                        break;
-                    }
-                }
-
-                data->set_Position(original_position);
-                original(self, event, data);
-            }
-        );
-
-        // ShipStatus::Begin
-        core().hook<&ShipStatus::Begin>(
-            [this](auto original, ShipStatus* self)
-            {
-                ark_trace("begin");
-                original(self);
-
-                ark_trace("Game start");
-
-                for (auto* player : *GameData::statics()->instance->AllPlayers)
-                {
-                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), player->IsImpostor);
-                }
-            }
-        );
-         */
     }
 
     void testing::on_enable()
     {
-        ark::hook<&PlayerControl::SetColor>::after(this, [](auto&& pc, auto&& c)
+        #include <analysis/null.hooks.hpp>
+
+        static std::int32_t i = 0;
+
+        ark::hook<&PlayerControl::SetColor>::overwrite(this, [](auto&& original, auto&& pc, auto&& c)
         {
+            ++i;
 
         });
 
 
+
+        /*
         ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::before(this, [](auto&& self) -> bool
         {
             self->subtitle.r = 147.f / 255;
@@ -170,7 +84,7 @@ namespace ark::mods
             self->isImpostor = false;
 
           return false;
-        });
+        });*/
 
     }
     void testing::on_disable()

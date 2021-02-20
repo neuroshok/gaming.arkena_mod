@@ -4,11 +4,11 @@
 #include <ark/utility/meta.hpp>
 #include <ark/utility/preprocessor.hpp>
 
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
-#include <autogen/UnityEngine/Color.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
+#include <autogen/Unity/Color.hpp>
 #include <autogen/InnerNet/InnerNetObject.hpp>
 
-namespace UnityEngine
+namespace Unity
 {
     struct TextRenderer : ark::meta<TextRenderer, InnerNet::InnerNetObject>
     {

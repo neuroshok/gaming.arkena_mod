@@ -1,21 +1,21 @@
 #pragma once
 
 #include <ark/class.hpp>
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
-#include <autogen/UnityEngine/Vector2.hpp>
-#include <autogen/UnityEngine/TextRenderer.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
+#include <autogen/Unity/Vector2.hpp>
+#include <autogen/Unity/TextRenderer.hpp>
 
 // KillButtonManager
-struct KillButtonManager : ark::meta<KillButtonManager, UnityEngine::MonoBehaviour> // TypeDefIndex: 8657
+struct KillButtonManager : ark::meta<KillButtonManager, Unity::MonoBehaviour> // TypeDefIndex: 8657
 {
 	ark_meta("", "MLPJGKEACMM");
     
 	struct PlayerControl* CurrentTarget; // 0xC
 	struct SpriteRenderer* renderer; // 0x10
-	UnityEngine::TextRenderer* TimerText; // 0x14
+	Unity::TextRenderer* TimerText; // 0x14
 	bool isCoolingDown; // 0x18
 	bool isActive; // 0x19
-	UnityEngine::Vector2 FFHAJFJBHHN; // 0x1C
+	Unity::Vector2 FFHAJFJBHHN; // 0x1C
 
 	void CGEIAPGMDII(PlayerControl* target) { method_call(CGEIAPGMDII, target); } // 0xFE3E00 
 	void DCJEMIAHHGN() { method_call(DCJEMIAHHGN); } // 0xFE4730

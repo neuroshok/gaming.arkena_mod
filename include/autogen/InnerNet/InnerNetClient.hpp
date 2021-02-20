@@ -2,12 +2,12 @@
 
 #include <ark/class.hpp>
 
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
 
 namespace InnerNet {
 
 // KHNHJFFECBP in 2020.12.9s
-struct InnerNetClient : ark::meta<InnerNetClient, UnityEngine::MonoBehaviour> {
+struct InnerNetClient : ark::meta<InnerNetClient, Unity::MonoBehaviour> {
     ark_meta("", "KHNHJFFECBP");
 
     // KHNHJFFECBP.KGEKNMMAKKN in 2020.12.9s

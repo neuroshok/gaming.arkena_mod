@@ -12,7 +12,7 @@ namespace ark
 
         std::string str() const { return std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(fix); }
 
-        bool compatible_with(ark::version rhs)
+        bool compatible_with(ark::version rhs) const
         {
             return major == rhs.major && minor == rhs.minor;
         }

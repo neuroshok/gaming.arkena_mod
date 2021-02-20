@@ -35,7 +35,18 @@ namespace ark::mods
         , whisper_timer_{ 25 }
         , whisper_range_{ 1.2 }
         , whisper_kill_range_{ 1.8 }
-    {}
+    {
+        mod::add_setting("whisper.timer", 25);
+        mod::add_setting("whisper.death_delay", 8, "The delay before the whispered player kill");
+        mod::add_setting("whisper.whisper_range", 1.2f);
+        mod::add_setting("whisper.whispered_kill_range", 1.8f);
+        mod::add_setting("whisper.aze", "test");
+        mod::add_setting("whisper.zer", "azeaze");
+        //mod::setting<std::string>("whisper.name");
+        //mod::setting<int>("whisper.timer");
+
+        set_description("The Whisperer\nWhen the whisperer kill, the target will not die but kill someone, in the X next seconds. If nobody is in range, the target kills itself");
+    }
 
 
     void whisperer::do_whisper(KillButtonManager* kill_button)
@@ -85,6 +96,8 @@ namespace ark::mods
 
     void whisperer::on_enable()
     {
+        //mod::setting<int>("whisper.timer");
+
         last_kill_time_ = std::chrono::system_clock::now();
 
         mod::hook_intro();
@@ -120,9 +133,10 @@ namespace ark::mods
         });
 
         ark::hook<&KillButtonManager::PerformKill>::overwrite(this,
-            [this](KillButtonManager* self)
+            [this](auto original, KillButtonManager* self)
         {
             ark_trace("TryKill");
+            ark_trace("config : {}", this->setting<std::string>("whisper.aze"));
             //if (whisperer_id_ == mod::player()->PlayerId) do_whisper(self);
             //else do_kill();
             do_whisper(self);

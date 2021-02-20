@@ -1,11 +1,11 @@
 #pragma once
 
-#include <autogen/UnityEngine/MonoBehaviour.hpp>
+#include <autogen/Unity/MonoBehaviour.hpp>
 
 namespace InnerNet {
 
 // NJAHILONGKN in 2020.12.9s
-struct InnerNetObject : UnityEngine::MonoBehaviour {
+struct InnerNetObject : Unity::MonoBehaviour {
     std::uint32_t SpawnId; // [marker]
     std::uint32_t NetId;
     std::uint32_t DirtyBits;
