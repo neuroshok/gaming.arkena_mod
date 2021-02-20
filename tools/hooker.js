@@ -1,13 +1,14 @@
 const fs = require('fs')
 const path = require('path')
 const hookerProtectedMethodsFile = __dirname + "/.hookerProtectedMethod"
+const global = {protectedMethods: []}
 const printTypeMapping = {
 	'PlayerControl*': `varName->PlayerId`
 }
 
 const paramListReducer = (acc, e) => `${acc}${acc ? ', ' : ''}${(printTypeMapping[e.type] || (e.pointer ? `(uintptr_t)${e.name}` : e.name)).replace('varName', e.name)}`
 const paramPrintReducer = (acc, e) => `${acc}${acc ? ', ' : ''}${e.name}(${e.type}): {}`
-const processFile = (file, global) => {
+const processFile = (file) => {
 	console.log(`\n\n -- Processing -- : ${file}`)
 	const folder = path.dirname(file)
 	const rawLines = fs.readFileSync(file).toString().replace(/\/\*[\s\S]*?\*\//g, '').split("\n").map(e => e.trim())
@@ -18,7 +19,7 @@ const processFile = (file, global) => {
 			structName = parseLineStructName(line);
 			continue;
 		}
-		let data = parseLine(line, structName, global)
+		let data = parseLine(line, structName)
 		if (data) dataset.push(data)
 	}
 	if (!structName) throw "Class name not found, pattern : struct NAME : ark::meta<NAME,"
@@ -51,11 +52,13 @@ const processFile = (file, global) => {
 }
 const parseLineStructName = (line) => {
 	const [full, name, name2] = line.match(/^struct (\w+) : ark::meta<(\w+),/) || [null, null, null]
-	if (full && name === name2)
+	if (full && name === name2) {
+		if (global.debug) console.log([full, name, name2])
 		return name;
+	}
 	return null;
 }
-const parseLine = (line, structName, global) => {
+const parseLine = (line, structName) => {
 	if (line.match(/^[\w:*]+ (\w+)\(([^)]+|)\)\s?{\s?.*/)) {
 		let json = line.replace(/^((struct |)([\w:*]+) ([\w]+)\(([^)]+|)\)[^\/]*(\/\/ (0x[A-F0-9]{6})|$).*)/, `{"struct": "$2","type": "$3","method": "$4","rawParameters": "$5", "address": "$7", "full": "$1"}`)
 		if (global.debug) console.log(json)
@@ -81,7 +84,6 @@ try {
 	const filepath = process.argv[2]
 
 	let szi, htpi, hti;
-	const global = {protectedMethods: []}
 	global.hookType = (hti = process.argv.indexOf('--hooktype')) !== -1 && process.argv[hti + 1] ? process.argv[hti + 1] : "override"
 	global.ignoreObfuscated = process.argv.indexOf('--ignore-obfuscated') !== -1
 	global.ignoreNonVoid = process.argv.indexOf('--ignore-non-void') !== -1
@@ -105,20 +107,20 @@ try {
 
 	if (!fs.existsSync(filepath)) throw `File ${filepath} not found`
 	if (fs.lstatSync(filepath).isDirectory()) {
-		let folder = filepath.slice(-1) === '/' ? filepath : filepath+'/'
-		fs.readdirSync(folder).forEach(file => {
-			if (!file.match(/^[A-Za-z]+\.hpp$/)) return;
+		let folder = filepath.slice(-1) === '/' ? filepath : filepath + '/'
+		for (const file of fs.readdirSync(folder)) {
+			if (!file.match(/^[A-Za-z]+\.hpp$/)) continue;
 			try {
-				processFile(`${folder}${file}`, global);
+				processFile(`${folder}${file}`);
 			} catch (e) {
 				if (e === 'Class name not found, pattern : struct NAME : ark::meta<NAME,')
 					console.error(e)
 				else
 					throw e;
 			}
-		});
+		}
 	} else {
-		processFile(filepath, global);
+		processFile(filepath);
 	}
 
 } catch (e) {
