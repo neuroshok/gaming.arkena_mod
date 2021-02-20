@@ -72,8 +72,8 @@ try {
 		let hook = `ark::hook<&${data.fullMethod}>::${data.isProtected ? hookTypeProtected : hookType}`
 		hook += `(this, [](auto original, auto&& self${data.rawParameters ? `, ${data.rawParameters}` : ''}) -> ${data.type} {`
 		hook += `original(self${data.parameters.reduce((acc, e) => `${acc}, ${e.name}`, "")});`
-		if (data.parameters)
-			hook += `ark_trace("${data.fullMethod}(${data.type}), ${data.parameters.reduce(paramPrintReducer, "")}, ",${data.parameters.reduce(paramListReducer, "")});`
+		if (data.parameters.length)
+			hook += `ark_trace("${data.fullMethod}(${data.type}), ${data.parameters.reduce(paramPrintReducer, "")}", ${data.parameters.reduce(paramListReducer, "")});`
 		else
 			hook += `ark_trace("${data.fullMethod}(${data.type}) called");`
 		if (data.type !== 'void')
