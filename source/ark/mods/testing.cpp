@@ -13,9 +13,13 @@
 #include <autogen/PlayerMovement.hpp>
 #include <autogen/RpcCalls.hpp>
 #include <autogen/Unity/Material.hpp>
+#include <autogen/Unity/Sprite.hpp>
+#include <autogen/Unity/SpriteRenderer.hpp>
 #include <autogen/System/String.hpp>
 
 #include <analysis/testing_header.hpp>
+
+#include <il2cpp/api.hpp>
 
 #include <ark/hook.hpp>
 
@@ -28,13 +32,80 @@ namespace ark::mods
 
     void testing::on_enable()
     {
-        #include <analysis/null.hooks.hpp>
+        static UseButton* ptr = nullptr;
+        static int i = 0;
 
-        static std::int32_t i = 0;
+          //#include <analysis/UseButton.hooks.hpp>
+/*
+        ark::hook<&FollowCamera::FixedUpdate>::overwrite(this, [](auto original, auto&& self) -> void {
+            original(self);
+            ark_trace("FollowCamera {}", (uintptr_t)self->Target);
+            ark_trace("FollowCamera::FixedUpdate(void) {}", self->Offset.x);
+            ark_trace("FollowCamera::FixedUpdate(void) {}", self->Offset.y);
+            ark_trace("FollowCamera::FixedUpdate(void) {}", self->Locked);
+            ark_trace("FollowCamera::FixedUpdate(void) {}", self->shakeAmount);
+            ark_trace("FollowCamera::FixedUpdate(void) {}", self->shakePeriod);
+        }); // 0x154704
+*/
+
+
+        ark::hook<&KillButtonManager::SetTarget>::overwrite(this, [](auto original, auto&& self, PlayerControl* target) -> void {
+            original(self, target);
+            ark_trace("KillButtonManager::SetTarget(void), target(PlayerControl*): {}", (uintptr_t)target);
+
+            ark_trace(": {}", (uintptr_t)self->CurrentTarget);
+            ark_trace(": {}", (uintptr_t)self->TimerText);
+            ark_trace(": {}", (uintptr_t)self->renderer);
+            ark_trace(": {}", self->isCoolingDown);
+            ark_trace(": {}", self->isActive);
+        }); // 0xFEF4B0
+
+
+        ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto&& o, KillButtonManager* self) {
+            ark_trace("PerformKill");
+
+            // ark_trace(": {}", (uintptr_t)self->renderer);
+            // ark_trace(": {}", (uintptr_t)self->renderer->color.r);
+            // self->renderer->color.r = 1;
+
+            // auto k = il2cpp::api::object_new<KillButtonManager>(self->klass);
+
+            // o(self);
+            /*
+
+            k->renderer = self->renderer;
+            k->renderer->set_color({1, 0, 0});*/
+
+            // self->renderer->set_color({1, 0, 0});
+            // ark_trace(": {}", self->renderer->);
+            // ark_trace(": {}", self->renderer->get_size().y);
+
+            // ark_trace(": {}", ((uintptr_t)&self->CurrentTarget - (uintptr_t)self));
+            // ark_trace(": {}", ((uintptr_t)&self->renderer - (uintptr_t)&self->CurrentTarget));
+            ark_trace(": {}", (uintptr_t)self->CurrentTarget);
+            ark_trace(": {}", (uintptr_t)self->TimerText);
+            ark_trace(": {}", (uintptr_t)self->renderer);
+            ark_trace(": {}", self->isCoolingDown);
+            ark_trace(": {}", self->isActive);
+            // ark_trace(": {}", self->set_useGUILayout(false));
+            o(self);
+        });
+
+        ark::hook<&ShipStatus::Begin>::after(this, [this](ShipStatus* self)
+        {
+            ark_trace("Game start");
+/*
+            for (auto* player : *GameData::statics()->instance->AllPlayers)
+            {
+                auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
+                ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+            }*/
+        });
+
 
         ark::hook<&PlayerControl::SetColor>::overwrite(this, [](auto&& original, auto&& pc, auto&& c)
         {
-            ++i;
+
 
         });
 

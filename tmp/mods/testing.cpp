@@ -28,7 +28,7 @@ namespace ark::mods
 
 /*
         core().template hook<&PlayerMovement::WalkPlayerTo>(
-            [this](auto original, PlayerMovement* self, UnityEngine::Vector2 worldPos, float tolerance)
+            [this](auto original, PlayerMovement* self, Unity::Vector2 worldPos, float tolerance)
         {
             ark_trace("WalkPlayerTo {} {} {}", worldPos.x, worldPos.y, tolerance);
             //ark_trace("PlayerControl::instance() {}", (uintptr_t)PlayerControl::instance());

@@ -6,7 +6,7 @@
 #include <autogen/Unity/Color.hpp>
 #include <autogen/Unity/TextRenderer.hpp>
 
-class EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex: 8507
+struct EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex: 8507
 {
 	ark_meta("", "ABNGEPFHMHP");
 

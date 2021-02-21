@@ -19,10 +19,6 @@ namespace ark::mods
 
     void tournament::on_enable()
     {
-        #include <analysis/PlayerControl.hooks.hpp>
-        //#include <analysis/GameData.hooks.hpp>
-
-
         ark::hook<&PlayerControl::CompleteTask>::before(
         this, [](auto&& self, std::uint32_t v) -> void
         {

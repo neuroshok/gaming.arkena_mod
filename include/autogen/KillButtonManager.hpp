@@ -3,19 +3,21 @@
 #include <ark/class.hpp>
 #include <autogen/Unity/MonoBehaviour.hpp>
 #include <autogen/Unity/Vector2.hpp>
+#include <autogen/Unity/SpriteRenderer.hpp>
 #include <autogen/Unity/TextRenderer.hpp>
 
 // KillButtonManager
 struct KillButtonManager : ark::meta<KillButtonManager, Unity::MonoBehaviour> // TypeDefIndex: 8657
 {
+    //static_assert(sizeof(Unity::MonoBehaviour) == 0xC);
 	ark_meta("", "MLPJGKEACMM");
-    
-	struct PlayerControl* CurrentTarget; // 0xC
-	struct SpriteRenderer* renderer; // 0x10
+
+	PlayerControl* CurrentTarget; // 0xC
+	Unity::SpriteRenderer* renderer; // 0x10
 	Unity::TextRenderer* TimerText; // 0x14
 	bool isCoolingDown; // 0x18
-	bool isActive; // 0x19
-	Unity::Vector2 FFHAJFJBHHN; // 0x1C
+	std::uint8_t isActive; // 0x19
+	Unity::Vector2 position; // 0x1C
 
 	void CGEIAPGMDII(PlayerControl* target) { method_call(CGEIAPGMDII, target); } // 0xFE3E00 
 	void DCJEMIAHHGN() { method_call(DCJEMIAHHGN); } // 0xFE4730

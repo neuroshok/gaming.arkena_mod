@@ -6,8 +6,9 @@
 #include <autogen/Unity/Color.hpp>
 
 // HLBNNHFCNAJ in 2020.12.9s
-struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject> {
-    static inline auto internal_name = "HLBNNHFCNAJ";
+struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject>
+{
+    ark_meta("", "HLBNNHFCNAJ");
 
     enum class MapType : std::int32_t {
         Ship = 0,

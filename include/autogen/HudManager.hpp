@@ -5,6 +5,7 @@
 #include <autogen/Hazel/MessageWriter.hpp>
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/PlayerTask.hpp>
+#include <autogen/UseButton.hpp>
 #include <autogen/System/Collections/Generic/List.hpp>
 #include <autogen/Unity/TextRenderer.hpp>
 #include <autogen/Unity/Renderer.hpp>
@@ -17,12 +18,12 @@ struct HudManager : ark::meta<HudManager, Unity::MonoBehaviour> // TypeDefIndex:
 {
     ark_meta("", "PIEFJFEOGOL");
 
-    bool b; // PPAEIPHJPDH<HudManager>
+    bool b; // inerithed: PPAEIPHJPDH<HudManager>
 
     struct KGIKNCBGPFJ* PlayerCam; // 0x10
     struct OOCJALPKPEP* MeetingPrefab; // 0x14
-    struct MLPJGKEACMM* KillButton; // 0x18
-    struct LJKIJNFBBHH* UseButton; // 0x1C
+    KillButtonManager* KillButton; // 0x18
+    UseButton* UseButton; // 0x1C
     struct HFFEFDMADEK* ReportButton; // 0x20
     Unity::TextRenderer* GameSettings; // 0x24
     struct GameObject* TaskStuff; // 0x28

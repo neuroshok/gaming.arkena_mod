@@ -21,6 +21,10 @@ namespace il2cpp
         { return process<il2cpp::Il2CppClass*(*)(const il2cpp::Il2CppImage*, const char*, const char*)>(il2cpp_class_from_name_ptr, image, namespaze, name); }
 
         template<class T>
+        static T* object_new(const il2cpp::Il2CppClass* k)
+        { return reinterpret_cast<T*>(process<il2cpp::Il2CppObject*(*)(const il2cpp::Il2CppClass*)>(il2cpp_object_new_ptr, k)); }
+
+        template<class T>
         static il2cpp::array<T>* array_new(il2cpp::Il2CppClass* k, uintptr_t l)
         { return process<il2cpp::array<T>*(*)(il2cpp::Il2CppClass*, uintptr_t len)>(il2cpp_array_new_ptr, k,  l); }
 
@@ -69,6 +73,10 @@ namespace il2cpp
         static inline FARPROC il2cpp_domain_get_assemblies_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_domain_get_assemblies");
         static inline FARPROC il2cpp_assembly_get_image_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_assembly_get_image");
         static inline FARPROC il2cpp_class_from_name_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_class_from_name");
+
+
+        //static inline FARPROC il2cpp_runtime_class_init_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_runtime_class_init");
+        static inline FARPROC il2cpp_object_new_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_object_new");
 
         static inline FARPROC il2cpp_array_new_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_array_new");
         static inline FARPROC il2cpp_string_new_len_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_string_new_len");

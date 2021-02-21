@@ -84,7 +84,7 @@ try {
 	const filepath = process.argv[2]
 
 	let szi, htpi, hti;
-	global.hookType = (hti = process.argv.indexOf('--hooktype')) !== -1 && process.argv[hti + 1] ? process.argv[hti + 1] : "override"
+	global.hookType = (hti = process.argv.indexOf('--hooktype')) !== -1 && process.argv[hti + 1] ? process.argv[hti + 1] : "overwrite"
 	global.ignoreObfuscated = process.argv.indexOf('--ignore-obfuscated') !== -1
 	global.ignoreNonVoid = process.argv.indexOf('--ignore-non-void') !== -1
 	global.debug = process.argv.indexOf('--debug') !== -1
@@ -114,7 +114,7 @@ try {
 				processFile(`${folder}${file}`);
 			} catch (e) {
 				if (e === 'Class name not found, pattern : struct NAME : ark::meta<NAME,')
-					console.error(e)
+					console.log(e)
 				else
 					throw e;
 			}

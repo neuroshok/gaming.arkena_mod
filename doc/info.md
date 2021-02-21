@@ -1,10 +1,22 @@
+# Camera
+FollowCamera::FixedUpdate
+```
+ark::hook<&FollowCamera::FixedUpdate>::overwrite(this, [](auto original, auto&& self) -> void {
+
+auto pos = GameData::statics()->instance->GetPlayerById(0)->_object->GetTruePosition();
+self->Offset = {0, 0};
+self->Locked = false;
+self->Target = GameData::statics()->instance->GetPlayerById(0)->_object;
+original(self);
+```
+
 # Material
 _BodyColor
 _BackColor : color over the body
 _VisorColor : the visor
 SetPlayerMaterialColors_2 : std::int32_t is renderer ptr
 
-
+# Shader
 
 
 

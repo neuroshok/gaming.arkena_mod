@@ -3,7 +3,68 @@
 #include <ark/class.hpp>
 
 #include <autogen/Unity/MonoBehaviour.hpp>
+#include <autogen/Unity/TextRenderer.hpp>
 
+struct FOONEKDGJBL : ark::meta<FOONEKDGJBL, Unity::MonoBehaviour> // TypeDefIndex: 8943
+{
+	ark_meta("", "FOONEKDGJBL");
+
+	struct SpriteRenderer* Body; // 0xC
+	struct SpriteRenderer* Hands; // 0x10
+	struct DAMECBEEJAL* HatSlot; // 0x14
+	struct SpriteRenderer* SkinSlot; // 0x18
+	struct SpriteRenderer* PetSlot; // 0x1C
+	Unity::TextRenderer* NameText; // 0x20
+
+	void JEJGBGGEEBL(bool EEBEPJKKIJK) { return method_call(JEJGBGGEEBL, EEBEPJKKIJK); } // 0x136F2F0
+	void CHGIJHLOHBK(bool EEBEPJKKIJK) { return method_call(CHGIJHLOHBK, EEBEPJKKIJK); } // 0x136E5A0
+	void IPKGDEHGFCP(bool EEBEPJKKIJK) { return method_call(IPKGDEHGFCP, EEBEPJKKIJK); } // 0x136F080
+	void HIGBLHOICAC(bool EEBEPJKKIJK) { return method_call(HIGBLHOICAC, EEBEPJKKIJK); } // 0x136EC90
+	void SetDeadFlipX(bool EEBEPJKKIJK) { return method_call(SetDeadFlipX, EEBEPJKKIJK); } // 0x136FAA0
+	void CNHGGLLBJIH(bool EEBEPJKKIJK) { return method_call(CNHGGLLBJIH, EEBEPJKKIJK); } // 0x136E690
+	void HJDGIOCPFBF(bool EEBEPJKKIJK) { return method_call(HJDGIOCPFBF, EEBEPJKKIJK); } // 0x136ED80
+	void JADJOGMOOOM(bool EEBEPJKKIJK) { return method_call(JADJOGMOOOM, EEBEPJKKIJK); } // 0x136F200
+	void GAPBAPKDHAF(bool EEBEPJKKIJK) { return method_call(GAPBAPKDHAF, EEBEPJKKIJK); } // 0x136EB10
+	void ODIBLKMCCHK(bool EEBEPJKKIJK) { return method_call(ODIBLKMCCHK, EEBEPJKKIJK); } // 0x136F8C0
+	void KABHICBDDPN(bool EEBEPJKKIJK) { return method_call(KABHICBDDPN, EEBEPJKKIJK); } // 0x136F3E0
+	void LBEAKMMGEJB(bool EEBEPJKKIJK) { return method_call(LBEAKMMGEJB, EEBEPJKKIJK); } // 0x136F560
+	void PMOAFOJAGBI(bool EEBEPJKKIJK) { return method_call(PMOAFOJAGBI, EEBEPJKKIJK); } // 0x136F9B0
+	void SetFlipX(bool EEBEPJKKIJK) { return method_call(SetFlipX, EEBEPJKKIJK); } // 0x136FB90
+	void MIFCEFCGGOA(bool EEBEPJKKIJK) { return method_call(MIFCEFCGGOA, EEBEPJKKIJK); } // 0x136F650
+	void DHDGKAFNNMO(bool EEBEPJKKIJK) { return method_call(DHDGKAFNNMO, EEBEPJKKIJK); } // 0x136E810
+	void IACHDNCFKNF(bool EEBEPJKKIJK) { return method_call(IACHDNCFKNF, EEBEPJKKIJK); } // 0x136EF00
+	void DOANFLIHMNG(bool EEBEPJKKIJK) { return method_call(DOANFLIHMNG, EEBEPJKKIJK); } // 0x136E990
+	void ANDKCBEDCHD(bool EEBEPJKKIJK) { return method_call(ANDKCBEDCHD, EEBEPJKKIJK); } // 0x136E4B0
+	void OAGOGGIDJFG(bool EEBEPJKKIJK) { return method_call(OAGOGGIDJFG, EEBEPJKKIJK); } // 0x136F740
+	void _ctor() { return method_call(_ctor, ); } // 0x38A130
+};
+namespace ark::method_info
+{
+
+	method_rva(FOONEKDGJBL::JEJGBGGEEBL, 0x136F2F0)
+	method_rva(FOONEKDGJBL::CHGIJHLOHBK, 0x136E5A0)
+	method_rva(FOONEKDGJBL::IPKGDEHGFCP, 0x136F080)
+	method_rva(FOONEKDGJBL::HIGBLHOICAC, 0x136EC90)
+	method_rva(FOONEKDGJBL::SetDeadFlipX, 0x136FAA0)
+	method_rva(FOONEKDGJBL::CNHGGLLBJIH, 0x136E690)
+	method_rva(FOONEKDGJBL::HJDGIOCPFBF, 0x136ED80)
+	method_rva(FOONEKDGJBL::JADJOGMOOOM, 0x136F200)
+	method_rva(FOONEKDGJBL::GAPBAPKDHAF, 0x136EB10)
+	method_rva(FOONEKDGJBL::ODIBLKMCCHK, 0x136F8C0)
+	method_rva(FOONEKDGJBL::KABHICBDDPN, 0x136F3E0)
+	method_rva(FOONEKDGJBL::LBEAKMMGEJB, 0x136F560)
+	method_rva(FOONEKDGJBL::PMOAFOJAGBI, 0x136F9B0)
+	method_rva(FOONEKDGJBL::SetFlipX, 0x136FB90)
+	method_rva(FOONEKDGJBL::MIFCEFCGGOA, 0x136F650)
+	method_rva(FOONEKDGJBL::DHDGKAFNNMO, 0x136E810)
+	method_rva(FOONEKDGJBL::IACHDNCFKNF, 0x136EF00)
+	method_rva(FOONEKDGJBL::DOANFLIHMNG, 0x136E990)
+	method_rva(FOONEKDGJBL::ANDKCBEDCHD, 0x136E4B0)
+	method_rva(FOONEKDGJBL::OAGOGGIDJFG, 0x136F740)
+	method_rva(FOONEKDGJBL::_ctor, 0x38A130)
+}
+
+/*
 struct ONBHCKMBBKI : ark::meta<ONBHCKMBBKI, Unity::MonoBehaviour> // TypeDefIndex: 8942
 {
 	ark_meta("", "ONBHCKMBBKI");
@@ -211,3 +272,4 @@ namespace ark::method_info
 	method_rva(ONBHCKMBBKI::NKBBEGCPFJJ, 0xCA5740)
 	method_rva(ONBHCKMBBKI::GAMFBBEJILD, 0xCA4150)
 }
+ */
