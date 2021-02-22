@@ -6,6 +6,14 @@
 
 namespace il2cpp
 {
+    class api;
+
+    template<class T>
+    auto make() { return il2cpp::api::template object_new<T>(api::template get_class<T>()); }
+
+    template<class T>
+    auto make_array(int size) { return il2cpp::api::template array_new<T>(api::template get_class<T>(), size); }
+
     class api
     {
     public:
@@ -34,13 +42,18 @@ namespace il2cpp
         static il2cpp::string* string_new_len(const char* text, int32_t len)
         { return process<il2cpp::string*(*)(const char* text, int32_t)>(il2cpp_string_new_len_ptr, text, len); }
 
-
-        static inline il2cpp::Il2CppClass* get_class(const char* namespace_, const char* class_)
+        template<class T>
+        static inline il2cpp::Il2CppClass* get_class()
         {
+            auto namespace_ = T::internal_ns;
+            auto class_ = T::internal_name;
+
             auto dom = domain_get();
 
             std::size_t assembly_count = 0;
             const auto assemblies = domain_get_assemblies(dom, &assembly_count);
+
+            Il2CppClass* cls = nullptr;
 
             for (auto it = assemblies; it != assemblies + assembly_count; ++it) {
                 auto img = assembly_get_image(*it);
@@ -49,13 +62,14 @@ namespace il2cpp
                     continue;
                 }
 
-                auto cls = class_from_name(img, namespace_, class_);
+                cls = class_from_name(img, namespace_, class_);
                 if (!cls) {
                     continue;
                 }
-
-                return cls;
             }
+
+            static auto klass = cls;
+            return klass;
 
             spdlog::error("class not found {}:{}", class_, namespace_[0] ? namespace_ : "(none)");
             return nullptr;

@@ -54,7 +54,7 @@ namespace ark::mods
                         auto version_ok = data->ReadByte();
                         if (!version_ok)
                         {
-                            mod::log("{} has incompatible mods", mod::player(id)->PlayerName->to_utf8());
+                            mod::log("{} has incompatible mods", mod::player(id)->PlayerName->str());
                         }
                         else ++compatible_players_count_;
 
@@ -99,8 +99,8 @@ namespace ark::mods
         ark::hook<&GameStartManager::Start>::after(this, [this](auto self)
         {
             start_manager_ = self;
-            set_clipboard(self->GameRoomName->Text->to_utf8().substr(6));
-            self->GameRoomName->Text = System::String::make("[6666FFff]BETA TEST\nGAME");
+            set_clipboard(self->GameRoomName->Text->str().substr(6));
+            self->GameRoomName->Text = cs::make_string("[6666FFff]BETA TEST\nGAME");
         });
 
         ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto original, auto self)

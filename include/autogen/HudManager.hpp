@@ -84,7 +84,7 @@ struct HudManager : ark::meta<HudManager, Unity::MonoBehaviour> // TypeDefIndex:
     void FGBAFLCABBG() { return method_call(FGBAFLCABBG); } // 0x43ECA0
     struct IEnumerator* EMBEPDDFHPP(bool NOAHCIHCNBO) { return method_call(EMBEPDDFHPP, NOAHCIHCNBO); } // 0x43F6C0
     void OMIIJJMJLGI() { return method_call(OMIIJJMJLGI); } // 0x441630
-    void OGODANMOIFD(System::String* OLNAEHKDFFB) { return method_call(OGODANMOIFD, OLNAEHKDFFB); } // 0x441600
+    void OGODANMOIFD(cs::string* OLNAEHKDFFB) { return method_call(OGODANMOIFD, OLNAEHKDFFB); } // 0x441600
     struct IEnumerator* KAIADKNGNCB(bool NOAHCIHCNBO) { return method_call(KAIADKNGNCB, NOAHCIHCNBO); } // 0x4406F0
     void KCBGLCHPOCK() { return method_call(KCBGLCHPOCK); } // 0x440750
     void CAHDDOGFHLH() { return method_call(CAHDDOGFHLH); } // 0x43F090
@@ -108,7 +108,7 @@ struct HudManager : ark::meta<HudManager, Unity::MonoBehaviour> // TypeDefIndex:
     void DMEBBBLDDCN() { return method_call(DMEBBBLDDCN); } // 0x43F310
     void JMCIAHBBHFL(float MCOMGMHOBDJ) { return method_call(JMCIAHBBHFL, MCOMGMHOBDJ); } // 0x440510
     struct IEnumerator* KMMCAKKPFNA(struct Color* HLHMFLICGMB, struct Color* CAKODNGLPDF, float KNJBBEFMHBI = 0.2) { return method_call(KMMCAKKPFNA, HLHMFLICGMB, CAKODNGLPDF, KNJBBEFMHBI); } // 0x4409D0
-    void ShowPopUp(System::String* OLNAEHKDFFB) { return method_call(ShowPopUp, OLNAEHKDFFB); } // 0x4427C0
+    void ShowPopUp(cs::string* OLNAEHKDFFB) { return method_call(ShowPopUp, OLNAEHKDFFB); } // 0x4427C0
     struct Coroutine* JEFIGDFFBCE() { return method_call(JEFIGDFFBCE); } // 0x1E7850
     void IHNDHDGKKFG(struct Coroutine* HIJOHCLAKMG) { return method_call(IHNDHDGKKFG, HIJOHCLAKMG); } // 0x1E7A40
     void NCHDHEHGLAC() { return method_call(NCHDHEHGLAC); } // 0x43F090
@@ -155,7 +155,7 @@ struct HudManager : ark::meta<HudManager, Unity::MonoBehaviour> // TypeDefIndex:
     void PBAKFBLOGMB() { return method_call(PBAKFBLOGMB); } // 0x441C70
     void IJJMGEHJMDK(struct Coroutine* HIJOHCLAKMG) { return method_call(IJJMGEHJMDK, HIJOHCLAKMG); } // 0x1E63C0
     struct IEnumerator* GBFLDDHLKEM() { return method_call(GBFLDDHLKEM); } // 0x43F940
-    void FDJDFACBHAO(System::String* OLNAEHKDFFB) { return method_call(FDJDFACBHAO, OLNAEHKDFFB); } // 0x43F720
+    void FDJDFACBHAO(cs::string* OLNAEHKDFFB) { return method_call(FDJDFACBHAO, OLNAEHKDFFB); } // 0x43F720
     void FMPNHLJGJML() { return method_call(FMPNHLJGJML); } // 0x43F210
     void SetHudActive(bool KAGOIINIBKN) { return method_call(SetHudActive, KAGOIINIBKN); } // 0x4420D0
     void EFJFAKMMDMI(struct Coroutine* HIJOHCLAKMG) { return method_call(EFJFAKMMDMI, HIJOHCLAKMG); } // 0x1E63C0

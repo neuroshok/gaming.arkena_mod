@@ -24,7 +24,7 @@ namespace ark
     {
         static auto statics()
         {
-            static auto k = il2cpp::api::get_class(K::internal_ns, K::internal_name);
+            static auto k = il2cpp::api::get_class<K>();
             assert(k);
             return reinterpret_cast<typename K::internal_statics*>(k->static_fields);
         }

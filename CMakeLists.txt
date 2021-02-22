@@ -48,6 +48,12 @@ target_include_directories(lib_kiero INTERFACE
         ${PROJECT_SOURCE_DIR}/third_party/kiero/backends/
         ${PROJECT_SOURCE_DIR}/third_party/imgui)
 
+# nlohmann
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(third_party/json)
+add_library(lib_json INTERFACE)
+target_include_directories(lib_json INTERFACE third_party/json/include)
+
 # arkena_mod
 file(GLOB_RECURSE ARK_SOURCES
         ${PROJECT_SOURCE_DIR}/include/ark/*
@@ -64,7 +70,7 @@ if (NO_CONSOLE)
 endif()
 
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog ws2_32.lib)
+target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json ws2_32.lib)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(arkena_mod PROPERTIES

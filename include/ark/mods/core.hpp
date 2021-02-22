@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ark/mod.hpp>
+#include <ark/mods/core/server.hpp>
 
 namespace ark { class core; }
 
@@ -16,6 +17,8 @@ namespace ark::mods
         void on_enable() override;
 
     private:
+        ark::mods::core_server server_;
+
         GameStartManager* start_manager_;
 
         int compatible_players_count_;

@@ -13,7 +13,7 @@ namespace Unity
         void CreateWithString(Material* self) { return method_call(CreateWithString, self); }                                      // 0xC07770
         void _ctor(struct Shader* shader) { return method_call(_ctor, shader); }                                                          // 0xC07FA0
         void _ctor_1(Material* source) { return method_call(_ctor_1, source); }                                                        // 0xC07EB0
-        void _ctor_2(System::String* contents) { return method_call(_ctor_2, contents); }                                                      // 0xC07F30
+        void _ctor_2(cs::string* contents) { return method_call(_ctor_2, contents); }                                                      // 0xC07F30
         void set_color(Unity::Color value) { return method_call(set_color, value); }                                                     // 0xC080B0
         struct Texture* get_mainTexture() { return method_call(get_mainTexture, ); }                                                      // 0xC08020
         std::int32_t GetFirstPropertyNameIdByAttribute(struct ShaderPropertyFlags* attributeFlag)
@@ -21,9 +21,9 @@ namespace Unity
             return method_call(GetFirstPropertyNameIdByAttribute, attributeFlag);
         }                                                                                                                                // 0xC078D0
         bool HasProperty(std::int32_t nameID) { return method_call(HasProperty, nameID); }                                               // 0xC07B90
-        bool HasProperty_1(System::String* name) { return method_call(HasProperty_1, name); }                                                 // 0xC07B50
-        void EnableKeyword(System::String* keyword) { return method_call(EnableKeyword, keyword); }                                       // 0xC077D0
-        void DisableKeyword(System::String* keyword) { return method_call(DisableKeyword, keyword); }                                     // 0xC077A0
+        bool HasProperty_1(cs::string* name) { return method_call(HasProperty_1, name); }                                                 // 0xC07B50
+        void EnableKeyword(cs::string* keyword) { return method_call(EnableKeyword, keyword); }                                       // 0xC077D0
+        void DisableKeyword(cs::string* keyword) { return method_call(DisableKeyword, keyword); }                                     // 0xC077A0
         void SetFloatImpl(std::int32_t name, float value) { return method_call(SetFloatImpl, name, value); }                             // 0xC07CB0
         void SetColorImpl(std::int32_t name, Unity::Color value) { return method_call(SetColorImpl, name, value); }                     // 0xC07BF0
         void SetTextureImpl(std::int32_t name, struct Texture* value) { return method_call(SetTextureImpl, name, value); }               // 0xC07D90
@@ -32,18 +32,18 @@ namespace Unity
         struct Texture* GetTextureImpl(std::int32_t name) { return method_call(GetTextureImpl, name); }                                  // 0xC07980
         struct Vector4* GetTextureScaleAndOffsetImpl(std::int32_t name) { return method_call(GetTextureScaleAndOffsetImpl, name); }      // 0xC07AD0
         void SetTextureOffsetImpl(std::int32_t name, struct Vector2* offset) { return method_call(SetTextureOffsetImpl, name, offset); } // 0xC07DF0
-        void SetFloat(System::String* name, float value) { return method_call(SetFloat, name, value); }                                   // 0xC07CF0
-        void SetInt(System::String* name, std::int32_t value) { return method_call(SetInt, name, value); }                                // 0xC07D40
-        void SetColor(System::String* name, Unity::Color value) { return method_call(SetColor, name, value); }                           // 0xC07C60
+        void SetFloat(cs::string* name, float value) { return method_call(SetFloat, name, value); }                                   // 0xC07CF0
+        void SetInt(cs::string* name, std::int32_t value) { return method_call(SetInt, name, value); }                                // 0xC07D40
+        void SetColor(cs::string* name, Unity::Color value) { return method_call(SetColor, name, value); }                           // 0xC07C60
         void SetColor_1(std::int32_t nameID, Unity::Color value) { return method_call(SetColor_1, nameID, value); }                         // 0xC07C20
-        void SetVector(System::String* name, struct Vector4* value) { return method_call(SetVector, name, value); }                       // 0xC07C60
-        void SetTexture(System::String* name, struct Texture* value) { return method_call(SetTexture, name, value); }                     // 0xC07E70
-        std::int32_t GetInt(System::String* name) { return method_call(GetInt, name); }                                                   // 0xC07930
-        Unity::Color GetColor(System::String* name) { return method_call(GetColor, name); }                                              // 0xC07870
-        struct Texture* GetTexture(System::String* name) { return method_call(GetTexture, name); }                                        // 0xC07B10
+        void SetVector(cs::string* name, struct Vector4* value) { return method_call(SetVector, name, value); }                       // 0xC07C60
+        void SetTexture(cs::string* name, struct Texture* value) { return method_call(SetTexture, name, value); }                     // 0xC07E70
+        std::int32_t GetInt(cs::string* name) { return method_call(GetInt, name); }                                                   // 0xC07930
+        Unity::Color GetColor(cs::string* name) { return method_call(GetColor, name); }                                              // 0xC07870
+        struct Texture* GetTexture(cs::string* name) { return method_call(GetTexture, name); }                                        // 0xC07B10
         //struct Texture* GetTexture(std::int32_t nameID) { return method_call(GetTexture, nameID); }                                      // 0xC07980
-        void SetTextureOffset(System::String* name, struct Vector2* value) { return method_call(SetTextureOffset, name, value); }         // 0xC07E20
-        struct Vector2* GetTextureOffset(System::String* name) { return method_call(GetTextureOffset, name); }                            // 0xC079B0
+        void SetTextureOffset(cs::string* name, struct Vector2* value) { return method_call(SetTextureOffset, name, value); }         // 0xC07E20
+        struct Vector2* GetTextureOffset(cs::string* name) { return method_call(GetTextureOffset, name); }                            // 0xC079B0
         //struct Vector2* GetTextureOffset(std::int32_t nameID) { return method_call(GetTextureOffset, nameID); }                          // 0xC07A30
         void SetColorImpl_Injected(std::int32_t name, Unity::Color value) { return method_call(SetColorImpl_Injected, name, value); }   // 0xC07BC0
         void GetColorImpl_Injected(std::int32_t name, Unity::Color ret) { return method_call(GetColorImpl_Injected, name, ret); }       // 0xC07800

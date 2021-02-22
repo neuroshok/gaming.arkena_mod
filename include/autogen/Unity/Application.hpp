@@ -1,6 +1,6 @@
 #pragma once
 
-#include <autogen/System/String.hpp>
+#include <cs/string.hpp>
 
 #include <string>
 

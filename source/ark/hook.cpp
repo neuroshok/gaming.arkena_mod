@@ -9,7 +9,7 @@
 #include <autogen/KillButtonManager.hpp>
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
-#include <autogen/System/String.hpp>
+#include <cs/string.hpp>
 #include <autogen/Unity/Material.hpp>
 #include <autogen/HudManager.hpp>
 
@@ -33,6 +33,7 @@ namespace ark
 
         //#include <analysis/PlayerControl.init.hpp>
         //#include <analysis/GameData.init.hpp>
+
             /*
         hkr(bool, IntroCutScene::CKACLKCOJFO::MoveNext);
         hk(InnerNet::InnerNetClient::Update);
@@ -49,6 +50,9 @@ namespace ark
 
         hk(GameStartManager::Start);
         hk(GameStartManager::BeginGame);*/
+
+        hk(ServerManager::_ctor);
+        hk(InnerNet::InnerNetClient::SetEndpoint);
     }
 } // ark
 

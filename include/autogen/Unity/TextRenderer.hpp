@@ -21,7 +21,7 @@ namespace Unity
         void* textLinkPrefab; // 0x1C
         void* JAKKLJIKCCB; // 0x20
         void* render; // 0x24
-        System::String* Text; // 0x28
+        cs::string* Text; // 0x28
         void* LAHIBHEEDMH; // 0x2C
         Color color; // 0x30
         Color BHOFIDCCIGG; // 0x40

@@ -112,7 +112,7 @@ namespace ark::mods
 
                 for (auto* player : *GameData::statics()->instance->AllPlayers)
                 {
-                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), player->IsImpostor);
+                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), player->IsImpostor);
                 }
             }
         );

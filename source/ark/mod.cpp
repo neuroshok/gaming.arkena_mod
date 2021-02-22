@@ -80,8 +80,8 @@ namespace ark
             self->title.g = intro_.title_color.g;
             self->title.b = intro_.title_color.b;
 
-            self->__this->Title->Text = System::String::make(intro_.title);
-            self->__this->ImpostorText->Text = System::String::make(intro_.subtitle);
+            self->__this->Title->Text = cs::make_string(intro_.title);
+            self->__this->ImpostorText->Text = cs::make_string(intro_.subtitle);
 
             self->isImpostor = false;
 

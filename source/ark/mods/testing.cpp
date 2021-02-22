@@ -12,7 +12,8 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/PlayerMovement.hpp>
 #include <autogen/RpcCalls.hpp>
-#include <autogen/System/String.hpp>
+#include <cs/string.hpp>
+#include <cs/string.hpp>
 #include <autogen/Unity/Material.hpp>
 #include <autogen/Unity/Sprite.hpp>
 #include <autogen/Unity/SpriteRenderer.hpp>
@@ -25,6 +26,7 @@
 #include <ark/hook.hpp>
 
 #include <winSock.h>
+#include <autogen/ServerInfo.hpp>
 
 namespace ark::mods
 {
@@ -38,7 +40,10 @@ namespace ark::mods
         static UseButton* ptr = nullptr;
         static int i = 0;
 
-          #include <analysis/ServerData.hooks.hpp>
+          #include <analysis/ServerManager.hooks.hpp>
+
+
+
 
         ark::hook<&KillButtonManager::_ctor>::overwrite(this, [](auto original, auto&& self) -> void {
             self->renderer->set_size({2, 2});
@@ -89,7 +94,7 @@ namespace ark::mods
 
             /*
             ark_trace(": {}", (uintptr_t)self->CurrentTarget);
-            ark_trace(": {}", self->TimerText->Text->to_utf8());
+            ark_trace(": {}", self->TimerText->Text->str());
             ark_trace(": {}", self->renderer->get_size().x);
             ark_trace(": {}", self->renderer->get_size().y);
             ark_trace(": {}", self->renderer->get_sprite()->get_rect().x);
@@ -107,7 +112,7 @@ namespace ark::mods
             for (auto* player : *GameData::statics()->instance->AllPlayers)
             {
                 auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
-                ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+                ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
 
 
                 if (player->PlayerId != 0)
@@ -145,8 +150,8 @@ auto pc = mod::player_control(player->PlayerId);
             self->title.g = 149.f / 255;
             self->title.b = 237.f / 255;
 
-            self->__this->Title->Text = System::String::make("Sorcerers");
-            self->__this->ImpostorText->Text = System::String::make("Whisperer\n[FFFFFFFF]Arkena John Bernard");
+            self->__this->Title->Text = cs::make_string("Sorcerers");
+            self->__this->ImpostorText->Text = cs::make_string("Whisperer\n[FFFFFFFF]Arkena John Bernard");
 
             std::string test;
 

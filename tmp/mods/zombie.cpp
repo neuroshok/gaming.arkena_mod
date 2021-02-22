@@ -91,7 +91,7 @@ namespace ark::mods
 
         for (auto* player : *GameData::statics()->instance->AllPlayers)
         {
-            ark_trace("Name : {} - {}", player->PlayerName->to_utf8(), player->IsImpostor);
+            ark_trace("Name : {} - {}", player->PlayerName->str(), player->IsImpostor);
             ark_trace("Impostor : {}", player->IsImpostor);
             if (player->IsImpostor) zombie_id_ = player->PlayerId;
             //players_.emplace_back(const_cast<GameData::PlayerInfo*>(player));

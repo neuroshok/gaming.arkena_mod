@@ -5,3 +5,4 @@
 #include <autogen/HudManager.hpp>
 #include <autogen/UseButton.hpp>
 #include <autogen/ServerInfo.hpp>
+#include <autogen/ServerManager.hpp>

@@ -56,8 +56,8 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	void FinishRpcImmediately(struct MessageWriter* HOGCHJCFDFO) { return method_call(FinishRpcImmediately, HOGCHJCFDFO); } // 0xCF32D0
 	//void SendRpc(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA = 1) { return method_call(SendRpc, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA); } // 0xCF6010
 	//struct MessageWriter* StartRpc(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA = 1) { return method_call(StartRpc, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA); } // 0xCF6290
-	void EJPNADKABHD(System::String* ONJOPMMPHEF) { return method_call(EJPNADKABHD, ONJOPMMPHEF); } // 0xCF2D50
-	struct IEnumerator* JCFDHINLMDK(System::String* ONJOPMMPHEF) { return method_call(JCFDHINLMDK, ONJOPMMPHEF); } // 0xCF3F10
+	void EJPNADKABHD(cs::string* ONJOPMMPHEF) { return method_call(EJPNADKABHD, ONJOPMMPHEF); } // 0xCF2D50
+	struct IEnumerator* JCFDHINLMDK(cs::string* ONJOPMMPHEF) { return method_call(JCFDHINLMDK, ONJOPMMPHEF); } // 0xCF3F10
 	void Spawn(struct NJAHILONGKN* ELJOFHKOOIN, std::int32_t INIALGICMPP = -2, struct IDDHILANHLG* AENFDLALMMG = 0) { return method_call(Spawn, ELJOFHKOOIN, INIALGICMPP, AENFDLALMMG); } // 0xCF6090
 	void ANGLABNJGOD(struct NJAHILONGKN* ELJOFHKOOIN, std::int32_t INIALGICMPP, struct IDDHILANHLG* AENFDLALMMG, struct MessageWriter* HOGCHJCFDFO) { return method_call(ANGLABNJGOD, ELJOFHKOOIN, INIALGICMPP, AENFDLALMMG, HOGCHJCFDFO); } // 0xCF0B10
 	void Despawn(struct NJAHILONGKN* AANKPCAIONC) { return method_call(Despawn, AANKPCAIONC); } // 0xCF2C80
@@ -66,8 +66,8 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	void RemoveUnownedObjects() { return method_call(RemoveUnownedObjects, ); } // 0xCF5B50
 	void OHOPANBHGGP(struct MessageReader* AHEDNGCMJFF, std::int32_t PFDMDIMFBFI = 0) { return method_call(OHOPANBHGGP, AHEDNGCMJFF, PFDMDIMFBFI); } // 0xCF5510
 	void LMFMFBMONOO(struct MessageReader* ALMCIJKELCP, std::int32_t PFDMDIMFBFI) { return method_call(LMFMFBMONOO, ALMCIJKELCP, PFDMDIMFBFI); } // 0xCF4240
-	void MDJALECPFEH(std::int32_t PFDMDIMFBFI, struct MessageReader* ALMCIJKELCP, System::String* PDJFFNFFDBC) { return method_call(MDJALECPFEH, PFDMDIMFBFI, ALMCIJKELCP, PDJFFNFFDBC); } // 0xCF4E70
-	void SetEndpoint(System::String* PEMEGPOGMDD, std::uint16_t JGJNMHAIKMB) { return method_call(SetEndpoint, PEMEGPOGMDD, JGJNMHAIKMB); } // 0xCF6070
+	void MDJALECPFEH(std::int32_t PFDMDIMFBFI, struct MessageReader* ALMCIJKELCP, cs::string* PDJFFNFFDBC) { return method_call(MDJALECPFEH, PFDMDIMFBFI, ALMCIJKELCP, PDJFFNFFDBC); } // 0xCF4E70
+	void SetEndpoint(cs::string* PEMEGPOGMDD, std::uint16_t JGJNMHAIKMB) { return method_call(SetEndpoint, PEMEGPOGMDD, JGJNMHAIKMB); } // 0xCF6070
 	bool LIHJLOJIACK() { return method_call(LIHJLOJIACK, ); } // 0xCF4230
 	std::int32_t get_Ping() { return method_call(get_Ping, ); } // 0xCF6A10
 	std::int32_t get_BytesSent() { return method_call(get_BytesSent, ); } // 0xCF69C0
@@ -90,9 +90,9 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	void Connect(struct GPCADAELKBA* NCMHPMFCNFA) { return method_call(Connect, NCMHPMFCNFA); } // 0xCF2AF0
 	void Update() { return method_call(Update, ); } // 0xCF6360
 	void PNNKOGIPHBA(struct object* JAMOJLPPGEH, struct DisconnectedEventArgs* MGJNFEHIICO) { return method_call(PNNKOGIPHBA, JAMOJLPPGEH, MGJNFEHIICO); } // 0xCF5930
-	void HandleDisconnect(struct GHMBCKNECJF* OECOPGMHMKC, System::String* NIHDHDJJIOK) { return method_call(HandleDisconnect, OECOPGMHMKC, NIHDHDJJIOK); } // 0xCF3DF0
-	void GJDEPEPMEGI(struct GHMBCKNECJF* OECOPGMHMKC, System::String* NIHDHDJJIOK) { return method_call(GJDEPEPMEGI, OECOPGMHMKC, NIHDHDJJIOK); } // 0xCF36E0
-	void AMKMODDAFOO(struct GHMBCKNECJF* OECOPGMHMKC, System::String* NIHDHDJJIOK) { return method_call(AMKMODDAFOO, OECOPGMHMKC, NIHDHDJJIOK); } // 0xCF0720
+	void HandleDisconnect(struct GHMBCKNECJF* OECOPGMHMKC, cs::string* NIHDHDJJIOK) { return method_call(HandleDisconnect, OECOPGMHMKC, NIHDHDJJIOK); } // 0xCF3DF0
+	void GJDEPEPMEGI(struct GHMBCKNECJF* OECOPGMHMKC, cs::string* NIHDHDJJIOK) { return method_call(GJDEPEPMEGI, OECOPGMHMKC, NIHDHDJJIOK); } // 0xCF36E0
+	void AMKMODDAFOO(struct GHMBCKNECJF* OECOPGMHMKC, cs::string* NIHDHDJJIOK) { return method_call(AMKMODDAFOO, OECOPGMHMKC, NIHDHDJJIOK); } // 0xCF0720
 	void HostGame(struct EKABJOOFLML* JPEEBIPCGCO) { return method_call(HostGame, JPEEBIPCGCO); } // 0xCF3E30
 	void JoinGame() { return method_call(JoinGame, ); } // 0xCF3F70
 	bool CanBan() { return method_call(CanBan, ); } // 0xCF29A0
@@ -107,7 +107,7 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	void ChangeGamePublic(bool JKJKFOOKPCD) { return method_call(ChangeGamePublic, JKJKFOOKPCD); } // 0xCF29E0
 	void CKOCCBEAHHH(struct DataReceivedEventArgs* MGJNFEHIICO) { return method_call(CKOCCBEAHHH, MGJNFEHIICO); } // 0xCF0ED0
 	void CNCLKHELHLI(struct MessageReader* ALMCIJKELCP, struct SendOption* GLLMNHCBIOC) { return method_call(CNCLKHELHLI, ALMCIJKELCP, GLLMNHCBIOC); } // 0xCF10A0
-	System::String* AddressToString(std::uint32_t NECADMOIIPC) { return method_call(AddressToString, NECADMOIIPC); } // 0xCF0C90
+	cs::string* AddressToString(std::uint32_t NECADMOIIPC) { return method_call(AddressToString, NECADMOIIPC); } // 0xCF0C90
 	struct ClientData* NCJFIOLJALM(std::int32_t GKLCLMNGEHC) { return method_call(NCJFIOLJALM, GKLCLMNGEHC); } // 0xCF5200
 	void FFNOBLLHAAI(std::int32_t ONHIPGAPODC, struct GHMBCKNECJF* OECOPGMHMKC) { return method_call(FFNOBLLHAAI, ONHIPGAPODC, OECOPGMHMKC); } // 0xCF2E30
 	// virtual // void OnApplicationPause(bool OAAGHGHDOKP) { return method_call(OnApplicationPause, OAAGHGHDOKP); } // 0xCF5820 // Slot: 6

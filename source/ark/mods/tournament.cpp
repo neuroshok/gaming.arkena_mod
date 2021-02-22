@@ -89,7 +89,7 @@ namespace ark::mods
             for (auto* player : *GameData::statics()->instance->AllPlayers)
             {
                 auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
-                ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+                ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
             }
 
         });

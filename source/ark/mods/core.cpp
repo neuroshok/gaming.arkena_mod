@@ -13,10 +13,13 @@ namespace ark::mods
 {
     core::core(ark::core& pcore)
         : mod(pcore, "core", pcore.version(), false)
+        , server_{ *this }
     {}
 
     void core::on_enable()
     {
+        server_.enable();
+
         ark::hook<&PlayerControl::HandleRpc>::after(this,
         [this](PlayerControl* self, auto event, MessageReader* data)
         {
@@ -32,7 +35,7 @@ namespace ark::mods
                         auto version_ok = data->ReadByte();
                         if (!version_ok)
                         {
-                            mod::log("{} has incompatible mods", mod::player(id)->PlayerName->to_utf8());
+                            mod::log("{} has incompatible mods", mod::player(id)->PlayerName->str());
                         }
                         else ++compatible_players_count_;
 

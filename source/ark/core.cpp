@@ -24,13 +24,13 @@ namespace ark
 
         //ark_trace("Game version : {}", ::Unity::Application::get_version());
 
-        //load<ark::mods::core>();
+        load<ark::mods::core>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tools>();
         //load<ark::mods::tournament>();
         //load<ark::mods::whisperer>();
-        load<ark::mods::testing>();
+        //load<ark::mods::testing>();
         //load<ark::mods::analysis>();
     }
 

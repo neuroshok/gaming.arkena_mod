@@ -4,7 +4,7 @@
 
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/System/Collections/Generic/List.hpp>
-#include <autogen/System/String.hpp>
+#include <cs/string.hpp>
 
 struct PlayerControl;
 
@@ -31,7 +31,7 @@ struct GameData : ark::meta<GameData, InnerNet::InnerNetObject>
     struct PlayerInfo : il2cpp::Il2CppObject {
         // [marker] is GameData.AllPlayers
         std::uint8_t PlayerId;
-        System::String* PlayerName;
+        cs::string* PlayerName;
         std::uint8_t ColorId;
         std::uint32_t HatId;
         std::uint32_t PetId;
