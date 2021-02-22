@@ -47,7 +47,7 @@ const processFile = (file) => {
 
 	for (const key in results) {
 		console.log(`\t -- ${key} -- (${results[key].length}): #include <analysis/${structName}.hooks.hpp>`)
-		fs.writeFileSync(`${folder}/../analysis/${structName}.${key}.hpp`, results[key].join("\n"));
+		fs.writeFileSync(`${__dirname}/../include/analysis/${structName}.${key}.hpp`, results[key].join("\n"));
 	}
 }
 const parseLineStructName = (line) => {
@@ -84,7 +84,7 @@ try {
 	const filepath = process.argv[2]
 
 	let szi, htpi, hti;
-	global.hookType = (hti = process.argv.indexOf('--hooktype')) !== -1 && process.argv[hti + 1] ? process.argv[hti + 1] : "override"
+	global.hookType = (hti = process.argv.indexOf('--hooktype')) !== -1 && process.argv[hti + 1] ? process.argv[hti + 1] : "overwrite"
 	global.ignoreObfuscated = process.argv.indexOf('--ignore-obfuscated') !== -1
 	global.ignoreNonVoid = process.argv.indexOf('--ignore-non-void') !== -1
 	global.debug = process.argv.indexOf('--debug') !== -1
@@ -106,19 +106,24 @@ try {
 	else global.protectedMethods = fs.readFileSync(hookerProtectedMethodsFile).toString().split("\n").map(e => e.trim()).filter(e => e && e.indexOf('#') === -1)
 
 	if (!fs.existsSync(filepath)) throw `File ${filepath} not found`
-	if (fs.lstatSync(filepath).isDirectory()) {
-		let folder = filepath.slice(-1) === '/' ? filepath : filepath + '/'
+	const scanFolder = folder => {
+		folder = folder.slice(-1) === '/' ? folder : folder + '/'
 		for (const file of fs.readdirSync(folder)) {
+			let filePath = `${folder}${file}`
+			if (fs.lstatSync(filePath).isDirectory()) return scanFolder(filePath)
 			if (!file.match(/^[A-Za-z]+\.hpp$/)) continue;
 			try {
-				processFile(`${folder}${file}`);
+				processFile(filePath);
 			} catch (e) {
 				if (e === 'Class name not found, pattern : struct NAME : ark::meta<NAME,')
-					console.error(e)
+					console.log(e)
 				else
 					throw e;
 			}
 		}
+	}
+	if (fs.lstatSync(filepath).isDirectory()) {
+		scanFolder(filepath);
 	} else {
 		processFile(filepath);
 	}
