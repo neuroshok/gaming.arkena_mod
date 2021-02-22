@@ -12,16 +12,19 @@
 #include <autogen/PlayerControl.hpp>
 #include <autogen/PlayerMovement.hpp>
 #include <autogen/RpcCalls.hpp>
+#include <autogen/System/String.hpp>
 #include <autogen/Unity/Material.hpp>
 #include <autogen/Unity/Sprite.hpp>
 #include <autogen/Unity/SpriteRenderer.hpp>
-#include <autogen/System/String.hpp>
+#include <autogen/Unity/Transform.hpp>
 
 #include <analysis/testing_header.hpp>
 
 #include <il2cpp/api.hpp>
 
 #include <ark/hook.hpp>
+
+#include <winSock.h>
 
 namespace ark::mods
 {
@@ -35,71 +38,89 @@ namespace ark::mods
         static UseButton* ptr = nullptr;
         static int i = 0;
 
-          //#include <analysis/UseButton.hooks.hpp>
-/*
-        ark::hook<&FollowCamera::FixedUpdate>::overwrite(this, [](auto original, auto&& self) -> void {
-            original(self);
-            ark_trace("FollowCamera {}", (uintptr_t)self->Target);
-            ark_trace("FollowCamera::FixedUpdate(void) {}", self->Offset.x);
-            ark_trace("FollowCamera::FixedUpdate(void) {}", self->Offset.y);
-            ark_trace("FollowCamera::FixedUpdate(void) {}", self->Locked);
-            ark_trace("FollowCamera::FixedUpdate(void) {}", self->shakeAmount);
-            ark_trace("FollowCamera::FixedUpdate(void) {}", self->shakePeriod);
-        }); // 0x154704
-*/
+          #include <analysis/ServerData.hooks.hpp>
 
+        ark::hook<&KillButtonManager::_ctor>::overwrite(this, [](auto original, auto&& self) -> void {
+            self->renderer->set_size({2, 2});
+            original(self);
+            ark_trace("KillButtonManager::_ctor(void) called");
+        }); // 0xFEF780
+
+        ark::hook<&KillButtonManager::Start>::overwrite(this, [](auto original, auto&& self) -> void {
+            self->renderer->set_size({2, 2});
+            original(self);
+            ark_trace("KillButtonManager::Start(void) called");
+        }); // 0xFEF750
 
         ark::hook<&KillButtonManager::SetTarget>::overwrite(this, [](auto original, auto&& self, PlayerControl* target) -> void {
-            original(self, target);
-            ark_trace("KillButtonManager::SetTarget(void), target(PlayerControl*): {}", (uintptr_t)target);
 
-            ark_trace(": {}", (uintptr_t)self->CurrentTarget);
-            ark_trace(": {}", (uintptr_t)self->TimerText);
-            ark_trace(": {}", (uintptr_t)self->renderer);
-            ark_trace(": {}", self->isCoolingDown);
-            ark_trace(": {}", self->isActive);
+            original(self, target);
+            self->renderer->set_size({2, 2});
+
         }); // 0xFEF4B0
+
 
 
         ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto&& o, KillButtonManager* self) {
             ark_trace("PerformKill");
 
-            // ark_trace(": {}", (uintptr_t)self->renderer);
-            // ark_trace(": {}", (uintptr_t)self->renderer->color.r);
-            // self->renderer->color.r = 1;
-
-            // auto k = il2cpp::api::object_new<KillButtonManager>(self->klass);
-
-            // o(self);
-            /*
-
+            auto k = il2cpp::api::object_new<KillButtonManager>(self->klass);
             k->renderer = self->renderer;
-            k->renderer->set_color({1, 0, 0});*/
+            //k->Start();
 
-            // self->renderer->set_color({1, 0, 0});
-            // ark_trace(": {}", self->renderer->);
-            // ark_trace(": {}", self->renderer->get_size().y);
+            //self->get_transform()->set_localScale({2, 2, 2});
+            auto player = PlayerControl::statics()->local;
+            player->get_transform()->set_localScale({0.2f, 0.2, 0.2});
 
-            // ark_trace(": {}", ((uintptr_t)&self->CurrentTarget - (uintptr_t)self));
-            // ark_trace(": {}", ((uintptr_t)&self->renderer - (uintptr_t)&self->CurrentTarget));
+            auto pos = player->get_transform()->get_position();
+
+            //player->get_transform()->set_position({pos.x, pos.y + 1, -50});
+
+            ark_trace(": {}", player->get_transform()->get_position().x);
+            ark_trace(": {}", player->get_transform()->get_position().y);
+            ark_trace(": {}", player->get_transform()->get_position().z);
+            //ark_trace(": {}", self->get_isActiveAndEnabled());
+
+
+            //self->renderer->set_flipX(true);
+            auto v = Unity::Vector2{0, 0};
+            //self->renderer->set_size({0, 0});
+            //self->renderer->get_size_Injected(v);
+
+            /*
             ark_trace(": {}", (uintptr_t)self->CurrentTarget);
-            ark_trace(": {}", (uintptr_t)self->TimerText);
-            ark_trace(": {}", (uintptr_t)self->renderer);
+            ark_trace(": {}", self->TimerText->Text->to_utf8());
+            ark_trace(": {}", self->renderer->get_size().x);
+            ark_trace(": {}", self->renderer->get_size().y);
+            ark_trace(": {}", self->renderer->get_sprite()->get_rect().x);
+            ark_trace(": {}", self->renderer->get_sprite()->get_rect().y);
             ark_trace(": {}", self->isCoolingDown);
-            ark_trace(": {}", self->isActive);
-            // ark_trace(": {}", self->set_useGUILayout(false));
+            ark_trace(": {}", self->isActive);*/
             o(self);
         });
 
         ark::hook<&ShipStatus::Begin>::after(this, [this](ShipStatus* self)
         {
             ark_trace("Game start");
-/*
+
+            float i = -5;
             for (auto* player : *GameData::statics()->instance->AllPlayers)
             {
                 auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
                 ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->to_utf8(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
-            }*/
+
+
+                if (player->PlayerId != 0)
+                {
+auto pc = mod::player_control(player->PlayerId);
+                pc->get_transform()->set_localScale({2, 2, 2});
+
+                auto pos = pc->get_transform()->get_position();
+
+                pc->get_transform()->set_position({(i += 3), 1, 0});
+                pc->get_transform()->set_localScale({2, 1, 0});
+                }
+            }
         });
 
 

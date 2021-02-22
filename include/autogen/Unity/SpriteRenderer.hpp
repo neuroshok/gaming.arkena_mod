@@ -10,12 +10,6 @@ namespace Unity
     {
         ark_meta("UnityEngine", "SpriteRenderer");
 
-	Sprite* sprite;
-	Vector2 size;
-	Color color;
-	bool flipX;
-	bool flipY;
-
         Sprite* get_sprite() { return method_call(get_sprite); }                               // 0xB8B7B0
         void set_sprite(Sprite* value) { return method_call(set_sprite, value); }                // 0xB8B900
         Vector2 get_size() { return method_call(get_size); }                                  // 0xB8B770
@@ -26,8 +20,8 @@ namespace Unity
         void set_flipX(bool value) { return method_call(set_flipX, value); }                            // 0xB8B840
         bool get_flipY() { return method_call(get_flipY); }                                           // 0xB8B710
         void set_flipY(bool value) { return method_call(set_flipY, value); }                            // 0xB8B870
-        void get_size_Injected(Vector2 ret) { return method_call(get_size_Injected, ret); }     // 0xB8B740
-        void set_size_Injected(Vector2 value) { return method_call(set_size_Injected, value); } // 0xB8B8A0
+        void get_size_Injected(Vector2& ret) { return method_call(get_size_Injected, ret); }     // 0xB8B740
+        void set_size_Injected(Vector2& value) { return method_call(set_size_Injected, value); } // 0xB8B8A0
         void get_color_Injected(Unity::Color ret) { return method_call(get_color_Injected, ret); }     // 0xB8B670
         void set_color_Injected(Unity::Color value) { return method_call(set_color_Injected, value); } // 0xB8B7E0
     };

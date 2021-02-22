@@ -16,7 +16,7 @@ namespace Unity
         std::int32_t GetInstanceID() { return method_call(GetInstanceID, ); } // 0xB81F30
         // virtual // std::int32_t GetHashCode() { return method_call(GetHashCode, ); } // 0x4DF720 // Slot: 2
         // virtual // bool Equals(Object* other) { return method_call(Equals, other); } // 0xB81BD0 // Slot: 0
-        bool op_Implicit(Object* exists) { return method_call(op_Implicit, exists); }                           // 0xB82CF0
+        //bool op_Implicit(Object* exists) { return method_call(op_Implicit, exists); }                           // 0xB82CF0
         bool CompareBaseObjects(Object* lhs, Object* rhs) { return method_call(CompareBaseObjects, lhs, rhs); } // 0xB81940
         bool IsNativeObjectAlive(Object* o) { return method_call(IsNativeObjectAlive, o); }                     // 0xB82A00
         struct IntPtr* GetCachedPtr() { return method_call(GetCachedPtr, ); }                                   // 0x1D3AD0
@@ -75,7 +75,7 @@ namespace ark::method_info
 	//method_rva(Unity::Object::GetInstanceID, 0xB81F30)
         //method_rva(Unity::Object::GetHashCode, 0x4DF720)
 	//method_rva(Unity::Object::Equals, 0xB81BD0)
-	method_rva(Unity::Object::op_Implicit, 0xB82CF0)
+	//method_rva(Unity::Object::op_Implicit, 0xB82CF0)
 	method_rva(Unity::Object::CompareBaseObjects, 0xB81940)
 	method_rva(Unity::Object::IsNativeObjectAlive, 0xB82A00)
 	method_rva(Unity::Object::GetCachedPtr, 0x1D3AD0)
