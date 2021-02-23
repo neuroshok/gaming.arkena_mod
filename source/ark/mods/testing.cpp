@@ -27,6 +27,7 @@
 
 #include <winSock.h>
 #include <autogen/ServerInfo.hpp>
+#include <autogen/GameData.hpp>
 
 namespace ark::mods
 {
@@ -40,7 +41,7 @@ namespace ark::mods
         static UseButton* ptr = nullptr;
         static int i = 0;
 
-          #include <analysis/ServerManager.hooks.hpp>
+          #include <analysis/Vent.hooks.hpp>
 
 
 
@@ -68,6 +69,9 @@ namespace ark::mods
 
         ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto&& o, KillButtonManager* self) {
             ark_trace("PerformKill");
+
+            mod::player_control()->UseClosest();
+            return;
 
             auto k = il2cpp::api::object_new<KillButtonManager>(self->klass);
             k->renderer = self->renderer;
@@ -188,4 +192,4 @@ auto pc = mod::player_control(player->PlayerId);
     {
 
     }
-} // ark
+} // a

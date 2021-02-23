@@ -17,8 +17,5 @@ namespace ark::mods
         void on_disable() override;
 
     private:
-        GameStartManager* start_manager_;
-
-        int compatible_players_count_;
     };
 }// ark::mods

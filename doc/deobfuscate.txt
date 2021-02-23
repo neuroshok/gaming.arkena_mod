@@ -2,6 +2,12 @@ maybe_network_class = KOHGPBDBBJI
 maybe_MovementComponent = LIMNONMAAFA
 maybe_playersprites = FOONEKDGJBL
 
+EGLJNOMOGNP gamedata
+DCJMABDDJCF playerinfo
+OAFBLFBAOJJ set_target
+OPPMFCFACJB vent
+
+
 playerContrl = GLPINCNEBDJ
 player = IIEKJBMPELC
 amount = AMMANIHDKKA

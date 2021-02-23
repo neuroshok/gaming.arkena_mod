@@ -134,35 +134,56 @@ namespace ark::ui
                     {
                         for (auto& setting : mod.settings())
                         {
-                            ImGui::TextUnformatted(setting->name.c_str());
+                            ImGui::TextUnformatted(setting.name().c_str());
                             if (ImGui::IsItemHovered())
                             {
-                                if (!setting->description.empty())
+                                if (!setting.description().empty())
                                 {
                                     ImGui::BeginTooltip();
                                     ImGui::PushTextWrapPos(ImGui::GetFontSize() * 20.0f);
-                                    ImGui::TextUnformatted(setting->description.c_str());
+                                    ImGui::TextUnformatted(setting.description().c_str());
                                     ImGui::PopTextWrapPos();
                                     ImGui::EndTooltip();
                                 }
                             }
 
 
-                            std::string id = "##" + setting->name;
-                            std::visit([&id, &setting](auto&& arg) {
+                            std::string id = "##" + setting.name();
+                            std::visit([&id, &setting, &mod](auto&& arg) {
                                 using T = std::decay_t<decltype(arg)>;
-                                if constexpr (std::is_same_v<T, int>)
-                                //if (ImGui::InputInt(id.c_str(), setting->ui_buffer.get(), 1, 1, ImGuiInputTextFlags_EnterReturnsTrue))
+                                if constexpr (std::is_same_v<T, bool>)
                                 {
-
-                                }
-                                //else if constexpr (std::is_same_v<T, float>) std::get<float>(value) = std::stof(str_value);
-                                else if constexpr (std::is_same_v<T, std::string>)
-                                    if (ImGui::InputText(id.c_str(), setting->ui_buffer->data(), setting->ui_buffer->size(), ImGuiInputTextFlags_EnterReturnsTrue))
+                                    if (ImGui::Checkbox(id.c_str(), &std::get<bool>(setting.value())))
                                     {
-                                        //setting->update(*setting->ui_buffer);
+                                        mod.save_settings();
                                     }
-                            }, setting->value);
+                                }
+                                else if constexpr (std::is_same_v<T, int>)
+                                {
+                                    if (ImGui::InputInt(id.c_str(), &std::get<int>(setting.value()), 1, 1, ImGuiInputTextFlags_EnterReturnsTrue))
+                                    {
+                                        mod.save_settings();
+                                    }
+                                }
+                                else if constexpr (std::is_same_v<T, float>)
+                                {
+                                    if (ImGui::InputFloat(id.c_str(), &std::get<float>(setting.value()), 1, 1, "%.2f", ImGuiInputTextFlags_EnterReturnsTrue))
+                                    {
+                                        mod.save_settings();
+                                    }
+                                }
+                                else if constexpr (std::is_same_v<T, std::string>)
+                                {
+                                    auto& str = std::get<std::string>(setting.value());
+                                    if (ImGui::InputText(id.c_str(), str.data(), str.capacity(),
+                                                         ImGuiInputTextFlags_EnterReturnsTrue))
+                                    {
+                                        str.resize(1 + std::strlen(str.c_str()));
+                                        mod.save_settings();
+                                    }
+                                }
+                                else ImGui::TextUnformatted("Unsupported setting type");
+                            }, setting.value());
                         }
                     }
                     ImGui::EndTabItem();

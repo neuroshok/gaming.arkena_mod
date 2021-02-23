@@ -53,7 +53,7 @@ namespace ark::mods
 
             auto o_ServerInfo = il2cpp::make<ServerInfo>();
             o_ServerInfo->serverData = array_ServerData;
-            o_ServerInfo->name = cs::make_string("HoaxUs");
+            o_ServerInfo->name = cs::make_string("Tournament");
             o_ServerInfo->ip = cs::make_string("au.hoax.ml");
             array_ServerInfo->get(server_it) = o_ServerInfo;
 

@@ -39,8 +39,9 @@ namespace ark
             ark_info("Mod {} {} loaded", mods_.back()->version().str(), mods_.back()->name());
             mods_.back()->enable();
         }
-
         void unload(const std::string& name);
+
+        void init_settings();
 
         void log(const std::string& mod_name, const std::string& message);
 
@@ -48,6 +49,8 @@ namespace ark
         ark::mod& mod(const std::string& name);
         const ark::version& version() const;
         const std::deque<std::string>& logs() const;
+
+        static std::string settings_path();
 
     public:
         HMODULE hmodule_;

@@ -1,3 +1,6 @@
+# Player
+PlayerControl::get_CanMove : player move/stop
+
 # Camera
 FollowCamera::FixedUpdate
 ```
@@ -18,7 +21,8 @@ SetPlayerMaterialColors_2 : std::int32_t is renderer ptr
 
 # Shader
 
-
+# Ship
+player light radius : return value of ShipStatus::CalculateLightRadius
 
 
 

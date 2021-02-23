@@ -1,12 +1,21 @@
-#ifndef INCLUDE_ARK_MODS_ARKROLE_HPP_ARKENA_MOD
-#define INCLUDE_ARK_MODS_ARKROLE_HPP_ARKENA_MOD
+#pragma once
 
-namespace arkena_mod
+#include <ark/mod.hpp>
+
+namespace ark { class core; }
+
+namespace ark::mods
 {
-    class arkrole
+    class arkrole : public mod
     {
-        arkrole() = default;
-    };
-} // namespace arkena_mod
+    public:
+        explicit arkrole(ark::core& core);
 
-#endif // INCLUDE_ARK_MODS_ARKROLE_HPP_ARKENA_MOD
+        void on_enable() override;
+
+        void role_distribution();
+
+    private:
+
+    };
+}// ark::mods

@@ -26,7 +26,7 @@ namespace ark
         friend class ark::ui::core;
 
     public:
-        using settings_type = std::vector<std::unique_ptr<ark::setting>>;
+        using settings_type = std::vector<ark::setting>;
 
         struct intro
         {
@@ -75,15 +75,15 @@ namespace ark
         template<class... Ts>
         void add_setting(Ts&&... ts)
         {
-            settings_.emplace_back(std::make_unique<ark::setting>(std::forward<Ts>(ts)...));
+            settings_.emplace_back(std::move(ts)...);
         }
         settings_type& settings();
+        void save_settings() const;
         template<class T>
         T setting(const std::string& name) const
         {
-            auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting->name == name; });
-            auto& setting_ptr = *setting_it;
-            if (setting_it != settings_.end()) return setting_ptr->template get<T>();
+            auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting.name() == name; });
+            if (setting_it != settings_.end()) return setting_it->template get<T>();
             ark_trace("setting {} not found", name);
             return T{};
         }
@@ -99,7 +99,9 @@ namespace ark
         static MessageWriter* start_rpc(rpc_mod);
         static void finish_rpc(MessageWriter*);
 
-        //
+        // player
+        static auto players() { return *GameData::statics()->instance->AllPlayers; }
+
         static void set_player_name_color(PlayerControl*, float r, float g, float b, float a = 1);
 
         static GameData::PlayerInfo* player();
@@ -110,6 +112,7 @@ namespace ark
         static GameData::PlayerInfo* player(PlayerControl* pc);
         static PlayerControl* player_control(int id);
 
+        //
         static void local_kill(std::uint8_t source, std::uint8_t target);
         static void local_kill(PlayerControl* source, PlayerControl* target);
         static float player_distance(PlayerControl* source, PlayerControl* target);
@@ -125,7 +128,7 @@ namespace ark
         std::string description_;
         bool synchronized_;
         bool enabled_;
-        std::vector<std::unique_ptr<ark::setting>> settings_;
+        std::vector<ark::setting> settings_;
 
         bool ui_enabled_;
 

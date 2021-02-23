@@ -3,6 +3,7 @@
 #include <ark/class.hpp>
 #include <autogen/Unity/Renderer.hpp>
 #include <autogen/Unity/Sprite.hpp>
+#include <autogen/Unity/Vector2.hpp>
 
 namespace Unity
 {

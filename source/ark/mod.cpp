@@ -8,7 +8,10 @@
 #include <autogen/IntroCutscene.hpp>
 #include <autogen/AmongUsClient.hpp>
 
+#include <nlohmann/json.hpp>
+
 #include <cmath>
+#include <fstream>
 
 namespace ark
 {
@@ -99,6 +102,34 @@ namespace ark
     mod::settings_type& mod::settings()
     {
         return settings_;
+    }
+
+    // todo perf
+    void mod::save_settings() const
+    {
+        std::ifstream ifs(core::settings_path());
+        if (!ifs.is_open()) return ark_trace("unable to open settings: {}", core::settings_path());
+        nlohmann::json j;
+        try { ifs >> j; ifs.close(); }
+        catch (const std::exception& e)
+        {
+            ark_trace("parsing error");
+            ifs.close();
+            return;
+        }
+
+        for (const auto& setting : settings_)
+        {
+            std::visit([this, &j, &setting](const auto& arg)
+            {
+                using T = std::decay_t<decltype(arg)>;
+                j[name_][setting.name()] = std::get<T>(setting.value());
+            }, setting.value());
+        }
+
+        std::ofstream ofs(core::settings_path());
+        ofs << j << std::endl;
+        ofs.close();
     }
 
     void mod::local_kill(PlayerControl* source, PlayerControl* target)

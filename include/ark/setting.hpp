@@ -9,61 +9,47 @@ namespace ark
     struct setting
     {
         friend class ui::core;
-        using value_type = std::variant<std::string, int, float>;
-        using buffer_type = std::array<char, 64>;
+        using value_type = std::variant<std::string, bool, int, float>;
 
-        setting(std::string name_, setting::value_type value_, std::string description_ = "")
-            : name{ std::move(name_) }
-            , value{ std::move(value_) }
-            , description{ std::move(description_) }
-        {
-            //ui_buffer = std::make_shared<buffer_type>(to_string());
-
-        }
-
-        setting(const setting&) = delete;
-        setting& operator=(const setting&) = delete;
-
-        std::string name;
-        setting::value_type value;
-        std::string description;
+        setting(std::string name, const char* value, std::string description = "") : setting(std::move(name), std::string(value), std::move(description)) {}
 
         template<class T>
-        T get() const
+        setting(std::string name, T value, std::string description = "")
+            : name_{ std::move(name) }
+            , value_{ std::move(value) }
+            , description_{ std::move(description) }
         {
-            ark_trace("__{}", std::get<T>(value));
-            return std::get<T>(value);
-        }
-
-        void update(const std::string& str_value)
-        {
-            std::visit(
-            [&str_value, this](auto&& arg) {
+            std::visit([this](auto&& arg) {
                 using T = std::decay_t<decltype(arg)>;
-                if constexpr (std::is_same_v<T, int>) std::get<int>(value) = std::stoi(str_value);
-                else if constexpr (std::is_same_v<T, float>) std::get<float>(value) = std::stof(str_value);
-                else if constexpr (std::is_same_v<T, std::string>)
+                if constexpr (std::is_same_v<T, std::string>)
                 {
-                    std::get<std::string>(value) = str_value;
-                    ark_trace("{}-{}", std::get<std::string>(value), str_value);
+                    std::get<std::string>(value_).reserve(64);
                 }
 
-            }, value);
+            }, value_);
         }
 
-        std::string to_string() const
+        const std::string& name() const { return name_; }
+        setting::value_type& value() { return value_; }
+        const setting::value_type& value() const { return value_; }
+        const std::string& description() const { return description_; }
+
+        template<class T>
+        T get() const { return std::get<T>(value_); }
+
+        template<class T>
+        void set(T value)
         {
-            return std::visit(
-            [this](auto&& arg) {
-                using T = std::decay_t<decltype(arg)>;
-                if constexpr (std::is_same_v<T, int>) return std::to_string(std::get<int>(value));
-                else if constexpr (std::is_same_v<T, float>) return std::to_string(std::get<float>(value));
-                else if constexpr (std::is_same_v<T, std::string>) return std::get<std::string>(value);
-                else return "error";
-            }, value);
+            if constexpr (std::is_same_v<T, std::string>)
+            {
+                std::get<T>(value_).reserve(64);
+            }
+            std::get<T>(value_) = value;
         }
 
     private:
-        mutable std::shared_ptr<buffer_type> ui_buffer;
+        std::string name_;
+        setting::value_type value_;
+        std::string description_;
     };
 } // ark

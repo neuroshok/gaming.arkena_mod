@@ -72,7 +72,11 @@ namespace ark
                 if constexpr (!std::is_same_v<Return_type, void>)
                 {
                     Return_type v;
-                    if (overwrite_hooks.size() > 0) for (const auto& [_, hk] : overwrite_hooks) hk(original, self, args...);
+                    if (overwrite_hooks.size() > 0)
+                    {
+                        for (const auto& [_, hk] : overwrite_hooks) v = hk(original, self, args...);
+                        return v;
+                    }
                     else
                     {
                         for (const auto &[_, hk] : before_hooks) hk(self, args...);

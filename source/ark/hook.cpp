@@ -28,16 +28,19 @@ namespace ark
             MH_Initialize();
         #endif
 
-        #include <analysis/testing.hpp>
+        //#include <analysis/testing.hpp>
 
 
-        //#include <analysis/PlayerControl.init.hpp>
-        //#include <analysis/GameData.init.hpp>
+        //#include <analysis/HudManager.inits.hpp>
+        //#include <analysis/Vent.inits.hpp>
 
-            /*
+        hk(HudManager::Start);
+
         hkr(bool, IntroCutScene::CKACLKCOJFO::MoveNext);
+
+        hk(InnerNet::InnerNetClient::SetEndpoint);
         hk(InnerNet::InnerNetClient::Update);
-        hk(ShipStatus::Begin);
+
         hk(KillButtonManager::PerformKill);
 
         hk(PlayerControl::SetColor);
@@ -45,14 +48,23 @@ namespace ark
         hk(PlayerControl::MurderPlayer);
         hk(PlayerControl::RpcSetInfected);
 
+        hkr(float, Vent::CanUse);
+        hkr(void, Vent::SetOutline);
+
+        hk(ServerManager::_ctor);
+
+        hk(ShipStatus::Begin);
+
+
+            /*
+
+
+
         hk(GameData::RpcUpdateGameData);
         hk(GameData::UpdateGameData);
 
         hk(GameStartManager::Start);
         hk(GameStartManager::BeginGame);*/
-
-        hk(ServerManager::_ctor);
-        hk(InnerNet::InnerNetClient::SetEndpoint);
     }
 } // ark
 

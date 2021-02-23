@@ -6,6 +6,7 @@
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/PlayerTask.hpp>
 #include <autogen/UseButton.hpp>
+#include <autogen/KillButtonManager.hpp>
 #include <autogen/System/Collections/Generic/List.hpp>
 #include <autogen/Unity/TextRenderer.hpp>
 #include <autogen/Unity/Renderer.hpp>

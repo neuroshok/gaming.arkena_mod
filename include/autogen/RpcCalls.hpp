@@ -51,4 +51,5 @@ enum class rpc_mod : std::uint8_t
     // generic
     generic_kill,
     generic_ability,
+    generic_role,
 };
