@@ -29,7 +29,7 @@ void encode(const std::string& resource_name)
     }
 
     std::string footer = "};\n\n";
-    footer += "ark::ui::image ark::ui::resource::icon = { .size = " + std::to_string(data.size()) + ", .data = raw_data };";
+    footer += "ark::resource::image ark::resources::" + resource_name + " = { .size = " + std::to_string(data.size()) + ", .data = raw_data };";
 
 
     ofs.write(footer.data(), footer.size());

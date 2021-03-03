@@ -1,12 +1,32 @@
-maybe_network_class = KOHGPBDBBJI
-maybe_MovementComponent = LIMNONMAAFA
-maybe_playersprites = FOONEKDGJBL
+KOHGPBDBBJI maybe_network_class
+LIMNONMAAFA maybe_MovementComponent
+FOONEKDGJBL maybe_playersprites
+MALCOGGEKED maybe_setScanner
+OKACGFOHADL mbTaskItem
+MNGKAKKOKPN mbKillAnimation
 
-EGLJNOMOGNP gamedata
-DCJMABDDJCF playerinfo
-OAFBLFBAOJJ set_target
-OPPMFCFACJB vent
+EGLJNOMOGNP GameData
+DCJMABDDJCF PlayerInfo
+OAFBLFBAOJJ SetTarget
+OPPMFCFACJB Vent
+AIMMJPEOPEC WinCondition
+PLBGOMIEONF EndGame
+HHMBANDDIOA PassiveButton
+CNNGMDOPELD ExileScene ?
+FOONEKDGJBL PlayerPrefab
+DBLJKMDLJIF deathReason
+HDJGDMFCHDN PlayerVoteArea
+OOCJALPKPEP MeetingHud
+PIEFJFEOGOL HudManager
+CFKDGHIEFFA KillOverlay
+PILBGHDHJLH PlayerTask
+CMCLOPELAIG IUsableItem
+HLBNNHFCNAJ ShipStatus
+DDPGLPLGFOI Prefab // DeadBody
+JOFALPIHHOI Vitals
 
+// tasks
+BJIOFILJGOB CardSlideGame
 
 playerContrl = GLPINCNEBDJ
 player = IIEKJBMPELC
@@ -37,7 +57,6 @@ GameStartManager = ANKMIOIMNFE
 sec = NOGEHEKPMCA
 GaugeRandomizer = JBGDFNAKNAK
 
-PlayerTask = PILBGHDHJLH
 task = OJGILIGMHKL
 EnterCodeMinigame = GOBEMNFEJPH
 i = GODDGFEAAMO
@@ -70,7 +89,6 @@ on = EHNJJAPKPMF ?
 source = HLHMFLICGMB
 canMove = MDKEGLADENC
 target = CAKODNGLPDF
-KillOverlay = CFKDGHIEFFA
 killer = CPFLLCANGCB
 victim = OHKJALIJBLO
 OverlayKillAnimation = OAKKJMGJBGG
@@ -134,7 +152,7 @@ f = PPOLIMDFHNL
 
 TowerBehaviour = ENLGGDPHDIH
 UploadDataGame = AGACKJGHKEP
-CardSlideGame = BJIOFILJGOB
+
 BallonBehaviour = CGBFONGIPAK
 AutoParallaxController = CGBFONGIPAK
 CoDoAnimation_d_8 = PDOEAKANLPP
@@ -399,13 +417,11 @@ ChatNoteTypes = AHIDPDEBPDC
 noteType = IAGNPOCAGCI
 sourcePlayer = KMCAKLLFNIM
 chatText = PGIBDIEPGIC
-MeetingHud = OOCJALPKPEP
 meeting = LJDCJKBHHMO
 DialogueBox = HNKKBIFCNIF
 dialogue = LAJLJHHHMPE
 HorizontalGauge = JPCNLCINALA
 HorizontalSpriteGauge = OPCKCBEGIEI
-HudManager = PIEFJFEOGOL
 type = BJJLFKLPBEM
 shhh = NOAHCIHCNBO
 size = MCOMGMHOBDJ
@@ -451,7 +467,7 @@ l = LMNLHBKHIJC
 MeetingHud = OOCJALPKPEP
 suspectStateIdx = ELLMEECGHCN
 states = GPOAEGEJFCK
-PlayerVoteArea = HDJGDMFCHDN
+
 tie = BBJAEDLJIED
 targetPlayer = MKOEHLABEPN
 srcPlayerId = LLBNLKGCCLF
@@ -477,7 +493,7 @@ RoomTracker = IJCMADIPDHJ
 newRoom = CLMEEELBEJC
 on = EHNJJAPKPMF
 TransitionOpen = FMLJMBMEHAI
-IUsable = CMCLOPELAIG
+
 VerticalGauge = MIIBHKJHBEJ
 minSid = AOJKAABOMOG
 KeypadGame = PBFOPOAPOLA

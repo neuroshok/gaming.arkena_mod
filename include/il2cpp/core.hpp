@@ -21,6 +21,7 @@ namespace il2cpp
 
     struct MethodInfo;
     struct Il2CppImage;
+    struct Il2CppThread;
 
     struct Il2CppDomain
     {
@@ -35,6 +36,7 @@ namespace il2cpp
 
     struct Il2CppAssembly;
     struct Il2CppClass;
+    struct Il2CppArray;
 
     struct VirtualInvokeData
     {

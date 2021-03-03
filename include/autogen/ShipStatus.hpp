@@ -14,7 +14,7 @@ struct GCGACPGKENC{};
 // ShipStatus in 2020.12.9s
 struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject>
 {
-    ark_meta("", "HLBNNHFCNAJ");
+    ark_meta("", "HLBNNHFCNAJ", "");
 
     enum class MapType : std::int32_t {
         Ship = 0,
@@ -101,7 +101,7 @@ struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject>
     void OCPEKOICKAI() { return method_call(OCPEKOICKAI, ); } // 0x980780
     void DLEEDJLIACG() { return method_call(DLEEDJLIACG, ); } // 0x97B780
     void EEAIKOEJBKF() { return method_call(EEAIKOEJBKF, ); } // 0x97C660
-    void KLNNEILABNF(struct LJFDDJHBOGF* LNGGICEILCG, struct FFGALNAPKCD* IIEKJBMPELC, std::int8_t AMMANIHDKKA) { return method_call(KLNNEILABNF, LNGGICEILCG, IIEKJBMPELC, AMMANIHDKKA); } // 0x97F6A0
+    void KLNNEILABNF(struct LJFDDJHBOGF* LNGGICEILCG, PlayerControl* IIEKJBMPELC, std::int8_t AMMANIHDKKA) { return method_call(KLNNEILABNF, LNGGICEILCG, IIEKJBMPELC, AMMANIHDKKA); } // 0x97F6A0
     //struct Dictionary<LJFDDJHBOGF, GCGACPGKENC>* get_FastRooms() { return method_call(get_FastRooms, ); } // 0x461760
     //void GOBHGMPJACJ(struct DJLENIPKKGM* /* array */ HIJOHCLAKMG) { return method_call(GOBHGMPJACJ, HIJOHCLAKMG); } // 0x2B1560
     void GJCEBMFBDCL(struct LJFDDJHBOGF* LNGGICEILCG, std::int32_t AMMANIHDKKA) { return method_call(GJCEBMFBDCL, LNGGICEILCG, AMMANIHDKKA); } // 0x97D2F0
@@ -129,11 +129,11 @@ struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject>
     struct Vector2* MGANPFFIHGM(std::int32_t NHOCGFDHKKK, std::int32_t MHPJGDFEDHK, bool OBHNMMLLONC) { return method_call(MGANPFFIHGM, NHOCGFDHKKK, MHPJGDFEDHK, OBHNMMLLONC); } // 0x97FB50
     void HDOHHJAEGLF(struct AIMMJPEOPEC* JMMJJGKBFJC, bool EMAKAHIFLDE) { return method_call(HDOHHJAEGLF, JMMJJGKBFJC, EMAKAHIFLDE); } // 0x97E5C0
     // virtual // void CCFLGFGFPNE(struct MessageReader* ALMCIJKELCP, bool BILBBBFMCOB) { return method_call(CCFLGFGFPNE, ALMCIJKELCP, BILBBBFMCOB); } // 0x97A150 // Slot: 17
-    void RepairSystem(struct LJFDDJHBOGF* LNGGICEILCG, struct FFGALNAPKCD* IIEKJBMPELC, std::int8_t AMMANIHDKKA) { return method_call(RepairSystem, LNGGICEILCG, IIEKJBMPELC, AMMANIHDKKA); } // 0x981A70
+    void RepairSystem(struct LJFDDJHBOGF* LNGGICEILCG, PlayerControl* IIEKJBMPELC, std::int8_t AMMANIHDKKA) { return method_call(RepairSystem, LNGGICEILCG, IIEKJBMPELC, AMMANIHDKKA); } // 0x981A70
     bool JCOHMAPBLJH() { return method_call(JCOHMAPBLJH, ); } // 0x97F3D0
     //void HOAJHEMNKEI(std::int32_t HAJDIADKCAG, std::int32_t JFFMDPKEEJG, struct List<byte>* JGBINEOMNFJ, struct HashSet<BOOMIBKNGPP>* LCAAOEACLPN, struct List<IPNGEOLGOFC>* IAJHJCAEFHG) { return method_call(HOAJHEMNKEI, HAJDIADKCAG, JFFMDPKEEJG, JGBINEOMNFJ, LCAAOEACLPN, IAJHJCAEFHG); } // 0x97EEE0
     //struct Dictionary<LJFDDJHBOGF, GCGACPGKENC>* GEKONEEKCFO() { return method_call(GEKONEEKCFO, ); } // 0x461760
-    void PLBGOMIEONF(struct AIMMJPEOPEC* JMMJJGKBFJC, bool EMAKAHIFLDE) { return method_call(PLBGOMIEONF, JMMJJGKBFJC, EMAKAHIFLDE); } // 0x9819F0
+    void EndGame(std::int32_t reason, bool EMAKAHIFLDE) { return method_call(EndGame, reason, EMAKAHIFLDE); } // 0x9819F0
     void OnEnable() { return method_call(OnEnable, ); } // 0x981140
     void CloseDoorsOfType(struct LJFDDJHBOGF* BNHNBDIBABN) { return method_call(CloseDoorsOfType, BNHNBDIBABN); } // 0x97AEF0
     void GBNPNDMCBJI() { return method_call(GBNPNDMCBJI, ); } // 0x97D230
@@ -155,7 +155,7 @@ struct ShipStatus : ark::meta<ShipStatus, InnerNet::InnerNetObject>
     il2cpp::array<Vent>* get_AllVents() { return method_call(get_AllVents, ); } // 0x4635E0
     //void CLKGHNPMGLI(il2cpp::array<Vent>* /* array */ HIJOHCLAKMG) { return method_call(CLKGHNPMGLI, HIJOHCLAKMG); } // 0x4636D0
     // virtual // void OnDestroy() { return method_call(OnDestroy, ); } // 0x981070 // Slot: 5
-    void CHGPCCPKNNG(struct LJFDDJHBOGF* LNGGICEILCG, struct FFGALNAPKCD* IIEKJBMPELC, std::int8_t AMMANIHDKKA) { return method_call(CHGPCCPKNNG, LNGGICEILCG, IIEKJBMPELC, AMMANIHDKKA); } // 0x97A630
+    void CHGPCCPKNNG(struct LJFDDJHBOGF* LNGGICEILCG, PlayerControl* IIEKJBMPELC, std::int8_t AMMANIHDKKA) { return method_call(CHGPCCPKNNG, LNGGICEILCG, IIEKJBMPELC, AMMANIHDKKA); } // 0x97A630
     void FireWeapon() { return method_call(FireWeapon, ); } // 0x97CE90
     void BDEONFJIAEB() { return method_call(BDEONFJIAEB, ); } // 0x9794D0
     void CIOPEJJKFEJ() { return method_call(CIOPEJJKFEJ, ); } // 0x97A6C0
@@ -238,7 +238,7 @@ namespace ark::method_info
 	method_rva(ShipStatus::JCOHMAPBLJH, 0x97F3D0)
 	//method_rva(ShipStatus::HOAJHEMNKEI, 0x97EEE0)
 	//method_rva(ShipStatus::GEKONEEKCFO, 0x461760)
-	method_rva(ShipStatus::PLBGOMIEONF, 0x9819F0)
+	method_rva(ShipStatus::EndGame, 0x9819F0)
 	method_rva(ShipStatus::OnEnable, 0x981140)
 	method_rva(ShipStatus::CloseDoorsOfType, 0x97AEF0)
 	method_rva(ShipStatus::GBNPNDMCBJI, 0x97D230)

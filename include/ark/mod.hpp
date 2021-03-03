@@ -2,6 +2,7 @@
 #define INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD
 
 #include <ark/core.hpp>
+#include <ark/mod_intro.hpp>
 #include <ark/setting.hpp>
 #include <ark/version.hpp>
 
@@ -12,9 +13,10 @@
 
 #include <spdlog/formatter.h>
 
-class PlayerControl;
-class ShipStatus;
-class MessageWriter;
+struct HudManager;
+struct MessageWriter;
+struct PlayerControl;
+struct ShipStatus;
 
 namespace ark
 {
@@ -28,14 +30,6 @@ namespace ark
     public:
         using settings_type = std::vector<ark::setting>;
 
-        struct intro
-        {
-            std::string title;
-            std::string subtitle;
-            Unity::Color title_color = {};
-            Unity::Color subtitle_color = {};
-        };
-
     public:
         explicit mod(ark::core& core, std::string name, ark::version = {0, 0, 1}, bool synchronized = true);
 
@@ -47,6 +41,12 @@ namespace ark
         {
             ark_trace("[{}] " + message, name_, ts...);
             core_.log(name_, fmt::format(message, ts...));
+        }
+
+        template<class... Ts>
+        void error(const std::string& message, Ts&&... ts)
+        {
+            core_.error(name_, fmt::format(message, ts...));
         }
 
         virtual void on_enable() {}
@@ -68,41 +68,34 @@ namespace ark
 
         // common hook
         void hook_intro();
-        void set_intro(mod::intro intro);
+        void hook_end_game();
+        void hook_hud();
+
+        void set_intro(ark::mod_intro intro);
+        void end_game();
+        HudManager* hud();
 
         // settings
         //void add_setting(ark::setting);
         template<class... Ts>
-        void add_setting(Ts&&... ts)
-        {
-            settings_.emplace_back(std::move(ts)...);
-        }
+        void add_setting(Ts&&... ts);
         settings_type& settings();
         void save_settings() const;
         template<class T>
-        T setting(const std::string& name) const
-        {
-            auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting.name() == name; });
-            if (setting_it != settings_.end()) return setting_it->template get<T>();
-            ark_trace("setting {} not found", name);
-            return T{};
-        }
+        T setting(const std::string& name) const;
 
         // network
         template<class... Ts>
-        static void send_all(rpc_mod rpcid, const Ts&... ts)
-        {
-            auto writer = mod::start_rpc(rpcid);
-            (writer->Write(ts), ...);
-            mod::finish_rpc(writer);
-        }
+        static void send_all(rpc_mod rpcid, const Ts&... ts);
+
         static MessageWriter* start_rpc(rpc_mod);
         static void finish_rpc(MessageWriter*);
 
         // player
-        static auto players() { return *GameData::statics()->instance->AllPlayers; }
+        static System::Collections::Generic::List<GameData::PlayerInfo>& players();
+        static bool player_hosting();
 
-        static void set_player_name_color(PlayerControl*, float r, float g, float b, float a = 1);
+        static void set_player_name_color(PlayerControl*, Unity::Color color);
 
         static GameData::PlayerInfo* player();
         static PlayerControl* player_control();
@@ -132,8 +125,36 @@ namespace ark
 
         bool ui_enabled_;
 
-        mod::intro intro_;
+        bool end_game_ = false;
+        HudManager* hud_ = nullptr;
+        ark::mod_intro intro_;
     };
 }// ark
+
+namespace ark
+{
+    template<class... Ts>
+    void mod::add_setting(Ts&&... ts)
+    {
+        settings_.emplace_back(std::move(ts)...);
+    }
+
+    template<class T>
+    T mod::setting(const std::string& name) const
+    {
+        auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting.name() == name; });
+        if (setting_it != settings_.end()) return setting_it->template get<T>();
+        ark_trace("setting {} not found", name);
+        return T{};
+    }
+
+    template<class... Ts>
+    void mod::send_all(rpc_mod rpcid, const Ts&... ts)
+    {
+        auto writer = mod::start_rpc(rpcid);
+        (writer->Write(ts), ...);
+        mod::finish_rpc(writer);
+    }
+} // ark
 
 #endif// INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD

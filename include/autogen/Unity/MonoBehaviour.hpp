@@ -7,7 +7,7 @@ namespace Unity
 {
     struct MonoBehaviour : ark::meta<MonoBehaviour, Behaviour>
     {
-        ark_meta("", "MonoBehaviour");
+        ark_meta("", "MonoBehaviour", "");
 
         bool get_useGUILayout() { return method_call(get_useGUILayout); }                  // 0xC0C9F0
         void set_useGUILayout(bool value) { return method_call(set_useGUILayout, value); } // 0xC0CB10

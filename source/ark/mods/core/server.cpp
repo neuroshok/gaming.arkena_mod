@@ -51,10 +51,7 @@ namespace ark::mods
                 (*array_ServerInfo)[server_it] = server_infos[server_it];
             }
 
-            auto o_ServerInfo = il2cpp::make<ServerInfo>();
-            o_ServerInfo->serverData = array_ServerData;
-            o_ServerInfo->name = cs::make_string("Tournament");
-            o_ServerInfo->ip = cs::make_string("au.hoax.ml");
+            auto o_ServerInfo = il2cpp::make<ServerInfo>(cs::make_string("Tournament"), cs::make_string("au.hoax.ml"), array_ServerData);
             array_ServerInfo->get(server_it) = o_ServerInfo;
 
             self->statics()->DefaultRegions = array_ServerInfo;

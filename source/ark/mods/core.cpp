@@ -4,6 +4,7 @@
 #include <ark/hook.hpp>
 #include <ark/version.hpp>
 
+#include <autogen/AmongUsClient.hpp>
 #include <autogen/GameStartManager.hpp>
 #include <autogen/Hazel/MessageReader.hpp>
 #include <autogen/Hazel/MessageWriter.hpp>
@@ -19,6 +20,17 @@ namespace ark::mods
     void core::on_enable()
     {
         server_.enable();
+
+        ark::hook<&AmongUsClient::FixedUpdate>::after(this,
+        [this](AmongUsClient* self)
+        {
+            if (!initialized_)
+            {
+                //mod::core().resources().load();
+                ark_info("Core initialized");
+                initialized_ = true;
+            }
+        });
 
         ark::hook<&PlayerControl::HandleRpc>::after(this,
         [this](PlayerControl* self, auto event, MessageReader* data)

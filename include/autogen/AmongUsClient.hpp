@@ -11,7 +11,7 @@ template<class T> using List = System::Collections::Generic::List<T>;
 // AmongUsClient in 2020.12.9s
 struct AmongUsClient : ark::meta<AmongUsClient, InnerNet::InnerNetClient> // TypeDefIndex: 8776
 {
-	ark_meta("", "FMLLKEACGIO");
+	ark_meta("", "FMLLKEACGIO", "");
 
     struct internal_statics
     {
@@ -81,7 +81,7 @@ struct AmongUsClient : ark::meta<AmongUsClient, InnerNet::InnerNetClient> // Typ
 	int get_BytesSent() { method_call(get_BytesSent); } // 0xCF69C0
 	int get_BytesGot() { method_call(get_BytesGot); } // 0xCF6990
 	int get_Resends() { method_call(get_Resends); } // 0xCF6A40
-	bool get_AmHost() { method_call(get_AmHost); } // 0xCF6970
+	bool get_AmHost() { return method_call(get_AmHost); } // 0xCF6970
 	bool get_AmClient() { method_call(get_AmClient); } // 0xCF6960
 	bool get_IsGamePublic() { method_call(get_IsGamePublic); } // 0x265140
 	void GIOFDCNIPJH(bool HIJOHCLAKMG) { method_call(GIOFDCNIPJH, HIJOHCLAKMG); } // 0x2652F0 
@@ -109,7 +109,7 @@ struct AmongUsClient : ark::meta<AmongUsClient, InnerNet::InnerNetClient> // Typ
 	bool CanBan() { method_call(CanBan); } // 0xCF29A0
 	bool CanKick() { method_call(CanKick); } // 0xCF29C0
 	void KickPlayer(std::int32_t GKLCLMNGEHC, bool BLJAPOPFHEI) { method_call(KickPlayer, GKLCLMNGEHC, BLJAPOPFHEI); } // 0xCF4100 
-	MessageWriter* StartEndGame() { method_call(StartEndGame); } // 0xCF6140
+	MessageWriter* StartEndGame() { return method_call(StartEndGame); } // 0xCF6140
 	void FinishEndGame(MessageWriter* HOGCHJCFDFO) { method_call(FinishEndGame, HOGCHJCFDFO); } // 0xCF3290
 	void GFFCNEJAOFO(std::int32_t ADBBCEEHNIH, struct GHMBCKNECJF* OECOPGMHMKC) { method_call(GFFCNEJAOFO, ADBBCEEHNIH, OECOPGMHMKC); } // 0xCF3630 
 	void MGJKDBFKHDD() { method_call(MGJKDBFKHDD); } // 0xCF5080
@@ -123,7 +123,7 @@ struct AmongUsClient : ark::meta<AmongUsClient, InnerNet::InnerNetClient> // Typ
 	void FFNOBLLHAAI(std::int32_t ONHIPGAPODC, struct GHMBCKNECJF* OECOPGMHMKC) { method_call(FFNOBLLHAAI, ONHIPGAPODC, OECOPGMHMKC); } // 0xCF2E30 
 	void OnApplicationPause(bool OAAGHGHDOKP) { method_call(OnApplicationPause, OAAGHGHDOKP); } // 0xCF5820 
 	void LGENDNJEJEP(struct object* DCCFKHIPIOF) { method_call(LGENDNJEJEP, DCCFKHIPIOF); } // 0xCF41C0 
-	void HOAEOAPDMDD(std::int32_t GKLCLMNGEHC) { method_call(HOAEOAPDMDD, GKLCLMNGEHC); } // 0xCF3BA0 
+	void HOAEOAPDMDD(std::int32_t GKLCLMNGEHC) { method_call(HOAEOAPDMDD, GKLCLMNGEHC); } // 0xCF3BA0
 
 	struct ClientData* FHOPGBFNLJN(std::int32_t HKOIECMDOKL) { method_call(FHOPGBFNLJN, HKOIECMDOKL); } // 0xCF30D0 
 	void _ctor() { method_call(_ctor); } // 0xCF6840

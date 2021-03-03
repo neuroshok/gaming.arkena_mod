@@ -32,12 +32,10 @@ namespace ark::ui
 
         inline static ID3D11Device* device = nullptr;
 
-    private:
+    public:
         ark::core& core_;
 
         bool main_state_ = false;
-
-        inline static ID3D11ShaderResourceView* my_texture_ = nullptr;
 
         inline static ui::core* instance_ = nullptr;
 

@@ -48,6 +48,7 @@ enum class rpc_mod : std::uint8_t
     check_mods = 31,
     mods_status,
     sync_mods,
+    role_distribution,
     // generic
     generic_kill,
     generic_ability,

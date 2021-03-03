@@ -1,5 +1,13 @@
+# Intro scene
+mod framework (title, subtitle, colors)
+
+# GameObject
+position/scale/rotation
+destroy
+
 # Player
 PlayerControl::get_CanMove : player move/stop
+DeadBody control : Prefab
 
 # Camera
 FollowCamera::FixedUpdate
@@ -14,6 +22,10 @@ original(self);
 ```
 
 # Material
+
+_AddColor
+_OutlineColor :
+ - player : halo color
 _BodyColor
 _BackColor : color over the body
 _VisorColor : the visor
@@ -23,33 +35,12 @@ SetPlayerMaterialColors_2 : std::int32_t is renderer ptr
 
 # Ship
 player light radius : return value of ShipStatus::CalculateLightRadius
+player voted : isgameoverduetodeath called
+ShipStatus::RepairSystem : called on buzz
+ShipStatus.Class : tasks
 
+# KillButton
+cd : playercontrol->setkilltimer
 
-
-HHMBANDDIOA = PassiveButton
-
-rpc (hors context) : ban / server side check
-host can call rpc
-
-SetInfected : 1st byte ? 2nd byte :
-
-
-
-
-TEST :
-rpc owner call
-host can call rpc
-
-- [ ] launcher, autoupdater (nano)
-- [x] load/unload mod via injection
-- [x] D3D hook (imgui)
-- [-] discord api (sdk)
-- [ ] il2cppdumper to structured_dump (RE tool)
-- [ ] generate c++ headers from structured_dump (RE tool)
-- [ ] generate code analysis from structured_dump (RE tool)
-- [ ] deobfuscation (RE tool)
-- [ ] trace test from memory address (RE)
-- [ ] role based mod
-- [ ] game api
-- [ ] mod settings
-- [ ] enable/disable mods
+# EndGame
+MFIBPNBCMKM called to set up end game scene, use playerinfo to display players

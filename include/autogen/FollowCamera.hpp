@@ -9,7 +9,7 @@ template<class T> using List = System::Collections::Generic::List<T>;
 
 struct alignas(4) FollowCamera : ark::meta<FollowCamera, Unity::MonoBehaviour>
 {
-	ark_meta("", "KGIKNCBGPFJ");
+	ark_meta("", "KGIKNCBGPFJ", "");
 
 	Unity::MonoBehaviour* Target; // 0xC
 	Unity::Vector2 Offset; // 0x10

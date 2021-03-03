@@ -19,6 +19,7 @@ namespace ark
         , version_{ ark::version{0, 1, 0} }
         , ui_{ *this }
     {
+        il2cpp::api::thread_attach(il2cpp::api::domain_get());
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);
         ark_info("Initialize ark::core version {}", version_.str());
@@ -30,17 +31,21 @@ namespace ark
 
         //ark_trace("Game version : {}", ::Unity::Application::get_version());
 
+#ifdef ARK_TESTING
+        load<ark::mods::testing>();
+#else
         load<ark::mods::core>();
-        load<ark::mods::tools>();
-        load<ark::mods::arkrole>();
+        //load<ark::mods::tools>();
+        load<akn::mod>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tournament>();
         //load<ark::mods::whisperer>();
+        //load<ark::mods::pranker>();
         //load<ark::mods::spy>();
         //load<ark::mods::testing>();
         //load<ark::mods::analysis>();
-
+#endif
         init_settings();
     }
 
@@ -98,7 +103,6 @@ namespace ark
             {
                 for (auto& setting : mod->settings())
                 {
-                    ark_trace("load {} {}", mod->name(), setting.name());
                     if (j.contains(mod->name()))
                     {
                         if (j[mod->name()].contains(setting.name()))
@@ -124,6 +128,12 @@ namespace ark
         logs_.push_front("[" + mod_name + "] " + message);
     }
 
+    void core::error(const std::string& mod_name, const std::string& message)
+    {
+        if (logs_.size() > 10) logs_.pop_back();
+        logs_.push_front("[" + mod_name + "] ERROR " + message);
+    }
+
     const std::vector<std::unique_ptr<ark::mod>>& core::mods()
     {
         return mods_;
@@ -145,6 +155,8 @@ namespace ark
     {
         return logs_;
     }
+
+    ark::resources& core::resources() { return resources_; }
 
     std::string core::settings_path()
     {

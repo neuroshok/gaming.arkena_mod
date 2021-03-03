@@ -6,15 +6,20 @@
 #include <autogen/InnerNet/InnerNetObject.hpp>
 #include <autogen/PlayerTask.hpp>
 #include <autogen/System/Collections/Generic/List.hpp>
-#include <autogen/Unity/TextRenderer.hpp>
 #include <autogen/Unity/Renderer.hpp>
+#include <autogen/Unity/SpriteRenderer.hpp>
+#include <autogen/Unity/TextRenderer.hpp>
 #include <autogen/Unity/Vector2.hpp>
+
+#include <cs/array.hpp>
+
+#include <analysis/testing/test.hpp>
 
 template<class T> using List = System::Collections::Generic::List<T>;
 
 struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // TypeDefIndex: 8921
 {
-    ark_meta("", "FFGALNAPKCD");
+    ark_meta("", "FFGALNAPKCD", "");
 
     struct internal_statics
     {
@@ -22,16 +27,17 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
         struct KMOGFLPJLLK* GameOptions; // 0x4
         List<PlayerControl>* AllPlayerControls; // 0x8
     };
+    static PlayerControl* instance() { return statics()->local;  }
 
     std::int32_t MKMDLEOKDIN; // 0x24
     std::int8_t PlayerId; // 0x28
     float MaxReportDistance; // 0x2C
     bool moveable; // 0x30
     bool inVent; // 0x31
-    GameData::PlayerInfo* _cachedData; // 0x34
+    GameData::PlayerInfo* playerInfo; // 0x34
     struct AudioSource* FootSteps; // 0x38
     struct AudioClip* KillSfx; // 0x3C
-    struct MNGKAKKOKPN* /* array<T>* */ KillAnimations; // 0x40
+    cs::array<MNGKAKKOKPN>* KillAnimations; // 0x40
     float killTimer; // 0x44
     std::int32_t RemainingEmergencies; // 0x48
     Unity::TextRenderer* nameText; // 0x4C
@@ -42,11 +48,11 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     struct LNBAPKHKDPG* NetTransform; // 0x60
     struct DLMDFGBMGPC* CurrentPet; // 0x64
     struct DAMECBEEJAL* HatRenderer; // 0x68
-    struct SpriteRenderer* MKIDFJAEBGH; // 0x6C
+    Unity::SpriteRenderer* renderer; // 0x6C
     struct Collider2D* /* array<T>* */ FGIKJBLDEIL; // 0x70
     List<PlayerTask>* myTasks; // 0x74
     struct SpriteAnim* /* array<T>* */ ScannerAnims; // 0x78
-    struct SpriteRenderer* /* array<T>* */ ScannersImages; // 0x7C
+    Unity::SpriteRenderer* /* array<T>* */ ScannersImages; // 0x7C
     struct CMCLOPELAIG* PJHNJMEGPFG; // 0x80
     bool OJIGFMDLDAK; // 0x84
     void* PMJANCAEKGA; //struct Dictionary<Collider2D, CMCLOPELAIG>* PMJANCAEKGA; // 0x88
@@ -55,8 +61,12 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     std::int8_t OMMKFLAIKKJ; // 0x94
     bool LAGLLALNLPJ; // 0x95
 
+    // RVA: 0x8E0220 Offset: 0x8DEA20 VA: 0x108E0220 Slot: 6
+    bool MoveNext() { return method_call(MoveNext); }
+    void MALCOGGEKED(bool EHNJJAPKPMF, uint8_t PFDMDIMFBFI)  { return method_call(MALCOGGEKED, EHNJJAPKPMF, PFDMDIMFBFI); }
+
     void RpcSetScanner(bool HIJOHCLAKMG) { return method_call(RpcSetScanner, HIJOHCLAKMG); } // 0x8F06B0
-    void SetPetImage(std::uint32_t FHPHKIBKMHO, std::int32_t NPFHOONFFDI, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage, FHPHKIBKMHO, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F0FC0
+    void SetPetImage(std::uint32_t FHPHKIBKMHO, std::int32_t NPFHOONFFDI, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage, FHPHKIBKMHO, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F0FC0
     void ILICKLHOAEF(std::uint32_t AOONHAJNJLD) { return method_call(ILICKLHOAEF, AOONHAJNJLD); } // 0x8E7EA0
     void HNEOMMPDEKA(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(HNEOMMPDEKA, CAKODNGLPDF); } // 0x8E7620
     void NOABIGDJKAG(struct PlayerTask* OJGILIGMHKL) { return method_call(NOABIGDJKAG, OJGILIGMHKL); } // 0x8ED160
@@ -72,7 +82,7 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     void RpcPlayAnimation(std::int8_t BOFNMFDDECJ) { return method_call(RpcPlayAnimation, BOFNMFDDECJ); } // 0x8EFFE0
     struct IEnumerator* DJDGDNLFOLL(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(DJDGDNLFOLL, CAKODNGLPDF); } // 0x8E2B00
     struct IEnumerator* LAFAHEINIFL(List<GameData::TaskInfo>* JGBINEOMNFJ) { return method_call(LAFAHEINIFL, JGBINEOMNFJ); } // 0x8EA0E0
-    void GMINMCCBMLN(struct SkinData* ADLNPGGEOHF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(GMINMCCBMLN, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
+    void GMINMCCBMLN(struct SkinData* ADLNPGGEOHF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(GMINMCCBMLN, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
     // virtual // void GKLFFKMMIBK(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(GKLFFKMMIBK, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E5B20 // Slot: 10
     void OGOIANMJKOE(PlayerControl* CAKODNGLPDF) { return method_call(OGOIANMJKOE, CAKODNGLPDF); } // 0x8ED770
     void RemoveInfected() { return method_call(RemoveInfected); } // 0x8EF8E0
@@ -107,7 +117,7 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     PlayerControl* OAFBLFBAOJJ() { return method_call(OAFBLFBAOJJ); } // 0x8ED350
     void set_Visible(bool HIJOHCLAKMG) { return method_call(set_Visible, HIJOHCLAKMG); } // 0x8F21E0
     void KCCPOLAGNBE() { return method_call(KCCPOLAGNBE); } // 0x8E9520
-    void SetSkinImage(struct SkinData* ADLNPGGEOHF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
+    void SetSkinImage(struct SkinData* ADLNPGGEOHF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
     void ONKBPFEBJHJ(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(ONKBPFEBJHJ, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8EE800
     void FDOIKGIEGGM(std::int8_t POCIJABNOLE) { return method_call(FDOIKGIEGGM, POCIJABNOLE); } // 0x8E46B0
     void RpcMurderPlayer(PlayerControl* CAKODNGLPDF) { return method_call(RpcMurderPlayer, CAKODNGLPDF); } // 0x8EFF30
@@ -138,7 +148,7 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     void KEDGNMIOFDJ(PlayerControl* CAKODNGLPDF) { return method_call(KEDGNMIOFDJ, CAKODNGLPDF); } // 0x8E9920
     void CFJNKPGNJOP(std::int32_t NPFHOONFFDI, Unity::Renderer* CNJAHEAJNAO) { return method_call(CFJNKPGNJOP, NPFHOONFFDI, CNJAHEAJNAO); } // 0x8E1940
     void DKIGBFCJNIH() { return method_call(DKIGBFCJNIH); } // 0x8E2B60
-    void INEEAAKMPOE(std::uint32_t EPBONDIDGDF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(INEEAAKMPOE, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E8340
+    void INEEAAKMPOE(std::uint32_t EPBONDIDGDF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(INEEAAKMPOE, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E8340
     void EDAHCGIIGEC() { return method_call(EDAHCGIIGEC); } // 0x8E3B50
     bool RpcSendChat(struct string* PGIBDIEPGIC) { return method_call(RpcSendChat, PGIBDIEPGIC); } // 0x8F0190
     void ACDENNDCABE(std::uint32_t EPBONDIDGDF) { return method_call(ACDENNDCABE, EPBONDIDGDF); } // 0x8E1080
@@ -148,7 +158,7 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     void PAAEIGJECFE(std::uint32_t CAEHOLMOBNA, std::int32_t NPFHOONFFDI) { return method_call(PAAEIGJECFE, CAEHOLMOBNA, NPFHOONFFDI); } // 0x8EE9C0
     void LFHBFEOGGDP(std::uint32_t CAEHOLMOBNA) { return method_call(LFHBFEOGGDP, CAEHOLMOBNA); } // 0x8EA140
     void MurderPlayer(PlayerControl* CAKODNGLPDF) { return method_call(MurderPlayer, CAKODNGLPDF); } // 0x8EBBD0
-    void OJPCECLPCCF(std::int8_t* JPGEIBIBJPJ) { return method_call(OJPCECLPCCF, JPGEIBIBJPJ); } // 0x8ED8B0
+    void OJPCECLPCCF(std::int8_t* JPGEIBIBJPJ) { return method_call(OJPCECLPCCF, JPGEIBIBJPJ); }     // 0x8ED8B0
     void HGBOKFKHBFC(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(HGBOKFKHBFC, IOFBPLNIJIC); } // 0x8E73C0
     void CKOJBMDNHDC() { return method_call(CKOJBMDNHDC); } // 0x8E1DA0
     void ANPCFADOLNH(GameData::PlayerInfo* KINIPFCLILM) { return method_call(ANPCFADOLNH, KINIPFCLILM); } // 0x8E1220
@@ -169,7 +179,8 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     bool get_Visible() { return method_call(get_Visible); } // 0x8E92A0
     void MKAIDPJOJFP(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(MKAIDPJOJFP, CAKODNGLPDF); } // 0x8EB7A0
     bool PJEDCGOKPII() { return method_call(PJEDCGOKPII); } // 0x8E92A0
-    void MALCOGGEKED(bool EHNJJAPKPMF, std::int8_t PFDMDIMFBFI) { return method_call(MALCOGGEKED, EHNJJAPKPMF, PFDMDIMFBFI); } // 0x8EAE60
+    // scanner count ? true : display scanner
+    void mbPlayScanner(bool EHNJJAPKPMF, std::int8_t PFDMDIMFBFI) { return method_call(mbPlayScanner, EHNJJAPKPMF, PFDMDIMFBFI); } // 0x8EAE60
     void KCDBLGOANGO(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(KCDBLGOANGO, CAKODNGLPDF); } // 0x8E9710
     void PlayStepSound() { return method_call(PlayStepSound); } // 0x8EF550
     void LGKFCCNOCGF(std::int8_t POCIJABNOLE) { return method_call(LGKFCCNOCGF, POCIJABNOLE); } // 0x8EA310
@@ -177,7 +188,7 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     void SetKillTimer(float NPHJCKDCKDD) { return method_call(SetKillTimer, NPHJCKDCKDD); } // 0x8F0D70
     void LIJFIPPPLOG() { return method_call(LIJFIPPPLOG); } // 0x8EA5C0
     void PJDHDPBPHOO(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(PJDHDPBPHOO, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8EF1E0
-    void SetPetImage_1(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage_1, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F1130
+    void SetPetImage_1(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage_1, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F1130
     void KDOFBFLCHFI(std::int8_t POCIJABNOLE) { return method_call(KDOFBFLCHFI, POCIJABNOLE); } // 0x8E97D0
     Unity::Vector2 GetTruePosition() { return method_call(GetTruePosition); } // 0x8E6360
     bool HGLKLEFOBAF(struct string* PGIBDIEPGIC) { return method_call(HGLKLEFOBAF, PGIBDIEPGIC); } // 0x8E74D0
@@ -199,7 +210,7 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     void NPBIIAEJFFE(std::int32_t OLDMPECBIHH) { return method_call(NPBIIAEJFFE, OLDMPECBIHH); } // 0x8ED250
     void EECEFCEEMOI() { return method_call(EECEFCEEMOI); } // 0x8E3C30
     void RpcSyncSettings(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(RpcSyncSettings, IOFBPLNIJIC); } // 0x8F09D0
-    void Die(struct DBLJKMDLJIF* OECOPGMHMKC) { return method_call(Die, OECOPGMHMKC); } // 0x8E3700
+    void Die(std::int32_t /* deathreason */ OECOPGMHMKC) { return method_call(Die, OECOPGMHMKC); } // 0x8E3700
     void FGHBFGPILAE(Unity::Renderer* CNJAHEAJNAO) { return method_call(FGHBFGPILAE, CNJAHEAJNAO); } // 0x8E4880
     void GMCHEJDFJLP(struct string* MLBHDDBAPLO) { return method_call(GMCHEJDFJLP, MLBHDDBAPLO); } // 0x8E60E0
     void JOMBEGNNEDO(Unity::Color HHJCOBKGBFF, Unity::Renderer* CNJAHEAJNAO) { return method_call(JOMBEGNNEDO, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8E9360
@@ -214,18 +225,18 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
     void APMIKIHJHNP(struct string* MLBHDDBAPLO) { return method_call(APMIKIHJHNP, MLBHDDBAPLO); } // 0x8E1380
     void CmdCheckColor(std::int8_t POCIJABNOLE) { return method_call(CmdCheckColor, POCIJABNOLE); } // 0x8E2630
     void NMOONHOMEBI(std::int8_t BOFNMFDDECJ) { return method_call(NMOONHOMEBI, BOFNMFDDECJ); } // 0x8ED0D0
-    void FFNCCHAFDMF(std::uint32_t EPBONDIDGDF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(FFNCCHAFDMF, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E4760
+    void FFNCCHAFDMF(std::uint32_t EPBONDIDGDF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(FFNCCHAFDMF, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E4760
     void KHOKFCBONMN(std::int8_t BOFNMFDDECJ) { return method_call(KHOKFCBONMN, BOFNMFDDECJ); } // 0x8E9C70
     struct IEnumerator* BKACPBFANPP() { return method_call(BKACPBFANPP); } // 0x8E1720
     void PMICBFLPPNH(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(PMICBFLPPNH, IOFBPLNIJIC); } // 0x8EF2C0
-    void SetSkinImage_1(std::uint32_t EPBONDIDGDF, struct SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage_1, EPBONDIDGDF, CAKODNGLPDF); } // 0x8F17A0
+    void SetSkinImage_1(std::uint32_t EPBONDIDGDF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage_1, EPBONDIDGDF, CAKODNGLPDF); } // 0x8F17A0
     void ONIGNKDLJMI() { return method_call(ONIGNKDLJMI); } // 0x8EE470
     void SetPet(std::uint32_t FHPHKIBKMHO) { return method_call(SetPet, FHPHKIBKMHO); } // 0x8F1230
     // virtual // bool MDNFIPDDCBO(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(MDNFIPDDCBO, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10 // Slot: 14
     void CKIPOCJFJNJ(struct PlayerTask* OJGILIGMHKL) { return method_call(CKIPOCJFJNJ, OJGILIGMHKL); } // 0x8E1BC0
     void FINMJGBNEHP(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(FINMJGBNEHP, CAKODNGLPDF); } // 0x8E4F50
     void KGLNLIFMIPK(std::uint32_t EPBONDIDGDF) { return method_call(KGLNLIFMIPK, EPBONDIDGDF); } // 0x8E99D0
-    void OFJDBLFDJLM(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, struct SpriteRenderer* CAKODNGLPDF) { return method_call(OFJDBLFDJLM, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8ED670
+    void OFJDBLFDJLM(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(OFJDBLFDJLM, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8ED670
     struct IEnumerator* KNKGODDCEKP(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(KNKGODDCEKP, CAKODNGLPDF); } // 0x8E9F30
     void JJONHMOCEMN() { return method_call(JJONHMOCEMN); } // 0x8E90B0
     void KKCAFDPBABB(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(KKCAFDPBABB, IOFBPLNIJIC); } // 0x8E9D00
@@ -241,6 +252,10 @@ struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // Typ
 
 namespace ark::method_info
 {
+    method_rva(PlayerControl::MoveNext, 0x8E0220)
+    method_rva(PlayerControl::MALCOGGEKED, 0x8EAE60)
+
+
     method_rva(PlayerControl::RpcSetScanner, 0x8F06B0)
     method_rva(PlayerControl::SetPetImage, 0x8F0FC0)
     method_rva(PlayerControl::ILICKLHOAEF, 0x8E7EA0)
@@ -355,7 +370,7 @@ namespace ark::method_info
     method_rva(PlayerControl::get_Visible, 0x8E92A0)
     method_rva(PlayerControl::MKAIDPJOJFP, 0x8EB7A0)
     method_rva(PlayerControl::PJEDCGOKPII, 0x8E92A0)
-    method_rva(PlayerControl::MALCOGGEKED, 0x8EAE60)
+    method_rva(PlayerControl::mbPlayScanner, 0x8EAE60)
     method_rva(PlayerControl::KCDBLGOANGO, 0x8E9710)
     method_rva(PlayerControl::PlayStepSound, 0x8EF550)
     method_rva(PlayerControl::LGKFCCNOCGF, 0x8EA310)

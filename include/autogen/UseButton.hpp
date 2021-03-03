@@ -8,7 +8,7 @@
 
 struct UseButton : ark::meta<UseButton, Unity::MonoBehaviour> // TypeDefIndex: 8727
 {
-	ark_meta("", "LJKIJNFBBHH");
+	ark_meta("", "LJKIJNFBBHH", "");
 
 	static struct Color* AEJDBEHFKGE; // 0x0
 	static struct Color* AGOLMCOBHAF; // 0x10

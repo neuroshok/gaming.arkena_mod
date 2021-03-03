@@ -17,7 +17,7 @@ template<class T> using List = System::Collections::Generic::List<T>;
 
 struct HudManager : ark::meta<HudManager, Unity::MonoBehaviour> // TypeDefIndex: 8642
 {
-    ark_meta("", "PIEFJFEOGOL");
+    ark_meta("", "PIEFJFEOGOL", "");
 
     bool b; // inerithed: PPAEIPHJPDH<HudManager>
 

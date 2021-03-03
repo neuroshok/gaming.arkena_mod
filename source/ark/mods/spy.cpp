@@ -10,30 +10,88 @@
 
 #include <random>
 
+enum class role_type { impostor, crewmate, spy };
+
 namespace ark::mods
 {
     spy::spy(ark::core& c)
         : mod(c, "spy", {0, 1, 0})
     {
         set_description("The Spy\nA spy can use vents");
+
+        mod::add_setting("impostor_count", 1, "Number of impostors");
+        mod::add_setting("spy_count", 1, "Number of spies");
     }
 
-    void spy::role_distribution()
+    void spy::do_role_distribution()
     {
+        std::vector<std::uint8_t> roles { 2, (int)role_type::spy };
+        std::vector<std::uint8_t> out;
 
+        int i = 0;
+        for (; i < roles.size(); i += 2)
+            for (int j = 0; j < roles[i]; ++j) out.emplace_back(roles[i + 1]);
+        for (; i < mod::players().size(); ++i) out.emplace_back((std::uint8_t)role_type::crewmate);
+
+         std::cout << "\nar" << i << " " << mod::players().size();
+        for (auto item : out) std::cout << "_" << (int)item;
+
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(out.begin(), out.end(), g);
+        mod::send_all(rpc_mod::role_distribution, out);
+        on_role_distribution(out);
+    }
+
+    void spy::on_role_distribution(const std::vector<std::uint8_t>& roles)
+    {
+        if (mod::players().size() != roles.size())
+        {
+            ark_trace("role dist error");
+            return;
+        }
+
+        for (auto* player : mod::players())
+        {
+            //auto is_impo = mod::player_control(player->PlayerId)->playerInfo->IsImpostor;
+            //ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->playerInfo->IsImpostor);
+            //ark_trace("pid: {} {}", player->PlayerId , roles.size());
+
+
+            ark_trace("pid: {} role: {}", player->PlayerId, roles[player->PlayerId]);
+
+            if (player->PlayerId == mod::player()->PlayerId)
+            {
+                ark_trace("PlayerId: {} PlayerId: {}", player->PlayerId, mod::player()->PlayerId);
+                //if (roles[player->PlayerId] == (int)role_type::impostor)
+                if (roles[player->PlayerId] == (int)role_type::impostor)
+                {
+                    player->IsImpostor = true;
+                    mod::player_control(player->PlayerId)->playerInfo->IsImpostor = true;
+                    mod::set_intro({ .title = "Impostor", .title_color = { 0.5, 0.5, 1, 0.1 } });
+                }
+                else if (roles[player->PlayerId] == (int)role_type::spy)
+                {
+                    mod::set_intro({ .title = "Spy", .subtitle = "My name is Bond", .title_color = { 0.5, 0.5, 0.5, 0.1 } });
+                    mod::set_player_name_color(mod::player_control(), { 0.5, 0.5, 0.5, 1 });
+                    is_spy_ = true;
+                }
+                else mod::set_intro({ .title = "Crewmate", .title_color = { 0.5, 0.5, 1, 0.1 } });
+            }
+        }
     }
 
     void spy::on_enable()
     {
         mod::hook_intro();
 
-        ark::hook<&PlayerControl::HandleRpc>::overwrite(this,
-            [this](auto original, PlayerControl* self, auto event, MessageReader* data)
+        ark::hook<&PlayerControl::HandleRpc>::after(this,
+            [this](PlayerControl* self, auto event, MessageReader* data)
             {
                 ark_trace("HandleRpc {}", event);
                 auto original_position = data->get_Position();
                 //ark_trace("original_position {}", original_position);
-                data->set_Position(2);
+                //data->set_Position(2);
 
                 switch (static_cast<rpc>(event))
                 {
@@ -44,32 +102,23 @@ namespace ark::mods
                     }
                     return;
 
-                    case rpc::SetInfected:
+                    case (rpc)rpc_mod::role_distribution:
                     {
-                        role_distribution();
-
-                        for (auto* player : *GameData::statics()->instance->AllPlayers)
-                        {
-                            auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
-                            ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
-                            if (!is_impo)
-                            {
-                                auto spy_id = player->PlayerId;
-                                MessageWriter* writer = AmongUsClient::statics()->instance->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpc_mod::generic_role);
-                                writer->Write(spy_id);
-                                AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
-                                break;
-                            }
-                        }
+                        on_role_distribution(data->read_vector<std::uint8_t>());
                         break;
                     }
                 }
 
-              data->set_Position(original_position);
-              original(self, event, data);
+              //data->set_Position(original_position);
+              //original(self, event, data);
             }
         );
 
+        ark::hook<&PlayerControl::RpcSetInfected>::overwrite(this, [this](auto original, auto&& self, GameData::PlayerInfo* player) -> void {
+            ark_trace("PlayerControl::RpcSetInfected(void), JPGEIBIBJPJ(): {}", player->PlayerId);
+            original(self, player);
+            do_role_distribution();
+        }); // 0x8F0430
 
         ark::hook<&HudManager::Start>::before(this, [this](auto&& self) -> void
         {

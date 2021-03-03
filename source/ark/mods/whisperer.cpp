@@ -109,13 +109,13 @@ namespace ark::mods
 
                 for (auto* player : *GameData::statics()->instance->AllPlayers)
                 {
-                    auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
-                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+                    auto is_impo = mod::player_control(player->PlayerId)->playerInfo->IsImpostor;
+                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->playerInfo->IsImpostor);
                 }
 
                 if (whisperer_id_ == mod::player()->PlayerId)
                 {
-                    mod::set_player_name_color(mod::player_control(whisperer_id_), 0.5, 0, 0.5);
+                    mod::set_player_name_color(mod::player_control(whisperer_id_), { 0.5, 0, 0.5 });
                     mod::set_intro( {.title = "Whisperer", .subtitle = "ANNIHILATE THEM", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
                 }
                 else mod::set_intro( {.title = mod::player()->PlayerName->str(), .subtitle = "RUNNNNNNN", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
@@ -147,13 +147,13 @@ namespace ark::mods
         ark::hook<&PlayerControl::MurderPlayer>::before(this, [this](PlayerControl* source, PlayerControl* target)
         {
             // force local kill
-            original_value = source->_cachedData->IsImpostor;
-            source->_cachedData->IsImpostor = true;
+            original_value = source->playerInfo->IsImpostor;
+            source->playerInfo->IsImpostor = true;
         });
 
         ark::hook<&PlayerControl::MurderPlayer>::after(this, [this](PlayerControl* source, PlayerControl* target)
         {
-            source->_cachedData->IsImpostor = original_value;
+            source->playerInfo->IsImpostor = original_value;
         });
 
 
@@ -180,7 +180,7 @@ namespace ark::mods
 
                         if (whisperer_id_ == mod::player()->PlayerId)
                         {
-                            mod::set_player_name_color(mod::player_control(whisperer_id_), 0.5, 0, 0.5);
+                            mod::set_player_name_color(mod::player_control(whisperer_id_), {0.5, 0, 0.5});
                             mod::set_intro( {.title = "Whisperer", .subtitle = std::to_string(whisperer_id_), .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });
                         }
                         else mod::set_intro( {.title = mod::player()->PlayerName->str(), .subtitle = "Whisper someone", .title_color = {1, 1, 1}, .subtitle_color = {1, 1, 0} });

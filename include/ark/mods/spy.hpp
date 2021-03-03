@@ -17,7 +17,8 @@ namespace ark::mods
         void on_enable() override;
 
 
-        void role_distribution();
+        void do_role_distribution();
+        void on_role_distribution(const std::vector<std::uint8_t>&);
 
     private:
         HudManager* hud_ = nullptr;

@@ -1,8 +1,11 @@
 #pragma once
 
+#include <cassert>
+#include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
-#include <cassert>
+#include <autogen/Unity/Vector2.hpp>
+#include <autogen/Unity/Vector3.hpp>
 
 #define ark_assert(C, M) if (!C) {ark_trace("Asssertion failed: {}", M);} assert(C)
 

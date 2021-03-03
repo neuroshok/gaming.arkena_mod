@@ -8,7 +8,7 @@
 
 struct ServerManager : ark::meta<ServerManager, Unity::MonoBehaviour> // TypeDefIndex: 8738
 {
-	ark_meta("", "AOBNFCIHAJL");
+	ark_meta("", "AOBNFCIHAJL", "");
         
         // from PPAEIPHJPDH
         bool DontDestroy;

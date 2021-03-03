@@ -7,7 +7,7 @@
 
 struct GameStartManager : ark::meta<GameStartManager, Unity::MonoBehaviour> /*PPAEIPHJPDH<GameStartManager>*/
 {
-    ark_meta("", "ANKMIOIMNFE");
+    ark_meta("", "ANKMIOIMNFE", "");
 
 	float INPGMOJAEDP;
 	std::int32_t MinPlayers; // 0x10

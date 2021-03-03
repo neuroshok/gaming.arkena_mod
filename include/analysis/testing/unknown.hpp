@@ -7,7 +7,7 @@
 
 struct FOONEKDGJBL : ark::meta<FOONEKDGJBL, Unity::MonoBehaviour> // TypeDefIndex: 8943
 {
-	ark_meta("", "FOONEKDGJBL");
+	ark_meta("", "FOONEKDGJBL", "");
 
 	struct SpriteRenderer* Body; // 0xC
 	struct SpriteRenderer* Hands; // 0x10

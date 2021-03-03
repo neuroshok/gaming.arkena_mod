@@ -11,7 +11,7 @@ struct PlayerControl;
 // GameData in 2020.12.9s
 struct GameData : ark::meta<GameData, InnerNet::InnerNetObject>
 {
-    ark_meta("", "EGLJNOMOGNP");
+    ark_meta("", "EGLJNOMOGNP", "");
 
     struct internal_statics
     {

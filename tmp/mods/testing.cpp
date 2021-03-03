@@ -65,9 +65,9 @@ namespace ark::mods
             ark_trace("MurderPlayer {} -> {}");
 
             //auto p = mod::player_control(1);
-            source->_cachedData->IsImpostor = true;
+            source->playerInfo->IsImpostor = true;
             original(source, target);
-            source->_cachedData->IsImpostor = false;
+            source->playerInfo->IsImpostor = false;
 
             //mod::player(1)->IsImpostor = false;
         });

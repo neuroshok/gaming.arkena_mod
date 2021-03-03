@@ -3,9 +3,11 @@
 #include <il2cpp/core.hpp>
 #include <il2cpp/api.hpp>
 
-#define ark_meta(NS, Name) \
+#define ark_meta(NS, Name, Type) \
 static inline auto internal_ns = NS; \
-static inline auto internal_name = Name
+static inline auto internal_name = Name; \
+static inline auto internal_type = Type; \
+static inline auto internal_fullname = []{ return ((NS) == nullptr) ? (Name) : NS "." Name; }()
 
 namespace ark
 {

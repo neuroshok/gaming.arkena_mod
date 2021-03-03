@@ -10,7 +10,7 @@
 struct KillButtonManager : ark::meta<KillButtonManager, Unity::MonoBehaviour> // TypeDefIndex: 8657
 {
     //static_assert(sizeof(Unity::MonoBehaviour) == 0xC);
-	ark_meta("", "MLPJGKEACMM");
+	ark_meta("", "MLPJGKEACMM", "MLPJGKEACMM, Assembly-CSharp");
 
 	PlayerControl* CurrentTarget; // 0xC
 	Unity::SpriteRenderer* renderer; // 0x10

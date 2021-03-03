@@ -13,7 +13,7 @@ template<class T> using List = System::Collections::Generic::List<T>;
 
 struct IntroCutScene : ark::meta<IntroCutScene, Unity::MonoBehaviour> // TypeDefIndex: 8688
 {
-    ark_meta("", "PENEIDJGGAF");
+    ark_meta("", "PENEIDJGGAF", "");
 
 	Unity::TextRenderer* Title; // 0xC
 	Unity::TextRenderer* ImpostorText; // 0x10
@@ -27,7 +27,7 @@ struct IntroCutScene : ark::meta<IntroCutScene, Unity::MonoBehaviour> // TypeDef
 
     struct CKACLKCOJFO : il2cpp::Il2CppObject
     {
-        ark_meta("", "CKACLKCOJFO");
+        ark_meta("", "CKACLKCOJFO", "");
 
         // Fields
         int __state; // 0x8

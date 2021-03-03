@@ -8,7 +8,7 @@ namespace Unity
 {
     struct Renderer : ark::meta<Renderer, Unity::Component> // TypeDefIndex: 5331
     {
-        ark_meta("UnityEngine", "Renderer");
+        ark_meta("UnityEngine", "Renderer", "");
 
         struct Bounds* get_bounds() { return method_call(get_bounds); } // 0xB8A4D0
         Unity::Material* GetMaterial() { return method_call(GetMaterial); } // 0xB8A410

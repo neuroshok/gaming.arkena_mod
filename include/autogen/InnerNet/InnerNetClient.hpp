@@ -8,7 +8,7 @@ namespace InnerNet {
 
 // InnerNetClient in 2020.12.9s
 struct InnerNetClient : ark::meta<InnerNetClient, Unity::MonoBehaviour> {
-    ark_meta("", "KHNHJFFECBP");
+    ark_meta("", "KHNHJFFECBP", "");
 
     // InnerNetClient.KGEKNMMAKKN in 2020.12.9s
     enum class GameStates : std::int32_t {
@@ -52,14 +52,14 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	|-RVA: 0x241050 Offset: 0x23F850 VA: 0x10241050
 	*/
 	void SendRpcImmediately(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA) { return method_call(SendRpcImmediately, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA); } // 0xCF5F40
-	struct MessageWriter* StartRpcImmediately(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA, std::int32_t DBKDPNAODFH = -1) { return method_call(StartRpcImmediately, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA, DBKDPNAODFH); } // 0xCF61C0
-	void FinishRpcImmediately(struct MessageWriter* HOGCHJCFDFO) { return method_call(FinishRpcImmediately, HOGCHJCFDFO); } // 0xCF32D0
+	MessageWriter* StartRpcImmediately(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA, std::int32_t DBKDPNAODFH = -1) { return method_call(StartRpcImmediately, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA, DBKDPNAODFH); } // 0xCF61C0
+	void FinishRpcImmediately(MessageWriter* HOGCHJCFDFO) { return method_call(FinishRpcImmediately, HOGCHJCFDFO); } // 0xCF32D0
 	//void SendRpc(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA = 1) { return method_call(SendRpc, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA); } // 0xCF6010
-	//struct MessageWriter* StartRpc(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA = 1) { return method_call(StartRpc, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA); } // 0xCF6290
+	//MessageWriter* StartRpc(std::uint32_t JLOPKLFIIPJ, std::int8_t HKHMBLJFLMC, struct SendOption* ACCPPOGBCHA = 1) { return method_call(StartRpc, JLOPKLFIIPJ, HKHMBLJFLMC, ACCPPOGBCHA); } // 0xCF6290
 	void EJPNADKABHD(cs::string* ONJOPMMPHEF) { return method_call(EJPNADKABHD, ONJOPMMPHEF); } // 0xCF2D50
 	struct IEnumerator* JCFDHINLMDK(cs::string* ONJOPMMPHEF) { return method_call(JCFDHINLMDK, ONJOPMMPHEF); } // 0xCF3F10
 	void Spawn(struct NJAHILONGKN* ELJOFHKOOIN, std::int32_t INIALGICMPP = -2, struct IDDHILANHLG* AENFDLALMMG = 0) { return method_call(Spawn, ELJOFHKOOIN, INIALGICMPP, AENFDLALMMG); } // 0xCF6090
-	void ANGLABNJGOD(struct NJAHILONGKN* ELJOFHKOOIN, std::int32_t INIALGICMPP, struct IDDHILANHLG* AENFDLALMMG, struct MessageWriter* HOGCHJCFDFO) { return method_call(ANGLABNJGOD, ELJOFHKOOIN, INIALGICMPP, AENFDLALMMG, HOGCHJCFDFO); } // 0xCF0B10
+	void ANGLABNJGOD(struct NJAHILONGKN* ELJOFHKOOIN, std::int32_t INIALGICMPP, struct IDDHILANHLG* AENFDLALMMG, MessageWriter* HOGCHJCFDFO) { return method_call(ANGLABNJGOD, ELJOFHKOOIN, INIALGICMPP, AENFDLALMMG, HOGCHJCFDFO); } // 0xCF0B10
 	void Despawn(struct NJAHILONGKN* AANKPCAIONC) { return method_call(Despawn, AANKPCAIONC); } // 0xCF2C80
 	bool DBGLMJPFANF(struct NJAHILONGKN* ABKMBGEIPKL) { return method_call(DBGLMJPFANF, ABKMBGEIPKL); } // 0xCF2BE0
 	void RemoveNetObject(struct NJAHILONGKN* ABKMBGEIPKL) { return method_call(RemoveNetObject, ABKMBGEIPKL); } // 0xCF5AC0
@@ -80,7 +80,7 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	bool get_IsGameStarted() { return method_call(get_IsGameStarted, ); } // 0xCF6A00
 	bool get_IsGameOver() { return method_call(get_IsGameOver, ); } // 0xCF69F0
 	// virtual // void Start() { return method_call(Start, ); } // 0xCF62F0 // Slot: 4
-	void NMLCCIJBKOJ(struct MessageWriter* HOGCHJCFDFO) { return method_call(NMLCCIJBKOJ, HOGCHJCFDFO); } // 0xCF53B0
+	void NMLCCIJBKOJ(MessageWriter* HOGCHJCFDFO) { return method_call(NMLCCIJBKOJ, HOGCHJCFDFO); } // 0xCF53B0
 	struct ClientData* GetHost() { return method_call(GetHost, ); } // 0xCF3A20
 	std::int32_t GetClientIdFromCharacter(struct NJAHILONGKN* ALHCAFBCKPH) { return method_call(GetClientIdFromCharacter, ALHCAFBCKPH); } // 0xCF3840
 	// virtual // void OnDestroy() { return method_call(OnDestroy, ); } // 0xCF5910 // Slot: 5
@@ -98,8 +98,8 @@ void FixedUpdate() { return method_call(FixedUpdate, ); } // 0xCF3310
 	bool CanBan() { return method_call(CanBan, ); } // 0xCF29A0
 	bool CanKick() { return method_call(CanKick, ); } // 0xCF29C0
 	void KickPlayer(std::int32_t GKLCLMNGEHC, bool BLJAPOPFHEI) { return method_call(KickPlayer, GKLCLMNGEHC, BLJAPOPFHEI); } // 0xCF4100
-	struct MessageWriter* StartEndGame() { return method_call(StartEndGame, ); } // 0xCF6140
-	void FinishEndGame(struct MessageWriter* HOGCHJCFDFO) { return method_call(FinishEndGame, HOGCHJCFDFO); } // 0xCF3290
+	MessageWriter* StartEndGame() { return method_call(StartEndGame, ); } // 0xCF6140
+	void FinishEndGame(MessageWriter* HOGCHJCFDFO) { return method_call(FinishEndGame, HOGCHJCFDFO); } // 0xCF3290
 	void GFFCNEJAOFO(std::int32_t ADBBCEEHNIH, struct GHMBCKNECJF* OECOPGMHMKC) { return method_call(GFFCNEJAOFO, ADBBCEEHNIH, OECOPGMHMKC); } // 0xCF3630
 	void MGJKDBFKHDD() { return method_call(MGJKDBFKHDD, ); } // 0xCF5080
 	void DBFLAJLNBBN() { return method_call(DBFLAJLNBBN, ); } // 0xCF2B50

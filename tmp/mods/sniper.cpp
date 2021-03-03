@@ -26,7 +26,7 @@ namespace ark::mods
 
                 for (auto* player : *GameData::statics()->instance->AllPlayers)
                 {
-                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
+                    ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->playerInfo->IsImpostor);
                 }
             }
         );
@@ -67,10 +67,10 @@ namespace ark::mods
             {
                 ark_trace("Localkill {} {}", mod::player(source)->PlayerId, marked_id_);
                 // force local kill
-                auto original_value = source->_cachedData->IsImpostor;
-                source->_cachedData->IsImpostor = true;
+                auto original_value = source->playerInfo->IsImpostor;
+                source->playerInfo->IsImpostor = true;
                 original(source, mod::player_control(marked_id_));
-                source->_cachedData->IsImpostor = original_value;
+                source->playerInfo->IsImpostor = original_value;
             }
         });
 

@@ -10,7 +10,7 @@
 
 namespace Unity
 {
-    struct TextRenderer : ark::meta<TextRenderer, InnerNet::InnerNetObject>
+    struct MeetingHud : ark::meta<TextRenderer, InnerNet::InnerNetObject>
     {
         static constexpr auto internal_name = "OOCJALPKPEP";
         

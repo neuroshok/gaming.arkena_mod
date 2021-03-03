@@ -17,6 +17,7 @@ namespace ark::mods
         void on_enable() override;
 
     private:
+        bool initialized_ = false;
         ark::mods::core_server server_;
 
         GameStartManager* start_manager_;

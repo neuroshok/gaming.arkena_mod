@@ -52,7 +52,7 @@ const processFile = (file) => {
 	headers.source.push(`#include <${file.replace(includePath, '').replace(new RegExp(`\\${path.sep}`, 'g'), '/')}>`)
 }
 const parseLineStructName = (line) => {
-	const [full, name, name2] = line.match(/^struct (\w+) : ark::meta<(\w+),/) || [null, null, null]
+	const [full, name, name2] = line.match(/^struct (\w+) : ark::meta<(\w+)/) || [null, null, null]
 	if (full && name === name2) {
 		if (global.debug) console.log([full, name, name2])
 		return name;

@@ -41,7 +41,7 @@ namespace ark::mods
         ark::hook<&GameStartManager::Start>::after(this, [this](auto self)
         {
             set_clipboard(self->GameRoomName->Text->str().substr(6));
-            //self->GameRoomName->Text = cs::make_string("[6666FFff]BETA TEST\nGAME");
+            self->GameRoomName->Text = cs::make_string("[6666FFff]BETA TEST\nGAME");
         });
     }
 

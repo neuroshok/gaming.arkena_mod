@@ -2,19 +2,13 @@
 
 #include <ark/core.hpp>
 #include <ark/mod.hpp>
-#include <ark/ui/loader.hpp>
+#include <ark/resource.hpp>
 
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
 #include <imgui.h>
 #include <iostream>
 #include <kiero.h>
-
-static int zeta(ImGuiInputTextCallbackData* data)
-{
-    std::cout << "cb";
-    return 0;
-}
 
 #pragma comment (lib, "d3d11.lib")
 
@@ -47,7 +41,7 @@ namespace ark::ui
         ImGui::Begin("Arkmongus", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
             auto title = "Arkmongus " + core_.version().str();
 
-            ImGui::Image((void*)my_texture_, ImVec2(menu_height, menu_height));
+            ImGui::Image((void*)core_.resources().ntx_icon.handle, ImVec2(menu_height, menu_height));
             ImGui::SameLine();
             if (ImGui::Button(title.c_str(), ImVec2(width - menu_height, menu_height))) main_state_ = !main_state_;
         ImGui::End();
@@ -324,9 +318,6 @@ namespace ark::ui
             pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
             device->CreateRenderTargetView(pBackBuffer, nullptr, &renderTargetView);
             pBackBuffer->Release();
-
-            bool ret = ark::load_texture(&my_texture_);
-            ark_trace("Load resources");
 
             init = true;
         }

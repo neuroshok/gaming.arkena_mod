@@ -1,3 +1,28 @@
+# Sorcerer
+- whisperer : the target kill after X secondes
+- illusionist : create a fake player
+- necromancer : 
+
+# Humans
+- Pranker : can fake death
+- Barbarian : can kill 
+
+# Sages
+- Medium : can see another player
+
+# Fighter
+- Archer : can kill a marked player
+
+# Gods
+Thanatos : kill everyone
+
+# Order of the Fate : finish all quests to get the artifact
+whisperer, protector, archer
+# The Dark Mages : protect the artifact
+pranker, medium, illusionist
+# Barbarians : kill everyone
+archer, whisperer, barbarian
+
 # zombie
 Le zombie doit contaminer tous les joueurs
 Le dernier joueur en vie gagne la partie

@@ -6,7 +6,11 @@
 
 struct alignas(4) MessageWriter : ark::meta<MessageWriter, il2cpp::Il2CppObject>
 {
-    ark_meta("Hazel", "MessageWriter");
+    ark_meta("Hazel", "MessageWriter", "");
+
+    std::uint8_t* Buffer; // 0x8
+    std::int32_t Length; // 0xC
+    std::int32_t Position; // 0x10
 
     void Write(bool v) { Write((std::uint8_t)v); }
     void Write(char v) { il2cpp::call<void(*)(MessageWriter*, char)>(0x1613AE0)(this, v); } // 0x1613AE0
@@ -22,15 +26,19 @@ struct alignas(4) MessageWriter : ark::meta<MessageWriter, il2cpp::Il2CppObject>
         for (char i : data) Write(i);
     }
 
+    template<class T>
+    void Write(const std::vector<T>& data)
+    {
+        Write(std::uint32_t(data.size()));
+        for (T i : data) Write(i);
+    }
+
     void Write(const ark::version& data)
     {
         Write(data.major);
         Write(data.minor);
         Write(data.fix);
     }
-
-    template<class T>
-    void Write(const T& data);
 };
 
 

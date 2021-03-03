@@ -3,10 +3,11 @@
 #include <ark/core.hpp>
 #include <ark/hook.hpp>
 
+#include <autogen/AmongUsClient.hpp>
+#include <autogen/HudManager.hpp>
+#include <autogen/IntroCutscene.hpp>
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
-#include <autogen/IntroCutscene.hpp>
-#include <autogen/AmongUsClient.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -55,16 +56,13 @@ namespace ark
 
     void mod::set_description(const std::string& desc) { description_ = desc; }
 
-    void mod::set_player_name_color(PlayerControl* pc, float r, float g, float b, float a)
+    void mod::set_player_name_color(PlayerControl* pc, Unity::Color color)
     {
-        pc->nameText->color.r = r;
-        pc->nameText->color.g = g;
-        pc->nameText->color.b = b;
-        pc->nameText->color.a = a;
+        pc->nameText->color = color;
     }
 
     //
-    void mod::set_intro(mod::intro intro)
+    void mod::set_intro(ark::mod_intro intro)
     {
         intro_ = std::move(intro);
     }
@@ -92,6 +90,24 @@ namespace ark
         });
     }
 
+    void mod::hook_end_game()
+    {
+        ark::hook<&ShipStatus::EndGame>::overwrite(this, [this](auto original, auto&& self, std::int32_t reason, bool EMAKAHIFLDE) -> void {
+            ark_trace("end game");
+            if (end_game_) original(self, 3, EMAKAHIFLDE);
+        });
+    }
+
+    void mod::hook_hud()
+    {
+        ark::hook<&HudManager::Start>::after(this, [this](auto&& self) -> void {
+            hud_ = self;
+        });
+    }
+
+    void mod::end_game() { end_game_ = true; }
+    HudManager* mod::hud() { if (hud_ == nullptr) error("hud not found"); return hud_; }
+
     //
     /*
     void mod::add_setting(ark::setting s)
@@ -99,16 +115,14 @@ namespace ark
         settings_.emplace_back(std::make_unique<ark::setting>(std::move(s)));
     }*/
 
-    mod::settings_type& mod::settings()
-    {
-        return settings_;
-    }
+    mod::settings_type& mod::settings() { return settings_; }
 
     // todo perf
     void mod::save_settings() const
     {
         std::ifstream ifs(core::settings_path());
-        if (!ifs.is_open()) return ark_trace("unable to open settings: {}", core::settings_path());
+        if (!ifs.is_open())
+            return ark_trace("unable to open settings: {}", core::settings_path());
         nlohmann::json j;
         try { ifs >> j; ifs.close(); }
         catch (const std::exception& e)
@@ -134,7 +148,10 @@ namespace ark
 
     void mod::local_kill(PlayerControl* source, PlayerControl* target)
     {
+        auto original_value = source->playerInfo->IsImpostor;
+        source->playerInfo->IsImpostor = true;
         source->MurderPlayer(target);
+        source->playerInfo->IsImpostor = original_value;
     }
 
     void mod::local_kill(std::uint8_t source, std::uint8_t target)
@@ -181,6 +198,9 @@ namespace ark
     {
         AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
     }
+
+    System::Collections::Generic::List<GameData::PlayerInfo>& mod::players() { return *GameData::statics()->instance->AllPlayers; }
+    bool mod::player_hosting() { return AmongUsClient::statics()->instance->get_AmHost(); }
 
     GameData::PlayerInfo* mod::player() { return player(player_control()); }
     PlayerControl* mod::player_control() { return PlayerControl::statics()->local; }

@@ -2,16 +2,17 @@
 
 #include <ark/core.hpp>
 
+#include <autogen/AmongUsClient.hpp>
 #include <autogen/GameData.hpp>
 #include <autogen/GameStartManager.hpp>
+#include <autogen/HudManager.hpp>
 #include <autogen/InnerNet/InnerNetClient.hpp>
 #include <autogen/IntroCutscene.hpp>
 #include <autogen/KillButtonManager.hpp>
 #include <autogen/PlayerControl.hpp>
 #include <autogen/ShipStatus.hpp>
-#include <cs/string.hpp>
 #include <autogen/Unity/Material.hpp>
-#include <autogen/HudManager.hpp>
+#include <cs/string.hpp>
 
 #include <analysis/testing_header.hpp>
 
@@ -28,13 +29,17 @@ namespace ark
             MH_Initialize();
         #endif
 
-        //#include <analysis/testing.hpp>
+#ifdef ARK_TESTING
+        #include <analysis/testing.hpp>
+#else
+        hk(AmongUsClient::FixedUpdate);
+        hk(AmongUsClient::FinishEndGame);
+        hkr(MessageWriter*, AmongUsClient::StartEndGame);
 
-
-        //#include <analysis/HudManager.inits.hpp>
-        //#include <analysis/Vent.inits.hpp>
+        hk(EndGameManager::Start);
 
         hk(HudManager::Start);
+        hk(HudManager::Update);
 
         hkr(bool, IntroCutScene::CKACLKCOJFO::MoveNext);
 
@@ -42,6 +47,7 @@ namespace ark
         hk(InnerNet::InnerNetClient::Update);
 
         hk(KillButtonManager::PerformKill);
+        hk(KillButtonManager::SetTarget);
 
         hk(PlayerControl::SetColor);
         hk(PlayerControl::HandleRpc);
@@ -54,17 +60,16 @@ namespace ark
         hk(ServerManager::_ctor);
 
         hk(ShipStatus::Begin);
+        hk(ShipStatus::EndGame);
 
-
-            /*
-
-
+        hk(UseButton::DoClick);
 
         hk(GameData::RpcUpdateGameData);
         hk(GameData::UpdateGameData);
 
         hk(GameStartManager::Start);
-        hk(GameStartManager::BeginGame);*/
+        hk(GameStartManager::BeginGame);
+#endif
     }
 } // ark
 

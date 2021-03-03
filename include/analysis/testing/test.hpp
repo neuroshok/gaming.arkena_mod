@@ -1,0 +1,404 @@
+#pragma once
+
+#include <ark/class.hpp>
+
+#include <autogen/Unity/Vector2.hpp>
+#include <autogen/Unity/Vector3.hpp>
+
+struct DDPGLPLGFOI : ark::meta<DDPGLPLGFOI, Unity::MonoBehaviour> // TypeDefIndex: 8910
+{
+	ark_meta("", "DDPGLPLGFOI", "");
+
+	bool Reported; // 0xC
+	short KillIdx; // 0xE
+	std::int8_t PlayerId; // 0x10
+	struct Collider2D* myCollider; // 0x14
+
+	void BDIDBMHAFNI() { return method_call(BDIDBMHAFNI); } // 0x1026B60
+	void BBJAJHFGNOM() { return method_call(BBJAJHFGNOM); } // 0x1026670
+	Unity::Vector2 GEKKPAOLDGJ() { return method_call(GEKKPAOLDGJ); } // 0x10292A0
+	void JGAMKOGCKMO() { return method_call(JGAMKOGCKMO); } // 0x102B260
+	Unity::Vector2 CGCKNAILDGG() { return method_call(CGCKNAILDGG); } // 0x1027840
+	void HOOIEHHBACG() { return method_call(HOOIEHHBACG); } // 0x102A3A0
+	Unity::Vector2 GMNFJPCOJJD() { return method_call(GMNFJPCOJJD); } // 0x10293D0
+	Unity::Vector2 LCNIDMDNPFP() { return method_call(LCNIDMDNPFP); } // 0x102BC10
+	void FAFMGACKGGN() { return method_call(FAFMGACKGGN); } // 0x1028B30
+	Unity::Vector2 KKCPHOOHAMK() { return method_call(KKCPHOOHAMK); } // 0x102B880
+	void DFDJJJKEHMH() { return method_call(DFDJJJKEHMH); } // 0x1027AA0
+	Unity::Vector2 NADFBHDGIKA() { return method_call(NADFBHDGIKA); } // 0x102CB40
+	Unity::Vector2 KMEGODLMCDA() { return method_call(KMEGODLMCDA); } // 0x102BAE0
+	void MNKODNDPALC() { return method_call(MNKODNDPALC); } // 0x102C950
+	void LOBLBADCABL() { return method_call(LOBLBADCABL); } // 0x102C250
+	Unity::Vector2 HHKKKABDJGA() { return method_call(HHKKKABDJGA); } // 0x102A080
+	void AIDFHKILLAC() { return method_call(AIDFHKILLAC); } // 0x1025D50
+	Unity::Vector2 JDGMKPEKAEG() { return method_call(JDGMKPEKAEG); } // 0x102B130
+	void PDAICMIOELA() { return method_call(PDAICMIOELA); } // 0x102E4C0
+	Unity::Vector2 BNDMHIBJHAO() { return method_call(BNDMHIBJHAO); } // 0x10271B0
+	void OnClick() { return method_call(OnClick); } // 0x102DE10
+	void _ctor() { return method_call(_ctor); } // 0x38A130
+	Unity::Vector2 HCMFEJGEMGB() { return method_call(HCMFEJGEMGB); } // 0x1029B20
+	Unity::Vector2 PAAIAKNKECJ() { return method_call(PAAIAKNKECJ); } // 0x102E000
+	Unity::Vector2 FILHAOCNMIB() { return method_call(FILHAOCNMIB); } // 0x1028D20
+	Unity::Vector2 PANGAJONBFK() { return method_call(PANGAJONBFK); } // 0x102E260
+	void DODJMANEMAL() { return method_call(DODJMANEMAL); } // 0x1027EF0
+	Unity::Vector2 PBBOJNDPDLO() { return method_call(PBBOJNDPDLO); } // 0x102E390
+	void NNJBJIKGCJA() { return method_call(NNJBJIKGCJA); } // 0x102D890
+	void ENHFAGEOHEI() { return method_call(ENHFAGEOHEI); } // 0x1028830
+	Unity::Vector2 BGCGFPGBBNB() { return method_call(BGCGFPGBBNB); } // 0x1026E80
+	Unity::Vector2 NOFPGPBGNHC() { return method_call(NOFPGPBGNHC); } // 0x102DBB0
+	Unity::Vector2 MIMOONLBNFD() { return method_call(MIMOONLBNFD); } // 0x102C630
+	void BMEEHFNAILP() { return method_call(BMEEHFNAILP); } // 0x1026FC0
+	void EHNIFEGGDFG() { return method_call(EHNIFEGGDFG); } // 0x1028530
+	void EBDFBAEDGKG() { return method_call(EBDFBAEDGKG); } // 0x10280E0
+	Unity::Vector2 KMAHCNGLJCB() { return method_call(KMAHCNGLJCB); } // 0x102B9B0
+	Unity::Vector2 get_TruePosition() { return method_call(get_TruePosition); } // 0x102EAE0
+	Unity::Vector2 ONADONDMCIK() { return method_call(ONADONDMCIK); } // 0x102DCE0
+	Unity::Vector2 LMOCMKKFAPF() { return method_call(LMOCMKKFAPF); } // 0x102C120
+	void HPCPADMDACI() { return method_call(HPCPADMDACI); } // 0x102A590
+	void MKMAKHAELJK() { return method_call(MKMAKHAELJK); } // 0x102C760
+	Unity::Vector2 FLKNDNOEGKE() { return method_call(FLKNDNOEGKE); } // 0x1028E50
+	Unity::Vector2 IKMHDOGFKJJ() { return method_call(IKMHDOGFKJJ); } // 0x102A970
+	void NJHMJIKFPJJ() { return method_call(NJHMJIKFPJJ); } // 0x102CDA0
+	void HNHJKOEOGMJ() { return method_call(HNHJKOEOGMJ); } // 0x102A1B0
+	Unity::Vector2 EEJBJCKOBDI() { return method_call(EEJBJCKOBDI); } // 0x10282D0
+	Unity::Vector2 DMIMBPALAGF() { return method_call(DMIMBPALAGF); } // 0x1027DC0
+	void BANONANOILF() { return method_call(BANONANOILF); } // 0x1026480
+	void HCCCKPDKOOI() { return method_call(HCCCKPDKOOI); } // 0x1029820
+	void AIAPJKIHGPK() { return method_call(AIAPJKIHGPK); } // 0x1025B60
+	void NKPAOFJKAJG() { return method_call(NKPAOFJKAJG); } // 0x102CF90
+	Unity::Vector2 BFBEFIHAFIG() { return method_call(BFBEFIHAFIG); } // 0x1026D50
+	Unity::Vector2 IOPMDFEJJJM() { return method_call(IOPMDFEJJJM); } // 0x102B000
+	void PFMKEECGCME() { return method_call(PFMKEECGCME); } // 0x102E7E0
+	Unity::Vector2 IOLJJLPHHCD() { return method_call(IOLJJLPHHCD); } // 0x102AED0
+	Unity::Vector2 CGCDLFCBLMH() { return method_call(CGCDLFCBLMH); } // 0x1027710
+	void IODDAIOGAPP() { return method_call(IODDAIOGAPP); } // 0x102ABD0
+	void IGHIPBODKKC() { return method_call(IGHIPBODKKC); } // 0x102A780
+	Unity::Vector2 NEHHIEMHCNB() { return method_call(NEHHIEMHCNB); } // 0x102CC70
+	void AGHAJABALJO() { return method_call(AGHAJABALJO); } // 0x1025970
+	void NLHOINKNPGL() { return method_call(NLHOINKNPGL); } // 0x102D590
+	Unity::Vector2 PAFIBCLMOMK() { return method_call(PAFIBCLMOMK); } // 0x102E130
+	Unity::Vector2 EEPOFJBIOCO() { return method_call(EEPOFJBIOCO); } // 0x1028400
+	Unity::Vector2 AKMDOHCMBHE() { return method_call(AKMDOHCMBHE); } // 0x1026050
+	Unity::Vector2 CBHPACJLIIG() { return method_call(CBHPACJLIIG); } // 0x10272E0
+	void NLDPPEKMCBG() { return method_call(NLDPPEKMCBG); } // 0x102D290
+	void CCHCIADPHDH() { return method_call(CCHCIADPHDH); } // 0x1027410
+	void HAECIMPKECM() { return method_call(HAECIMPKECM); } // 0x1029630
+	Unity::Vector2 NNMDIFFOHKM() { return method_call(NNMDIFFOHKM); } // 0x102DA80
+	void HGHJNHLDLHE() { return method_call(HGHJNHLDLHE); } // 0x1029D80
+	Unity::Vector2 KBGHOEHMCBG() { return method_call(KBGHOEHMCBG); } // 0x102B750
+	void ALEKEEHEHHE() { return method_call(ALEKEEHEHHE); } // 0x1026180
+	Unity::Vector2 HFKJNKENPPJ() { return method_call(HFKJNKENPPJ); } // 0x1029C50
+	void LPCCFABBNJH() { return method_call(LPCCFABBNJH); } // 0x102C440
+	void LENIIKCAPPP() { return method_call(LENIIKCAPPP); } // 0x102BD40
+	Unity::Vector2 DINLOAHAMJJ() { return method_call(DINLOAHAMJJ); } // 0x1027C90
+	void LMCIDFJPCFB() { return method_call(LMCIDFJPCFB); } // 0x102BF30
+	Unity::Vector2 CODEHGFDAOH() { return method_call(CODEHGFDAOH); } // 0x1027970
+	void GDDPLIGDCFL() { return method_call(GDDPLIGDCFL); } // 0x10290B0
+	Unity::Vector2 PEEHMELFOEL() { return method_call(PEEHMELFOEL); } // 0x102E6B0
+	Unity::Vector2 FLMAKOHPFPM() { return method_call(FLMAKOHPFPM); } // 0x1028F80
+	Unity::Vector2 GOECGNBEGFB() { return method_call(GOECGNBEGFB); } // 0x1029500
+	void JLFPNDDBOMO() { return method_call(JLFPNDDBOMO); } // 0x102B450
+	void BBMFKDCOEML() { return method_call(BBMFKDCOEML); } // 0x1026970
+	Unity::Vector2 INNKLHLAEOG() { return method_call(INNKLHLAEOG); } // 0x102AAA0
+};
+namespace ark::method_info
+{
+
+	method_rva(DDPGLPLGFOI::BDIDBMHAFNI, 0x1026B60)
+	method_rva(DDPGLPLGFOI::BBJAJHFGNOM, 0x1026670)
+	method_rva(DDPGLPLGFOI::GEKKPAOLDGJ, 0x10292A0)
+	method_rva(DDPGLPLGFOI::JGAMKOGCKMO, 0x102B260)
+	method_rva(DDPGLPLGFOI::CGCKNAILDGG, 0x1027840)
+	method_rva(DDPGLPLGFOI::HOOIEHHBACG, 0x102A3A0)
+	method_rva(DDPGLPLGFOI::GMNFJPCOJJD, 0x10293D0)
+	method_rva(DDPGLPLGFOI::LCNIDMDNPFP, 0x102BC10)
+	method_rva(DDPGLPLGFOI::FAFMGACKGGN, 0x1028B30)
+	method_rva(DDPGLPLGFOI::KKCPHOOHAMK, 0x102B880)
+	method_rva(DDPGLPLGFOI::DFDJJJKEHMH, 0x1027AA0)
+	method_rva(DDPGLPLGFOI::NADFBHDGIKA, 0x102CB40)
+	method_rva(DDPGLPLGFOI::KMEGODLMCDA, 0x102BAE0)
+	method_rva(DDPGLPLGFOI::MNKODNDPALC, 0x102C950)
+	method_rva(DDPGLPLGFOI::LOBLBADCABL, 0x102C250)
+	method_rva(DDPGLPLGFOI::HHKKKABDJGA, 0x102A080)
+	method_rva(DDPGLPLGFOI::AIDFHKILLAC, 0x1025D50)
+	method_rva(DDPGLPLGFOI::JDGMKPEKAEG, 0x102B130)
+	method_rva(DDPGLPLGFOI::PDAICMIOELA, 0x102E4C0)
+	method_rva(DDPGLPLGFOI::BNDMHIBJHAO, 0x10271B0)
+	method_rva(DDPGLPLGFOI::OnClick, 0x102DE10)
+	method_rva(DDPGLPLGFOI::_ctor, 0x38A130)
+	method_rva(DDPGLPLGFOI::HCMFEJGEMGB, 0x1029B20)
+	method_rva(DDPGLPLGFOI::PAAIAKNKECJ, 0x102E000)
+	method_rva(DDPGLPLGFOI::FILHAOCNMIB, 0x1028D20)
+	method_rva(DDPGLPLGFOI::PANGAJONBFK, 0x102E260)
+	method_rva(DDPGLPLGFOI::DODJMANEMAL, 0x1027EF0)
+	method_rva(DDPGLPLGFOI::PBBOJNDPDLO, 0x102E390)
+	method_rva(DDPGLPLGFOI::NNJBJIKGCJA, 0x102D890)
+	method_rva(DDPGLPLGFOI::ENHFAGEOHEI, 0x1028830)
+	method_rva(DDPGLPLGFOI::BGCGFPGBBNB, 0x1026E80)
+	method_rva(DDPGLPLGFOI::NOFPGPBGNHC, 0x102DBB0)
+	method_rva(DDPGLPLGFOI::MIMOONLBNFD, 0x102C630)
+	method_rva(DDPGLPLGFOI::BMEEHFNAILP, 0x1026FC0)
+	method_rva(DDPGLPLGFOI::EHNIFEGGDFG, 0x1028530)
+	method_rva(DDPGLPLGFOI::EBDFBAEDGKG, 0x10280E0)
+	method_rva(DDPGLPLGFOI::KMAHCNGLJCB, 0x102B9B0)
+	method_rva(DDPGLPLGFOI::get_TruePosition, 0x102EAE0)
+	method_rva(DDPGLPLGFOI::ONADONDMCIK, 0x102DCE0)
+	method_rva(DDPGLPLGFOI::LMOCMKKFAPF, 0x102C120)
+	method_rva(DDPGLPLGFOI::HPCPADMDACI, 0x102A590)
+	method_rva(DDPGLPLGFOI::MKMAKHAELJK, 0x102C760)
+	method_rva(DDPGLPLGFOI::FLKNDNOEGKE, 0x1028E50)
+	method_rva(DDPGLPLGFOI::IKMHDOGFKJJ, 0x102A970)
+	method_rva(DDPGLPLGFOI::NJHMJIKFPJJ, 0x102CDA0)
+	method_rva(DDPGLPLGFOI::HNHJKOEOGMJ, 0x102A1B0)
+	method_rva(DDPGLPLGFOI::EEJBJCKOBDI, 0x10282D0)
+	method_rva(DDPGLPLGFOI::DMIMBPALAGF, 0x1027DC0)
+	method_rva(DDPGLPLGFOI::BANONANOILF, 0x1026480)
+	method_rva(DDPGLPLGFOI::HCCCKPDKOOI, 0x1029820)
+	method_rva(DDPGLPLGFOI::AIAPJKIHGPK, 0x1025B60)
+	method_rva(DDPGLPLGFOI::NKPAOFJKAJG, 0x102CF90)
+	method_rva(DDPGLPLGFOI::BFBEFIHAFIG, 0x1026D50)
+	method_rva(DDPGLPLGFOI::IOPMDFEJJJM, 0x102B000)
+	method_rva(DDPGLPLGFOI::PFMKEECGCME, 0x102E7E0)
+	method_rva(DDPGLPLGFOI::IOLJJLPHHCD, 0x102AED0)
+	method_rva(DDPGLPLGFOI::CGCDLFCBLMH, 0x1027710)
+	method_rva(DDPGLPLGFOI::IODDAIOGAPP, 0x102ABD0)
+	method_rva(DDPGLPLGFOI::IGHIPBODKKC, 0x102A780)
+	method_rva(DDPGLPLGFOI::NEHHIEMHCNB, 0x102CC70)
+	method_rva(DDPGLPLGFOI::AGHAJABALJO, 0x1025970)
+	method_rva(DDPGLPLGFOI::NLHOINKNPGL, 0x102D590)
+	method_rva(DDPGLPLGFOI::PAFIBCLMOMK, 0x102E130)
+	method_rva(DDPGLPLGFOI::EEPOFJBIOCO, 0x1028400)
+	method_rva(DDPGLPLGFOI::AKMDOHCMBHE, 0x1026050)
+	method_rva(DDPGLPLGFOI::CBHPACJLIIG, 0x10272E0)
+	method_rva(DDPGLPLGFOI::NLDPPEKMCBG, 0x102D290)
+	method_rva(DDPGLPLGFOI::CCHCIADPHDH, 0x1027410)
+	method_rva(DDPGLPLGFOI::HAECIMPKECM, 0x1029630)
+	method_rva(DDPGLPLGFOI::NNMDIFFOHKM, 0x102DA80)
+	method_rva(DDPGLPLGFOI::HGHJNHLDLHE, 0x1029D80)
+	method_rva(DDPGLPLGFOI::KBGHOEHMCBG, 0x102B750)
+	method_rva(DDPGLPLGFOI::ALEKEEHEHHE, 0x1026180)
+	method_rva(DDPGLPLGFOI::HFKJNKENPPJ, 0x1029C50)
+	method_rva(DDPGLPLGFOI::LPCCFABBNJH, 0x102C440)
+	method_rva(DDPGLPLGFOI::LENIIKCAPPP, 0x102BD40)
+	method_rva(DDPGLPLGFOI::DINLOAHAMJJ, 0x1027C90)
+	method_rva(DDPGLPLGFOI::LMCIDFJPCFB, 0x102BF30)
+	method_rva(DDPGLPLGFOI::CODEHGFDAOH, 0x1027970)
+	method_rva(DDPGLPLGFOI::GDDPLIGDCFL, 0x10290B0)
+	method_rva(DDPGLPLGFOI::PEEHMELFOEL, 0x102E6B0)
+	method_rva(DDPGLPLGFOI::FLMAKOHPFPM, 0x1028F80)
+	method_rva(DDPGLPLGFOI::GOECGNBEGFB, 0x1029500)
+	method_rva(DDPGLPLGFOI::JLFPNDDBOMO, 0x102B450)
+	method_rva(DDPGLPLGFOI::BBMFKDCOEML, 0x1026970)
+	method_rva(DDPGLPLGFOI::INNKLHLAEOG, 0x102AAA0)
+}
+
+
+struct MNGKAKKOKPN : ark::meta<MNGKAKKOKPN, Unity::MonoBehaviour> // TypeDefIndex: 8914
+{
+	ark_meta("", "MNGKAKKOKPN", "");
+
+	struct AnimationClip* BlurAnim; // 0xC
+	DDPGLPLGFOI* bodyPrefab; // 0x10
+	Unity::Vector3 BodyOffset; // 0x14
+
+	// RVA: 0x9BA600 Offset: 0x9B8E00 VA: 0x109BA600 Slot: 6
+	bool MoveNext() { return method_call(MoveNext); }
+
+	void CDJKKGFCOCN(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(CDJKKGFCOCN, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFC70
+	void DHGEAEJDLGK(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(DHGEAEJDLGK, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0060
+	struct IEnumerator* CFOBGGBBHKG(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CFOBGGBBHKG, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFD40
+	void JDMBMJAJBOM(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(JDMBMJAJBOM, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0A90
+	struct IEnumerator* CoPerformKill(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CoPerformKill, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFFA0
+	struct IEnumerator* MFNGOPOMIAP(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(MFNGOPOMIAP, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0EC0
+	struct IEnumerator* PDJDDNMIHPM(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(PDJDDNMIHPM, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF1310
+	void EGDNLOMPIDK(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(EGDNLOMPIDK, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFC70
+	struct IEnumerator* AEOOEDDHHOE(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(AEOOEDDHHOE, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEF950
+	struct IEnumerator* CDLIEAECEBB(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CDLIEAECEBB, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFCE0
+	struct IEnumerator* KFAOCACAOPK(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(KFAOCACAOPK, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0D40
+	void LHCCPLBEHDL(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(LHCCPLBEHDL, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFA10
+	void _ctor() { return method_call(_ctor); } // 0x38A130
+	struct IEnumerator* OFFMGKGFCAH(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(OFFMGKGFCAH, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF1180
+	void HNNGHIJFHJP(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(HNNGHIJFHJP, HLHMFLICGMB, MDKEGLADENC); } // 0xFF08F0
+	void CMHJPPLABFA(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(CMHJPPLABFA, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFED0
+	void AOEDGKNCBKI(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(AOEDGKNCBKI, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFA10
+	struct IEnumerator* JPIDEKKHIPM(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(JPIDEKKHIPM, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0C80
+	void NBACIGKEIDC(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(NBACIGKEIDC, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0FE0
+	void PGLGOIGGDDO(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(PGLGOIGGDDO, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF800
+	struct IEnumerator* MKGEPNLINDL(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(MKGEPNLINDL, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0F20
+	void SetMovement(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(SetMovement, HLHMFLICGMB, MDKEGLADENC); } // 0xFF14F0
+	void IOIIMABEAOG(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(IOIIMABEAOG, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0A20
+	struct IEnumerator* HFOONENPCNP(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(HFOONENPCNP, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF07C0
+	void HIJKJDOPFBL(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(HIJKJDOPFBL, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF800
+	struct IEnumerator* JLHOPOJJNIM(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(JLHOPOJJNIM, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0BC0
+	struct IEnumerator* CKHLFIDKNHI(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CKHLFIDKNHI, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFE10
+	struct IEnumerator* PMKJHAEJOAD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(PMKJHAEJOAD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF1490
+	struct IEnumerator* BEAIBIIEPCC(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(BEAIBIIEPCC, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFB40
+	struct IEnumerator* CBCBEBMPCHM(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CBCBEBMPCHM, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFC10
+	struct IEnumerator* JONMNEBEPDD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(JONMNEBEPDD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0C20
+	void HHKDKICJDEG(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(HHKDKICJDEG, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFBA0
+	void LLBGCIDHPBD(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(LLBGCIDHPBD, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0190
+	void BMKIGMKEBNM(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(BMKIGMKEBNM, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFBA0
+	void BLIIPOMBODE(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(BLIIPOMBODE, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF800
+	struct IEnumerator* NMFGAPLEPNO(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(NMFGAPLEPNO, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF10C0
+	void OEIIFEBACIL(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(OEIIFEBACIL, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0260
+	void HNHBEBNBJBM(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(HNHBEBNBJBM, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0880
+	struct IEnumerator* IOGAAEMEPBM(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(IOGAAEMEPBM, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF09C0
+	struct IEnumerator* PGNDIAGCOHD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(PGNDIAGCOHD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF13D0
+	void GNMIOCGDPFH(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(GNMIOCGDPFH, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0570
+	struct IEnumerator* HFAPMCPIHAL(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(HFAPMCPIHAL, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0760
+	struct IEnumerator* LBFILKIBBGO(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(LBFILKIBBGO, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0E00
+	struct IEnumerator* IKLADLMPFEO(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(IKLADLMPFEO, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0960
+	struct IEnumerator* EEDFDEOJJJC(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(EEDFDEOJJJC, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0200
+	struct IEnumerator* EIDGMNKNDJO(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(EIDGMNKNDJO, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0330
+	void FFMLJBJAHEL(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(FFMLJBJAHEL, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF800
+	void EBADBMMHCBO(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(EBADBMMHCBO, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0190
+	struct IEnumerator* JGAEEOIOBGC(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(JGAEEOIOBGC, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0B00
+	void KHDLNFAIGKL(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(KHDLNFAIGKL, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0570
+	struct IEnumerator* OAMPNKFLMMB(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(OAMPNKFLMMB, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF1120
+	struct IEnumerator* GNNEPKEPAGE(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(GNNEPKEPAGE, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF05E0
+	void ABOLALKFPKA(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(ABOLALKFPKA, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF800
+	struct IEnumerator* HBDDLPDPGAD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(HBDDLPDPGAD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0700
+	void NCOEDKKLOEI(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(NCOEDKKLOEI, HLHMFLICGMB, MDKEGLADENC); } // 0xFF1050
+	struct IEnumerator* PFIALNMABIL(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(PFIALNMABIL, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF1370
+	struct IEnumerator* GPAELFCKEDP(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(GPAELFCKEDP, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF06A0
+	struct IEnumerator* HMBNDGLPMFF(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(HMBNDGLPMFF, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0820
+	struct IEnumerator* PDDHMBLLPGN(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(PDDHMBLLPGN, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF12B0
+	void IOCOLPDCKNA(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(IOCOLPDCKNA, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFC70
+	struct IEnumerator* FDDBELDGFDA(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(FDDBELDGFDA, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0390
+	struct IEnumerator* GCCNOKLDBHO(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(GCCNOKLDBHO, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0450
+	void EMBJDNKMKFF(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(EMBJDNKMKFF, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0190
+	struct IEnumerator* BBMHAKILKKH(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(BBMHAKILKKH, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFAE0
+	struct IEnumerator* AHMIBLEMPFD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(AHMIBLEMPFD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEF9B0
+	void ACBEMJFBJNC(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(ACBEMJFBJNC, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF870
+	void GJIFNFAEFAL(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(GJIFNFAEFAL, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0190
+	void PPBINMMGGJO(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(PPBINMMGGJO, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0260
+	struct IEnumerator* CMABFCDPABG(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CMABFCDPABG, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFE70
+	struct IEnumerator* FFKDKFNMFIE(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(FFKDKFNMFIE, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF03F0
+	struct IEnumerator* MDPJDCMAEHK(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(MDPJDCMAEHK, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0E60
+	struct IEnumerator* MLLFNICILJD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(MLLFNICILJD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0F80
+	struct IEnumerator* KPBKNKLAPOD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(KPBKNKLAPOD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0DA0
+	struct IEnumerator* DGDDJHLPGLM(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(DGDDJHLPGLM, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0000
+	struct IEnumerator* DNFDFMFMHIG(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(DNFDFMFMHIG, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0130
+	struct IEnumerator* CNNGLCKGFAC(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(CNNGLCKGFAC, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFF40
+	struct IEnumerator* APMONAFFMPJ(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(APMONAFFMPJ, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEFA80
+	void GNHKJIPOEDM(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(GNHKJIPOEDM, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF800
+	void CGMJILDFNOK(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(CGMJILDFNOK, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFDA0
+	struct IEnumerator* GGFIGJANNPD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(GGFIGJANNPD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF04B0
+	struct IEnumerator* EGMIGALBLAH(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(EGMIGALBLAH, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF02D0
+	struct IEnumerator* OFFNEAAHFBL(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(OFFNEAAHFBL, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF11E0
+	void OPBJPMMPNPK(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(OPBJPMMPNPK, HLHMFLICGMB, MDKEGLADENC); } // 0xFF1240
+	void EFOONIKKICD(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(EFOONIKKICD, HLHMFLICGMB, MDKEGLADENC); } // 0xFF0260
+	struct IEnumerator* JHIAHFJDPAO(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(JHIAHFJDPAO, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0B60
+	void LEBJPPFIPOM(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(LEBJPPFIPOM, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFDA0
+	struct IEnumerator* KDEAKCCIIBA(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(KDEAKCCIIBA, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0CE0
+	struct IEnumerator* PMHOFNEEHNE(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(PMHOFNEEHNE, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF1430
+	struct IEnumerator* GNPCOMGPELD(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(GNPCOMGPELD, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0640
+	struct IEnumerator* AABIEOLIFEA(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(AABIEOLIFEA, HLHMFLICGMB, CAKODNGLPDF); } // 0xFEF7A0
+	struct IEnumerator* DMDGHJNEBMI(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(DMDGHJNEBMI, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF00D0
+	void AENBKHOEHNN(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(AENBKHOEHNN, HLHMFLICGMB, MDKEGLADENC); } // 0xFEF8E0
+	void FAFGCMIAHJJ(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(FAFGCMIAHJJ, HLHMFLICGMB, MDKEGLADENC); } // 0xFEFDA0
+	struct IEnumerator* GMMDPLCEMIC(PlayerControl* HLHMFLICGMB, PlayerControl* CAKODNGLPDF) { return method_call(GMMDPLCEMIC, HLHMFLICGMB, CAKODNGLPDF); } // 0xFF0510
+	void OKAIGBAOING(PlayerControl* HLHMFLICGMB, bool MDKEGLADENC) { return method_call(OKAIGBAOING, HLHMFLICGMB, MDKEGLADENC); } // 0xFF1240
+};
+namespace ark::method_info
+{
+
+	method_rva(MNGKAKKOKPN::MoveNext, 0x9BA600)
+
+
+	method_rva(MNGKAKKOKPN::CDJKKGFCOCN, 0xFEFC70)
+	method_rva(MNGKAKKOKPN::DHGEAEJDLGK, 0xFF0060)
+	method_rva(MNGKAKKOKPN::CFOBGGBBHKG, 0xFEFD40)
+	method_rva(MNGKAKKOKPN::JDMBMJAJBOM, 0xFF0A90)
+	method_rva(MNGKAKKOKPN::CoPerformKill, 0xFEFFA0)
+	method_rva(MNGKAKKOKPN::MFNGOPOMIAP, 0xFF0EC0)
+	method_rva(MNGKAKKOKPN::PDJDDNMIHPM, 0xFF1310)
+	method_rva(MNGKAKKOKPN::EGDNLOMPIDK, 0xFEFC70)
+	method_rva(MNGKAKKOKPN::AEOOEDDHHOE, 0xFEF950)
+	method_rva(MNGKAKKOKPN::CDLIEAECEBB, 0xFEFCE0)
+	method_rva(MNGKAKKOKPN::KFAOCACAOPK, 0xFF0D40)
+	method_rva(MNGKAKKOKPN::LHCCPLBEHDL, 0xFEFA10)
+	method_rva(MNGKAKKOKPN::_ctor, 0x38A130)
+	method_rva(MNGKAKKOKPN::OFFMGKGFCAH, 0xFF1180)
+	method_rva(MNGKAKKOKPN::HNNGHIJFHJP, 0xFF08F0)
+	method_rva(MNGKAKKOKPN::CMHJPPLABFA, 0xFEFED0)
+	method_rva(MNGKAKKOKPN::AOEDGKNCBKI, 0xFEFA10)
+	method_rva(MNGKAKKOKPN::JPIDEKKHIPM, 0xFF0C80)
+	method_rva(MNGKAKKOKPN::NBACIGKEIDC, 0xFF0FE0)
+	method_rva(MNGKAKKOKPN::PGLGOIGGDDO, 0xFEF800)
+	method_rva(MNGKAKKOKPN::MKGEPNLINDL, 0xFF0F20)
+	method_rva(MNGKAKKOKPN::SetMovement, 0xFF14F0)
+	method_rva(MNGKAKKOKPN::IOIIMABEAOG, 0xFF0A20)
+	method_rva(MNGKAKKOKPN::HFOONENPCNP, 0xFF07C0)
+	method_rva(MNGKAKKOKPN::HIJKJDOPFBL, 0xFEF800)
+	method_rva(MNGKAKKOKPN::JLHOPOJJNIM, 0xFF0BC0)
+	method_rva(MNGKAKKOKPN::CKHLFIDKNHI, 0xFEFE10)
+	method_rva(MNGKAKKOKPN::PMKJHAEJOAD, 0xFF1490)
+	method_rva(MNGKAKKOKPN::BEAIBIIEPCC, 0xFEFB40)
+	method_rva(MNGKAKKOKPN::CBCBEBMPCHM, 0xFEFC10)
+	method_rva(MNGKAKKOKPN::JONMNEBEPDD, 0xFF0C20)
+	method_rva(MNGKAKKOKPN::HHKDKICJDEG, 0xFEFBA0)
+	method_rva(MNGKAKKOKPN::LLBGCIDHPBD, 0xFF0190)
+	method_rva(MNGKAKKOKPN::BMKIGMKEBNM, 0xFEFBA0)
+	method_rva(MNGKAKKOKPN::BLIIPOMBODE, 0xFEF800)
+	method_rva(MNGKAKKOKPN::NMFGAPLEPNO, 0xFF10C0)
+	method_rva(MNGKAKKOKPN::OEIIFEBACIL, 0xFF0260)
+	method_rva(MNGKAKKOKPN::HNHBEBNBJBM, 0xFF0880)
+	method_rva(MNGKAKKOKPN::IOGAAEMEPBM, 0xFF09C0)
+	method_rva(MNGKAKKOKPN::PGNDIAGCOHD, 0xFF13D0)
+	method_rva(MNGKAKKOKPN::GNMIOCGDPFH, 0xFF0570)
+	method_rva(MNGKAKKOKPN::HFAPMCPIHAL, 0xFF0760)
+	method_rva(MNGKAKKOKPN::LBFILKIBBGO, 0xFF0E00)
+	method_rva(MNGKAKKOKPN::IKLADLMPFEO, 0xFF0960)
+	method_rva(MNGKAKKOKPN::EEDFDEOJJJC, 0xFF0200)
+	method_rva(MNGKAKKOKPN::EIDGMNKNDJO, 0xFF0330)
+	method_rva(MNGKAKKOKPN::FFMLJBJAHEL, 0xFEF800)
+	method_rva(MNGKAKKOKPN::EBADBMMHCBO, 0xFF0190)
+	method_rva(MNGKAKKOKPN::JGAEEOIOBGC, 0xFF0B00)
+	method_rva(MNGKAKKOKPN::KHDLNFAIGKL, 0xFF0570)
+	method_rva(MNGKAKKOKPN::OAMPNKFLMMB, 0xFF1120)
+	method_rva(MNGKAKKOKPN::GNNEPKEPAGE, 0xFF05E0)
+	method_rva(MNGKAKKOKPN::ABOLALKFPKA, 0xFEF800)
+	method_rva(MNGKAKKOKPN::HBDDLPDPGAD, 0xFF0700)
+	method_rva(MNGKAKKOKPN::NCOEDKKLOEI, 0xFF1050)
+	method_rva(MNGKAKKOKPN::PFIALNMABIL, 0xFF1370)
+	method_rva(MNGKAKKOKPN::GPAELFCKEDP, 0xFF06A0)
+	method_rva(MNGKAKKOKPN::HMBNDGLPMFF, 0xFF0820)
+	method_rva(MNGKAKKOKPN::PDDHMBLLPGN, 0xFF12B0)
+	method_rva(MNGKAKKOKPN::IOCOLPDCKNA, 0xFEFC70)
+	method_rva(MNGKAKKOKPN::FDDBELDGFDA, 0xFF0390)
+	method_rva(MNGKAKKOKPN::GCCNOKLDBHO, 0xFF0450)
+	method_rva(MNGKAKKOKPN::EMBJDNKMKFF, 0xFF0190)
+	method_rva(MNGKAKKOKPN::BBMHAKILKKH, 0xFEFAE0)
+	method_rva(MNGKAKKOKPN::AHMIBLEMPFD, 0xFEF9B0)
+	method_rva(MNGKAKKOKPN::ACBEMJFBJNC, 0xFEF870)
+	method_rva(MNGKAKKOKPN::GJIFNFAEFAL, 0xFF0190)
+	method_rva(MNGKAKKOKPN::PPBINMMGGJO, 0xFF0260)
+	method_rva(MNGKAKKOKPN::CMABFCDPABG, 0xFEFE70)
+	method_rva(MNGKAKKOKPN::FFKDKFNMFIE, 0xFF03F0)
+	method_rva(MNGKAKKOKPN::MDPJDCMAEHK, 0xFF0E60)
+	method_rva(MNGKAKKOKPN::MLLFNICILJD, 0xFF0F80)
+	method_rva(MNGKAKKOKPN::KPBKNKLAPOD, 0xFF0DA0)
+	method_rva(MNGKAKKOKPN::DGDDJHLPGLM, 0xFF0000)
+	method_rva(MNGKAKKOKPN::DNFDFMFMHIG, 0xFF0130)
+	method_rva(MNGKAKKOKPN::CNNGLCKGFAC, 0xFEFF40)
+	method_rva(MNGKAKKOKPN::APMONAFFMPJ, 0xFEFA80)
+	method_rva(MNGKAKKOKPN::GNHKJIPOEDM, 0xFEF800)
+	method_rva(MNGKAKKOKPN::CGMJILDFNOK, 0xFEFDA0)
+	method_rva(MNGKAKKOKPN::GGFIGJANNPD, 0xFF04B0)
+	method_rva(MNGKAKKOKPN::EGMIGALBLAH, 0xFF02D0)
+	method_rva(MNGKAKKOKPN::OFFNEAAHFBL, 0xFF11E0)
+	method_rva(MNGKAKKOKPN::OPBJPMMPNPK, 0xFF1240)
+	method_rva(MNGKAKKOKPN::EFOONIKKICD, 0xFF0260)
+	method_rva(MNGKAKKOKPN::JHIAHFJDPAO, 0xFF0B60)
+	method_rva(MNGKAKKOKPN::LEBJPPFIPOM, 0xFEFDA0)
+	method_rva(MNGKAKKOKPN::KDEAKCCIIBA, 0xFF0CE0)
+	method_rva(MNGKAKKOKPN::PMHOFNEEHNE, 0xFF1430)
+	method_rva(MNGKAKKOKPN::GNPCOMGPELD, 0xFF0640)
+	method_rva(MNGKAKKOKPN::AABIEOLIFEA, 0xFEF7A0)
+	method_rva(MNGKAKKOKPN::DMDGHJNEBMI, 0xFF00D0)
+	method_rva(MNGKAKKOKPN::AENBKHOEHNN, 0xFEF8E0)
+	method_rva(MNGKAKKOKPN::FAFGCMIAHJJ, 0xFEFDA0)
+	method_rva(MNGKAKKOKPN::GMMDPLCEMIC, 0xFF0510)
+	method_rva(MNGKAKKOKPN::OKAIGBAOING, 0xFF1240)
+}

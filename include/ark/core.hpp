@@ -3,6 +3,7 @@
 
 #include <ark/discord.hpp>
 #include <ark/log.hpp>
+#include <ark/resource.hpp>
 #include <ark/ui/core.hpp>
 #include <ark/version.hpp>
 
@@ -44,11 +45,13 @@ namespace ark
         void init_settings();
 
         void log(const std::string& mod_name, const std::string& message);
+        void error(const std::string& mod_name, const std::string& message);
 
         const std::vector<std::unique_ptr<ark::mod>>& mods();
         ark::mod& mod(const std::string& name);
         const ark::version& version() const;
         const std::deque<std::string>& logs() const;
+        ark::resources& resources();
 
         static std::string settings_path();
 
@@ -56,6 +59,7 @@ namespace ark
         HMODULE hmodule_;
         FILE* console_;
         ui::core ui_;
+        ark::resources resources_;
 
         //ark::discord discord_;
         ark::version version_;

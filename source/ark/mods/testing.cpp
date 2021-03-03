@@ -18,6 +18,7 @@
 #include <autogen/Unity/Sprite.hpp>
 #include <autogen/Unity/SpriteRenderer.hpp>
 #include <autogen/Unity/Transform.hpp>
+#include <autogen/Unity/Component.hpp>
 
 #include <analysis/testing_header.hpp>
 
@@ -29,167 +30,152 @@
 #include <autogen/ServerInfo.hpp>
 #include <autogen/GameData.hpp>
 
+#include <ark/resource.hpp>
+#include <cs/intptr.hpp>
+
+#include <ark/ui/core.hpp>
+
 namespace ark::mods
 {
     testing::testing(ark::core& pcore)
         : mod(pcore, "testing")
     {
+
     }
 
     void testing::on_enable()
     {
-        static UseButton* ptr = nullptr;
-        static int i = 0;
+        // RVA: 0x989DC0 Offset: 0x9885C0 VA: 0x10989DC0
+        //internal bool <CheckEndCriteria>b__76_0(PILBGHDHJLH t) { }
 
-          #include <analysis/Vent.hooks.hpp>
+        //#include <analysis/KillOverlay.hooks.hpp>
+        #include <analysis/Material.hooks.hpp>
+        //#include <analysis/DDPGLPLGFOI.hooks.hpp>
+        //#include <analysis/MNGKAKKOKPN.hooks.hpp>
+        //#include <analysis/GameObject.hooks.hpp>
+        //#include <analysis/PlayerControl.hooks.hpp>
+        //#include <analysis/ShipStatus.hooks.hpp>
+        //#include <analysis/KillButtonManager.hooks.hpp>
 
-
-
+        static Unity::GameObject* test = nullptr;
+        static float i = 0;
+        static float d = 1;
 
         ark::hook<&KillButtonManager::_ctor>::overwrite(this, [](auto original, auto&& self) -> void {
-            self->renderer->set_size({2, 2});
-            original(self);
             ark_trace("KillButtonManager::_ctor(void) called");
-        }); // 0xFEF780
 
-        ark::hook<&KillButtonManager::Start>::overwrite(this, [](auto original, auto&& self) -> void {
-            self->renderer->set_size({2, 2});
-            original(self);
-            ark_trace("KillButtonManager::Start(void) called");
-        }); // 0xFEF750
+            return original(self);
+        }); // 0xFE3460
 
-        ark::hook<&KillButtonManager::SetTarget>::overwrite(this, [](auto original, auto&& self, PlayerControl* target) -> void {
-
-            original(self, target);
-            self->renderer->set_size({2, 2});
-
-        }); // 0xFEF4B0
-
-
-
-        ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto&& o, KillButtonManager* self) {
-            ark_trace("PerformKill");
-
-            mod::player_control()->UseClosest();
-            return;
-
-            auto k = il2cpp::api::object_new<KillButtonManager>(self->klass);
-            k->renderer = self->renderer;
-            //k->Start();
-
-            //self->get_transform()->set_localScale({2, 2, 2});
-            auto player = PlayerControl::statics()->local;
-            player->get_transform()->set_localScale({0.2f, 0.2, 0.2});
-
-            auto pos = player->get_transform()->get_position();
-
-            //player->get_transform()->set_position({pos.x, pos.y + 1, -50});
-
-            ark_trace(": {}", player->get_transform()->get_position().x);
-            ark_trace(": {}", player->get_transform()->get_position().y);
-            ark_trace(": {}", player->get_transform()->get_position().z);
-            //ark_trace(": {}", self->get_isActiveAndEnabled());
-
-
-            //self->renderer->set_flipX(true);
-            auto v = Unity::Vector2{0, 0};
-            //self->renderer->set_size({0, 0});
-            //self->renderer->get_size_Injected(v);
-
-            /*
-            ark_trace(": {}", (uintptr_t)self->CurrentTarget);
-            ark_trace(": {}", self->TimerText->Text->str());
-            ark_trace(": {}", self->renderer->get_size().x);
-            ark_trace(": {}", self->renderer->get_size().y);
-            ark_trace(": {}", self->renderer->get_sprite()->get_rect().x);
-            ark_trace(": {}", self->renderer->get_sprite()->get_rect().y);
-            ark_trace(": {}", self->isCoolingDown);
-            ark_trace(": {}", self->isActive);*/
-            o(self);
-        });
-
-        ark::hook<&ShipStatus::Begin>::after(this, [this](ShipStatus* self)
-        {
-            ark_trace("Game start");
-
-            float i = -5;
-            for (auto* player : *GameData::statics()->instance->AllPlayers)
+        ark::hook<&KillButtonManager::SetCoolDown>::overwrite(this, [](auto original, auto&& self, float, float) -> void {
+            if (test)
             {
-                auto is_impo = mod::player_control(player->PlayerId)->_cachedData->IsImpostor;
-                ark_trace("ID: {} | Name : {} | {}", player->PlayerId, player->PlayerName->str(), mod::player_control(player->PlayerId)->_cachedData->IsImpostor);
-
-
-                if (player->PlayerId != 0)
-                {
-auto pc = mod::player_control(player->PlayerId);
-                pc->get_transform()->set_localScale({2, 2, 2});
-
-                auto pos = pc->get_transform()->get_position();
-
-                pc->get_transform()->set_position({(i += 3), 1, 0});
-                pc->get_transform()->set_localScale({2, 1, 0});
-                }
+                ark_trace("ok");
+                test->get_transform()->set_position({i, 0, 0});
+                if (i > 5) d = -0.1;
+                if (i < -5) d = 0.1;
+                i += d;
             }
-        });
-
-
-        ark::hook<&PlayerControl::SetColor>::overwrite(this, [](auto&& original, auto&& pc, auto&& c)
-        {
-
-
         });
 
 
 
         /*
-        ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::before(this, [](auto&& self) -> bool
-        {
-            self->subtitle.r = 147.f / 255;
-            self->subtitle.g = 112.f / 255;
-            self->subtitle.b = 219.f / 255;
-            self->fade_out_color.g = 0;
-            self->fade_out_color.r = 0;
-            self->fade_out_color.b = 0;
-            self->title.r = 100.f / 255;
-            self->title.g = 149.f / 255;
-            self->title.b = 237.f / 255;
+        ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto original, auto&& self) -> void {
+            ark_trace("PerformKill");
 
-            self->__this->Title->Text = cs::make_string("Sorcerers");
-            self->__this->ImpostorText->Text = cs::make_string("Whisperer\n[FFFFFFFF]Arkena John Bernard");
+self->get_transform()->set_localPosition({-1, -1, 0});
+            //auto texture = self->renderer->get_sprite()->get_texture();
+            //auto texture = new Unity::Texture2D;
 
-            std::string test;
+            auto texture = unity::instantiate<Unity::Texture2D>(self->renderer->get_sprite()->get_texture());
 
-            PlayerControl* tmp = nullptr;
-            for (auto* player : *self->yourTeam)
-            {
-                tmp = const_cast<PlayerControl*>(player);
+            auto texture = static_cast<Unity::Texture2D*>(Unity::Object::Instantiate(self->renderer->get_sprite()->get_texture()));
+
+            auto r = Unity::Texture2D::Internal_CreateImpl(texture, ark::resources::icon.width, ark::resources::icon.height, 0, 4,  0, ark::ui::core::my_texture_);
+            texture->Apply();
+            ark_trace("r {}", r);
+            ark_trace("v {}", texture->GetDataWidth());
+
+            auto sprite = Unity::Sprite::Create(texture, Unity::Rect{0, 0, (float)ark::resources::icon.width, (float)ark::resources::icon.height}, {0, 0});
+
+
+            //self->renderer->set_size({100, 100});
+          //self->renderer->set_flipX(true);
+          self->renderer->set_sprite(sprite);
+
+        }); */// 0x102DE1
+
+
+
+        ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto original, auto&& self) -> void {
+            ark_trace("PerformKill {} {}", self->get_transform()->get_position().x, self->ToString()->str());
+
+            original(self);
+
+            self->renderer->set_color({1, 1, 1, });
+
+        }); // 0x102DE1
+
+
+        ark::hook<&HudManager::OpenMeetingRoom>::overwrite(this, [](auto original, auto&& self, struct FFGALNAPKCD* CNJAHAOLBLI) -> void {
+            //original(self, CNJAHAOLBLI);
+            ark_trace("HudManager::OpenMeetingRoom(void), CNJAHAOLBLI(FFGALNAPKCD*): {}", (uintptr_t)CNJAHAOLBLI);
+        }); // 0x441AA0
+
+        static bool alive_ = true;
+        /*
+        ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {
+            static auto btn = new ::UseButton();
+
+            if (alive_) {
+                ark_trace("click {}");
+                alive_ = false;
+                //mod::local_kill(PlayerControl::instance(), PlayerControl::instance());
+                PlayerControl::instance()->Die(0);
+
+                //auto* test = il2cpp::make<UseButton>();
+
+                //auto test = Unity::Object::Instantiate(btn);
+                //ark_trace("obj {}", (uintptr_t)btesttn);
+                //btn->AddComponent();
+                ark_trace("obj {}", (uintptr_t)btn->renderer);
+                ark_trace("obj {}", btn->DoClick());
             }
-
-            auto array_size = 3;
-
-            auto ar = il2cpp::api::array_new<PlayerControl>(tmp->klass, array_size);
-
-            for (int i = 0; i < array_size; ++i)
-            {
-                PlayerControl** address = &ar->m_Items + i;
-                *address = tmp;
+            else {
+                PlayerControl::instance()->Revive();
+                PlayerControl::instance()->moveable = true;
+                alive_ = true;
+                if (body_ptr)
+                {
+                    body_ptr->Destroy(body_ptr);
+                    body_ptr = nullptr;
+                }
             }
-
-            ar->m_Items = tmp;
-            ar->max_length = array_size;
-            ar->obj.klass = tmp->klass;
-            self->yourTeam->_items = ar;
-            self->yourTeam->_size = array_size;
-
-
-            self->isImpostor = false;
-
-          return false;
         });*/
+
+
+        ark::hook<&PlayerControl::HandleRpc>::after(this,
+            [this](PlayerControl* self, auto event, MessageReader* data)
+            {
+                ark_trace("HandleRpc {}", event);
+
+                switch (static_cast<rpc>(event))
+                {/*
+                    case (rpc)rpc_mod::role_distribution:
+                    {
+                        on_role_distribution(data->read_vector<std::uint8_t>());
+                        break;
+                    }*/
+                }
+
+            }
+        );
+
 
     }
     void testing::on_disable()
     {
 
     }
-} // a
+} //

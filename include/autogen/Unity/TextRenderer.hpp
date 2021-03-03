@@ -9,20 +9,23 @@
 
 namespace Unity
 {
+    struct TextAsset : ark::meta<TextAsset, Unity::Object> {};
+    struct MeshRenderer : ark::meta<MeshRenderer, Unity::Renderer> {};
+
     struct TextRenderer : ark::meta<TextRenderer, Unity::MonoBehaviour>
     {
-        static constexpr auto internal_name = "AELDHKGBIFD";
+        ark_meta("", "AELDHKGBIFD", "AELDHKGBIFD, Assembly-CSharp");
 
-        void* TextAsset;// FontData; // 0xC
+        TextAsset* TextAsset;// FontData; // 0xC
         float scale; // 0x10
         float TabWidth; // 0x14
         bool Centered; // 0x18
         bool RightAligned; // 0x19
-        void* textLinkPrefab; // 0x1C
-        void* JAKKLJIKCCB; // 0x20
-        void* render; // 0x24
+        struct PHINFDJKKJM* textLinkPrefab; // 0x1C
+        struct Mesh* JAKKLJIKCCB; // 0x20
+        MeshRenderer* render; // 0x24
         cs::string* Text; // 0x28
-        void* LAHIBHEEDMH; // 0x2C
+        cs::string* LAHIBHEEDMH; // 0x2C
         Color color; // 0x30
         Color BHOFIDCCIGG; // 0x40
         Color OutlineColor; // 0x50

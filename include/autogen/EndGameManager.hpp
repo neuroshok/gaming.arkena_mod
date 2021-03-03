@@ -6,9 +6,9 @@
 #include <autogen/Unity/Color.hpp>
 #include <autogen/Unity/TextRenderer.hpp>
 
-struct EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex: 8507
+struct EndGameManager : ark::meta<EndGameManager, Unity::MonoBehaviour> // TypeDefIndex: 8507
 {
-	ark_meta("", "ABNGEPFHMHP");
+	ark_meta("", "ABNGEPFHMHP", "");
 
 	Unity::TextRenderer* WinText; // 0xC
 	struct MeshRenderer* BackgroundBar; // 0x10
@@ -33,7 +33,7 @@ struct EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex
 	void _ctor() { return method_call(_ctor, ); } // 0xF51520
 	void NextGame() { return method_call(NextGame, ); } // 0xF4E7D0
 	void BHGOJOFHGCG() { return method_call(BHGOJOFHGCG, ); } // 0xF493E0
-	struct IEnumerator* WaitWithTimeout(struct Func<bool>* AOEEKHMFIAK) { return method_call(WaitWithTimeout, AOEEKHMFIAK); } // 0xF514D0
+	//struct IEnumerator* WaitWithTimeout(struct Func<bool>* AOEEKHMFIAK) { return method_call(WaitWithTimeout, AOEEKHMFIAK); } // 0xF514D0
 	void EMPOBOOPPDH() { return method_call(EMPOBOOPPDH, ); } // 0xF4A6E0
 	void AIAOBJIBDGM() { return method_call(AIAOBJIBDGM, ); } // 0xF48510
 	struct IEnumerator* HICCCHLFNDP() { return method_call(HICCCHLFNDP, ); } // 0xF4ABB0
@@ -50,9 +50,9 @@ struct EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex
 	struct IEnumerator* CoBegin() { return method_call(CoBegin, ); } // 0xF496C0
 	void PAKHBLPFIBD(struct AudioSource* HLHMFLICGMB, float GDMHDAJAPDD) { return method_call(PAKHBLPFIBD, HLHMFLICGMB, GDMHDAJAPDD); } // 0xF51250
 	void FEOOBNBLADD() { return method_call(FEOOBNBLADD, ); } // 0xF4A900
-	struct IEnumerator* OAGLHKAAFEI(struct Func<bool>* AOEEKHMFIAK) { return method_call(OAGLHKAAFEI, AOEEKHMFIAK); } // 0xF4E920
+	//struct IEnumerator* OAGLHKAAFEI(struct Func<bool>* AOEEKHMFIAK) { return method_call(OAGLHKAAFEI, AOEEKHMFIAK); } // 0xF4E920
 	void OHEPLAKIOIH(struct AudioSource* HLHMFLICGMB, float GDMHDAJAPDD) { return method_call(OHEPLAKIOIH, HLHMFLICGMB, GDMHDAJAPDD); } // 0xF50470
-	struct IEnumerator* LBCDHLONGBM(struct Func<bool>* AOEEKHMFIAK) { return method_call(LBCDHLONGBM, AOEEKHMFIAK); } // 0xF4D500
+	//struct IEnumerator* LBCDHLONGBM(struct Func<bool>* AOEEKHMFIAK) { return method_call(LBCDHLONGBM, AOEEKHMFIAK); } // 0xF4D500
 	void EAIAKOJIHKM() { return method_call(EAIAKOJIHKM, ); } // 0xF497B0
 	void BLHPPLMOPBB() { return method_call(BLHPPLMOPBB, ); } // 0xF49500
 	void MFIBPNBCMKM() { return method_call(MFIBPNBCMKM, ); } // 0xF4D6F0
@@ -74,7 +74,7 @@ struct EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex
 	struct IEnumerator* CoJoinGame() { return method_call(CoJoinGame, ); } // 0xF49710
 	void KLFOPILIGBM() { return method_call(KLFOPILIGBM, ); } // 0xF4C770
 	void ONCPHOPEOMO() { return method_call(ONCPHOPEOMO, ); } // 0xF50530
-	struct IEnumerator* MPFPBODJCOB(struct Func<bool>* AOEEKHMFIAK) { return method_call(MPFPBODJCOB, AOEEKHMFIAK); } // 0xF4E360
+	//struct IEnumerator* MPFPBODJCOB(struct Func<bool>* AOEEKHMFIAK) { return method_call(MPFPBODJCOB, AOEEKHMFIAK); } // 0xF4E360
 	void IEDPNMMCAOJ() { return method_call(IEDPNMMCAOJ, ); } // 0xF4B830
 	void NIEEAKEAMCI() { return method_call(NIEEAKEAMCI, ); } // 0xF4E5A0
 	void FENGLAANOFM(struct AudioSource* HLHMFLICGMB, float GDMHDAJAPDD) { return method_call(FENGLAANOFM, HLHMFLICGMB, GDMHDAJAPDD); } // 0xF4A840
@@ -82,12 +82,12 @@ struct EndGameManager : ark::meta<EndGameManager, MonoBehaviour> // TypeDefIndex
 	void ODFDLJHEFFJ() { return method_call(ODFDLJHEFFJ, ); } // 0xF4EA10
 	struct IEnumerator* CPMNHDMJLPD() { return method_call(CPMNHDMJLPD, ); } // 0xF49670
 	void OAMLIHKICAP() { return method_call(OAMLIHKICAP, ); } // 0xF4E970
-	struct IEnumerator* ACEHDEFIHEP(struct Func<bool>* AOEEKHMFIAK) { return method_call(ACEHDEFIHEP, AOEEKHMFIAK); } // 0xF48420
+	//struct IEnumerator* ACEHDEFIHEP(struct Func<bool>* AOEEKHMFIAK) { return method_call(ACEHDEFIHEP, AOEEKHMFIAK); } // 0xF48420
 	struct IEnumerator* NOOEPFCIBDI() { return method_call(NOOEPFCIBDI, ); } // 0xF4E780
 	void NAKGGHGBFAN() { return method_call(NAKGGHGBFAN, ); } // 0xF4E450
 	struct IEnumerator* FCBCDBEALBO() { return method_call(FCBCDBEALBO, ); } // 0xF4A7F0
 	void OEHMMGMMEAJ() { return method_call(OEHMMGMMEAJ, ); } // 0xF4F760
-	struct IEnumerator* ADDCBLFCDCK(struct Func<bool>* AOEEKHMFIAK) { return method_call(ADDCBLFCDCK, AOEEKHMFIAK); } // 0xF48470
+	//struct IEnumerator* ADDCBLFCDCK(struct Func<bool>* AOEEKHMFIAK) { return method_call(ADDCBLFCDCK, AOEEKHMFIAK); } // 0xF48470
 	struct IEnumerator* AEPCDNAJLEE() { return method_call(AEPCDNAJLEE, ); } // 0xF484C0
 	void PAOKEHEDNLL() { return method_call(PAOKEHEDNLL, ); } // 0xF51310
 	void LDFLDIDCEFD() { return method_call(LDFLDIDCEFD, ); } // 0xF4D5A0
@@ -109,7 +109,7 @@ namespace ark::method_info
 	method_rva(EndGameManager::_ctor, 0xF51520)
 	method_rva(EndGameManager::NextGame, 0xF4E7D0)
 	method_rva(EndGameManager::BHGOJOFHGCG, 0xF493E0)
-	method_rva(EndGameManager::WaitWithTimeout, 0xF514D0)
+	//method_rva(EndGameManager::WaitWithTimeout, 0xF514D0)
 	method_rva(EndGameManager::EMPOBOOPPDH, 0xF4A6E0)
 	method_rva(EndGameManager::AIAOBJIBDGM, 0xF48510)
 	method_rva(EndGameManager::HICCCHLFNDP, 0xF4ABB0)
@@ -126,9 +126,9 @@ namespace ark::method_info
 	method_rva(EndGameManager::CoBegin, 0xF496C0)
 	method_rva(EndGameManager::PAKHBLPFIBD, 0xF51250)
 	method_rva(EndGameManager::FEOOBNBLADD, 0xF4A900)
-	method_rva(EndGameManager::OAGLHKAAFEI, 0xF4E920)
+	//method_rva(EndGameManager::OAGLHKAAFEI, 0xF4E920)
 	method_rva(EndGameManager::OHEPLAKIOIH, 0xF50470)
-	method_rva(EndGameManager::LBCDHLONGBM, 0xF4D500)
+	//method_rva(EndGameManager::LBCDHLONGBM, 0xF4D500)
 	method_rva(EndGameManager::EAIAKOJIHKM, 0xF497B0)
 	method_rva(EndGameManager::BLHPPLMOPBB, 0xF49500)
 	method_rva(EndGameManager::MFIBPNBCMKM, 0xF4D6F0)
@@ -150,7 +150,7 @@ namespace ark::method_info
 	method_rva(EndGameManager::CoJoinGame, 0xF49710)
 	method_rva(EndGameManager::KLFOPILIGBM, 0xF4C770)
 	method_rva(EndGameManager::ONCPHOPEOMO, 0xF50530)
-	method_rva(EndGameManager::MPFPBODJCOB, 0xF4E360)
+	//method_rva(EndGameManager::MPFPBODJCOB, 0xF4E360)
 	method_rva(EndGameManager::IEDPNMMCAOJ, 0xF4B830)
 	method_rva(EndGameManager::NIEEAKEAMCI, 0xF4E5A0)
 	method_rva(EndGameManager::FENGLAANOFM, 0xF4A840)
@@ -158,12 +158,12 @@ namespace ark::method_info
 	method_rva(EndGameManager::ODFDLJHEFFJ, 0xF4EA10)
 	method_rva(EndGameManager::CPMNHDMJLPD, 0xF49670)
 	method_rva(EndGameManager::OAMLIHKICAP, 0xF4E970)
-	method_rva(EndGameManager::ACEHDEFIHEP, 0xF48420)
+	//method_rva(EndGameManager::ACEHDEFIHEP, 0xF48420)
 	method_rva(EndGameManager::NOOEPFCIBDI, 0xF4E780)
 	method_rva(EndGameManager::NAKGGHGBFAN, 0xF4E450)
 	method_rva(EndGameManager::FCBCDBEALBO, 0xF4A7F0)
 	method_rva(EndGameManager::OEHMMGMMEAJ, 0xF4F760)
-	method_rva(EndGameManager::ADDCBLFCDCK, 0xF48470)
+	//method_rva(EndGameManager::ADDCBLFCDCK, 0xF48470)
 	method_rva(EndGameManager::AEPCDNAJLEE, 0xF484C0)
 	method_rva(EndGameManager::PAOKEHEDNLL, 0xF51310)
 	method_rva(EndGameManager::LDFLDIDCEFD, 0xF4D5A0)

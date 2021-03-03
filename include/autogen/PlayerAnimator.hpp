@@ -5,7 +5,7 @@
 
 struct PlayerAnimator : ark::meta<PlayerAnimator, Unity::MonoBehaviour> // TypeDefIndex: 8612
 {
-	ark_meta("", "GIFADNNODPB");
+	ark_meta("", "GIFADNNODPB", "");
 
 	float Speed; // 0xC
 	struct EKDCMDLLOGO* joystick; // 0x10

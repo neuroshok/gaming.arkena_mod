@@ -10,7 +10,7 @@
 // usable_object
 struct Vent : ark::meta<Vent, Unity::MonoBehaviour>
 {
-    ark_meta("", "OPPMFCFACJB");
+    ark_meta("", "OPPMFCFACJB", "");
 
     std::int32_t Id;                     // 0xC
     Vent* Left;            // 0x10
