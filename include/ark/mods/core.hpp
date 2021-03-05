@@ -15,13 +15,15 @@ namespace ark::mods
         explicit core(ark::core&);
 
         void on_enable() override;
+        void on_settings_update() override;
 
     private:
         bool initialized_ = false;
+        bool mod_sync_ = false;
         ark::mods::core_server server_;
 
-        GameStartManager* start_manager_;
+        GameStartManager* start_manager_ = nullptr;
 
-        int compatible_players_count_;
+        int compatible_players_count_ = 1;
     };
 }// ark::mods

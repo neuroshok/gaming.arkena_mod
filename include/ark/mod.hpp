@@ -51,6 +51,7 @@ namespace ark
 
         virtual void on_enable() {}
         virtual void on_disable() {}
+        virtual void on_settings_update() {}
 
         void enable();
         void disable();
@@ -80,7 +81,7 @@ namespace ark
         template<class... Ts>
         void add_setting(Ts&&... ts);
         settings_type& settings();
-        void save_settings() const;
+        void save_settings();
         template<class T>
         T setting(const std::string& name) const;
 

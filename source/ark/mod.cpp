@@ -33,6 +33,7 @@ namespace ark
         enabled_ = true;
         ui_enabled_ = true;
         on_enable();
+        on_settings_update();
     }
 
     void mod::disable()
@@ -118,7 +119,7 @@ namespace ark
     mod::settings_type& mod::settings() { return settings_; }
 
     // todo perf
-    void mod::save_settings() const
+    void mod::save_settings()
     {
         std::ifstream ifs(core::settings_path());
         if (!ifs.is_open())
@@ -144,6 +145,8 @@ namespace ark
         std::ofstream ofs(core::settings_path());
         ofs << j << std::endl;
         ofs.close();
+
+        on_settings_update();
     }
 
     void mod::local_kill(PlayerControl* source, PlayerControl* target)

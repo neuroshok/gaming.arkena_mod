@@ -40,8 +40,6 @@ namespace ark::mods
         mod::add_setting("whisper.death_delay", 8, "The delay before the whispered player kill");
         mod::add_setting("whisper.whisper_range", 1.2f);
         mod::add_setting("whisper.whispered_kill_range", 1.8f);
-        mod::add_setting("whisper.aze", "test");
-        mod::add_setting("whisper.zer", "azeaze");
         //mod::setting<std::string>("whisper.name");
         //mod::setting<int>("whisper.timer");
 

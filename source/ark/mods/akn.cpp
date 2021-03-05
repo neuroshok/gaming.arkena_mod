@@ -2,6 +2,7 @@
 
 #include <ark/hook.hpp>
 #include <ark/mods/akn/player.hpp>
+#include <ark/mods/akn/button.hpp>
 
 #include <autogen/AmongUsClient.hpp>
 #include <autogen/Hazel/MessageReader.hpp>
@@ -12,6 +13,7 @@
 #include <autogen/Unity/Transform.hpp>
 
 #include <random>
+
 
 
 /*
@@ -121,10 +123,18 @@ namespace akn
         mod::hook_end_game();
         mod::hook_hud();
 
+        ark::hook<&KillButtonManager::PerformKill>::overwrite(this,
+            [this](auto original, KillButtonManager* self)
+        {
+            akn::button::buttons_callback[uintptr_t(self)]();
+        });
+
+
         ark::hook<&HudManager::Update>::after(this, [this](auto&& self) {
             for (const auto& player : players_)
                 player->update_ui();
         });
+
 
         static akn::player* p = nullptr;
 

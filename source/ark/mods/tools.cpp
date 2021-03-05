@@ -33,15 +33,19 @@ namespace ark::mods
         : mod(pcore, "tools", ark::version{0, 0, 1}, false)
     {
         mod::add_setting("hide_code", false);
-        mod::add_setting("hide_code_text", "[6666FFff]CODE");
+        mod::add_setting("hide_code_text", "[FFFFFFFF]CODE");
     }
 
     void tools::on_enable()
     {
         ark::hook<&GameStartManager::Start>::after(this, [this](auto self)
         {
-            set_clipboard(self->GameRoomName->Text->str().substr(6));
-            self->GameRoomName->Text = cs::make_string("[6666FFff]BETA TEST\nGAME");
+            if (setting<bool>("hide_code"))
+            {
+                set_clipboard(self->GameRoomName->Text->str().substr(6));
+                auto str = cs::make_string(setting<std::string>("hide_code_text"));
+                self->GameRoomName->Text = str;
+            }
         });
     }
 

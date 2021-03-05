@@ -3,7 +3,7 @@
 #include <ark/module.hpp>
 #include <il2cpp/core.hpp>
 #include <il2cpp/type.hpp>
-
+#include <iostream>
 namespace il2cpp
 {
     class api;
@@ -52,6 +52,18 @@ namespace il2cpp
                     spdlog::error("null assembly..");
                     continue;
                 }
+
+/*
+                auto c = api::image_get_class_count(img);
+                for (int i = 0; i < c; ++i)
+                {
+                    if(api::image_get_class(img, i)->_1.namespaze == std::string(""))
+                    {
+                        //ark_trace(": {} {}", api::image_get_class(img, i)->_1.name, api::image_get_class(img, i)->_1.namespaze);
+                        auto v = il2cpp::api::type_get_assembly_qualified_name(il2cpp::api::class_get_type(api::image_get_class(img, i)));
+                        std::cout << "\n__" << v;
+                    }
+                }*/
 
                 cls = class_from_name(img, namespace_, class_);
                 if (cls) break;

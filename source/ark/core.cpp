@@ -16,7 +16,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ ark::version{0, 1, 0} }
+        , version_{ ark::version{0, 1, 2} }
         , ui_{ *this }
     {
         il2cpp::api::thread_attach(il2cpp::api::domain_get());
@@ -35,14 +35,14 @@ namespace ark
         load<ark::mods::testing>();
 #else
         load<ark::mods::core>();
-        //load<ark::mods::tools>();
-        load<akn::mod>();
+        load<ark::mods::tools>();
+        //load<akn::mod>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tournament>();
-        //load<ark::mods::whisperer>();
+        load<ark::mods::whisperer>();
         //load<ark::mods::pranker>();
-        //load<ark::mods::spy>();
+        load<ark::mods::spy>();
         //load<ark::mods::testing>();
         //load<ark::mods::analysis>();
 #endif
