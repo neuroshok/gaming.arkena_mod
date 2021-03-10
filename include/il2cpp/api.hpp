@@ -77,6 +77,7 @@ namespace il2cpp
 
         static auto test()
         {
+
             /*
             auto address = ark::base_address() + 0x1c52160;
 
@@ -86,9 +87,16 @@ namespace il2cpp
 
         }
 
-    private:
+        static void inititialize()
+        {
+            #define ARK_MAKE_STATIC_INIT
+            #include <il2cpp/make_api.hpp>
+            #undef ARK_MAKE_STATIC_INIT
+        }
+
+    public:
         template<class T, class... Args>
-        static  decltype(auto) process(FARPROC function_address, Args&&... args)
+        static decltype(auto) process(FARPROC function_address, Args&&... args)
         {
             return reinterpret_cast<T>(function_address)(std::forward<Args>(args)...);
         }

@@ -49,13 +49,15 @@ namespace ark::mods
         //internal bool <CheckEndCriteria>b__76_0(PILBGHDHJLH t) { }
 
         //#include <analysis/KillOverlay.hooks.hpp>
-        #include <analysis/Material.hooks.hpp>
+        //#include <analysis/Material.hooks.hpp>
         //#include <analysis/DDPGLPLGFOI.hooks.hpp>
         //#include <analysis/MNGKAKKOKPN.hooks.hpp>
         //#include <analysis/GameObject.hooks.hpp>
-        //#include <analysis/PlayerControl.hooks.hpp>
+        #include <analysis/PlayerControl.hooks.hpp>
         //#include <analysis/ShipStatus.hooks.hpp>
         //#include <analysis/KillButtonManager.hooks.hpp>
+
+        ark::hook<&PlayerControl::HandleRpc>::overwrite(this, [](auto original, auto&& self, std::int8_t HKHMBLJFLMC, auto* /* MessageReader* */ ALMCIJKELCP) -> void {ark_trace("PlayerControl::HandleRpc(void), HKHMBLJFLMC(std::int8_t): {}, ALMCIJKELCP(MessageReader*): {}", HKHMBLJFLMC, (uintptr_t)ALMCIJKELCP);return original(self, HKHMBLJFLMC, ALMCIJKELCP);}); // 0x8E7980
 
         static Unity::GameObject* test = nullptr;
         static float i = 0;
@@ -67,16 +69,6 @@ namespace ark::mods
             return original(self);
         }); // 0xFE3460
 
-        ark::hook<&KillButtonManager::SetCoolDown>::overwrite(this, [](auto original, auto&& self, float, float) -> void {
-            if (test)
-            {
-                ark_trace("ok");
-                test->get_transform()->set_position({i, 0, 0});
-                if (i > 5) d = -0.1;
-                if (i < -5) d = 0.1;
-                i += d;
-            }
-        });
 
 
 
@@ -109,19 +101,15 @@ self->get_transform()->set_localPosition({-1, -1, 0});
 
 
         ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto original, auto&& self) -> void {
-            ark_trace("PerformKill {} {}", self->get_transform()->get_position().x, self->ToString()->str());
+            ark_trace("PerformKill");
 
             original(self);
 
-            self->renderer->set_color({1, 1, 1, });
+            //self->renderer->set_color({1, 1, 1, });
 
         }); // 0x102DE1
 
 
-        ark::hook<&HudManager::OpenMeetingRoom>::overwrite(this, [](auto original, auto&& self, struct FFGALNAPKCD* CNJAHAOLBLI) -> void {
-            //original(self, CNJAHAOLBLI);
-            ark_trace("HudManager::OpenMeetingRoom(void), CNJAHAOLBLI(FFGALNAPKCD*): {}", (uintptr_t)CNJAHAOLBLI);
-        }); // 0x441AA0
 
         static bool alive_ = true;
         /*

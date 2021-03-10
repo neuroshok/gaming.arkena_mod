@@ -1,0 +1,1 @@
+signtool.exe sign /v /f bin\cert.pfx /p passwd  "Arkmongus.exe"

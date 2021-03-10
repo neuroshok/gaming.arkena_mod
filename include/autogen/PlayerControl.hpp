@@ -13,429 +13,326 @@
 
 #include <cs/array.hpp>
 
-#include <analysis/testing/test.hpp>
-
 template<class T> using List = System::Collections::Generic::List<T>;
 
-struct PlayerControl : ark::meta<PlayerControl, InnerNet::InnerNetObject> // TypeDefIndex: 8921
+#pragma once
+
+#include <ark/class.hpp>
+
+struct PlayerControl : ark::meta<PlayerControl, InnerNetObject>
 {
-    ark_meta("", "FFGALNAPKCD", "");
+	ark_meta("", "PlayerControl", "PlayerControl, Assembly - CSharp");
 
-    struct internal_statics
-    {
-        PlayerControl* local = nullptr; // 0x0
-        struct KMOGFLPJLLK* GameOptions; // 0x4
-        List<PlayerControl>* AllPlayerControls; // 0x8
-    };
-    static PlayerControl* instance() { return statics()->local;  }
+	std::int32_t MGLNOHJGBPC; // 0x24
+	std::int8_t PlayerId; // 0x28
+	float MaxReportDistance; // 0x2C
+	bool moveable; // 0x30
+	bool inVent; // 0x31
+	static struct PlayerControl* LocalPlayer; // 0x0
+	struct GameData.GOOIGLGKMCE* PKMHEDAKKHE; // 0x34
+	struct AudioSource* FootSteps; // 0x38
+	struct AudioClip* KillSfx; // 0x3C
+	struct KillAnimation[]* KillAnimations; // 0x40
+	float killTimer; // 0x44
+	std::int32_t RemainingEmergencies; // 0x48
+	struct TextRenderer* nameText; // 0x4C
+	struct LightSource* LightPrefab; // 0x50
+	struct LightSource* PBDPNJIEAEB; // 0x54
+	struct TextTranslator* textTranslator; // 0x58
+	struct Collider2D* Collider; // 0x5C
+	struct PlayerPhysics* MyPhysics; // 0x60
+	struct CustomNetworkTransform* NetTransform; // 0x64
+	struct PetBehaviour* CurrentPet; // 0x68
+	struct HatParent* HatRenderer; // 0x6C
+	struct SpriteRenderer* NEANKEKJNCB; // 0x70
+	struct Collider2D[]* IACABPDMLLO; // 0x74
+	static struct PAMOPBEDCNI* GameOptions; // 0x4
+	struct List<PlayerTask>* myTasks; // 0x78
+	struct SpriteAnim[]* ScannerAnims; // 0x7C
+	struct SpriteRenderer[]* ScannersImages; // 0x80
+	struct HIPLKEPBLKI* LCNLNMNLJAK; // 0x84
+	bool MHENEHCLAMK; // 0x88
+	bool isDummy; // 0x89
+	bool notRealPlayer; // 0x8A
+	static struct List<PlayerControl>* AllPlayerControls; // 0x8
+	struct Dictionary<Collider2D, HIPLKEPBLKI>* LGFNPDCEFEN; // 0x8C
+	struct List<HIPLKEPBLKI>* GPJHINFNJCN; // 0x90
+	struct List<HIPLKEPBLKI>* FNNOJMLHMPF; // 0x94
+	std::int8_t JOBKKIMKPMB; // 0x98
+	bool KOGHHGOKDDB; // 0x99
 
-    std::int32_t MKMDLEOKDIN; // 0x24
-    std::int8_t PlayerId; // 0x28
-    float MaxReportDistance; // 0x2C
-    bool moveable; // 0x30
-    bool inVent; // 0x31
-    GameData::PlayerInfo* playerInfo; // 0x34
-    struct AudioSource* FootSteps; // 0x38
-    struct AudioClip* KillSfx; // 0x3C
-    cs::array<MNGKAKKOKPN>* KillAnimations; // 0x40
-    float killTimer; // 0x44
-    std::int32_t RemainingEmergencies; // 0x48
-    Unity::TextRenderer* nameText; // 0x4C
-    struct APONPILBEGP* LightPrefab; // 0x50
-    struct APONPILBEGP* BFEGOAGLOGD; // 0x54
-    struct Collider2D* Collider; // 0x58
-    struct LIMNONMAAFA* MyPhysics; // 0x5C
-    struct LNBAPKHKDPG* NetTransform; // 0x60
-    struct DLMDFGBMGPC* CurrentPet; // 0x64
-    struct DAMECBEEJAL* HatRenderer; // 0x68
-    Unity::SpriteRenderer* renderer; // 0x6C
-    struct Collider2D* /* array<T>* */ FGIKJBLDEIL; // 0x70
-    List<PlayerTask>* myTasks; // 0x74
-    struct SpriteAnim* /* array<T>* */ ScannerAnims; // 0x78
-    Unity::SpriteRenderer* /* array<T>* */ ScannersImages; // 0x7C
-    struct CMCLOPELAIG* PJHNJMEGPFG; // 0x80
-    bool OJIGFMDLDAK; // 0x84
-    void* PMJANCAEKGA; //struct Dictionary<Collider2D, CMCLOPELAIG>* PMJANCAEKGA; // 0x88
-    List<CMCLOPELAIG>* GMCMFOMNLMN; // 0x8C
-    List<CMCLOPELAIG>* LOJJDGNBIIN; // 0x90
-    std::int8_t OMMKFLAIKKJ; // 0x94
-    bool LAGLLALNLPJ; // 0x95
-
-    // RVA: 0x8E0220 Offset: 0x8DEA20 VA: 0x108E0220 Slot: 6
-    bool MoveNext() { return method_call(MoveNext); }
-    void MALCOGGEKED(bool EHNJJAPKPMF, uint8_t PFDMDIMFBFI)  { return method_call(MALCOGGEKED, EHNJJAPKPMF, PFDMDIMFBFI); }
-
-    void RpcSetScanner(bool HIJOHCLAKMG) { return method_call(RpcSetScanner, HIJOHCLAKMG); } // 0x8F06B0
-    void SetPetImage(std::uint32_t FHPHKIBKMHO, std::int32_t NPFHOONFFDI, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage, FHPHKIBKMHO, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F0FC0
-    void ILICKLHOAEF(std::uint32_t AOONHAJNJLD) { return method_call(ILICKLHOAEF, AOONHAJNJLD); } // 0x8E7EA0
-    void HNEOMMPDEKA(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(HNEOMMPDEKA, CAKODNGLPDF); } // 0x8E7620
-    void NOABIGDJKAG(struct PlayerTask* OJGILIGMHKL) { return method_call(NOABIGDJKAG, OJGILIGMHKL); } // 0x8ED160
-    void JCLKGBPJOJB(std::int8_t POCIJABNOLE) { return method_call(JCLKGBPJOJB, POCIJABNOLE); } // 0x8E8470
-    void IOKMGLKDMIB(std::int8_t BOFNMFDDECJ) { return method_call(IOKMGLKDMIB, BOFNMFDDECJ); } // 0x8E83E0
-    void KLMOINNFPAD() { return method_call(KLMOINNFPAD); } // 0x8E9E60
-    void EFIBDOFNNAN() { return method_call(EFIBDOFNNAN); } // 0x8E3FA0
-    void JGOCHENJAIM(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(JGOCHENJAIM, CAKODNGLPDF); } // 0x8E8EF0
-    void PCALDAADHKE(std::uint32_t FHPHKIBKMHO) { return method_call(PCALDAADHKE, FHPHKIBKMHO); } // 0x8EEC10
-    void SetSkin(std::uint32_t EPBONDIDGDF) { return method_call(SetSkin, EPBONDIDGDF); } // 0x8F1840
-    void RpcSetInfected(GameData::PlayerInfo* /* array<T>* */ JPGEIBIBJPJ) { return method_call(RpcSetInfected, JPGEIBIBJPJ); } // 0x8F0430
-    void SetHatAlpha(float IOEIMBPLJDJ) { return method_call(SetHatAlpha, IOEIMBPLJDJ); } // 0x8EEBC0
-    void RpcPlayAnimation(std::int8_t BOFNMFDDECJ) { return method_call(RpcPlayAnimation, BOFNMFDDECJ); } // 0x8EFFE0
-    struct IEnumerator* DJDGDNLFOLL(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(DJDGDNLFOLL, CAKODNGLPDF); } // 0x8E2B00
-    struct IEnumerator* LAFAHEINIFL(List<GameData::TaskInfo>* JGBINEOMNFJ) { return method_call(LAFAHEINIFL, JGBINEOMNFJ); } // 0x8EA0E0
-    void GMINMCCBMLN(struct SkinData* ADLNPGGEOHF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(GMINMCCBMLN, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
-    // virtual // void GKLFFKMMIBK(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(GKLFFKMMIBK, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E5B20 // Slot: 10
-    void OGOIANMJKOE(PlayerControl* CAKODNGLPDF) { return method_call(OGOIANMJKOE, CAKODNGLPDF); } // 0x8ED770
-    void RemoveInfected() { return method_call(RemoveInfected); } // 0x8EF8E0
-    void OKLDLAAHNII(GameData::PlayerInfo* KINIPFCLILM) { return method_call(OKLDLAAHNII, KINIPFCLILM); } // 0x8EE270
-    void SetName(struct string* MLBHDDBAPLO) { return method_call(SetName, MLBHDDBAPLO); } // 0x8F0ED0
-    void EABGDJAGKDL() { return method_call(EABGDJAGKDL); } // 0x8E3910
-    // virtual // void Deserialize(struct MessageReader* ALMCIJKELCP, bool BILBBBFMCOB) { return method_call(Deserialize, ALMCIJKELCP, BILBBBFMCOB); } // 0x8E36C0 // Slot: 9
-    bool PINNDOFILDJ(struct string* PGIBDIEPGIC) { return method_call(PINNDOFILDJ, PGIBDIEPGIC); } // 0x8EF090
-    void _cctor() { return method_call(_cctor); } // 0x8F1D50
-    void POLIPJOOJEC(struct string* MLBHDDBAPLO) { return method_call(POLIPJOOJEC, MLBHDDBAPLO); } // 0x8EF3D0
-    void HNHICMKMJEO(std::uint32_t AOONHAJNJLD) { return method_call(HNHICMKMJEO, AOONHAJNJLD); } // 0x8E77E0
-    struct IEnumerator* CoStartMeeting(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(CoStartMeeting, CAKODNGLPDF); } // 0x8E2850
-    void OHKFOKNOGPO(std::int8_t BOFNMFDDECJ) { return method_call(OHKFOKNOGPO, BOFNMFDDECJ); } // 0x8ED820
-    void Revive() { return method_call(Revive); } // 0x8EFCA0
-    void EFCINMDKACB(std::uint32_t AOONHAJNJLD) { return method_call(EFCINMDKACB, AOONHAJNJLD); } // 0x8E3E00
-    void JPAAAADKEGH(Unity::Renderer* CNJAHEAJNAO) { return method_call(JPAAAADKEGH, CNJAHEAJNAO); } // 0x8E9490
-    void NJCBINJCNMF(std::int8_t BOFNMFDDECJ) { return method_call(NJCBINJCNMF, BOFNMFDDECJ); } // 0x8EC940
-    void MDBMDMHLIIC(std::uint32_t AOONHAJNJLD) { return method_call(MDBMDMHLIIC, AOONHAJNJLD); } // 0x8EAFC0
-    void NIBIJEKAEPN() { return method_call(NIBIJEKAEPN); } // 0x8EC650
-    void AJPLICOEPOE(std::uint32_t AOONHAJNJLD) { return method_call(AJPLICOEPOE, AOONHAJNJLD); } // 0x8E1180
-    void RpcCompleteTask(std::uint32_t AOONHAJNJLD) { return method_call(RpcCompleteTask, AOONHAJNJLD); } // 0x8EFE90
-    void FHHEGFFCAIK(Unity::Renderer* CNJAHEAJNAO) { return method_call(FHHEGFFCAIK, CNJAHEAJNAO); } // 0x8E4910
-    void AddSystemTask(struct LJFDDJHBOGF* DNKIAHLBJJC) { return method_call(AddSystemTask, DNKIAHLBJJC); } // 0x8E1450
-    void Awake() { return method_call(Awake); } // 0x8E1670
-    void SetColor(std::int8_t POCIJABNOLE) { return method_call(SetColor, POCIJABNOLE); } // 0x8F0AE0
-    void SetPlayerMaterialColors(Unity::Renderer* CNJAHEAJNAO) { return method_call(SetPlayerMaterialColors, CNJAHEAJNAO); } // 0x8F1560
-    bool JMFFFDJCKDE() { return method_call(JMFFFDJCKDE); } // 0x8E92A0
-    void Exiled() { return method_call(Exiled); } // 0x8E4340
-    GameData::PlayerInfo* get_Data() { return method_call(get_Data); } // 0x8F2140
-    void LILBDMCOOFB() { return method_call(LILBDMCOOFB); } // 0x8EA8B0
-    void PAPJPDPAFNN(float IOEIMBPLJDJ) { return method_call(PAPJPDPAFNN, IOEIMBPLJDJ); } // 0x8EEBC0
-    PlayerControl* OAFBLFBAOJJ() { return method_call(OAFBLFBAOJJ); } // 0x8ED350
-    void set_Visible(bool HIJOHCLAKMG) { return method_call(set_Visible, HIJOHCLAKMG); } // 0x8F21E0
-    void KCCPOLAGNBE() { return method_call(KCCPOLAGNBE); } // 0x8E9520
-    void SetSkinImage(struct SkinData* ADLNPGGEOHF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage, ADLNPGGEOHF, CAKODNGLPDF); } // 0x8E6190
-    void ONKBPFEBJHJ(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(ONKBPFEBJHJ, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8EE800
-    void FDOIKGIEGGM(std::int8_t POCIJABNOLE) { return method_call(FDOIKGIEGGM, POCIJABNOLE); } // 0x8E46B0
-    void RpcMurderPlayer(PlayerControl* CAKODNGLPDF) { return method_call(RpcMurderPlayer, CAKODNGLPDF); } // 0x8EFF30
-    void RpcSetSkin(std::uint32_t EPBONDIDGDF) { return method_call(RpcSetSkin, EPBONDIDGDF); } // 0x8F07A0
-    void SetHat(std::uint32_t CAEHOLMOBNA, std::int32_t NPFHOONFFDI) { return method_call(SetHat, CAEHOLMOBNA, NPFHOONFFDI); } // 0x8F0C30
-    void FGBMJINLILE(std::int8_t POCIJABNOLE) { return method_call(FGBMJINLILE, POCIJABNOLE); } // 0x8E4800
-    void KOEMJMNGPIN(bool EHNJJAPKPMF, std::int8_t PFDMDIMFBFI) { return method_call(KOEMJMNGPIN, EHNJJAPKPMF, PFDMDIMFBFI); } // 0x8E9F90
-    struct IEnumerator* APHAPNBBNDJ() { return method_call(APHAPNBBNDJ); } // 0x8E1330
-    void LICGEEFNELO(std::int8_t BOFNMFDDECJ) { return method_call(LICGEEFNELO, BOFNMFDDECJ); } // 0x8EA3C0
-    void SetPlayerMaterialColors_1(Unity::Color HHJCOBKGBFF, Unity::Renderer* CNJAHEAJNAO) { return method_call(SetPlayerMaterialColors_1, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8F1430
-    void RpcSetColor(std::int8_t POCIJABNOLE) { return method_call(RpcSetColor, POCIJABNOLE); } // 0x8F02E0
-    void Start() { return method_call(Start); } // 0x8F1940
-    void CLGJLJMBNFP(std::uint32_t FHPHKIBKMHO) { return method_call(CLGJLJMBNFP, FHPHKIBKMHO); } // 0x8E1E50
-    bool MKDHLHMMHAK() { return method_call(MKDHLHMMHAK); } // 0x8EB960
-    bool get_CanMove() { return method_call(get_CanMove); } // 0x8F1ED0
-    void HAAGONNLDOH(std::int8_t* JPGEIBIBJPJ) { return method_call(HAAGONNLDOH, JPGEIBIBJPJ); } // 0x8E6420
-    void RpcSetName(struct string* MLBHDDBAPLO) { return method_call(RpcSetName, MLBHDDBAPLO); } // 0x8F0570
-    // virtual // bool Serialize(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(Serialize, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10 // Slot: 8
-    void JNDBNEEOINI(std::int8_t BOFNMFDDECJ) { return method_call(JNDBNEEOINI, BOFNMFDDECJ); } // 0x8E92D0
-    void CKKLCFLFACL(struct PlayerTask* OJGILIGMHKL) { return method_call(CKKLCFLFACL, OJGILIGMHKL); } // 0x8E1CB0
-    void RemoveTask(struct PlayerTask* OJGILIGMHKL) { return method_call(RemoveTask, OJGILIGMHKL); } // 0x8EF9D0
-    void NEKDHECGAHD() { return method_call(NEKDHECGAHD); } // 0x8EC5D0
-    void RpcStartMeeting(GameData::PlayerInfo* KINIPFCLILM) { return method_call(RpcStartMeeting, KINIPFCLILM); } // 0x8F08C0
-    void GKNFBKIGFNO(std::uint32_t FHPHKIBKMHO) { return method_call(GKNFBKIGFNO, FHPHKIBKMHO); } // 0x8E6040
-    // virtual // bool KKJNEPGMAID(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(KKJNEPGMAID, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10 // Slot: 11
-    void CmdCheckName(struct string* MLBHDDBAPLO) { return method_call(CmdCheckName, MLBHDDBAPLO); } // 0x8E26E0
-    bool HBPIGGMJMPP(struct string* PGIBDIEPGIC) { return method_call(HBPIGGMJMPP, PGIBDIEPGIC); } // 0x8E6F10
-    void KEDGNMIOFDJ(PlayerControl* CAKODNGLPDF) { return method_call(KEDGNMIOFDJ, CAKODNGLPDF); } // 0x8E9920
-    void CFJNKPGNJOP(std::int32_t NPFHOONFFDI, Unity::Renderer* CNJAHEAJNAO) { return method_call(CFJNKPGNJOP, NPFHOONFFDI, CNJAHEAJNAO); } // 0x8E1940
-    void DKIGBFCJNIH() { return method_call(DKIGBFCJNIH); } // 0x8E2B60
-    void INEEAAKMPOE(std::uint32_t EPBONDIDGDF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(INEEAAKMPOE, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E8340
-    void EDAHCGIIGEC() { return method_call(EDAHCGIIGEC); } // 0x8E3B50
-    bool RpcSendChat(struct string* PGIBDIEPGIC) { return method_call(RpcSendChat, PGIBDIEPGIC); } // 0x8F0190
-    void ACDENNDCABE(std::uint32_t EPBONDIDGDF) { return method_call(ACDENNDCABE, EPBONDIDGDF); } // 0x8E1080
-    void CheckColor(std::int8_t POCIJABNOLE) { return method_call(CheckColor, POCIJABNOLE); } // 0x8E2370
-    void MGFJCAPBNIJ(Unity::Renderer* CNJAHEAJNAO) { return method_call(MGFJCAPBNIJ, CNJAHEAJNAO); } // 0x8EB620
-    void LNAKEPEKACG(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(LNAKEPEKACG, CAKODNGLPDF); } // 0x8EAC40
-    void PAAEIGJECFE(std::uint32_t CAEHOLMOBNA, std::int32_t NPFHOONFFDI) { return method_call(PAAEIGJECFE, CAEHOLMOBNA, NPFHOONFFDI); } // 0x8EE9C0
-    void LFHBFEOGGDP(std::uint32_t CAEHOLMOBNA) { return method_call(LFHBFEOGGDP, CAEHOLMOBNA); } // 0x8EA140
-    void MurderPlayer(PlayerControl* CAKODNGLPDF) { return method_call(MurderPlayer, CAKODNGLPDF); } // 0x8EBBD0
-    void OJPCECLPCCF(std::int8_t* JPGEIBIBJPJ) { return method_call(OJPCECLPCCF, JPGEIBIBJPJ); }     // 0x8ED8B0
-    void HGBOKFKHBFC(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(HGBOKFKHBFC, IOFBPLNIJIC); } // 0x8E73C0
-    void CKOJBMDNHDC() { return method_call(CKOJBMDNHDC); } // 0x8E1DA0
-    void ANPCFADOLNH(GameData::PlayerInfo* KINIPFCLILM) { return method_call(ANPCFADOLNH, KINIPFCLILM); } // 0x8E1220
-    void PlayAnimation(std::int8_t BOFNMFDDECJ) { return method_call(PlayAnimation, BOFNMFDDECJ); } // 0x8EF4C0
-    void SetTasks(List<GameData::TaskInfo>* JGBINEOMNFJ) { return method_call(SetTasks, JGBINEOMNFJ); } // 0x8F18E0
-    void CmdReportDeadBody(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(CmdReportDeadBody, CAKODNGLPDF); } // 0x8E2790
-    PlayerControl* CLKILNOCHEP() { return method_call(CLKILNOCHEP); } // 0x8E2050
-    void RpcSetStartCounter(std::int32_t OLDMPECBIHH) { return method_call(RpcSetStartCounter, OLDMPECBIHH); } // 0x8F0840
-    // virtual // void NLCGJIEDBBG(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(NLCGJIEDBBG, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8EC9D0 // Slot: 12
-    void NCPOMLBONHO(std::uint32_t FHPHKIBKMHO) { return method_call(NCPOMLBONHO, FHPHKIBKMHO); } // 0x8EC3D0
-    void FixedUpdate() { return method_call(FixedUpdate); } // 0x8E5110
-    void LIEICKEPEPE() { return method_call(LIEICKEPEPE); } // 0x8EA510
-    /* virtual */ void HandleRpc(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(HandleRpc, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E7980 // Slot: 7
-    void UseClosest() { return method_call(UseClosest); } // 0x8F1CD0
-    void EEPNJCJFCOD(std::int8_t POCIJABNOLE) { return method_call(EEPNJCJFCOD, POCIJABNOLE); } // 0x8E3CB0
-    void LPHKIEICAON(float NPHJCKDCKDD) { return method_call(LPHKIEICAON, NPHJCKDCKDD); } // 0x8EAD00
-    struct IEnumerator* AFLAGNHDGGH(List<GameData::TaskInfo>* JGBINEOMNFJ) { return method_call(AFLAGNHDGGH, JGBINEOMNFJ); } // 0x8E1120
-    bool get_Visible() { return method_call(get_Visible); } // 0x8E92A0
-    void MKAIDPJOJFP(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(MKAIDPJOJFP, CAKODNGLPDF); } // 0x8EB7A0
-    bool PJEDCGOKPII() { return method_call(PJEDCGOKPII); } // 0x8E92A0
-    // scanner count ? true : display scanner
-    void mbPlayScanner(bool EHNJJAPKPMF, std::int8_t PFDMDIMFBFI) { return method_call(mbPlayScanner, EHNJJAPKPMF, PFDMDIMFBFI); } // 0x8EAE60
-    void KCDBLGOANGO(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(KCDBLGOANGO, CAKODNGLPDF); } // 0x8E9710
-    void PlayStepSound() { return method_call(PlayStepSound); } // 0x8EF550
-    void LGKFCCNOCGF(std::int8_t POCIJABNOLE) { return method_call(LGKFCCNOCGF, POCIJABNOLE); } // 0x8EA310
-    void PHKNIONIKCK(std::int8_t BOFNMFDDECJ) { return method_call(PHKNIONIKCK, BOFNMFDDECJ); } // 0x8EEF40
-    void SetKillTimer(float NPHJCKDCKDD) { return method_call(SetKillTimer, NPHJCKDCKDD); } // 0x8F0D70
-    void LIJFIPPPLOG() { return method_call(LIJFIPPPLOG); } // 0x8EA5C0
-    void PJDHDPBPHOO(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(PJDHDPBPHOO, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8EF1E0
-    void SetPetImage_1(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetPetImage_1, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8F1130
-    void KDOFBFLCHFI(std::int8_t POCIJABNOLE) { return method_call(KDOFBFLCHFI, POCIJABNOLE); } // 0x8E97D0
-    Unity::Vector2 GetTruePosition() { return method_call(GetTruePosition); } // 0x8E6360
-    bool HGLKLEFOBAF(struct string* PGIBDIEPGIC) { return method_call(HGLKLEFOBAF, PGIBDIEPGIC); } // 0x8E74D0
-    void RpcSetHat(std::uint32_t CAEHOLMOBNA) { return method_call(RpcSetHat, CAEHOLMOBNA); } // 0x8F0380
-    void CheckName(struct string* MLBHDDBAPLO) { return method_call(CheckName, MLBHDDBAPLO); } // 0x8E2490
-    void HEJHHOBBOBI(bool HIJOHCLAKMG) { return method_call(HEJHHOBBOBI, HIJOHCLAKMG); } // 0x8E72D0
-    void OMPDACJGDIJ(bool HIJOHCLAKMG) { return method_call(OMPDACJGDIJ, HIJOHCLAKMG); } // 0x8EE380
-    void GNDBOKNONJB(std::uint32_t AOONHAJNJLD) { return method_call(GNDBOKNONJB, AOONHAJNJLD); } // 0x8E61C0
-    void PHFBHMLPLPM(Unity::Color HHJCOBKGBFF, Unity::Renderer* CNJAHEAJNAO) { return method_call(PHFBHMLPLPM, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8EEE10
-    bool HEBJKEEOHOK() { return method_call(HEBJKEEOHOK); } // 0x8E7060
-    void KHLAHAFCHHM(std::uint32_t FHPHKIBKMHO) { return method_call(KHLAHAFCHHM, FHPHKIBKMHO); } // 0x8E9A70
-    void _ctor() { return method_call(_ctor); } // 0x8F1DC0
-    PlayerControl* INBICOPCOCN() { return method_call(INBICOPCOCN); } // 0x8E8040
-    void CGOHBBOFFBC(struct string* MLBHDDBAPLO) { return method_call(CGOHBBOFFBC, MLBHDDBAPLO); } // 0x8E1AF0
-    void ENCDNKFILGC() { return method_call(ENCDNKFILGC); } // 0x8E4250
-    void SetPlayerMaterialColors_2(std::int32_t NPFHOONFFDI, Unity::Renderer* CNJAHEAJNAO) { return method_call(SetPlayerMaterialColors_2, NPFHOONFFDI, CNJAHEAJNAO); } // 0x8F15F0
-    // virtual // void FIIGIJHGODC(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(FIIGIJHGODC, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8E49A0 // Slot: 13
-    void JGBHNKMJFHA(std::int8_t* JPGEIBIBJPJ) { return method_call(JGBHNKMJFHA, JPGEIBIBJPJ); } // 0x8E8520
-    void NPBIIAEJFFE(std::int32_t OLDMPECBIHH) { return method_call(NPBIIAEJFFE, OLDMPECBIHH); } // 0x8ED250
-    void EECEFCEEMOI() { return method_call(EECEFCEEMOI); } // 0x8E3C30
-    void RpcSyncSettings(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(RpcSyncSettings, IOFBPLNIJIC); } // 0x8F09D0
-    void Die(std::int32_t /* deathreason */ OECOPGMHMKC) { return method_call(Die, OECOPGMHMKC); } // 0x8E3700
-    void FGHBFGPILAE(Unity::Renderer* CNJAHEAJNAO) { return method_call(FGHBFGPILAE, CNJAHEAJNAO); } // 0x8E4880
-    void GMCHEJDFJLP(struct string* MLBHDDBAPLO) { return method_call(GMCHEJDFJLP, MLBHDDBAPLO); } // 0x8E60E0
-    void JOMBEGNNEDO(Unity::Color HHJCOBKGBFF, Unity::Renderer* CNJAHEAJNAO) { return method_call(JOMBEGNNEDO, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8E9360
-    // virtual // void OnDestroy() { return method_call(OnDestroy); } // 0x8EE8E0 // Slot: 5
-    void CEFHOMJLDOL() { return method_call(CEFHOMJLDOL); } // 0x8E1850
-    void EBEHICLEFIF() { return method_call(EBEHICLEFIF); } // 0x8E3990
-    void EGKPFCGBADG(struct string* MLBHDDBAPLO) { return method_call(EGKPFCGBADG, MLBHDDBAPLO); } // 0x8E4160
-    void CBMEJKPGHOA() { return method_call(CBMEJKPGHOA); } // 0x8E1770
-    void ReportClosest() { return method_call(ReportClosest); } // 0x8EFAC0
-    void DNNIKFFODAH(struct string* MLBHDDBAPLO) { return method_call(DNNIKFFODAH, MLBHDDBAPLO); } // 0x8E3520
-    void CompleteTask(std::uint32_t AOONHAJNJLD) { return method_call(CompleteTask, AOONHAJNJLD); } // 0x8E28B0
-    void APMIKIHJHNP(struct string* MLBHDDBAPLO) { return method_call(APMIKIHJHNP, MLBHDDBAPLO); } // 0x8E1380
-    void CmdCheckColor(std::int8_t POCIJABNOLE) { return method_call(CmdCheckColor, POCIJABNOLE); } // 0x8E2630
-    void NMOONHOMEBI(std::int8_t BOFNMFDDECJ) { return method_call(NMOONHOMEBI, BOFNMFDDECJ); } // 0x8ED0D0
-    void FFNCCHAFDMF(std::uint32_t EPBONDIDGDF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(FFNCCHAFDMF, EPBONDIDGDF, CAKODNGLPDF); } // 0x8E4760
-    void KHOKFCBONMN(std::int8_t BOFNMFDDECJ) { return method_call(KHOKFCBONMN, BOFNMFDDECJ); } // 0x8E9C70
-    struct IEnumerator* BKACPBFANPP() { return method_call(BKACPBFANPP); } // 0x8E1720
-    void PMICBFLPPNH(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(PMICBFLPPNH, IOFBPLNIJIC); } // 0x8EF2C0
-    void SetSkinImage_1(std::uint32_t EPBONDIDGDF, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(SetSkinImage_1, EPBONDIDGDF, CAKODNGLPDF); } // 0x8F17A0
-    void ONIGNKDLJMI() { return method_call(ONIGNKDLJMI); } // 0x8EE470
-    void SetPet(std::uint32_t FHPHKIBKMHO) { return method_call(SetPet, FHPHKIBKMHO); } // 0x8F1230
-    // virtual // bool MDNFIPDDCBO(struct MessageWriter* AGLJMGAODDG, bool BILBBBFMCOB) { return method_call(MDNFIPDDCBO, AGLJMGAODDG, BILBBBFMCOB); } // 0x8E9E10 // Slot: 14
-    void CKIPOCJFJNJ(struct PlayerTask* OJGILIGMHKL) { return method_call(CKIPOCJFJNJ, OJGILIGMHKL); } // 0x8E1BC0
-    void FINMJGBNEHP(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(FINMJGBNEHP, CAKODNGLPDF); } // 0x8E4F50
-    void KGLNLIFMIPK(std::uint32_t EPBONDIDGDF) { return method_call(KGLNLIFMIPK, EPBONDIDGDF); } // 0x8E99D0
-    void OFJDBLFDJLM(struct DLMDFGBMGPC* IFBFBBLDDBK, std::int32_t NPFHOONFFDI, Unity::SpriteRenderer* CAKODNGLPDF) { return method_call(OFJDBLFDJLM, IFBFBBLDDBK, NPFHOONFFDI, CAKODNGLPDF); } // 0x8ED670
-    struct IEnumerator* KNKGODDCEKP(GameData::PlayerInfo* CAKODNGLPDF) { return method_call(KNKGODDCEKP, CAKODNGLPDF); } // 0x8E9F30
-    void JJONHMOCEMN() { return method_call(JJONHMOCEMN); } // 0x8E90B0
-    void KKCAFDPBABB(struct KMOGFLPJLLK* IOFBPLNIJIC) { return method_call(KKCAFDPBABB, IOFBPLNIJIC); } // 0x8E9D00
-    void RpcSetPet(std::uint32_t FHPHKIBKMHO) { return method_call(RpcSetPet, FHPHKIBKMHO); } // 0x8F0610
-    void MIKCFGKJDEK(struct string* MLBHDDBAPLO) { return method_call(MIKCFGKJDEK, MLBHDDBAPLO); } // 0x8EB6B0
-    Unity::Vector2 PAJCEBAEADA() { return method_call(PAJCEBAEADA); } // 0x8EEB00
-    void FDAKHKKFJIK(Unity::Color HHJCOBKGBFF, Unity::Renderer* CNJAHEAJNAO) { return method_call(FDAKHKKFJIK, HHJCOBKGBFF, CNJAHEAJNAO); } // 0x8E4580
-    // virtual // void MEEAEDBNABI(std::int8_t HKHMBLJFLMC, struct MessageReader* ALMCIJKELCP) { return method_call(MEEAEDBNABI, HKHMBLJFLMC, ALMCIJKELCP); } // 0x8EB060 // Slot: 15
-    void RpcSendChatNote(std::int8_t LLBNLKGCCLF, struct AHIDPDEBPDC* IAGNPOCAGCI) { return method_call(RpcSendChatNote, LLBNLKGCCLF, IAGNPOCAGCI); } // 0x8F00B0
-    void NPKIHBHPFFF(std::int32_t OLDMPECBIHH) { return method_call(NPKIHBHPFFF, OLDMPECBIHH); } // 0x8ED2D0
-    void DHFFBGIAJLA(struct string* MLBHDDBAPLO) { return method_call(DHFFBGIAJLA, MLBHDDBAPLO); } // 0x8E2A50
+	bool JMPBLADDKFA(struct string* KLNJLCOMCAI) { return method_call(JMPBLADDKFA, KLNJLCOMCAI); } // 0x13F8E90
+	void SetAppearanceFromSaveData() { return method_call(SetAppearanceFromSaveData, ); } // 0x13FDCE0
+	void RpcSetHat(std::uint32_t GAHEEOBFPPM) { return method_call(RpcSetHat, GAHEEOBFPPM); } // 0x13FD450
+	void EDNGLBGAPJA(std::int8_t FLJDHKECACG, struct LOBKMIADLGE* GHPIPGCOMAL) { return method_call(EDNGLBGAPJA, FLJDHKECACG, GHPIPGCOMAL); } // 0x13F58E0
+	struct PlayerControl* MJBDDNIABAM() { return method_call(MJBDDNIABAM, ); } // 0x13FA650
+	void AIIINHGHJBN(struct GameData.GOOIGLGKMCE[]* FMAOEJEHPAO) { return method_call(AIIINHGHJBN, FMAOEJEHPAO); } // 0x13F3240
+	void JEGFGGMHOAN(std::int32_t GGCHOCFMPKK) { return method_call(JEGFGGMHOAN, GGCHOCFMPKK); } // 0x13F83F0
+	void set_Visible(bool NJFHEFBMBOD) { return method_call(set_Visible, NJFHEFBMBOD); } // 0x13FF290
+	void PlayStepSound() { return method_call(PlayStepSound, ); } // 0x13FC660
+	void SetPlayerMaterialColors(struct Color* JMDILEGDONK, struct Renderer* FNEEAAEEGLD) { return method_call(SetPlayerMaterialColors, JMDILEGDONK, FNEEAAEEGLD); } // 0x13FE6B0
+	// virtual // void NIAHECKBOJJ() { return method_call(NIAHECKBOJJ, ); } // 0x13FB3E0 // Slot: 10
+	void RpcSetSkin(std::uint32_t JJJEILFGKOE) { return method_call(RpcSetSkin, JJJEILFGKOE); } // 0x13FD870
+	void RemoveInfected() { return method_call(RemoveInfected, ); } // 0x13FC9A0
+	struct GameData.GOOIGLGKMCE* PNGBDGFIJEO() { return method_call(PNGBDGFIJEO, ); } // 0x13FC3D0
+	void RpcMurderPlayer(struct PlayerControl* PAIBDFDMIGK) { return method_call(RpcMurderPlayer, PAIBDFDMIGK); } // 0x13FD000
+	struct IEnumerator* OFJLLJOPHGK() { return method_call(OFJLLJOPHGK, ); } // 0x13FBAF0
+	void RemoveTask(struct PlayerTask* HHCGLKKJDLA) { return method_call(RemoveTask, HHCGLKKJDLA); } // 0x13FCA90
+	// virtual // void AHOKENBFKNE(std::int8_t ACCJCEHMKLN, struct MessageReader* HFPCBBHJIPJ) { return method_call(AHOKENBFKNE, ACCJCEHMKLN, HFPCBBHJIPJ); } // 0x13F2A10 // Slot: 11
+	void SetPetImage(struct PetBehaviour* LJKJFNFJBLE, std::int32_t FGAOHLPPBDL, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(SetPetImage, LJKJFNFJBLE, FGAOHLPPBDL, PAIBDFDMIGK); } // 0x13FE320
+	void EKOKDCPLCAP() { return method_call(EKOKDCPLCAP, ); } // 0x13F5BE0
+	void UseClosest() { return method_call(UseClosest, ); } // 0x13FECF0
+	void CheckColor(std::int8_t MCBMEOBLGBM) { return method_call(CheckColor, MCBMEOBLGBM); } // 0x13F4DA0
+	void BADNEFKAFCF() { return method_call(BADNEFKAFCF, ); } // 0x13F39C0
+	void SetTasks(struct List<GameData.HKFJOIBBOBD>* CAJJGNGJLMM) { return method_call(SetTasks, CAJJGNGJLMM); } // 0x13FEBA0
+	void SetSkin(std::uint32_t JJJEILFGKOE) { return method_call(SetSkin, JJJEILFGKOE); } // 0x13FEB00
+	void LPIIJJFOOAF() { return method_call(LPIIJJFOOAF, ); } // 0x13F93B0
+	struct PlayerControl* EMIKDNBAACC() { return method_call(EMIKDNBAACC, ); } // 0x13F5F20
+	void SetSkinImage(std::uint32_t JJJEILFGKOE, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(SetSkinImage, JJJEILFGKOE, PAIBDFDMIGK); } // 0x13FEA60
+	void HEHBCPNMHKD(bool NJFHEFBMBOD) { return method_call(HEHBCPNMHKD, NJFHEFBMBOD); } // 0x13F7680
+	void JIHPOFAKMKD() { return method_call(JIHPOFAKMKD, ); } // 0x13F84E0
+	void MEAMMJCPGOF(std::uint32_t JJJEILFGKOE) { return method_call(MEAMMJCPGOF, JJJEILFGKOE); } // 0x13F9F60
+	struct GameData.GOOIGLGKMCE* get_Data() { return method_call(get_Data, ); } // 0x13FF1F0
+	// virtual // void HandleRpc(std::int8_t ACCJCEHMKLN, struct MessageReader* HFPCBBHJIPJ) { return method_call(HandleRpc, ACCJCEHMKLN, HFPCBBHJIPJ); } // 0x13F78F0 // Slot: 7
+	void Awake() { return method_call(Awake, ); } // 0x13F3900
+	void _cctor() { return method_call(_cctor, ); } // 0x13FED70
+	bool BCOPFNBDAID() { return method_call(BCOPFNBDAID, ); } // 0x13F45D0
+	void RpcSetInfected(struct GameData.GOOIGLGKMCE[]* FMAOEJEHPAO) { return method_call(RpcSetInfected, FMAOEJEHPAO); } // 0x13FD500
+	void GGCPMHOCFJP(float KDPIPBLHAJP) { return method_call(GGCPMHOCFJP, KDPIPBLHAJP); } // 0x13F7100
+	void OBMAHIBLHEJ(struct PAMOPBEDCNI* OMFKMPLOPPM) { return method_call(OBMAHIBLHEJ, OMFKMPLOPPM); } // 0x13FB9E0
+	// virtual // void PHEHIHGADGA(struct MessageReader* HFPCBBHJIPJ, bool CHDIOBMNLGH) { return method_call(PHEHIHGADGA, HFPCBBHJIPJ, CHDIOBMNLGH); } // 0x13F5680 // Slot: 12
+	void SetPlayerMaterialColors(std::int32_t FGAOHLPPBDL, struct Renderer* FNEEAAEEGLD) { return method_call(SetPlayerMaterialColors, FGAOHLPPBDL, FNEEAAEEGLD); } // 0x13FE7E0
+	void SetPetImage(std::uint32_t OKCKCDKKMPL, std::int32_t FGAOHLPPBDL, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(SetPetImage, OKCKCDKKMPL, FGAOHLPPBDL, PAIBDFDMIGK); } // 0x13FE420
+	void RpcSyncSettings(struct PAMOPBEDCNI* OMFKMPLOPPM) { return method_call(RpcSyncSettings, OMFKMPLOPPM); } // 0x13FDA60
+	void HCIJNDNEOJM(struct GameData.GOOIGLGKMCE* PAIBDFDMIGK) { return method_call(HCIJNDNEOJM, PAIBDFDMIGK); } // 0x13F74C0
+	void MurderPlayer(struct PlayerControl* PAIBDFDMIGK) { return method_call(MurderPlayer, PAIBDFDMIGK); } // 0x13FAB80
+	void BLEDICFCFNN() { return method_call(BLEDICFCFNN, ); } // 0x13F4900
+	void HideCursorTemporarily() { return method_call(HideCursorTemporarily, ); } // 0x13F7EB0
+	void Revive() { return method_call(Revive, ); } // 0x13FCD60
+	void RpcSetName(struct string* ILCMIGKHPJE) { return method_call(RpcSetName, ILCMIGKHPJE); } // 0x13FD640
+	void SetColor(std::int8_t MCBMEOBLGBM) { return method_call(SetColor, MCBMEOBLGBM); } // 0x13FDE00
+	void PPKHNGBPONM(bool MEGPBODIIGE, std::int8_t CCLKHBFHDAD) { return method_call(PPKHNGBPONM, MEGPBODIIGE, CCLKHBFHDAD); } // 0x13FC470
+	void SetPlayerMaterialColors(struct Renderer* FNEEAAEEGLD) { return method_call(SetPlayerMaterialColors, FNEEAAEEGLD); } // 0x13FE9D0
+	struct IEnumerator* OHPPPPGOICK() { return method_call(OHPPPPGOICK, ); } // 0x13FBC30
+	// virtual // void OnDestroy() { return method_call(OnDestroy, ); } // 0x13FBD60 // Slot: 5
+	bool RpcSendChat(struct string* KLNJLCOMCAI) { return method_call(RpcSendChat, KLNJLCOMCAI); } // 0x13FD260
+	void IIDLPOPEFCG(std::uint32_t GAHEEOBFPPM, std::int32_t FGAOHLPPBDL) { return method_call(IIDLPOPEFCG, GAHEEOBFPPM, FGAOHLPPBDL); } // 0x13F7F60
+	void ALOFAGOJDMI(std::uint32_t CBAHIKLHCAO) { return method_call(ALOFAGOJDMI, CBAHIKLHCAO); } // 0x13F3380
+	bool AGOOGLFAHAF() { return method_call(AGOOGLFAHAF, ); } // 0x13F2710
+	void IIJEIMIHILO(struct SkinData* AHOBHLFABCK, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(IIJEIMIHILO, AHOBHLFABCK, PAIBDFDMIGK); } // 0x13F80A0
+	void AMPIGFMHGBM(struct GameData.GOOIGLGKMCE* PAIBDFDMIGK) { return method_call(AMPIGFMHGBM, PAIBDFDMIGK); } // 0x13F3520
+	// virtual // void JJJPKCMLHGN(std::int8_t ACCJCEHMKLN, struct MessageReader* HFPCBBHJIPJ) { return method_call(JJJPKCMLHGN, ACCJCEHMKLN, HFPCBBHJIPJ); } // 0x13F8560 // Slot: 13
+	void UpdatePlatformIcon() { return method_call(UpdatePlatformIcon, ); } // 0x13FEC70
+	void CKHEFBFDMJB(struct string* ILCMIGKHPJE) { return method_call(CKHEFBFDMJB, ILCMIGKHPJE); } // 0x13F4BB0
+	struct IEnumerator* NAMOCDKBMPG(struct List<GameData.HKFJOIBBOBD>* CAJJGNGJLMM) { return method_call(NAMOCDKBMPG, CAJJGNGJLMM); } // 0x13FB380
+	void NIMJAEGHFFI() { return method_call(NIMJAEGHFFI, ); } // 0x13FB4D0
+	void SetSkinImage(struct SkinData* AHOBHLFABCK, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(SetSkinImage, AHOBHLFABCK, PAIBDFDMIGK); } // 0x13F80A0
+	void MEDCFJALGHH(std::int8_t MCBMEOBLGBM) { return method_call(MEDCFJALGHH, MCBMEOBLGBM); } // 0x13FA000
+	void RpcSetPet(std::uint32_t OKCKCDKKMPL) { return method_call(RpcSetPet, OKCKCDKKMPL); } // 0x13FD6E0
+	void SetHatAlpha(float KDPIPBLHAJP) { return method_call(SetHatAlpha, KDPIPBLHAJP); } // 0x13F7100
+	void CmdReportDeadBody(struct GameData.GOOIGLGKMCE* PAIBDFDMIGK) { return method_call(CmdReportDeadBody, PAIBDFDMIGK); } // 0x13F5220
+	// virtual // void HLHNFKMAKJM() { return method_call(HLHNFKMAKJM, ); } // 0x13F7800 // Slot: 14
+	void SetPet(std::uint32_t OKCKCDKKMPL) { return method_call(SetPet, OKCKCDKKMPL); } // 0x13FE4B0
+	void PFKNCFCJJID(std::int8_t OLEGCKPDFHO) { return method_call(PFKNCFCJJID, OLEGCKPDFHO); } // 0x13FC200
+	void DAKCGJLJFJO(std::uint32_t JJJEILFGKOE, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(DAKCGJLJFJO, JJJEILFGKOE, PAIBDFDMIGK); } // 0x13F54E0
+	void RpcPlayAnimation(std::int8_t OLEGCKPDFHO) { return method_call(RpcPlayAnimation, OLEGCKPDFHO); } // 0x13FD0B0
+	void MADBIKBIJDA(std::int8_t MCBMEOBLGBM) { return method_call(MADBIKBIJDA, MCBMEOBLGBM); } // 0x13F94D0
+	void AddSystemTask(struct GOODOHMJKLN* IBKONFPFHAB) { return method_call(AddSystemTask, IBKONFPFHAB); } // 0x13F36E0
+	void RpcCompleteTask(std::uint32_t CBAHIKLHCAO) { return method_call(RpcCompleteTask, CBAHIKLHCAO); } // 0x13FCF50
+	void DNLMBEHKFGH(struct PetBehaviour* LJKJFNFJBLE, std::int32_t FGAOHLPPBDL, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(DNLMBEHKFGH, LJKJFNFJBLE, FGAOHLPPBDL, PAIBDFDMIGK); } // 0x13F5580
+	bool PAGBHMPINNP() { return method_call(PAGBHMPINNP, ); } // 0x13FBE50
+	void FixedUpdate() { return method_call(FixedUpdate, ); } // 0x13F6630
+	void OOEGINIOBJD(struct GameData.GOOIGLGKMCE* PLABNNNBHAC) { return method_call(OOEGINIOBJD, PLABNNNBHAC); } // 0x13FBC90
+	void PlayAnimation(std::int8_t OLEGCKPDFHO) { return method_call(PlayAnimation, OLEGCKPDFHO); } // 0x13FC5D0
+	void RpcSendChatNote(std::int8_t FLJDHKECACG, struct LOBKMIADLGE* GHPIPGCOMAL) { return method_call(RpcSendChatNote, FLJDHKECACG, GHPIPGCOMAL); } // 0x13FD180
+	struct PlayerControl* IPJBDHONKMH() { return method_call(IPJBDHONKMH, ); } // 0x13F80D0
+	void SetKillTimer(float ELJAAAHBHOM) { return method_call(SetKillTimer, ELJAAAHBHOM); } // 0x13FE090
+	void Die(struct OLDMNEAOIPG* CEFHOIEBAGF) { return method_call(Die, CEFHOIEBAGF); } // 0x13F56D0
+	void HENLJMIGGNN(std::int8_t OLEGCKPDFHO) { return method_call(HENLJMIGGNN, OLEGCKPDFHO); } // 0x13F7770
+	void CmdCheckColor(std::int8_t MCBMEOBLGBM) { return method_call(CmdCheckColor, MCBMEOBLGBM); } // 0x13F50C0
+	bool MGDIOGPBIGB() { return method_call(MGDIOGPBIGB, ); } // 0x13FA150
+	struct IEnumerator* Start() { return method_call(Start, ); } // 0x13FEC10
+	void ReportClosest() { return method_call(ReportClosest, ); } // 0x13FCB80
+	struct IEnumerator* JHIIPPBCHFA() { return method_call(JHIIPPBCHFA, ); } // 0x13F8480
+	void SetName(struct string* ILCMIGKHPJE, bool NIIKNBLIAPO = False) { return method_call(SetName, ILCMIGKHPJE, NIIKNBLIAPO); } // 0x13FE1D0
+	void CHPBBFJNCEJ(struct string* ILCMIGKHPJE) { return method_call(CHPBBFJNCEJ, ILCMIGKHPJE); } // 0x13F4A20
+	void RpcSetScanner(bool NJFHEFBMBOD) { return method_call(RpcSetScanner, NJFHEFBMBOD); } // 0x13FD780
+	void BFCPOMNDDBB(std::uint32_t OKCKCDKKMPL, std::int32_t FGAOHLPPBDL, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(BFCPOMNDDBB, OKCKCDKKMPL, FGAOHLPPBDL, PAIBDFDMIGK); } // 0x13F4790
+	void PKPMADHEGNN(std::uint32_t GAHEEOBFPPM, std::int32_t FGAOHLPPBDL) { return method_call(PKPMADHEGNN, GAHEEOBFPPM, FGAOHLPPBDL); } // 0x13FC290
+	void AFJMJGNCKJG(struct PlayerControl* PAIBDFDMIGK) { return method_call(AFJMJGNCKJG, PAIBDFDMIGK); } // 0x13F2660
+	void LHIINHPLECB(std::uint32_t OKCKCDKKMPL, std::int32_t FGAOHLPPBDL, struct SpriteRenderer* PAIBDFDMIGK) { return method_call(LHIINHPLECB, OKCKCDKKMPL, FGAOHLPPBDL, PAIBDFDMIGK); } // 0x13F9320
+	void PCCIIPFNLEC(struct PlayerControl* PAIBDFDMIGK) { return method_call(PCCIIPFNLEC, PAIBDFDMIGK); } // 0x13FC150
+	void Exiled() { return method_call(Exiled, ); } // 0x13F6250
+	void GPLAKDFMNJP(std::int8_t OLEGCKPDFHO) { return method_call(GPLAKDFMNJP, OLEGCKPDFHO); } // 0x13F7330
+	struct Vector2* GNADBCGCKMK() { return method_call(GNADBCGCKMK, ); } // 0x13F7270
+	void LEAHPAABBKP() { return method_call(LEAHPAABBKP, ); } // 0x13F8FE0
+	void NLCHFKDGNJD() { return method_call(NLCHFKDGNJD, ); } // 0x13FB550
+	struct IEnumerator* CoStartMeeting(struct GameData.GOOIGLGKMCE* PAIBDFDMIGK) { return method_call(CoStartMeeting, PAIBDFDMIGK); } // 0x13F52E0
+	void RpcUsePlatform() { return method_call(RpcUsePlatform, ); } // 0x13FDB70
+	// virtual // void Deserialize(struct MessageReader* HFPCBBHJIPJ, bool CHDIOBMNLGH) { return method_call(Deserialize, HFPCBBHJIPJ, CHDIOBMNLGH); } // 0x13F5680 // Slot: 9
+	void JKENPFJODKL() { return method_call(JKENPFJODKL, ); } // 0x13F8DA0
+	bool get_CanMove() { return method_call(get_CanMove, ); } // 0x13FEEF0
+	void FCHPIPOPIAK(bool NJFHEFBMBOD) { return method_call(FCHPIPOPIAK, NJFHEFBMBOD); } // 0x13F6490
+	void BDGGODJELFB(struct GOODOHMJKLN* IBKONFPFHAB) { return method_call(BDGGODJELFB, IBKONFPFHAB); } // 0x13F4600
+	void OGDDFKCIBOP(std::int8_t FLJDHKECACG, struct LOBKMIADLGE* GHPIPGCOMAL) { return method_call(OGDDFKCIBOP, FLJDHKECACG, GHPIPGCOMAL); } // 0x13FBB50
+	// virtual // bool Serialize(struct MessageWriter* CDKLDMFODLF, bool CHDIOBMNLGH) { return method_call(Serialize, CDKLDMFODLF, CHDIOBMNLGH); } // 0x13FDC90 // Slot: 8
+	void RpcStartMeeting(struct GameData.GOOIGLGKMCE* PLABNNNBHAC) { return method_call(RpcStartMeeting, PLABNNNBHAC); } // 0x13FD990
+	void RpcSetColor(std::int8_t MCBMEOBLGBM) { return method_call(RpcSetColor, MCBMEOBLGBM); } // 0x13FD3B0
+	void CPJLLCFJDPP(std::int8_t MCBMEOBLGBM) { return method_call(CPJLLCFJDPP, MCBMEOBLGBM); } // 0x13F4C50
+	void GJHMIDDFEGI() { return method_call(GJHMIDDFEGI, ); } // 0x13F7150
+	void EGENMCBGBLN(std::uint32_t GAHEEOBFPPM, std::int32_t FGAOHLPPBDL) { return method_call(EGENMCBGBLN, GAHEEOBFPPM, FGAOHLPPBDL); } // 0x13F59C0
+	bool get_Visible() { return method_call(get_Visible, ); } // 0x13F45D0
+	void FEMCAONPMFH(std::uint32_t JJJEILFGKOE) { return method_call(FEMCAONPMFH, JJJEILFGKOE); } // 0x13F6590
+	void MIDLLPPLJHM(std::uint32_t OKCKCDKKMPL) { return method_call(MIDLLPPLJHM, OKCKCDKKMPL); } // 0x13FA450
+	void CheckName(struct string* ILCMIGKHPJE) { return method_call(CheckName, ILCMIGKHPJE); } // 0x13F4F20
+	void OBBDJMDGGLA(bool MEGPBODIIGE, std::int8_t CCLKHBFHDAD) { return method_call(OBBDJMDGGLA, MEGPBODIIGE, CCLKHBFHDAD); } // 0x13FB890
+	struct Vector2* GetTruePosition() { return method_call(GetTruePosition, ); } // 0x13F7400
+	void CompleteTask(std::uint32_t CBAHIKLHCAO) { return method_call(CompleteTask, CBAHIKLHCAO); } // 0x13F5340
+	void _ctor() { return method_call(_ctor, ); } // 0x13FEDE0
+	void BAEKHAKBNMN(std::int8_t MCBMEOBLGBM) { return method_call(BAEKHAKBNMN, MCBMEOBLGBM); } // 0x13F4480
+	void RpcSetStartCounter(std::int32_t GGCHOCFMPKK) { return method_call(RpcSetStartCounter, GGCHOCFMPKK); } // 0x13FD910
+	void EIFLOJMOHEO(std::int8_t FLJDHKECACG, struct LOBKMIADLGE* GHPIPGCOMAL) { return method_call(EIFLOJMOHEO, FLJDHKECACG, GHPIPGCOMAL); } // 0x13F5B00
+	void SetHat(std::uint32_t GAHEEOBFPPM, std::int32_t FGAOHLPPBDL) { return method_call(SetHat, GAHEEOBFPPM, FGAOHLPPBDL); } // 0x13FDF50
+	void CmdCheckName(struct string* ILCMIGKHPJE) { return method_call(CmdCheckName, ILCMIGKHPJE); } // 0x13F5170
+	void MLDGEMJGIJM(struct OLDMNEAOIPG* CEFHOIEBAGF) { return method_call(MLDGEMJGIJM, CEFHOIEBAGF); } // 0x13FA970
+	void MAFDKHHIBID(std::int8_t* FMAOEJEHPAO) { return method_call(MAFDKHHIBID, FMAOEJEHPAO); } // 0x13F9620
 };
-
 namespace ark::method_info
 {
-    method_rva(PlayerControl::MoveNext, 0x8E0220)
-    method_rva(PlayerControl::MALCOGGEKED, 0x8EAE60)
 
-
-    method_rva(PlayerControl::RpcSetScanner, 0x8F06B0)
-    method_rva(PlayerControl::SetPetImage, 0x8F0FC0)
-    method_rva(PlayerControl::ILICKLHOAEF, 0x8E7EA0)
-    method_rva(PlayerControl::HNEOMMPDEKA, 0x8E7620)
-    method_rva(PlayerControl::NOABIGDJKAG, 0x8ED160)
-    method_rva(PlayerControl::JCLKGBPJOJB, 0x8E8470)
-    method_rva(PlayerControl::IOKMGLKDMIB, 0x8E83E0)
-    method_rva(PlayerControl::KLMOINNFPAD, 0x8E9E60)
-    method_rva(PlayerControl::EFIBDOFNNAN, 0x8E3FA0)
-    method_rva(PlayerControl::JGOCHENJAIM, 0x8E8EF0)
-    method_rva(PlayerControl::PCALDAADHKE, 0x8EEC10)
-    method_rva(PlayerControl::SetSkin, 0x8F1840)
-    method_rva(PlayerControl::RpcSetInfected, 0x8F0430)
-    method_rva(PlayerControl::SetHatAlpha, 0x8EEBC0)
-    method_rva(PlayerControl::RpcPlayAnimation, 0x8EFFE0)
-    method_rva(PlayerControl::DJDGDNLFOLL, 0x8E2B00)
-    method_rva(PlayerControl::LAFAHEINIFL, 0x8EA0E0)
-    method_rva(PlayerControl::GMINMCCBMLN, 0x8E6190)
-    // method_rva(PlayerControl::GKLFFKMMIBK, 0x8E5B20)
-    method_rva(PlayerControl::OGOIANMJKOE, 0x8ED770)
-    method_rva(PlayerControl::RemoveInfected, 0x8EF8E0)
-    method_rva(PlayerControl::OKLDLAAHNII, 0x8EE270)
-    method_rva(PlayerControl::SetName, 0x8F0ED0)
-    method_rva(PlayerControl::EABGDJAGKDL, 0x8E3910)
-    // method_rva(PlayerControl::Deserialize, 0x8E36C0)
-    method_rva(PlayerControl::PINNDOFILDJ, 0x8EF090)
-    method_rva(PlayerControl::_cctor, 0x8F1D50)
-    method_rva(PlayerControl::POLIPJOOJEC, 0x8EF3D0)
-    method_rva(PlayerControl::HNHICMKMJEO, 0x8E77E0)
-    method_rva(PlayerControl::CoStartMeeting, 0x8E2850)
-    method_rva(PlayerControl::OHKFOKNOGPO, 0x8ED820)
-    method_rva(PlayerControl::Revive, 0x8EFCA0)
-    method_rva(PlayerControl::EFCINMDKACB, 0x8E3E00)
-    method_rva(PlayerControl::JPAAAADKEGH, 0x8E9490)
-    method_rva(PlayerControl::NJCBINJCNMF, 0x8EC940)
-    method_rva(PlayerControl::MDBMDMHLIIC, 0x8EAFC0)
-    method_rva(PlayerControl::NIBIJEKAEPN, 0x8EC650)
-    method_rva(PlayerControl::AJPLICOEPOE, 0x8E1180)
-    method_rva(PlayerControl::RpcCompleteTask, 0x8EFE90)
-    method_rva(PlayerControl::FHHEGFFCAIK, 0x8E4910)
-    method_rva(PlayerControl::AddSystemTask, 0x8E1450)
-    method_rva(PlayerControl::Awake, 0x8E1670)
-    method_rva(PlayerControl::SetColor, 0x8F0AE0)
-    method_rva(PlayerControl::SetPlayerMaterialColors, 0x8F1560)
-    method_rva(PlayerControl::JMFFFDJCKDE, 0x8E92A0)
-    method_rva(PlayerControl::Exiled, 0x8E4340)
-    method_rva(PlayerControl::get_Data, 0x8F2140)
-    method_rva(PlayerControl::LILBDMCOOFB, 0x8EA8B0)
-    method_rva(PlayerControl::PAPJPDPAFNN, 0x8EEBC0)
-    method_rva(PlayerControl::OAFBLFBAOJJ, 0x8ED350)
-    method_rva(PlayerControl::set_Visible, 0x8F21E0)
-    method_rva(PlayerControl::KCCPOLAGNBE, 0x8E9520)
-    method_rva(PlayerControl::SetSkinImage, 0x8E6190)
-    method_rva(PlayerControl::ONKBPFEBJHJ, 0x8EE800)
-    method_rva(PlayerControl::FDOIKGIEGGM, 0x8E46B0)
-    method_rva(PlayerControl::RpcMurderPlayer, 0x8EFF30)
-    method_rva(PlayerControl::RpcSetSkin, 0x8F07A0)
-    method_rva(PlayerControl::SetHat, 0x8F0C30)
-    method_rva(PlayerControl::FGBMJINLILE, 0x8E4800)
-    method_rva(PlayerControl::KOEMJMNGPIN, 0x8E9F90)
-    method_rva(PlayerControl::APHAPNBBNDJ, 0x8E1330)
-    method_rva(PlayerControl::LICGEEFNELO, 0x8EA3C0)
-    method_rva(PlayerControl::SetPlayerMaterialColors_1, 0x8F1430)
-    method_rva(PlayerControl::RpcSetColor, 0x8F02E0)
-    method_rva(PlayerControl::Start, 0x8F1940)
-    method_rva(PlayerControl::CLGJLJMBNFP, 0x8E1E50)
-    method_rva(PlayerControl::MKDHLHMMHAK, 0x8EB960)
-    method_rva(PlayerControl::get_CanMove, 0x8F1ED0)
-    method_rva(PlayerControl::HAAGONNLDOH, 0x8E6420)
-    method_rva(PlayerControl::RpcSetName, 0x8F0570)
-    // method_rva(PlayerControl::Serialize, 0x8E9E10)
-    method_rva(PlayerControl::JNDBNEEOINI, 0x8E92D0)
-    method_rva(PlayerControl::CKKLCFLFACL, 0x8E1CB0)
-    method_rva(PlayerControl::RemoveTask, 0x8EF9D0)
-    method_rva(PlayerControl::NEKDHECGAHD, 0x8EC5D0)
-    method_rva(PlayerControl::RpcStartMeeting, 0x8F08C0)
-    method_rva(PlayerControl::GKNFBKIGFNO, 0x8E6040)
-    // method_rva(PlayerControl::KKJNEPGMAID, 0x8E9E10)
-    method_rva(PlayerControl::CmdCheckName, 0x8E26E0)
-    method_rva(PlayerControl::HBPIGGMJMPP, 0x8E6F10)
-    method_rva(PlayerControl::KEDGNMIOFDJ, 0x8E9920)
-    method_rva(PlayerControl::CFJNKPGNJOP, 0x8E1940)
-    method_rva(PlayerControl::DKIGBFCJNIH, 0x8E2B60)
-    method_rva(PlayerControl::INEEAAKMPOE, 0x8E8340)
-    method_rva(PlayerControl::EDAHCGIIGEC, 0x8E3B50)
-    method_rva(PlayerControl::RpcSendChat, 0x8F0190)
-    method_rva(PlayerControl::ACDENNDCABE, 0x8E1080)
-    method_rva(PlayerControl::CheckColor, 0x8E2370)
-    method_rva(PlayerControl::MGFJCAPBNIJ, 0x8EB620)
-    method_rva(PlayerControl::LNAKEPEKACG, 0x8EAC40)
-    method_rva(PlayerControl::PAAEIGJECFE, 0x8EE9C0)
-    method_rva(PlayerControl::LFHBFEOGGDP, 0x8EA140)
-    method_rva(PlayerControl::MurderPlayer, 0x8EBBD0)
-    method_rva(PlayerControl::OJPCECLPCCF, 0x8ED8B0)
-    method_rva(PlayerControl::HGBOKFKHBFC, 0x8E73C0)
-    method_rva(PlayerControl::CKOJBMDNHDC, 0x8E1DA0)
-    method_rva(PlayerControl::ANPCFADOLNH, 0x8E1220)
-    method_rva(PlayerControl::PlayAnimation, 0x8EF4C0)
-    method_rva(PlayerControl::SetTasks, 0x8F18E0)
-    method_rva(PlayerControl::CmdReportDeadBody, 0x8E2790)
-    method_rva(PlayerControl::CLKILNOCHEP, 0x8E2050)
-    method_rva(PlayerControl::RpcSetStartCounter, 0x8F0840)
-    // method_rva(PlayerControl::NLCGJIEDBBG, 0x8EC9D0)
-    method_rva(PlayerControl::NCPOMLBONHO, 0x8EC3D0)
-    method_rva(PlayerControl::FixedUpdate, 0x8E5110)
-    method_rva(PlayerControl::LIEICKEPEPE, 0x8EA510)
-     method_rva(PlayerControl::HandleRpc, 0x8E7980) // virtual
-    method_rva(PlayerControl::UseClosest, 0x8F1CD0)
-    method_rva(PlayerControl::EEPNJCJFCOD, 0x8E3CB0)
-    method_rva(PlayerControl::LPHKIEICAON, 0x8EAD00)
-    method_rva(PlayerControl::AFLAGNHDGGH, 0x8E1120)
-    method_rva(PlayerControl::get_Visible, 0x8E92A0)
-    method_rva(PlayerControl::MKAIDPJOJFP, 0x8EB7A0)
-    method_rva(PlayerControl::PJEDCGOKPII, 0x8E92A0)
-    method_rva(PlayerControl::mbPlayScanner, 0x8EAE60)
-    method_rva(PlayerControl::KCDBLGOANGO, 0x8E9710)
-    method_rva(PlayerControl::PlayStepSound, 0x8EF550)
-    method_rva(PlayerControl::LGKFCCNOCGF, 0x8EA310)
-    method_rva(PlayerControl::PHKNIONIKCK, 0x8EEF40)
-    method_rva(PlayerControl::SetKillTimer, 0x8F0D70)
-    method_rva(PlayerControl::LIJFIPPPLOG, 0x8EA5C0)
-    method_rva(PlayerControl::PJDHDPBPHOO, 0x8EF1E0)
-    method_rva(PlayerControl::SetPetImage_1, 0x8F1130)
-    method_rva(PlayerControl::KDOFBFLCHFI, 0x8E97D0)
-    method_rva(PlayerControl::GetTruePosition, 0x8E6360)
-    method_rva(PlayerControl::HGLKLEFOBAF, 0x8E74D0)
-    method_rva(PlayerControl::RpcSetHat, 0x8F0380)
-    method_rva(PlayerControl::CheckName, 0x8E2490)
-    method_rva(PlayerControl::HEJHHOBBOBI, 0x8E72D0)
-    method_rva(PlayerControl::OMPDACJGDIJ, 0x8EE380)
-    method_rva(PlayerControl::GNDBOKNONJB, 0x8E61C0)
-    method_rva(PlayerControl::PHFBHMLPLPM, 0x8EEE10)
-    method_rva(PlayerControl::HEBJKEEOHOK, 0x8E7060)
-    method_rva(PlayerControl::KHLAHAFCHHM, 0x8E9A70)
-    method_rva(PlayerControl::_ctor, 0x8F1DC0)
-    method_rva(PlayerControl::INBICOPCOCN, 0x8E8040)
-    method_rva(PlayerControl::CGOHBBOFFBC, 0x8E1AF0)
-    method_rva(PlayerControl::ENCDNKFILGC, 0x8E4250)
-    method_rva(PlayerControl::SetPlayerMaterialColors_2, 0x8F15F0)
-    // method_rva(PlayerControl::FIIGIJHGODC, 0x8E49A0)
-    method_rva(PlayerControl::JGBHNKMJFHA, 0x8E8520)
-    method_rva(PlayerControl::NPBIIAEJFFE, 0x8ED250)
-    method_rva(PlayerControl::EECEFCEEMOI, 0x8E3C30)
-    method_rva(PlayerControl::RpcSyncSettings, 0x8F09D0)
-    method_rva(PlayerControl::Die, 0x8E3700)
-    method_rva(PlayerControl::FGHBFGPILAE, 0x8E4880)
-    method_rva(PlayerControl::GMCHEJDFJLP, 0x8E60E0)
-    method_rva(PlayerControl::JOMBEGNNEDO, 0x8E9360)
-    // method_rva(PlayerControl::OnDestroy, 0x8EE8E0)
-    method_rva(PlayerControl::CEFHOMJLDOL, 0x8E1850)
-    method_rva(PlayerControl::EBEHICLEFIF, 0x8E3990)
-    method_rva(PlayerControl::EGKPFCGBADG, 0x8E4160)
-    method_rva(PlayerControl::CBMEJKPGHOA, 0x8E1770)
-    method_rva(PlayerControl::ReportClosest, 0x8EFAC0)
-    method_rva(PlayerControl::DNNIKFFODAH, 0x8E3520)
-    method_rva(PlayerControl::CompleteTask, 0x8E28B0)
-    method_rva(PlayerControl::APMIKIHJHNP, 0x8E1380)
-    method_rva(PlayerControl::CmdCheckColor, 0x8E2630)
-    method_rva(PlayerControl::NMOONHOMEBI, 0x8ED0D0)
-    method_rva(PlayerControl::FFNCCHAFDMF, 0x8E4760)
-    method_rva(PlayerControl::KHOKFCBONMN, 0x8E9C70)
-    method_rva(PlayerControl::BKACPBFANPP, 0x8E1720)
-    method_rva(PlayerControl::PMICBFLPPNH, 0x8EF2C0)
-    method_rva(PlayerControl::SetSkinImage_1, 0x8F17A0)
-    method_rva(PlayerControl::ONIGNKDLJMI, 0x8EE470)
-    method_rva(PlayerControl::SetPet, 0x8F1230)
-    // method_rva(PlayerControl::MDNFIPDDCBO, 0x8E9E10)
-    method_rva(PlayerControl::CKIPOCJFJNJ, 0x8E1BC0)
-    method_rva(PlayerControl::FINMJGBNEHP, 0x8E4F50)
-    method_rva(PlayerControl::KGLNLIFMIPK, 0x8E99D0)
-    method_rva(PlayerControl::OFJDBLFDJLM, 0x8ED670)
-    method_rva(PlayerControl::KNKGODDCEKP, 0x8E9F30)
-    method_rva(PlayerControl::JJONHMOCEMN, 0x8E90B0)
-    method_rva(PlayerControl::KKCAFDPBABB, 0x8E9D00)
-    method_rva(PlayerControl::RpcSetPet, 0x8F0610)
-    method_rva(PlayerControl::MIKCFGKJDEK, 0x8EB6B0)
-    method_rva(PlayerControl::PAJCEBAEADA, 0x8EEB00)
-    method_rva(PlayerControl::FDAKHKKFJIK, 0x8E4580)
-    // method_rva(PlayerControl::MEEAEDBNABI, 0x8EB060)
-    method_rva(PlayerControl::RpcSendChatNote, 0x8F00B0)
-    method_rva(PlayerControl::NPKIHBHPFFF, 0x8ED2D0)
-    method_rva(PlayerControl::DHFFBGIAJLA, 0x8E2A50)
+	method_rva(PlayerControl::JMPBLADDKFA, 0x13F8E90)
+	method_rva(PlayerControl::SetAppearanceFromSaveData, 0x13FDCE0)
+	method_rva(PlayerControl::RpcSetHat, 0x13FD450)
+	method_rva(PlayerControl::EDNGLBGAPJA, 0x13F58E0)
+	method_rva(PlayerControl::MJBDDNIABAM, 0x13FA650)
+	method_rva(PlayerControl::AIIINHGHJBN, 0x13F3240)
+	method_rva(PlayerControl::JEGFGGMHOAN, 0x13F83F0)
+	method_rva(PlayerControl::set_Visible, 0x13FF290)
+	method_rva(PlayerControl::PlayStepSound, 0x13FC660)
+	method_rva(PlayerControl::SetPlayerMaterialColors, 0x13FE6B0)
+	// method_rva(PlayerControl::NIAHECKBOJJ, 0x13FB3E0)
+	method_rva(PlayerControl::RpcSetSkin, 0x13FD870)
+	method_rva(PlayerControl::RemoveInfected, 0x13FC9A0)
+	method_rva(PlayerControl::PNGBDGFIJEO, 0x13FC3D0)
+	method_rva(PlayerControl::RpcMurderPlayer, 0x13FD000)
+	method_rva(PlayerControl::OFJLLJOPHGK, 0x13FBAF0)
+	method_rva(PlayerControl::RemoveTask, 0x13FCA90)
+	// method_rva(PlayerControl::AHOKENBFKNE, 0x13F2A10)
+	method_rva(PlayerControl::SetPetImage, 0x13FE320)
+	method_rva(PlayerControl::EKOKDCPLCAP, 0x13F5BE0)
+	method_rva(PlayerControl::UseClosest, 0x13FECF0)
+	method_rva(PlayerControl::CheckColor, 0x13F4DA0)
+	method_rva(PlayerControl::BADNEFKAFCF, 0x13F39C0)
+	method_rva(PlayerControl::SetTasks, 0x13FEBA0)
+	method_rva(PlayerControl::SetSkin, 0x13FEB00)
+	method_rva(PlayerControl::LPIIJJFOOAF, 0x13F93B0)
+	method_rva(PlayerControl::EMIKDNBAACC, 0x13F5F20)
+	method_rva(PlayerControl::SetSkinImage, 0x13FEA60)
+	method_rva(PlayerControl::HEHBCPNMHKD, 0x13F7680)
+	method_rva(PlayerControl::JIHPOFAKMKD, 0x13F84E0)
+	method_rva(PlayerControl::MEAMMJCPGOF, 0x13F9F60)
+	method_rva(PlayerControl::get_Data, 0x13FF1F0)
+	// method_rva(PlayerControl::HandleRpc, 0x13F78F0)
+	method_rva(PlayerControl::Awake, 0x13F3900)
+	method_rva(PlayerControl::_cctor, 0x13FED70)
+	method_rva(PlayerControl::BCOPFNBDAID, 0x13F45D0)
+	method_rva(PlayerControl::RpcSetInfected, 0x13FD500)
+	method_rva(PlayerControl::GGCPMHOCFJP, 0x13F7100)
+	method_rva(PlayerControl::OBMAHIBLHEJ, 0x13FB9E0)
+	// method_rva(PlayerControl::PHEHIHGADGA, 0x13F5680)
+	method_rva(PlayerControl::SetPlayerMaterialColors, 0x13FE7E0)
+	method_rva(PlayerControl::SetPetImage, 0x13FE420)
+	method_rva(PlayerControl::RpcSyncSettings, 0x13FDA60)
+	method_rva(PlayerControl::HCIJNDNEOJM, 0x13F74C0)
+	method_rva(PlayerControl::MurderPlayer, 0x13FAB80)
+	method_rva(PlayerControl::BLEDICFCFNN, 0x13F4900)
+	method_rva(PlayerControl::HideCursorTemporarily, 0x13F7EB0)
+	method_rva(PlayerControl::Revive, 0x13FCD60)
+	method_rva(PlayerControl::RpcSetName, 0x13FD640)
+	method_rva(PlayerControl::SetColor, 0x13FDE00)
+	method_rva(PlayerControl::PPKHNGBPONM, 0x13FC470)
+	method_rva(PlayerControl::SetPlayerMaterialColors, 0x13FE9D0)
+	method_rva(PlayerControl::OHPPPPGOICK, 0x13FBC30)
+	// method_rva(PlayerControl::OnDestroy, 0x13FBD60)
+	method_rva(PlayerControl::RpcSendChat, 0x13FD260)
+	method_rva(PlayerControl::IIDLPOPEFCG, 0x13F7F60)
+	method_rva(PlayerControl::ALOFAGOJDMI, 0x13F3380)
+	method_rva(PlayerControl::AGOOGLFAHAF, 0x13F2710)
+	method_rva(PlayerControl::IIJEIMIHILO, 0x13F80A0)
+	method_rva(PlayerControl::AMPIGFMHGBM, 0x13F3520)
+	// method_rva(PlayerControl::JJJPKCMLHGN, 0x13F8560)
+	method_rva(PlayerControl::UpdatePlatformIcon, 0x13FEC70)
+	method_rva(PlayerControl::CKHEFBFDMJB, 0x13F4BB0)
+	method_rva(PlayerControl::NAMOCDKBMPG, 0x13FB380)
+	method_rva(PlayerControl::NIMJAEGHFFI, 0x13FB4D0)
+	method_rva(PlayerControl::SetSkinImage, 0x13F80A0)
+	method_rva(PlayerControl::MEDCFJALGHH, 0x13FA000)
+	method_rva(PlayerControl::RpcSetPet, 0x13FD6E0)
+	method_rva(PlayerControl::SetHatAlpha, 0x13F7100)
+	method_rva(PlayerControl::CmdReportDeadBody, 0x13F5220)
+	// method_rva(PlayerControl::HLHNFKMAKJM, 0x13F7800)
+	method_rva(PlayerControl::SetPet, 0x13FE4B0)
+	method_rva(PlayerControl::PFKNCFCJJID, 0x13FC200)
+	method_rva(PlayerControl::DAKCGJLJFJO, 0x13F54E0)
+	method_rva(PlayerControl::RpcPlayAnimation, 0x13FD0B0)
+	method_rva(PlayerControl::MADBIKBIJDA, 0x13F94D0)
+	method_rva(PlayerControl::AddSystemTask, 0x13F36E0)
+	method_rva(PlayerControl::RpcCompleteTask, 0x13FCF50)
+	method_rva(PlayerControl::DNLMBEHKFGH, 0x13F5580)
+	method_rva(PlayerControl::PAGBHMPINNP, 0x13FBE50)
+	method_rva(PlayerControl::FixedUpdate, 0x13F6630)
+	method_rva(PlayerControl::OOEGINIOBJD, 0x13FBC90)
+	method_rva(PlayerControl::PlayAnimation, 0x13FC5D0)
+	method_rva(PlayerControl::RpcSendChatNote, 0x13FD180)
+	method_rva(PlayerControl::IPJBDHONKMH, 0x13F80D0)
+	method_rva(PlayerControl::SetKillTimer, 0x13FE090)
+	method_rva(PlayerControl::Die, 0x13F56D0)
+	method_rva(PlayerControl::HENLJMIGGNN, 0x13F7770)
+	method_rva(PlayerControl::CmdCheckColor, 0x13F50C0)
+	method_rva(PlayerControl::MGDIOGPBIGB, 0x13FA150)
+	method_rva(PlayerControl::Start, 0x13FEC10)
+	method_rva(PlayerControl::ReportClosest, 0x13FCB80)
+	method_rva(PlayerControl::JHIIPPBCHFA, 0x13F8480)
+	method_rva(PlayerControl::SetName, 0x13FE1D0)
+	method_rva(PlayerControl::CHPBBFJNCEJ, 0x13F4A20)
+	method_rva(PlayerControl::RpcSetScanner, 0x13FD780)
+	method_rva(PlayerControl::BFCPOMNDDBB, 0x13F4790)
+	method_rva(PlayerControl::PKPMADHEGNN, 0x13FC290)
+	method_rva(PlayerControl::AFJMJGNCKJG, 0x13F2660)
+	method_rva(PlayerControl::LHIINHPLECB, 0x13F9320)
+	method_rva(PlayerControl::PCCIIPFNLEC, 0x13FC150)
+	method_rva(PlayerControl::Exiled, 0x13F6250)
+	method_rva(PlayerControl::GPLAKDFMNJP, 0x13F7330)
+	method_rva(PlayerControl::GNADBCGCKMK, 0x13F7270)
+	method_rva(PlayerControl::LEAHPAABBKP, 0x13F8FE0)
+	method_rva(PlayerControl::NLCHFKDGNJD, 0x13FB550)
+	method_rva(PlayerControl::CoStartMeeting, 0x13F52E0)
+	method_rva(PlayerControl::RpcUsePlatform, 0x13FDB70)
+	// method_rva(PlayerControl::Deserialize, 0x13F5680)
+	method_rva(PlayerControl::JKENPFJODKL, 0x13F8DA0)
+	method_rva(PlayerControl::get_CanMove, 0x13FEEF0)
+	method_rva(PlayerControl::FCHPIPOPIAK, 0x13F6490)
+	method_rva(PlayerControl::BDGGODJELFB, 0x13F4600)
+	method_rva(PlayerControl::OGDDFKCIBOP, 0x13FBB50)
+	// method_rva(PlayerControl::Serialize, 0x13FDC90)
+	method_rva(PlayerControl::RpcStartMeeting, 0x13FD990)
+	method_rva(PlayerControl::RpcSetColor, 0x13FD3B0)
+	method_rva(PlayerControl::CPJLLCFJDPP, 0x13F4C50)
+	method_rva(PlayerControl::GJHMIDDFEGI, 0x13F7150)
+	method_rva(PlayerControl::EGENMCBGBLN, 0x13F59C0)
+	method_rva(PlayerControl::get_Visible, 0x13F45D0)
+	method_rva(PlayerControl::FEMCAONPMFH, 0x13F6590)
+	method_rva(PlayerControl::MIDLLPPLJHM, 0x13FA450)
+	method_rva(PlayerControl::CheckName, 0x13F4F20)
+	method_rva(PlayerControl::OBBDJMDGGLA, 0x13FB890)
+	method_rva(PlayerControl::GetTruePosition, 0x13F7400)
+	method_rva(PlayerControl::CompleteTask, 0x13F5340)
+	method_rva(PlayerControl::_ctor, 0x13FEDE0)
+	method_rva(PlayerControl::BAEKHAKBNMN, 0x13F4480)
+	method_rva(PlayerControl::RpcSetStartCounter, 0x13FD910)
+	method_rva(PlayerControl::EIFLOJMOHEO, 0x13F5B00)
+	method_rva(PlayerControl::SetHat, 0x13FDF50)
+	method_rva(PlayerControl::CmdCheckName, 0x13F5170)
+	method_rva(PlayerControl::MLDGEMJGIJM, 0x13FA970)
+	method_rva(PlayerControl::MAFDKHHIBID, 0x13F9620)
 }
