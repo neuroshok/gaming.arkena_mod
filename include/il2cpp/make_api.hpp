@@ -31,11 +31,18 @@ make_api(thread_attach, il2cpp::Il2CppThread*, (const il2cpp::Il2CppDomain* d), 
 // class
 make_api(class_from_name, il2cpp::Il2CppClass*, (const il2cpp::Il2CppImage* image, const char* namespaze, const char* name), image, namespaze, name)
 make_api(class_get_fields, const il2cpp::FieldInfo*,  (const Il2CppClass* klass, void* *iter), klass, iter)
+make_api(class_get_methods, const il2cpp::MethodInfo*,  (const Il2CppClass* klass, void* *iter), klass, iter)
 make_api(class_get_type, const il2cpp::Il2CppType*, (const il2cpp::Il2CppClass* k), k)
+make_api(class_get_nested_types, const il2cpp::Il2CppClass*, (const Il2CppClass* klass, void* *iter), klass, iter)
 make_api(class_from_type, const il2cpp::Il2CppClass*, (const il2cpp::Il2CppType* type), type)
+make_api(class_is_generic, bool, (const il2cpp::Il2CppClass* klass), klass)
 
 // field
 make_api(field_get_name, const char*, (il2cpp::FieldInfo* field), field)
+
+// method
+make_api(method_get_param, const il2cpp::Il2CppType*, (const il2cpp::MethodInfo* method, uint32_t index), method, index);
+make_api(method_get_param_name, const char*, (const il2cpp::MethodInfo* method, uint32_t index), method, index);
 
 // type
 make_api(type_get_assembly_qualified_name, char*, (const il2cpp::Il2CppType* type), type)
@@ -109,7 +116,7 @@ DO_API(int, array_element_size, (const Il2CppClass * array_class));
 
 // assembly
 DO_API(const Il2CppImage*, assembly_get_image, (const Il2CppAssembly * assembly));
-
+contain
 // class
 DO_API(void, class_for_each, (void(*klassReportFunc)(Il2CppClass* klass, void* userData), void* userData));
 DO_API(const Il2CppType*, class_enum_basetype, (Il2CppClass * klass));

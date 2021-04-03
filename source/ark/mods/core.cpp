@@ -4,11 +4,13 @@
 #include <ark/hook.hpp>
 #include <ark/version.hpp>
 
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/GameStartManager.hpp>
-#include <autogen/Hazel/MessageReader.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
-#include <autogen/PlayerControl.hpp>
+#include <upp/network.hpp>
+
+#include <au/AmongUsClient.hpp>
+#include <au/InnerNet/InnerNetClient.hpp>
+#include <au/GameStartManager.hpp>
+#include <au/PlayerControl.hpp>
+#include <au/Rpc.hpp>
 
 namespace ark::mods
 {
@@ -28,8 +30,8 @@ namespace ark::mods
     {
         server_.enable();
 
-        ark::hook<&AmongUsClient::FixedUpdate>::after(this,
-        [this](AmongUsClient* self)
+        ark::hook<&InnerNet::InnerNetClient::FixedUpdate>::after(this,
+        [this](auto self) -> void
         {
             if (!initialized_)
             {
@@ -40,15 +42,15 @@ namespace ark::mods
         });
 
         ark::hook<&PlayerControl::HandleRpc>::after(this,
-        [this](PlayerControl* self, auto event, MessageReader* data)
+        [this](PlayerControl* self, auto event, Hazel::MessageReader* data)
         {
             ark_trace("Tools HandleRpc {}", event);
             data->set_Position(2);
 
-            switch (static_cast<rpc>(event))
+            switch (static_cast<Rpc>(event))
             {
-                case (rpc) rpc_mod::mods_status: {
-                    if (GameData::statics()->instance->GetHost()->PlayerId == mod::player()->PlayerId)
+                case (Rpc) rpc_mod::mods_status: {
+                    if (GameData::Instance()->GetHost()->PlayerId == mod::player()->PlayerId)
                     {
                         auto id = data->ReadByte();
                         auto version_ok = data->ReadByte();
@@ -72,13 +74,13 @@ namespace ark::mods
                 }
                 break;
 
-                case (rpc) rpc_mod::check_mods: {
+                case (Rpc) rpc_mod::check_mods: {
                     bool version_ok = true;
                     auto mod_count = data->ReadUInt32();
                     for (int i = 0; i < mod_count; ++i)
                     {
-                        auto mod_name = data->read<std::string>();
-                        auto host_version = data->read<ark::version>();
+                        auto mod_name = upp::read<std::string>(data);
+                        auto host_version = upp::read<ark::version>(data);
                         auto host_mod_enabled = data->ReadByte();
 
                         auto& player_mod = mod::core().mod(mod_name);
@@ -115,9 +117,9 @@ namespace ark::mods
                 writer->Write((std::uint32_t)mod::mod::core().mods().size());
                 for (const auto& mod : mod::mod::core().mods())
                 {
-                    writer->Write(mod->name());
-                    writer->Write(mod->version());
-                    writer->Write(mod->enabled());
+                    upp::write(writer, mod->name());
+                    upp::write(writer, mod->version());
+                    upp::write(writer, mod->enabled());
                 }
                 mod::finish_rpc(writer);
             }

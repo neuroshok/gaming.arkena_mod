@@ -2,8 +2,9 @@
 
 #include <ark/mod.hpp>
 
-#include <autogen/Vent.hpp>
-#include <autogen/HudManager.hpp>
+#include <au/HudManager.hpp>
+#include <au/UnityEngine/Sprite.hpp>
+#include <au/Vent.hpp>
 
 namespace ark { class core; }
 
@@ -22,8 +23,8 @@ namespace ark::mods
 
     private:
         HudManager* hud_ = nullptr;
-        Unity::Sprite* vent_sprite_ = nullptr;
-        Unity::Sprite* use_sprite_ = nullptr;
+        UnityEngine::Sprite* vent_sprite_ = nullptr;
+        UnityEngine::Sprite* use_sprite_ = nullptr;
         bool sprite_vent_ = false;
 
         bool is_spy_ = false;

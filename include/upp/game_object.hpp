@@ -1,14 +1,14 @@
 #pragma once
 
-#include <autogen/Unity/GameObject.hpp>
+#include <au/UnityEngine/GameObject.hpp>
 #include <cs/type.hpp>
 #include <il2cpp/api.hpp>
 
 namespace upp
 {
-    struct game_object : Unity::GameObject
+    struct game_object : UnityEngine::GameObject
     {
-        static game_object* make() { return static_cast<game_object*>(il2cpp::make<Unity::GameObject>()); }
+        static game_object* make() { return static_cast<game_object*>(il2cpp::make<UnityEngine::GameObject>()); }
 
         template<class T>
         T* add()

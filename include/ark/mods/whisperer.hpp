@@ -2,9 +2,9 @@
 
 #include <ark/mod.hpp>
 
-#include <autogen/GameData.hpp>
-#include <autogen/ShipStatus.hpp>
-#include <autogen/KillButtonManager.hpp>
+#include <au/GameData.hpp>
+#include <au/ShipStatus.hpp>
+#include <au/KillButtonManager.hpp>
 
 #include <chrono>
 

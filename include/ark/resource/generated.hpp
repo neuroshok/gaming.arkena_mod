@@ -1,6 +1,6 @@
 #ifdef ARK_RESOURCE_MEMBER
     #define MAKE(Name) \
-        Unity::Texture2D* tx_##Name = nullptr; \
+        UnityEngine::Texture2D* tx_##Name = nullptr; \
         static resource::image Name;
 #endif
 

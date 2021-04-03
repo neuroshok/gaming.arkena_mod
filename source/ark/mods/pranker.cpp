@@ -2,12 +2,12 @@
 
 #include <ark/hook.hpp>
 
-#include <autogen/PlayerControl.hpp>
-#include <autogen/ShipStatus.hpp>
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/Hazel/MessageReader.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
-#include <autogen/Unity/Transform.hpp>
+#include <au/PlayerControl.hpp>
+#include <au/ShipStatus.hpp>
+#include <au/AmongUsClient.hpp>
+#include <au/Hazel/MessageReader.hpp>
+#include <au/Hazel/MessageWriter.hpp>
+#include <au/UnityEngine/Transform.hpp>
 
 #include <random>
 
@@ -26,15 +26,15 @@ namespace ark::mods
     {
         mod::hook_intro();
         static bool alive_ = true;
-        static DDPGLPLGFOI* ptr = nullptr;
-
+        //static DDPGLPLGFOI* ptr = nullptr;
+/*
         ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {
             if (alive_) {
                 //PlayerControl::instance()->Die(1);
                 alive_ = false;
                 auto death_anim = PlayerControl::instance()->KillAnimations->get(0);
 
-                ptr = static_cast<DDPGLPLGFOI*>(Unity::Object::Instantiate(death_anim->bodyPrefab));
+                ptr = static_cast<DDPGLPLGFOI*>(UnityEngine::Object::Instantiate(death_anim->bodyPrefab));
                 ptr->get_transform()->set_position(PlayerControl::instance()->get_transform()->get_position());
                 PlayerControl::instance()->renderer->get_gameObject()->SetActive(false);
             }
@@ -45,6 +45,6 @@ namespace ark::mods
                 alive_ = true;
                 if (ptr) ptr->get_gameObject()->Destroy(self);
             }
-        });
+        });*/
     }
 } // ark::mods

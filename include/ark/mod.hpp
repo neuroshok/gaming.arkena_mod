@@ -3,18 +3,23 @@
 
 #include <ark/core.hpp>
 #include <ark/mod_intro.hpp>
+#include <ark/mods/rpc.hpp>
 #include <ark/setting.hpp>
 #include <ark/version.hpp>
 
-#include <autogen/GameData.hpp>
-#include <autogen/RpcCalls.hpp>
-#include <autogen/Unity/Color.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
+#include <au/GameData.hpp>
+#include <au/GameData_PlayerInfo.hpp>
+
+#include <cs/list.hpp>
+
+#include <upp/color.hpp>
+#include <upp/network.hpp>
+
 
 #include <spdlog/formatter.h>
 
 struct HudManager;
-struct MessageWriter;
+namespace Hazel { struct MessageWriter; }
 struct PlayerControl;
 struct ShipStatus;
 
@@ -89,21 +94,21 @@ namespace ark
         template<class... Ts>
         static void send_all(rpc_mod rpcid, const Ts&... ts);
 
-        static MessageWriter* start_rpc(rpc_mod);
-        static void finish_rpc(MessageWriter*);
+        static Hazel::MessageWriter* start_rpc(rpc_mod);
+        static void finish_rpc(Hazel::MessageWriter*);
 
         // player
-        static System::Collections::Generic::List<GameData::PlayerInfo>& players();
+        static cs::list<GameData_PlayerInfo>& players();
         static bool player_hosting();
 
-        static void set_player_name_color(PlayerControl*, Unity::Color color);
+        static void set_player_name_color(PlayerControl*, upp::color color);
 
-        static GameData::PlayerInfo* player();
+        static GameData_PlayerInfo* player();
         static PlayerControl* player_control();
         static PlayerControl* player_name();
 
-        static GameData::PlayerInfo* player(int id);
-        static GameData::PlayerInfo* player(PlayerControl* pc);
+        static GameData_PlayerInfo* player(int id);
+        static GameData_PlayerInfo* player(PlayerControl* pc);
         static PlayerControl* player_control(int id);
 
         //
@@ -153,7 +158,7 @@ namespace ark
     void mod::send_all(rpc_mod rpcid, const Ts&... ts)
     {
         auto writer = mod::start_rpc(rpcid);
-        (writer->Write(ts), ...);
+        (upp::write(writer, ts), ...);
         mod::finish_rpc(writer);
     }
 } // ark

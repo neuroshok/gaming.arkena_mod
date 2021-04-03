@@ -2,16 +2,19 @@
 
 #include <ark/core.hpp>
 
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/GameData.hpp>
-#include <autogen/GameStartManager.hpp>
-#include <autogen/HudManager.hpp>
-#include <autogen/InnerNet/InnerNetClient.hpp>
-#include <autogen/IntroCutscene.hpp>
-#include <autogen/KillButtonManager.hpp>
-#include <autogen/PlayerControl.hpp>
-#include <autogen/ShipStatus.hpp>
-#include <autogen/Unity/Material.hpp>
+#include <au/AmongUsClient.hpp>
+#include <au/EndGameManager.hpp>
+#include <au/GameData.hpp>
+#include <au/GameStartManager.hpp>
+#include <au/HudManager.hpp>
+#include <au/InnerNet/InnerNetClient.hpp>
+#include <au/IntroCutscene_Status.hpp>
+#include <au/KillButtonManager.hpp>
+#include <au/PlayerControl.hpp>
+#include <au/ShipStatus.hpp>
+#include <au/ServerManager.hpp>
+#include <au/Vent.hpp>
+#include <au/UnityEngine/Material.hpp>
 #include <cs/string.hpp>
 
 #include <analysis/testing_header.hpp>
@@ -34,14 +37,14 @@ namespace ark
 #else
         hk(AmongUsClient::FixedUpdate);
         hk(AmongUsClient::FinishEndGame);
-        hkr(MessageWriter*, AmongUsClient::StartEndGame);
+        hkr(Hazel::MessageWriter*, AmongUsClient::StartEndGame);
 
         hk(EndGameManager::Start);
 
         hk(HudManager::Start);
         hk(HudManager::Update);
 
-        hkr(bool, IntroCutScene::CKACLKCOJFO::MoveNext);
+        hkr(bool, IntroCutscene_Status::MoveNext);
 
         hk(InnerNet::InnerNetClient::SetEndpoint);
         hk(InnerNet::InnerNetClient::Update);
@@ -57,15 +60,15 @@ namespace ark
         hkr(float, Vent::CanUse);
         hkr(void, Vent::SetOutline);
 
-        hk(ServerManager::_ctor);
+        hk(ServerManager::ctor);
 
         hk(ShipStatus::Begin);
-        hk(ShipStatus::EndGame);
+        //hk(ShipStatus::EndGame);
 
-        hk(UseButton::DoClick);
+        //hk(UseButton::DoClick);
 
-        hk(GameData::RpcUpdateGameData);
-        hk(GameData::UpdateGameData);
+        //hk(GameData::RpcUpdateGameData);
+        //hk(GameData::UpdateGameData);
 
         hk(GameStartManager::Start);
         hk(GameStartManager::BeginGame);

@@ -4,7 +4,7 @@
 #include <stb_image.h>
 #include <ark/log.hpp>
 
-namespace Unity { struct Texture2D; }
+namespace UnityEngine { struct Texture2D; }
 
 namespace ark::resource
 {
@@ -12,7 +12,7 @@ namespace ark::resource
 
     void load();
     unsigned char* load_image(ark::resource::image& image);
-    Unity::Texture2D* load_texture(resource::image&);
+    UnityEngine::Texture2D* load_texture(resource::image&);
     bool load_texture(ID3D11ShaderResourceView** out_srv, ark::resource::image&);
 
     struct image

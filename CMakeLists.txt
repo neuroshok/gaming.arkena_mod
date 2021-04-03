@@ -57,7 +57,8 @@ target_include_directories(lib_json INTERFACE third_party/json/include)
 # arkena_mod
 file(GLOB_RECURSE ARK_SOURCES
         ${PROJECT_SOURCE_DIR}/include/ark/*
-        ${PROJECT_SOURCE_DIR}/source/ark/*)
+        ${PROJECT_SOURCE_DIR}/source/ark/*
+        ${PROJECT_SOURCE_DIR}/include/au/*)
 
 add_library(arkena_mod SHARED ${ARK_SOURCES})
 target_compile_features(arkena_mod PRIVATE cxx_std_20)
@@ -72,6 +73,7 @@ if (NO_CONSOLE)
     target_compile_definitions(arkena_mod PUBLIC ARK_NO_CONSOLE=1)
 endif()
 
+target_compile_options(arkena_mod PRIVATE /wd4674)
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
 target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json ws2_32.lib)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
@@ -116,4 +118,16 @@ add_executable(bin2cpp ${PROJECT_SOURCE_DIR}/source/bin2cpp.cpp)
 set_target_properties(bin2cpp PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
     OUTPUT_NAME "bin2cpp"
+)
+
+# generator
+file(GLOB_RECURSE GENERATOR_SOURCES ${PROJECT_SOURCE_DIR}/tools/generator/*)
+
+add_executable(generator ${GENERATOR_SOURCES})
+target_include_directories(generator PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(generator PRIVATE spdlog)
+
+set_target_properties(generator PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin"
+    OUTPUT_NAME "generator"
 )

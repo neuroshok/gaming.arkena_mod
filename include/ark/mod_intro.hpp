@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <autogen/Unity/Color.hpp>
+#include <upp/color.hpp>
 
 namespace ark
 {
@@ -9,7 +9,7 @@ namespace ark
     {
         std::string title;
         std::string subtitle;
-        Unity::Color title_color = {};
-        Unity::Color subtitle_color = {};
+        upp::color title_color = {};
+        upp::color subtitle_color = {};
     };
 } // ark

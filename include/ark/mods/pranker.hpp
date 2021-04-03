@@ -2,8 +2,8 @@
 
 #include <ark/mod.hpp>
 
-#include <autogen/Vent.hpp>
-#include <autogen/HudManager.hpp>
+#include <au/Vent.hpp>
+#include <au/HudManager.hpp>
 
 namespace ark { class core; }
 

@@ -1,9 +1,12 @@
 #pragma once
 
 #include <ark/class.hpp>
-#include <autogen/KillButtonManager.hpp>
-#include <autogen/PassiveButton.hpp>
-#include <autogen/Unity/Button.hpp>
+#include <au/KillButtonManager.hpp>
+#include <au/UnityEngine/Material.hpp>
+#include <au/UnityEngine/SpriteRenderer.hpp>
+#include <au/UnityEngine/GameObject.hpp>
+//#include <au/PassiveButton.hpp>
+//#include <au/UnityEngine/Button.hpp>
 
 #include <ark/mods/akn.hpp>
 #include <upp/object.hpp>
@@ -12,14 +15,15 @@
 
 namespace akn
 {
-    struct button : ark::meta<button, Unity::GameObject>
+    struct button : ark::meta<button, UnityEngine::GameObject>
     {
         inline static std::unordered_map<uintptr_t, std::function<void()>> buttons_callback;
 
         KillButtonManager* button_;
 
-        void _ctor(ark::resource::image& image, akn::mod& akn_mod)
+        void ctor(ark::resource::image& image, akn::mod& akn_mod)
         {
+            /*
             button_ = upp::instantiate(akn_mod.hud()->KillButton, akn_mod.hud()->get_transform(), true);
 
             auto button_comp = akn_mod.hud()->KillButton->get_component<PassiveButton>();
@@ -36,16 +40,17 @@ namespace akn
             button_->get_transform()->set_localPosition({0, -2, 0});
             button_->get_transform()->set_localScale({0.8, 0.8, 0.8});
 
-            auto s = Unity::Sprite::Create(texture, Unity::Rect{ 0, 0, (float)texture->GetDataWidth(), (float)texture->GetDataHeight() }, {1, 1});
+            auto s = UnityEngine::Sprite::Create(texture, UnityEngine::Rect{ 0, 0, (float)texture->GetDataWidth(), (float)texture->GetDataHeight() }, {1, 1});
             button_->renderer->set_sprite(s);
 
             button_->renderer->set_enabled(true);
+             */
         }
         
         void update()
         {
             button_->renderer->get_sharedMaterial()->SetFloat(cs::make_string("_Desat"), 0);
-            button_->renderer->set_color({ 1, 1, 1, 1 });
+            button_->renderer->set_color(upp::color{ 1, 1, 1, 1 });
         }
     };
 } // akn

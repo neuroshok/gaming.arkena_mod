@@ -4,13 +4,14 @@
 #include <ark/hook.hpp>
 #include <ark/version.hpp>
 
-#include <autogen/GameData.hpp>
-#include <autogen/GameStartManager.hpp>
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/PlayerControl.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
-#include <autogen/Hazel/MessageReader.hpp>
-#include <autogen/RpcCalls.hpp>
+#include <au/AmongUsClient.hpp>
+#include <au/GameData.hpp>
+#include <au/GameStartManager.hpp>
+#include <au/Hazel/MessageReader.hpp>
+#include <au/Hazel/MessageWriter.hpp>
+#include <au/PlayerControl.hpp>
+#include <au/Rpc.hpp>
+#include <au/TextRenderer.hpp>
 
 void set_clipboard(const std::string& data)
 {

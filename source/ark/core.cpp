@@ -16,7 +16,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ ark::version{0, 1, 2} }
+        , version_{ ark::version{0, 1, 3} }
         , ui_{ *this }
     {
         il2cpp::api::inititialize();
@@ -30,20 +30,20 @@ namespace ark
         #endif
         ark::init_hook();
 
-        //ark_trace("Game version : {}", ::Unity::Application::get_version());
+        //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
 #ifdef ARK_TESTING
         load<ark::mods::testing>();
 #else
         load<ark::mods::core>();
         load<ark::mods::tools>();
-        //load<akn::mod>();
+        load<akn::mod>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tournament>();
-        load<ark::mods::whisperer>();
+        //load<ark::mods::whisperer>();
         //load<ark::mods::pranker>();
-        load<ark::mods::spy>();
+        //load<ark::mods::spy>();
         //load<ark::mods::testing>();
         //load<ark::mods::analysis>();
 #endif

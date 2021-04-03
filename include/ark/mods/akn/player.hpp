@@ -1,8 +1,8 @@
 #pragma once
 
-#include <autogen/HudManager.hpp>
-#include <autogen/Unity/Color.hpp>
-#include <autogen/Unity/Transform.hpp>
+#include <au/HudManager.hpp>
+#include <upp/color.hpp>
+#include <au/UnityEngine/Transform.hpp>
 
 #include <ark/resource.hpp>
 #include <ark/mod_intro.hpp>
@@ -19,7 +19,7 @@ namespace akn
 
         std::uint8_t id() const { return id_; }
         virtual ark::mod_intro intro() const { return { .title = "Player", .title_color = { 1, 1, 1 } }; }
-        virtual Unity::Color color() const { return { 1, 1, 1 }; }
+        virtual upp::color color() const { return { 1, 1, 1 }; }
         virtual void init_ui() { ark_trace("unimplemented"); }
         virtual void update_ui() { ark_trace("unimplemented"); }
         // do_ability()
@@ -37,7 +37,7 @@ namespace akn
     public:
         explicit peon(akn::mod& mod, std::uint8_t id) : player(mod, id) {}
 
-        Unity::Color color() const override { return { 0.7, 1, 0.2 }; }
+        upp::color color() const override { return { 0.7, 1, 0.2 }; }
         ark::mod_intro intro() const override { return { .title = "Peon", .title_color = color() }; }
 
         void init_ui() override;
@@ -52,8 +52,8 @@ namespace akn
     public:
         explicit pranker(akn::mod& mod, std::uint8_t id) : player(mod, id) {}
 
-        //Unity::Color color() const override { return { 0.2, 1, 0.2}; }
-        //ark::mod_intro intro() const override { return { .title = "Pranker", .title_color = color() }; }
+        upp::color color() const override { return { 0.2, 1, 0.2}; }
+        ark::mod_intro intro() const override { return { .title = "Pranker", .title_color = color() }; }
     };
 
     class voyager : public player
@@ -61,7 +61,7 @@ namespace akn
     public:
         explicit voyager(akn::mod& mod, std::uint8_t id) : player(mod, id) {}
 
-        //Unity::Color color() const override { return { 1, 0.2, 0.2 }; }
+        //upp::color color() const override { return { 1, 0.2, 0.2 }; }
         //ark::mod_intro intro() const override { return { .title = "Voyager", .title_color = color() }; }
     };
 }// akn

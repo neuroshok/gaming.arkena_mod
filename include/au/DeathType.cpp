@@ -1,0 +1,2 @@
+#include <au//DeathType.hpp>
+

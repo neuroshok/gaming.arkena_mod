@@ -1,7 +1,5 @@
 #pragma once
 
-#include <ark/log.hpp>
-
 #include <il2cpp/core.hpp>
 
 #include <cstddef>

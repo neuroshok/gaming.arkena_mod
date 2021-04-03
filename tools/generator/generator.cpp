@@ -1,5 +1,6 @@
 #include "generator.hpp"
 
+#include "builder.hpp"
 #include "filter.hpp"
 #include "maps.hpp"
 
@@ -7,20 +8,7 @@
 #include <fstream>
 #include <il2cpp/api.hpp>
 #include <sstream>
-#include <set>
 
-void str_replace(std::string& str, const std::string& from, const std::string& to) {
-    if(from.empty())
-        return;
-    size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
-    }
-}
-
-
-using namespace il2cpp;
 namespace fs = std::filesystem;
 
 generator::generator()
@@ -67,112 +55,101 @@ void generator::process(const std::function<void(const Il2CppClass*)>& fn)
     }
 }
 
-void generator::make_cpp(const Il2CppClass* klass)
+bool generator::make_cpp(const Il2CppClass* k)
 {
-    auto cmp = [](auto a, auto b) { return std::string(api::type_get_name(a)) != api::type_get_name(b); };
-    std::set<const il2cpp::Il2CppType*, decltype(cmp)> types;
+    builder klass{ k };
 
-    std::string header_root;
-    std::string klass_name = klass->_1.name;
-    std::string klass_path = output_path_ + namespace_path(klass->_1.namespaze, "/") + "/";
-    std::string klass_namespace = namespace_path(klass->_1.namespaze, "::");
-    if (klass_namespace.empty()) klass_namespace = "au";
+    //spdlog::info("Generate cpp {} @ {} - {}", klass.name, klass.path, klass.assembly_name);
 
-    // class type
-    auto class_type = api::class_get_type(klass);
-    auto class_type_id = api::type_get_type(class_type);
-
-    // generic
-    std::string tpl;
-    bool generic = false;
-    if (class_type_id == il2cpp::TYPE_GENERICINST)
+    if (!fs::exists(output_path_ + klass.path)) fs::create_directories(output_path_ + klass.path);
+    if (fs::exists(output_path_ + klass.path + klass.filename + ".hpp"))
     {
-        generic = true;
-        tpl = "template<class T>\n";
-        klass_name = klass_name.substr(0, klass_name.find('`'));
+        //spdlog::warn("Ignore existing file {}", klass_path + klass_name + ".hpp");
+        return false;
     }
 
-    // inheritance
-    std::string inherit;
-    if (klass->_1.parent)
+    std::ofstream ofs(output_path_ + klass.path + klass.filename + ".hpp");
+    if (!ofs.is_open()) throw std::logic_error("Unable to open file : " + output_path_ + klass.path + klass.filename + ".hpp");
+
+    for (int i = 0; i < klass.ptr->_2.nested_type_count; ++i)
     {
-        auto parent_type = api::class_get_type(klass->_1.parent);
-        types.insert(parent_type);
-        inherit = std::string(", ") + namespace_path(maps::type_name(parent_type, false), "::");
-        make_cpp(klass->_1.parent);
+        Il2CppClass** nested_classes = (klass.ptr->_1.nestedTypes + i);
+        builder nested_class { reinterpret_cast<const il2cpp::Il2CppClass*>(*nested_classes) };
+        nested_class.make();
+        klass.nested_output << nested_class.output.str();
     }
 
-    if (!fs::exists(klass_path)) fs::create_directories(klass_path);
-    if (fs::exists(klass_path + klass_name + ".hpp"))
-    {
-        spdlog::warn("Ignore existing file {}", klass_path + klass_name + ".hpp");
-        return;
-    }
-    spdlog::info("Generate cpp {} @ {}",  klass->_1.name, klass_path);
+    klass.make();
 
-    std::ofstream ofs(klass_path + klass_name + ".hpp");
-    if (!ofs.is_open()) throw std::logic_error("Unable to open file : " + klass_path);
-
-    // fields
-    std::stringstream fields;
-    std::stringstream statics;
     std::stringstream includes;
-    statics << "\n" << indent(2) << "struct internal_statics {";
 
-    void* it = nullptr;
-    for (auto i = 0; i < klass->_2.field_count; ++i)
-    {
-        auto field = api::class_get_fields(klass, &it);
-        auto field_type_name = maps::type_name(field->type, true, generic);
-        if (std::string(api::type_get_assembly_qualified_name(field->type)) != api::type_get_assembly_qualified_name(api::class_get_type(klass))) types.insert(field->type);
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////              DEPS              ////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-        auto attr = api::type_get_attrs(field->type);
-        std::stringstream* output = &fields;
-        if (attr & il2cpp::FIELD_ATTRIBUTE_STATIC) output = &statics;
-
-        *output << "\n" << indent(2);
-        *output << class_path(field_type_name);
-        *output << " " << field->name;
-        *output << "; // 0x" << std::hex << field->offset;
-    }
-    statics << "\n" << indent(2) << "};\n";
-
-    for (const auto& type : types)
+    for (const auto& type : klass.deps)
     {
         auto type_id = il2cpp::api::type_get_type(type);
-        if (type_id == il2cpp::TYPE_CLASS)
+        switch (type_id)
         {
-            includes << "#include <" << namespace_path(api::type_get_name(type), "/") << ".hpp>\n";
-            make_cpp(api::class_from_type(type));
-        }
-        if (type_id == il2cpp::TYPE_STRING) includes << "#include <cs/string.hpp>\n";
-        if (type_id == il2cpp::TYPE_OBJECT) includes << "#include <il2cpp/core.hpp>\n";
-        if (type_id == il2cpp::TYPE_GENERICINST)
-        {
-            std::string base_type = api::type_get_name(type);
-            auto s = base_type.find('<');
-            base_type = base_type.substr(0, s);
+            case il2cpp::TYPE_CLASS: {
+                make_cpp(api::class_from_type(type));
+                includes << "#include <au/" << builder::namespace_path(api::type_get_name(type), "/") << ".hpp>\n";
+                break;
+            }
+            case il2cpp::TYPE_STRING: {
+                includes << "#include <cs/string.hpp>\n";
+                break;
+            }
+
+            case il2cpp::TYPE_SZARRAY: {
+                includes << "#include <cs/array.hpp>\n";
+                break;
+            }
+            case il2cpp::TYPE_OBJECT: {
+                includes << "#include <il2cpp/core.hpp>\n";
+                break;
+            }
+            case il2cpp::TYPE_GENERICINST: {
+                std::string base_type = api::type_get_name(type);
+                auto s = base_type.find('<');
+                base_type = base_type.substr(0, s);
 
 
-            includes << "#include <" << namespace_path(base_type, "/") << ".hpp>\n";
-            make_cpp(api::class_from_type(type));
+                make_cpp(api::class_from_type(type));
+                includes << "#include <au/" << builder::namespace_path(base_type, "/") << ".hpp>\n";
+                break;
+            }
+            case il2cpp::TYPE_VALUETYPE: {
+                make_cpp(api::class_from_type(type));
+                includes << "#include <au/" << builder::namespace_path(api::type_get_name(type), "/") << ".hpp>\n";
+            }
+
+            default: {
+                //make_cpp(api::class_from_type(type));
+                //includes << "#include <au/default.hpp>\n";
+            }
         }
     }
+
 
     ofs << "#pragma once\n";
     ofs << "#include <ark/class.hpp>\n\n";
     ofs << includes.str();
-    ofs << "\nnamespace " << klass_namespace << "\n" << "{\n" << indent(1);
-    ofs << indent(0) << tpl;
-    ofs << indent(0) << "struct " << klass_name << " : ark::meta<" << klass_name << inherit << ">\n" << indent(1) << "{";
-    ofs << statics.str();
-    ofs << fields.str();
 
-    ofs << "\n" << indent(1) << "};\n";
+    ofs << "\nnamespace " << klass.namespaze << "\n" << "{\n" << builder::indent(1);
+    ofs << klass.output.str();
     ofs << "\n}";
+    ofs << "\n" << "namespace ark {";
+    ofs << "\n" << klass.meta_statics.str();
+    ofs << "\n}";
+    ofs << "\n\n" << klass.statics_def.str();
 
     ofs.close();
+
+    return true;
 }
+
 
 void generator::make_sources()
 {
@@ -183,26 +160,4 @@ void generator::make_sources()
             if (klass->_1.name == klass_name) make_cpp(klass);
         }
     }
-}
-
-std::string generator::namespace_path(std::string namespaze, const std::string& separator) const
-{
-    str_replace(namespaze, ".", separator);
-    return namespaze;
-}
-
-std::string generator::class_path(std::string class_name) const
-{
-    str_replace(class_name, ".", "::");
-    return class_name;
-}
-
-std::string generator::indent(unsigned int n) const
-{
-    std::string result;
-    while (n--)
-    {
-        result += "    ";
-    };
-    return result;
 }

@@ -19,9 +19,15 @@ namespace il2cpp
         return std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
     }
 
-    struct MethodInfo;
     struct Il2CppImage;
     struct Il2CppThread;
+    struct Il2CppAssembly;
+    struct Il2CppClass;
+    struct Il2CppArray;
+    struct MethodInfo;
+    struct ParameterInfo;
+    struct Il2CppTypeDefinition;
+    struct Il2CppMethodDefinition;
 
     struct Il2CppDomain
     {
@@ -33,11 +39,6 @@ namespace il2cpp
         volatile int threadpool_jobs;
         void* agent_info;
     };
-
-    struct Il2CppAssembly;
-    struct Il2CppClass;
-    struct Il2CppArray;
-    struct Il2CppTypeDefinition;
 
     struct VirtualInvokeData
     {
@@ -177,11 +178,11 @@ namespace il2cpp
         const char* name;
         Il2CppClass *klass;
         const Il2CppType *return_type;
-        const void* parameters;
+        const ParameterInfo* parameters;
         union
         {
             const Il2CppRGCTXData* rgctx_data;
-            const void* methodDefinition;
+            const Il2CppMethodDefinition* methodDefinition;
         };
         union
         {
@@ -194,6 +195,14 @@ namespace il2cpp
         uint16_t slot;
         uint8_t parameters_count;
         uint8_t bitflags;
+    };
+
+    struct ParameterInfo
+    {
+        const char* name;
+        int32_t position;
+        uint32_t token;
+        const Il2CppType* parameter_type;
     };
 
     struct Il2CppTypeDefinition
@@ -225,6 +234,20 @@ namespace il2cpp
         uint16_t interface_offsets_count;
         uint32_t bitfield;
         uint32_t token;
+    };
+
+    struct Il2CppMethodDefinition
+    {
+        uint32_t nameIndex;
+        uint32_t declaringType;
+        uint32_t returnType;
+        uint32_t parameterStart;
+        uint32_t genericContainerIndex;
+        uint32_t token;
+        uint16_t flags;
+        uint16_t iflags;
+        uint16_t slot;
+        uint16_t parameterCount;
     };
 
     static constexpr auto TYPE_END = 0x00;       /* End of List */

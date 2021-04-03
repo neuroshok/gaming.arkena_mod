@@ -3,14 +3,17 @@
 #include <ark/core.hpp>
 #include <ark/hook.hpp>
 
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/HudManager.hpp>
-#include <autogen/IntroCutscene.hpp>
-#include <autogen/PlayerControl.hpp>
-#include <autogen/ShipStatus.hpp>
+#include <cs/list.hpp>
+
+#include <au/AmongUsClient.hpp>
+#include <au/HudManager.hpp>
+#include <au/IntroCutscene.hpp>
+#include <au/IntroCutscene_Status.hpp>
+#include <au/PlayerControl.hpp>
+#include <au/ShipStatus.hpp>
+#include <au/TextRenderer.hpp>
 
 #include <nlohmann/json.hpp>
-
 #include <cmath>
 #include <fstream>
 
@@ -57,9 +60,9 @@ namespace ark
 
     void mod::set_description(const std::string& desc) { description_ = desc; }
 
-    void mod::set_player_name_color(PlayerControl* pc, Unity::Color color)
+    void mod::set_player_name_color(PlayerControl* pc, upp::color color)
     {
-        pc->nameText->color = color;
+        pc->nameText->Color = color;
     }
 
     //
@@ -70,20 +73,20 @@ namespace ark
 
     void mod::hook_intro()
     {
-        ark::hook<&IntroCutScene::CKACLKCOJFO::MoveNext>::before(this, [this](auto&& self) -> bool
+        ark::hook<&IntroCutscene_Status::MoveNext>::before(this, [this](auto&& self) -> bool
         {
-            self->subtitle.r = intro_.subtitle_color.r;
-            self->subtitle.g = intro_.subtitle_color.g;
-            self->subtitle.b = intro_.subtitle_color.b;
-            self->fade_out_color.g = 0;
-            self->fade_out_color.r = 0;
-            self->fade_out_color.b = 0;
-            self->title.r = intro_.title_color.r;
-            self->title.g = intro_.title_color.g;
-            self->title.b = intro_.title_color.b;
+            self->subtitle_color.r = intro_.subtitle_color.r;
+            self->subtitle_color.g = intro_.subtitle_color.g;
+            self->subtitle_color.b = intro_.subtitle_color.b;
+            self->fade.g = 0;
+            self->fade.r = 0;
+            self->fade.b = 0;
+            self->title_color.r = intro_.title_color.r;
+            self->title_color.g = intro_.title_color.g;
+            self->title_color.b = intro_.title_color.b;
 
-            self->__this->Title->Text = cs::make_string(intro_.title);
-            self->__this->ImpostorText->Text = cs::make_string(intro_.subtitle);
+            self->_this->Title->Text = cs::make_string(intro_.title);
+            self->_this->ImpostorText->Text = cs::make_string(intro_.subtitle);
 
             self->isImpostor = false;
 
@@ -92,11 +95,11 @@ namespace ark
     }
 
     void mod::hook_end_game()
-    {
-        ark::hook<&ShipStatus::EndGame>::overwrite(this, [this](auto original, auto&& self, std::int32_t reason, bool EMAKAHIFLDE) -> void {
+    {/*
+        ark::hook<&ShipStatus::EndGame>::overwrite(this, [this](auto original, auto self, int reason, bool EMAKAHIFLDE) -> void {
             ark_trace("end game");
             if (end_game_) original(self, 3, EMAKAHIFLDE);
-        });
+        });*/
     }
 
     void mod::hook_hud()
@@ -175,7 +178,7 @@ namespace ark
         auto min = std::numeric_limits<float>::max();
         PlayerControl* closest = nullptr;
 
-        for (auto* player : *GameData::statics()->instance->AllPlayers)
+        for (auto* player : cs::as_list(GameData::Instance()->AllPlayers))
         {
             if (player->PlayerId != source->PlayerId && !player->IsDead)
             {
@@ -192,23 +195,23 @@ namespace ark
         return closest;
     }
 
-    MessageWriter* mod::start_rpc(rpc_mod rpcid)
+    Hazel::MessageWriter* mod::start_rpc(rpc_mod rpcid)
     {
-        return AmongUsClient::statics()->instance->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpcid);
+        return AmongUsClient::Instance()->StartRpcImmediately(mod::player_control()->NetId, (std::uint8_t)rpcid, Hazel::SendOption::None);
     }
 
-    void mod::finish_rpc(MessageWriter* writer)
+    void mod::finish_rpc(Hazel::MessageWriter* writer)
     {
-        AmongUsClient::statics()->instance->FinishRpcImmediately(writer);
+        AmongUsClient::Instance()->FinishRpcImmediately(writer);
     }
 
-    System::Collections::Generic::List<GameData::PlayerInfo>& mod::players() { return *GameData::statics()->instance->AllPlayers; }
-    bool mod::player_hosting() { return AmongUsClient::statics()->instance->get_AmHost(); }
+    cs::list<GameData_PlayerInfo>& mod::players() { return cs::as_list(GameData::Instance()->AllPlayers); }
+    bool mod::player_hosting() { return AmongUsClient::Instance()->get_AmHost(); }
 
-    GameData::PlayerInfo* mod::player() { return player(player_control()); }
-    PlayerControl* mod::player_control() { return PlayerControl::statics()->local; }
+    GameData_PlayerInfo* mod::player() { return player(player_control()); }
+    PlayerControl* mod::player_control() { return PlayerControl::LocalPlayer(); }
 
-    GameData::PlayerInfo* mod::player(int id) { return GameData::statics()->instance->GetPlayerById(id); }
-    GameData::PlayerInfo* mod::player(PlayerControl* pc) { return player(pc->PlayerId); }
-    PlayerControl* mod::player_control(int id) { return player(id)->_object; }
+    GameData_PlayerInfo* mod::player(int id) { return GameData::Instance()->GetPlayerById(id); }
+    GameData_PlayerInfo* mod::player(PlayerControl* pc) { return player(pc->PlayerId); }
+    PlayerControl* mod::player_control(int id) { return player(id)->playerControl; }
 } // ark

@@ -2,8 +2,8 @@
 
 #include <ark/mod.hpp>
 
-#include <autogen/GameData.hpp>
-#include <autogen/ShipStatus.hpp>
+#include <au/GameData.hpp>
+#include <au/ShipStatus.hpp>
 
 namespace ark { class core; }
 

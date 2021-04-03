@@ -3,7 +3,9 @@
 #include <ark/module.hpp>
 #include <il2cpp/core.hpp>
 #include <il2cpp/type.hpp>
-#include <iostream>
+
+#include <spdlog/spdlog.h>
+
 namespace il2cpp
 {
     class api;
@@ -15,12 +17,28 @@ namespace il2cpp
     }
 
     template<class T, class... Ts>
-    auto make(Ts&&... ts)
+    T* make(Ts&&... ts)
     {
         auto obj = static_cast<T*>(il2cpp::api::object_new(api::template get_class<T>()));
-        obj->_ctor(std::forward<Ts>(ts)...);
+        obj->ctor(std::forward<Ts>(ts)...);
         return obj;
     }
+
+    template<class T, class... Ts>
+    T* new_object(Ts&&... ts)
+    {
+        return static_cast<T*>(il2cpp::api::object_new(api::template get_class<T>()));
+    }
+
+
+    /*
+    template<class T, class Fn, class... Ts>
+    T* make_ctor(Fn fn, Ts&&... ts)
+    {
+        auto obj = static_cast<T*>(il2cpp::api::object_new(api::template get_class<T>()));
+        std::invoke(fn, obj, std::forward<Ts>(ts)...);
+        return obj;
+    }*/
 
     template<class T>
     auto make_array(int size) { return reinterpret_cast<il2cpp::array<T>*>(il2cpp::api::array_new(api::template get_class<T>(), size)); }

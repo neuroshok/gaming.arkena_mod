@@ -4,13 +4,17 @@
 #include <ark/mods/akn/player.hpp>
 #include <ark/mods/akn/button.hpp>
 
-#include <autogen/AmongUsClient.hpp>
-#include <autogen/Hazel/MessageReader.hpp>
-#include <autogen/Hazel/MessageWriter.hpp>
-#include <autogen/HudManager.hpp>
-#include <autogen/PlayerControl.hpp>
-#include <autogen/ShipStatus.hpp>
-#include <autogen/Unity/Transform.hpp>
+#include <cs/list.hpp>
+
+#include <au/AmongUsClient.hpp>
+#include <au/Hazel/MessageReader.hpp>
+#include <au/Hazel/MessageWriter.hpp>
+#include <au/HudManager.hpp>
+#include <au/PlayerControl.hpp>
+#include <au/ShipStatus.hpp>
+#include <au/UnityEngine/Transform.hpp>
+
+#include <upp/network.hpp>
 
 #include <random>
 
@@ -138,35 +142,36 @@ namespace akn
 
         static akn::player* p = nullptr;
 
+        /*
         ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {
             ark_trace("test");
             if (p == nullptr) p = add_player(0, role_type::peon);
             p->init_ui();
-            });
+            });*/
 
 
-        ark::hook<&PlayerControl::RpcSetInfected>::overwrite(this, [this](auto original, auto&& self, GameData::PlayerInfo* player) -> void {
-            original(self, player);
+        ark::hook<&PlayerControl::RpcSetInfected>::overwrite(this, [this](auto original, auto&& self, auto players) -> void {
+            original(self, players);
             do_role_distribution();
         }); // 0x8F0430
 
         ark::hook<&PlayerControl::HandleRpc>::after(this,
-            [this](PlayerControl* self, auto event, MessageReader* data)
+            [this](PlayerControl* self, auto event, Hazel::MessageReader* data)
             {
                 ark_trace("HandleRpc {}", event);
                 data->set_Position(2);
 
-                switch (static_cast<rpc>(event))
+                switch (static_cast<Rpc>(event))
                 {
-                    case (rpc)rpc_mod::generic_role: {
+                    case (Rpc)rpc_mod::generic_role: {
                         auto roles_count = data->ReadByte();
                         ark_trace("id {} {}", roles_count, ark::mod::player()->PlayerId);
                     }
                     return;
 
-                    case (rpc)rpc_mod::role_distribution:
+                    case (Rpc)rpc_mod::role_distribution:
                     {
-                        on_role_distribution(data->read_vector<std::uint8_t>());
+                        on_role_distribution(upp::read_vector<std::uint8_t>(data));
                         break;
                     }
                 }

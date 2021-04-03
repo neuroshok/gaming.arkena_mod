@@ -2,9 +2,36 @@
 
 #include <ark/hook.hpp>
 
-#include <autogen/InnerNet/InnerNetClient.hpp>
-#include <autogen/ServerInfo.hpp>
-#include <autogen/ServerManager.hpp>
+#include <au/InnerNet/InnerNetClient.hpp>
+//#include <au/ServerInfo.hpp>
+////////////////////
+struct ServerData : ark::meta<ServerData, il2cpp::Il2CppObject>
+{
+    ark_meta("", "PLFDMKKDEMI", "");
+
+    cs::string* name; // 0x8
+    cs::string* host; // 0xC
+    std::uint16_t port; // 0x10
+    int NEEDADIAIAB; // 0x14
+    int KIPFCHEEIML; // 0x18
+
+    void ctor(){}
+};
+
+struct ServerInfo : ark::meta<ServerInfo, il2cpp::Il2CppObject> // TypeDefIndex: 8735
+{
+	ark_meta("", "OIBMKGDLGOG", "");
+
+	cs::string* name; // 0x8
+	cs::string* ip; // 0xC
+	il2cpp::array<ServerData>* serverData; // 0x10
+
+	void ctor(cs::string* name, cs::string* ip, il2cpp::array<ServerData>* servers) { } // 0xF149C0
+
+};
+/////////////////////
+
+#include <au/ServerManager.hpp>
 
 #include <winsock.h>
 #include <nlohmann/json.hpp>
@@ -25,7 +52,8 @@ namespace ark::mods
 
     void core_server::enable()
     {
-        ark::hook<&ServerManager::_ctor>::before(&mod_core_, [](auto&& self) -> void
+        /*
+        ark::hook<&ServerManager::ctor>::before(&mod_core_, [](auto&& self) -> void
         {
             auto server_custom_count = 1;
 
@@ -54,8 +82,8 @@ namespace ark::mods
             auto o_ServerInfo = il2cpp::make<ServerInfo>(cs::make_string("Tournament"), cs::make_string("au.hoax.ml"), array_ServerData);
             array_ServerInfo->get(server_it) = o_ServerInfo;
 
-            self->statics()->DefaultRegions = array_ServerInfo;
-        });
+            //self->DefaultRegions() = array_ServerInfo;
+        });*/
 
         ark::hook<&InnerNet::InnerNetClient::SetEndpoint>::overwrite(
         &mod_core_, [](auto&& original, auto&& self, cs::string* host, std::uint16_t JGJNMHAIKMB) -> void {

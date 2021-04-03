@@ -7,11 +7,11 @@
 namespace filters
 {
     inline static std::vector<std::string> klasses {
-    "PlayerControl",
+    "GameData",
+    /*"PlayerControl",
     "KillButtonManager",
     "MessageReader",
-    "MessageWriter",
-    "Vector2",
+    "MessageWriter",*/
     };
 } // filters
 
