@@ -34,6 +34,18 @@ target_include_directories(lib_discord_sdk INTERFACE
 
 target_link_libraries(lib_discord_sdk INTERFACE ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/lib/discord_game_sdk.dll.lib)
 
+
+# lib_restcpp
+if (CURL_ROOT)
+    set(CURL_DIR ${CURL_ROOT})
+    set(CURL_INCLUDE_DIR ${CURL_DIR}/include)
+    set(CURL_LIBRARY ${CURL_DIR}/lib)
+endif()
+
+set(BUILD_SHARED_LIBS NO)
+add_subdirectory(third_party/restclient-cpp)
+target_compile_definitions(restclient-cpp PUBLIC CURL_STATICLIB=1)
+
 # kiero
 add_library(lib_kiero INTERFACE)
 target_include_directories(lib_kiero INTERFACE ${PROJECT_SOURCE_DIR}/third_party/kiero)
@@ -75,7 +87,7 @@ endif()
 
 target_compile_options(arkena_mod PRIVATE /wd4674)
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json ws2_32.lib)
+target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURL_ROOT}/lib32/libcurl.lib ws2_32.lib)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(arkena_mod PROPERTIES
