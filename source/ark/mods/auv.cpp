@@ -121,10 +121,12 @@ namespace ark::mods
 
     nlohmann::json auv::serialize_players()
     {
-        nlohmann::json players;
+        nlohmann::json output;
+        nlohmann::json players = nlohmann::json::array();
+
         for (const auto& player : mod::players())
         {
-            nlohmann::json json_player;
+            nlohmann::json json_player = {};
             json_player["playerId"] = player->PlayerId;
             json_player["playerName"] = player->PlayerName->str();
             json_player["colorId"] = player->ColorId;
@@ -136,6 +138,7 @@ namespace ark::mods
             json_player["isDisconnected"] = player->Disconnected;
             players.emplace_back(json_player);
         }
-        return players;
+        output["players"] = players;
+        return output;
     }
 } // ark
