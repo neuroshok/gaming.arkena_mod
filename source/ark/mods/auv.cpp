@@ -128,6 +128,9 @@ namespace ark::mods
             json_player["playerId"] = player->PlayerId;
             json_player["playerName"] = player->PlayerName->str();
             json_player["colorId"] = player->ColorId;
+            json_player["hatId"] = player->HatId;
+            json_player["petId"] = player->PetId;
+            json_player["skinId"] = player->SkinId;
             json_player["isImpostor"] = player->IsImpostor;
             json_player["isDead"] = player->IsDead;
             json_player["isDisconnected"] = player->Disconnected;
