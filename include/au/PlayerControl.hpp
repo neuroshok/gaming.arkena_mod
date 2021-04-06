@@ -47,7 +47,7 @@ ark_meta("", "PlayerControl", "");
     GameData_PlayerInfo* playerInfo; // 0x34
     UnityEngine::AudioSource* FootSteps; // 0x38
     UnityEngine::AudioClip* KillSfx; // 0x3C
-    cs::array<struct KillAnimation*>* KillAnimations; // 0x40
+    cs::array<struct KillAnimation>* KillAnimations; // 0x40
     float killTimer; // 0x44
     int RemainingEmergencies; // 0x48
     TextRenderer* nameText; // 0x4C
@@ -60,11 +60,11 @@ ark_meta("", "PlayerControl", "");
     PetBehaviour* CurrentPet; // 0x68
     HatParent* HatRenderer; // 0x6C
     UnityEngine::SpriteRenderer* LNMJKMLHMIM; // 0x70
-    cs::array<UnityEngine::Collider2D*>* BNODMNIBMLI; // 0x74
+    cs::array<UnityEngine::Collider2D>* BNODMNIBMLI; // 0x74
     static IGDMNKLDEPI* GameOptions(); // 0x4
     System::Collections::Generic::List<PlayerTask>* myTasks; // 0x78
     cs::array<int/*PowerTools::SpriteAnim**/>* ScannerAnims; // 0x7C
-    cs::array<UnityEngine::SpriteRenderer*>* ScannersImages; // 0x80
+    cs::array<UnityEngine::SpriteRenderer>* ScannersImages; // 0x80
     NEJOFOOJFDE* GJGDLGKDLJF; // 0x84
     bool OIBKBDFEHHO; // 0x88
     bool isDummy; // 0x89
@@ -121,96 +121,96 @@ ark_meta("", "PlayerControl", "");
     void HandleRpc(uint8_t GIICFHKILOB, Hazel::MessageReader* DOOILGKLBBF); // 0x17C5040 // public override 
     void Awake(); // 0x17C07A0 // private 
     void SetTasks(System::Collections::Generic::List<struct GameData_FPNIHBANCDO*>* DNCIJBKFLLJ); // 0x17CDAB0 // public
-    void RpcSetColor(uint8_t JAKOFFAIMMM); // 0x17CC0F0 // public 
+    void RpcSetColor(uint8_t JAKOFFAIMMM); // 0x17CC0F0 // public
     System::Collections::IEnumerator* HAKNMAHPCPG(GameData_PlayerInfo* IGLDJOKKFJE); // 0x17C3FD0 // public
-    void DKHAMIHHLDB(bool ICFFMGFHJJI, uint8_t PBOPCIHIPHC); // 0x17C1B90 // private 
+    void DKHAMIHHLDB(bool ICFFMGFHJJI, uint8_t PBOPCIHIPHC); // 0x17C1B90 // private
     void BFBKLFCIDOO(MapArea LEDKOPINDJL); // 0x17C0890 // public
-    void OnDestroy(); // 0x17C93A0 // public override 
-    void ctor(); // 0x17CDD10 // public 
-    void HIPCEJEDKPN(unsigned int MBLJCBHIDHK, int PNGKEHIHPLJ); // 0x17C4CD0 // public 
-    void MOAGKFAFOPH(int IFALDPEMJAE); // 0x17C6F60 // public 
-    void SetPetImage(unsigned int CKAOPFHPEBG, int PNGKEHIHPLJ, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CD270 // public static 
-    void PlayAnimation(uint8_t HLEDCAFGNNG); // 0x17CB1C0 // public 
-    void HJDPKIELFPO(Hazel::MessageReader* DOOILGKLBBF, bool IHJEKEOFMGJ); // 0x17C1CF0 // public override 
-    void DFMFNNGFFMI(bool IKGGJMHPDGH); // 0x17C1880 // public 
-    void SetHat(unsigned int MBLJCBHIDHK, int PNGKEHIHPLJ); // 0x17CCD90 // public 
-    void HHGMEPNCLJC(cs::string* GKDDCDEKIBJ); // 0x17C4B10 // public 
-    void POAJAKGHDNI(PetBehaviour* CGFOGGFNKBA, int PNGKEHIHPLJ, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CA630 // public static 
-    void Revive(); // 0x17CBA30 // public 
+    void OnDestroy(); // 0x17C93A0 // public override
+    void ctor(); // 0x17CDD10 // public
+    void HIPCEJEDKPN(unsigned int MBLJCBHIDHK, int PNGKEHIHPLJ); // 0x17C4CD0 // public
+    void MOAGKFAFOPH(int IFALDPEMJAE); // 0x17C6F60 // public
+    void SetPetImage(unsigned int CKAOPFHPEBG, int PNGKEHIHPLJ, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CD270 // public static
+    void PlayAnimation(uint8_t HLEDCAFGNNG); // 0x17CB1C0 // public
+    void HJDPKIELFPO(Hazel::MessageReader* DOOILGKLBBF, bool IHJEKEOFMGJ); // 0x17C1CF0 // public override
+    void DFMFNNGFFMI(bool IKGGJMHPDGH); // 0x17C1880 // public
+    void SetHat(unsigned int MBLJCBHIDHK, int PNGKEHIHPLJ); // 0x17CCD90 // public
+    void HHGMEPNCLJC(cs::string* GKDDCDEKIBJ); // 0x17C4B10 // public
+    void POAJAKGHDNI(PetBehaviour* CGFOGGFNKBA, int PNGKEHIHPLJ, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CA630 // public static
+    void Revive(); // 0x17CBA30 // public
     System::Collections::IEnumerator* MHAKFHOMKAJ(System::Collections::Generic::List<struct GameData_FPNIHBANCDO*>* DNCIJBKFLLJ); // 0x17C6E50 // private
-    void RemoveTask(PlayerTask* NBPIFFEDABA); // 0x17CB710 // public 
-    void SetPlayerMaterialColors1(UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CD6A0 // public 
-    void PFHAAPNLCLD(UnityEngine::Color JBOMEMICJJM, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CA280 // public static 
-    void GGPFHKBAFNH(cs::array<GameData_PlayerInfo*>* LBJJHLMFDJL); // 0x17C3DD0 // public
-    void RpcSetInfected(cs::array<GameData_PlayerInfo*>* LBJJHLMFDJL); // 0x17CC240 // public
-    PlayerControl* NJMEFIKPJDG(); // 0x17C8100 // private 
-    void JIJJODAIKFD(); // 0x17C6600 // public 
-    void IFOOCJDLFMD(PlayerControl* IGLDJOKKFJE); // 0x17C57F0 // public 
+    void RemoveTask(PlayerTask* NBPIFFEDABA); // 0x17CB710 // public
+    void SetPlayerMaterialColors1(UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CD6A0 // public
+    void PFHAAPNLCLD(UnityEngine::Color JBOMEMICJJM, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CA280 // public static
+    void GGPFHKBAFNH(cs::array<GameData_PlayerInfo>* LBJJHLMFDJL); // 0x17C3DD0 // public
+    void RpcSetInfected(cs::array<GameData_PlayerInfo>* LBJJHLMFDJL); // 0x17CC240 // public
+    PlayerControl* NJMEFIKPJDG(); // 0x17C8100 // private
+    void JIJJODAIKFD(); // 0x17C6600 // public
+    void IFOOCJDLFMD(PlayerControl* IGLDJOKKFJE); // 0x17C57F0 // public
     System::Collections::IEnumerator* CHCONMKHFGD(GameData_PlayerInfo* IGLDJOKKFJE); // 0x17C0D20 // public
-    bool RpcSendChat(cs::string* KNCEOHEBIHI); // 0x17CBF70 // public 
-    void RpcSetPet(unsigned int CKAOPFHPEBG); // 0x17CC450 // public 
-    void LJHGPEMHHGA(uint8_t JAKOFFAIMMM); // 0x17C6BC0 // public 
-    void UpdatePlatformIcon(); // 0x17CDB60 // public 
-    void RpcSetScanner(bool IKGGJMHPDGH); // 0x17CC4F0 // public 
-    void JGFJCPLCDPD(int PNGKEHIHPLJ, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17C6150 // public static 
-    void DJIKBELGAHG(int JAKOFFAIMMM); // 0x17C1A20 // public 
-    void JJPNFEFMOMM(uint8_t JAKOFFAIMMM); // 0x17C6740 // public 
-    void RpcPlayAnimation(uint8_t HLEDCAFGNNG); // 0x17CBDA0 // public 
-    void SetSkinImage1(unsigned int PCJBOAOIJNG, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CD950 // public static 
-    void ADIBLBNOJJD(unsigned int EGFIPPDPIHF); // 0x17BFAE0 // public 
-    void CGEGGEJOIGJ(); // 0x17C0C20 // public 
-    void PDGNDPHGOFM(UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CA0D0 // public 
-    void PDBONDDHAEG(cs::string* GKDDCDEKIBJ); // 0x17C9F10 // public 
-    void CheckName(cs::string* GKDDCDEKIBJ); // 0x17C0FF0 // public 
-    void CmdCheckName(cs::string* GKDDCDEKIBJ); // 0x17C1290 // public 
-    void SetPetImage1(PetBehaviour* CGFOGGFNKBA, int PNGKEHIHPLJ, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CD160 // public static 
+    bool RpcSendChat(cs::string* KNCEOHEBIHI); // 0x17CBF70 // public
+    void RpcSetPet(unsigned int CKAOPFHPEBG); // 0x17CC450 // public
+    void LJHGPEMHHGA(uint8_t JAKOFFAIMMM); // 0x17C6BC0 // public
+    void UpdatePlatformIcon(); // 0x17CDB60 // public
+    void RpcSetScanner(bool IKGGJMHPDGH); // 0x17CC4F0 // public
+    void JGFJCPLCDPD(int PNGKEHIHPLJ, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17C6150 // public static
+    void DJIKBELGAHG(int JAKOFFAIMMM); // 0x17C1A20 // public
+    void JJPNFEFMOMM(uint8_t JAKOFFAIMMM); // 0x17C6740 // public
+    void RpcPlayAnimation(uint8_t HLEDCAFGNNG); // 0x17CBDA0 // public
+    void SetSkinImage1(unsigned int PCJBOAOIJNG, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CD950 // public static
+    void ADIBLBNOJJD(unsigned int EGFIPPDPIHF); // 0x17BFAE0 // public
+    void CGEGGEJOIGJ(); // 0x17C0C20 // public
+    void PDGNDPHGOFM(UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CA0D0 // public
+    void PDBONDDHAEG(cs::string* GKDDCDEKIBJ); // 0x17C9F10 // public
+    void CheckName(cs::string* GKDDCDEKIBJ); // 0x17C0FF0 // public
+    void CmdCheckName(cs::string* GKDDCDEKIBJ); // 0x17C1290 // public
+    void SetPetImage1(PetBehaviour* CGFOGGFNKBA, int PNGKEHIHPLJ, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17CD160 // public static
     void OFELMMDANIO(GameData_PlayerInfo* IGLDJOKKFJE); // 0x17C8520 // public
-    void SetKillTimer(float KAIMOLNHDCG); // 0x17CCEB0 // public 
-    void HMHNPPECDBO(unsigned int EGFIPPDPIHF); // 0x17C4E80 // public 
-    void RpcSyncSettings(IGDMNKLDEPI* PAOKIAHKEMG); // 0x17CC7E0 // public 
+    void SetKillTimer(float KAIMOLNHDCG); // 0x17CCEB0 // public
+    void HMHNPPECDBO(unsigned int EGFIPPDPIHF); // 0x17C4E80 // public
+    void RpcSyncSettings(IGDMNKLDEPI* PAOKIAHKEMG); // 0x17CC7E0 // public
     GameData_PlayerInfo* get_Data(); // 0x17CE1B0 // public
-    void NDMAGKFDBBN(uint8_t GIICFHKILOB, Hazel::MessageReader* DOOILGKLBBF); // 0x17C7800 // public override 
-    void Exiled(); // 0x17C22F0 // public 
-    void SetPlayerMaterialColors2(int PNGKEHIHPLJ, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CD730 // public static 
+    void NDMAGKFDBBN(uint8_t GIICFHKILOB, Hazel::MessageReader* DOOILGKLBBF); // 0x17C7800 // public override
+    void Exiled(); // 0x17C22F0 // public
+    void SetPlayerMaterialColors2(int PNGKEHIHPLJ, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CD730 // public static
     void NJMHLOJGBKL(GameData_PlayerInfo* IGLDJOKKFJE); // 0x17C8470 // public
     void KKHDNDANHAC(uint8_t MCIOFPNBBIO, PlayerVoteStatus KEKEIAFEBIO); // 0x17C6950 // public
     void AGANIGJHGNB(GameData_PlayerInfo* IGLDJOKKFJE); // 0x17BFCC0 // private
     void CJBGAEHHJCC(GameData_PlayerInfo* FLLBPBGADAH); // 0x17C0D80 // public
-    void RpcCompleteTask(unsigned int EGFIPPDPIHF); // 0x17CBC50 // public 
-    bool AOJIHLBIKGF(cs::string* KNCEOHEBIHI); // 0x17C03E0 // public 
-    void BFIJIFAEFGE(bool IKGGJMHPDGH); // 0x17C09E0 // public 
-    void UseClosest(); // 0x17CDBF0 // public 
-    void PKCGCNHHHGE(UnityEngine::Color JBOMEMICJJM, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CA480 // public static 
-    void POIAKGCEDBB(cs::array<uint8_t>* LBJJHLMFDJL); // 0x17CA740 // private 
-    void SetAppearanceFromSaveData(); // 0x17CCAA0 // public 
-    void RpcSetHat(unsigned int MBLJCBHIDHK); // 0x17CC190 // public 
-    void KOFMABLJNIF(bool ICFFMGFHJJI, uint8_t PBOPCIHIPHC); // 0x17C6A50 // private 
-    void RemoveInfected(); // 0x17CB610 // public 
-    void PlayStepSound(); // 0x17CB250 // public 
+    void RpcCompleteTask(unsigned int EGFIPPDPIHF); // 0x17CBC50 // public
+    bool AOJIHLBIKGF(cs::string* KNCEOHEBIHI); // 0x17C03E0 // public
+    void BFIJIFAEFGE(bool IKGGJMHPDGH); // 0x17C09E0 // public
+    void UseClosest(); // 0x17CDBF0 // public
+    void PKCGCNHHHGE(UnityEngine::Color JBOMEMICJJM, UnityEngine::Renderer* AGOAPDBAHKG); // 0x17CA480 // public static
+    void POIAKGCEDBB(cs::array<uint8_t>* LBJJHLMFDJL); // 0x17CA740 // private
+    void SetAppearanceFromSaveData(); // 0x17CCAA0 // public
+    void RpcSetHat(unsigned int MBLJCBHIDHK); // 0x17CC190 // public
+    void KOFMABLJNIF(bool ICFFMGFHJJI, uint8_t PBOPCIHIPHC); // 0x17C6A50 // private
+    void RemoveInfected(); // 0x17CB610 // public
+    void PlayStepSound(); // 0x17CB250 // public
     void FMOLDHLICIM(GameData_PlayerInfo* FLLBPBGADAH); // 0x17C2970 // public
-    void PDHOAIGKNFJ(unsigned int MBLJCBHIDHK, int PNGKEHIHPLJ); // 0x17CA160 // public 
-    void PHCGOJGOHJI(cs::string* GKDDCDEKIBJ); // 0x17CA3E0 // public 
-    void cctor(); // 0x17CDC80 // private static 
-    void JHMHIDCNGIP(PlayerControl* IGLDJOKKFJE); // 0x17C6550 // public 
-    void JHAFNBGOBNN(unsigned int EGFIPPDPIHF); // 0x17C6370 // public 
-    void ONPHIFNAFCP(); // 0x17C9110 // public 
-    void HOGDMFCIEOB(cs::string* GKDDCDEKIBJ); // 0x17C4F20 // public 
+    void PDHOAIGKNFJ(unsigned int MBLJCBHIDHK, int PNGKEHIHPLJ); // 0x17CA160 // public
+    void PHCGOJGOHJI(cs::string* GKDDCDEKIBJ); // 0x17CA3E0 // public
+    void cctor(); // 0x17CDC80 // private static
+    void JHMHIDCNGIP(PlayerControl* IGLDJOKKFJE); // 0x17C6550 // public
+    void JHAFNBGOBNN(unsigned int EGFIPPDPIHF); // 0x17C6370 // public
+    void ONPHIFNAFCP(); // 0x17C9110 // public
+    void HOGDMFCIEOB(cs::string* GKDDCDEKIBJ); // 0x17C4F20 // public
     void Die(PlayerDeathReason HKOLMCHJICI); // 0x17C1D40 // public
-    void MMHGLCMPCLE(); // 0x17C6EB0 // public static 
+    void MMHGLCMPCLE(); // 0x17C6EB0 // public static
     System::Collections::IEnumerator* HFHAGJGNPHL(System::Collections::Generic::List<struct GameData_FPNIHBANCDO*>* DNCIJBKFLLJ); // 0x17C4AB0 // private
-    void ReportClosest(); // 0x17CB810 // public 
-    void SetName(cs::string* GKDDCDEKIBJ, bool KNEGLNPIFCE = bool(false)); // 0x17CCFD0 // public 
-    System::Collections::IEnumerator* JAGEBKMBEEA(); // 0x17C6000 // private 
-    void HideCursorTemporarily(); // 0x17C56A0 // public static 
-    void MEKNFDPDEKP(unsigned int EGFIPPDPIHF); // 0x17C6DB0 // public 
+    void ReportClosest(); // 0x17CB810 // public
+    void SetName(cs::string* GKDDCDEKIBJ, bool KNEGLNPIFCE = bool(false)); // 0x17CCFD0 // public
+    System::Collections::IEnumerator* JAGEBKMBEEA(); // 0x17C6000 // private
+    void HideCursorTemporarily(); // 0x17C56A0 // public static
+    void MEKNFDPDEKP(unsigned int EGFIPPDPIHF); // 0x17C6DB0 // public
     void CmdReportDeadBody(GameData_PlayerInfo* IGLDJOKKFJE); // 0x17C1340 // public
-    void SetColor(int JAKOFFAIMMM); // 0x17CCBD0 // public 
-    void RpcSetStartCounter(int IFALDPEMJAE); // 0x17CC690 // public 
-    void RpcSetName(cs::string* GKDDCDEKIBJ); // 0x17CC3B0 // public 
-    void RpcSetSkin(unsigned int PCJBOAOIJNG); // 0x17CC5F0 // public 
-    void SetSkin(unsigned int PCJBOAOIJNG); // 0x17CDA00 // public 
-    bool get_CanMove(); // 0x17CDE60 // public 
-    void NEEBAMPAGKD(SkinData* DGCIKAIFOCF, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17C7EB0 // public static 
+    void SetColor(int JAKOFFAIMMM); // 0x17CCBD0 // public
+    void RpcSetStartCounter(int IFALDPEMJAE); // 0x17CC690 // public
+    void RpcSetName(cs::string* GKDDCDEKIBJ); // 0x17CC3B0 // public
+    void RpcSetSkin(unsigned int PCJBOAOIJNG); // 0x17CC5F0 // public
+    void SetSkin(unsigned int PCJBOAOIJNG); // 0x17CDA00 // public
+    bool get_CanMove(); // 0x17CDE60 // public
+    void NEEBAMPAGKD(SkinData* DGCIKAIFOCF, UnityEngine::SpriteRenderer* IGLDJOKKFJE); // 0x17C7EB0 // public static
     System::Collections::IEnumerator* FCHAFFLKOIH(System::Collections::Generic::List<struct GameData_FPNIHBANCDO*>* DNCIJBKFLLJ); // 0x17C27A0 // private
     bool Serialize(Hazel::MessageWriter* KNDENLAEOCO, bool IHJEKEOFMGJ); // 0x17CCA50 // public override 
     void SetPet(unsigned int CKAOPFHPEBG); // 0x17CD320 // public 

@@ -2,30 +2,31 @@
 #pragma once
 #include <ark/class.hpp>
 #include <cs/string.hpp>
+#include <il2cpp/core.hpp>
 namespace System::Collections::Generic{ template <class> struct List; }
 struct PlayerControl;
 namespace Hazel{ struct MessageWriter; }
 namespace Hazel{ struct MessageReader; }
 struct GameData_HKFJOIBBOBD;
 
-struct GameData_PlayerInfo : ark::meta<GameData_PlayerInfo>
+struct alignas(4) GameData_PlayerInfo : ark::meta<GameData_PlayerInfo, il2cpp::Il2CppObject>
 {
-ark_meta("", "GameData_PlayerInfo", "");
+    ark_meta("", "GameData_PlayerInfo", "");
 
     // Fields
 
     uint8_t PlayerId;//FMAAJCIEMEH; // 0x8
     cs::string* PlayerName; // 0xC
-    bool HKELEMPLDPK; // 0x10
-    uint8_t ACBLKMFEPKC; // 0x11
-    unsigned int KCILOGLJODF; // 0x14
-    unsigned int HIJJGKGBKOJ; // 0x18
-    unsigned int FHNDEEGICJP; // 0x1C
-    bool HGCENMAGBJO; // 0x20
-    System::Collections::Generic::List<GameData_HKFJOIBBOBD>* DEPNCDAJFGJ; // 0x24
-    bool IsDead;//LGEGJEHCFOG; // 0x28
-    bool IsImpostor;//AKOHOAJIHBE; // 0x29
-    PlayerControl* playerControl; // 0x2C
+    uint32_t HKELEMPLDPK; // 0x10
+    unsigned int ColorId; // 0x14
+    unsigned int HatId; // 0x18
+    unsigned int PetId; // 0x1C
+    unsigned int SkinId; //HGCENMAGBJO; // 0x20
+    bool Disconnected;  // 0x24
+    System::Collections::Generic::List<GameData_HKFJOIBBOBD>* Tasks; //DEPNCDAJFGJ; // 0x28
+    bool IsImpostor;//LGEGJEHCFOG; // 0x2C
+    bool IsDead;//AKOHOAJIHBE; // 0x2D
+    PlayerControl* playerControl; // 0x30
 
     // Methods
 

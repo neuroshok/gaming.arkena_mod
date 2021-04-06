@@ -29,7 +29,8 @@ ark_meta("InnerNet", "InnerNetObject", "");
     bool get_AmOwner(); // 0x16BAB00 // public 
     void Despawn(); // 0x16BA950 // public 
     void OnDestroy(); // 0x16BAA20 // public virtual
-    int CompareTo(InnerNet::InnerNetObject* HHDDOBDECHF); // 0x16BA920 // public 
+    void HandleRpc(uint8_t GIICFHKILOB, Hazel::MessageReader* DOOILGKLBBF);
+    int CompareTo(InnerNet::InnerNetObject* HHDDOBDECHF); // 0x16BA920 // public
     bool EDGBCOLKELD(int EGFIPPDPIHF); // 0x16BA9E0 // protected 
     void LJNAKPPBPOA(); // 0x16BAA00 // protected 
     void NIKOAPNLHPJ(unsigned int DKJEPFHNNBC); // 0x16BAA10 // protected 
@@ -55,6 +56,7 @@ namespace ark::method_info
     template<> inline uintptr_t rva<&InnerNet::InnerNetObject::Despawn> () { return 0x16BA950; }
     template<> inline uintptr_t rva<&InnerNet::InnerNetObject::OnDestroy> () { return 0x16BAA20; }
     template<> inline uintptr_t rva<&InnerNet::InnerNetObject::CompareTo> () { return 0x16BA920; }
+    template<> inline uintptr_t rva<&InnerNet::InnerNetObject::HandleRpc> () { return 7; }
     template<> inline uintptr_t rva<&InnerNet::InnerNetObject::EDGBCOLKELD> () { return 0x16BA9E0; }
     template<> inline uintptr_t rva<&InnerNet::InnerNetObject::LJNAKPPBPOA> () { return 0x16BAA00; }
     template<> inline uintptr_t rva<&InnerNet::InnerNetObject::NIKOAPNLHPJ> () { return 0x16BAA10; }

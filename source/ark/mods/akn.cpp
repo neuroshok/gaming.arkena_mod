@@ -92,11 +92,9 @@ namespace akn
 
     void mod::on_role_distribution(const std::vector<std::uint8_t>& roles)
     {
-        return;
-
         if (mod::players().size() != roles.size())
         {
-            ark_trace("role dist error {} {}", mod::players().size(), roles.size());
+            ark_trace("role dist error players: {} roles: {}", mod::players().size(), roles.size());
             return;
         }
 
@@ -130,7 +128,7 @@ namespace akn
         ark::hook<&KillButtonManager::PerformKill>::overwrite(this,
             [this](auto original, KillButtonManager* self)
         {
-            akn::button::buttons_callback[uintptr_t(self)]();
+            //akn::button::buttons_callback[uintptr_t(self)]();
         });
 
 
@@ -139,21 +137,11 @@ namespace akn
                 player->update_ui();
         });
 
-
-        static akn::player* p = nullptr;
-
-        /*
-        ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {
-            ark_trace("test");
-            if (p == nullptr) p = add_player(0, role_type::peon);
-            p->init_ui();
-            });*/
-
-
         ark::hook<&PlayerControl::RpcSetInfected>::overwrite(this, [this](auto original, auto&& self, auto players) -> void {
             original(self, players);
             do_role_distribution();
         }); // 0x8F0430
+
 
         ark::hook<&PlayerControl::HandleRpc>::after(this,
             [this](PlayerControl* self, auto event, Hazel::MessageReader* data)

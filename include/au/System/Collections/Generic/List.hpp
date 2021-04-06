@@ -17,7 +17,7 @@ namespace System{ template <class...> struct Comparison; }
 
 namespace System::Collections::Generic {
 template <class T>
-struct List : ark::meta<List<T>>
+struct List : ark::meta<List<T>, il2cpp::Il2CppObject>
 {
 ark_meta("System::Collections::Generic", "List", "");
 

@@ -67,8 +67,8 @@
     void PlayerControl::RemoveTask(PlayerTask* NBPIFFEDABA) { return method_call(RemoveTask, NBPIFFEDABA); }  // 0x17CB710 // 
     void PlayerControl::SetPlayerMaterialColors1(UnityEngine::Renderer* AGOAPDBAHKG) { return method_call(SetPlayerMaterialColors1, AGOAPDBAHKG); }  // 0x17CD6A0 // 
     void PlayerControl::PFHAAPNLCLD(UnityEngine::Color JBOMEMICJJM, UnityEngine::Renderer* AGOAPDBAHKG) { return method_call(PFHAAPNLCLD, JBOMEMICJJM, AGOAPDBAHKG); }  // 0x17CA280 // 
-    void PlayerControl::GGPFHKBAFNH(cs::array<GameData_PlayerInfo*>* LBJJHLMFDJL) { return method_call(GGPFHKBAFNH, LBJJHLMFDJL); }  // 0x17C3DD0 //
-    void PlayerControl::RpcSetInfected(cs::array<GameData_PlayerInfo*>* LBJJHLMFDJL) { return method_call(RpcSetInfected, LBJJHLMFDJL); }  // 0x17CC240 //
+    void PlayerControl::GGPFHKBAFNH(cs::array<GameData_PlayerInfo>* LBJJHLMFDJL) { return method_call(GGPFHKBAFNH, LBJJHLMFDJL); }  // 0x17C3DD0 //
+    void PlayerControl::RpcSetInfected(cs::array<GameData_PlayerInfo>* LBJJHLMFDJL) { return method_call(RpcSetInfected, LBJJHLMFDJL); }  // 0x17CC240 //
     PlayerControl* PlayerControl::NJMEFIKPJDG() { return method_call(NJMEFIKPJDG); }  // 0x17C8100 // 
     void PlayerControl::JIJJODAIKFD() { return method_call(JIJJODAIKFD); }  // 0x17C6600 // 
     void PlayerControl::IFOOCJDLFMD(PlayerControl* IGLDJOKKFJE) { return method_call(IFOOCJDLFMD, IGLDJOKKFJE); }  // 0x17C57F0 // 

@@ -41,6 +41,7 @@ namespace ark
                 ark_trace("MH_EnableHook  {}", (uintptr_t)address);
             }
 
+
             callback = std::move(f);
         }
 
@@ -96,7 +97,6 @@ namespace ark
                         for (const auto &[_, hk] : after_hooks) hk(self, args...);
                     }
                 }
-
             });
         }
 

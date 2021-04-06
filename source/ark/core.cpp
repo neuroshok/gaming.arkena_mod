@@ -36,15 +36,16 @@ namespace ark
         load<ark::mods::testing>();
 #else
         load<ark::mods::core>();
-        load<ark::mods::tools>();
-        load<akn::mod>();
+        //load<ark::mods::tools>();
+        //load<akn::mod>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tournament>();
         //load<ark::mods::whisperer>();
         //load<ark::mods::pranker>();
         //load<ark::mods::spy>();
-        //load<ark::mods::testing>();
+        load<ark::mods::auv>();
+        load<ark::mods::reverse>();
         //load<ark::mods::analysis>();
 #endif
         init_settings();
@@ -131,8 +132,10 @@ namespace ark
 
     void core::error(const std::string& mod_name, const std::string& message)
     {
+        std::string error_message = "[" + mod_name + "] ERROR " + message;
         if (logs_.size() > 10) logs_.pop_back();
-        logs_.push_front("[" + mod_name + "] ERROR " + message);
+        logs_.push_front(error_message);
+        ark_trace(error_message);
     }
 
     const std::vector<std::unique_ptr<ark::mod>>& core::mods()

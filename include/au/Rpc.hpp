@@ -9,7 +9,7 @@ enum class Rpc : uint8_t
 
     // Fields
 
-    
+
     PlayAnimation = 0,
     CompleteTask = 1,
     SyncSettings = 2,

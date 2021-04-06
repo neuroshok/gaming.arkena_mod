@@ -10,11 +10,12 @@
 #include <au/InnerNet/InnerNetClient.hpp>
 #include <au/IntroCutscene_Status.hpp>
 #include <au/KillButtonManager.hpp>
+#include <au/MeetingHud.hpp>
 #include <au/PlayerControl.hpp>
-#include <au/ShipStatus.hpp>
 #include <au/ServerManager.hpp>
-#include <au/Vent.hpp>
+#include <au/ShipStatus.hpp>
 #include <au/UnityEngine/Material.hpp>
+#include <au/Vent.hpp>
 #include <cs/string.hpp>
 
 #include <analysis/testing_header.hpp>
@@ -51,6 +52,8 @@ namespace ark
 
         hk(KillButtonManager::PerformKill);
         hk(KillButtonManager::SetTarget);
+
+        hk(MeetingHud::HandleRpc);
 
         hk(PlayerControl::SetColor);
         hk(PlayerControl::HandleRpc);
