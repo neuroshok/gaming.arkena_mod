@@ -29,8 +29,6 @@ namespace cs
         if (!t) ark_trace("type not found: {}", T::internal_type);
         return t;
     }
-
-
 }
 
 namespace ark::method_info

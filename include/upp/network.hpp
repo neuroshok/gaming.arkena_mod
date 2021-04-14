@@ -74,7 +74,7 @@ namespace upp
     template<class T>
     void write(Hazel::MessageWriter* writer, const std::vector<T>& data)
     {
-        writer->Write(std::uint32_t(data.size()));
+        writer->Write4(std::uint32_t(data.size()));
         for (T i : data) writer->Write(i);
     }
 } // upp

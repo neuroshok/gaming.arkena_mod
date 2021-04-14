@@ -21,7 +21,7 @@ namespace upp
     template<class T>
     T* instantiate(T* v, UnityEngine::Transform* transform, bool world_space = true)
     {
-        return static_cast<T*>(UnityEngine::Object::Instantiate_1(v, transform, world_space));
+        return static_cast<T*>(UnityEngine::Object::Instantiate3(v, transform, world_space));
     }
 
 } // upp

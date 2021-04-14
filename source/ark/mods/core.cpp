@@ -108,7 +108,7 @@ namespace ark::mods
 
         ark::hook<&GameStartManager::BeginGame>::overwrite(this, [this](auto original, auto self)
         {
-            if (mod_sync_)
+            if (false /* mod_sync_*/)
             {
                 ark_trace("Check mods");
                 compatible_players_count_ = 1;

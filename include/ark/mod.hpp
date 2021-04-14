@@ -58,6 +58,8 @@ namespace ark
         virtual void on_disable() {}
         virtual void on_settings_update() {}
 
+        virtual void on_event(Rpc event, Hazel::MessageWriter*) {}
+
         void enable();
         void disable();
 

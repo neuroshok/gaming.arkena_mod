@@ -2,16 +2,19 @@
 
 #include <ark/class.hpp>
 #include <au/KillButtonManager.hpp>
-#include <au/UnityEngine/Material.hpp>
-#include <au/UnityEngine/SpriteRenderer.hpp>
 #include <au/UnityEngine/GameObject.hpp>
+#include <au/UnityEngine/Material.hpp>
+#include <au/UnityEngine/Sprite.hpp>
+#include <au/UnityEngine/SpriteRenderer.hpp>
+#include <au/UnityEngine/Texture2D.hpp>
 //#include <au/PassiveButton.hpp>
 //#include <au/UnityEngine/Button.hpp>
 
 #include <ark/mods/akn.hpp>
 #include <upp/object.hpp>
-
-#include <iostream>
+#include <upp/rect.hpp>
+#include <upp/vector2.hpp>
+#include <upp/vector3.hpp>
 
 namespace akn
 {
@@ -23,11 +26,10 @@ namespace akn
 
         void ctor(ark::resource::image& image, akn::mod& akn_mod)
         {
-            /*
             button_ = upp::instantiate(akn_mod.hud()->KillButton, akn_mod.hud()->get_transform(), true);
 
-            auto button_comp = akn_mod.hud()->KillButton->get_component<PassiveButton>();
-            buttons_callback.emplace(uintptr_t(button_), [](){ ark_trace("ok"); });
+            //auto button_comp = akn_mod.hud()->KillButton->get_component<PassiveButton>();
+            buttons_callback.emplace(uintptr_t(button_), [v = buttons_callback.size()](){ ark_trace("ok {}", v); });
 
             auto texture = ark::resource::load_texture(image);
 
@@ -36,15 +38,14 @@ namespace akn
             button_->isActive = true;
             button_->SetCoolDown(0, 9);
 
-            button_->get_transform()->Translate({-2.5, -0.5, 0});
-            button_->get_transform()->set_localPosition({0, -2, 0});
-            button_->get_transform()->set_localScale({0.8, 0.8, 0.8});
+            button_->get_transform()->Translate1(upp::vector3{-2.5, -0.5, 0});
+            button_->get_transform()->set_localPosition(upp::vector3{0, -2, 0});
+            button_->get_transform()->set_localScale(upp::vector3{0.8, 0.8, 0.8});
 
-            auto s = UnityEngine::Sprite::Create(texture, UnityEngine::Rect{ 0, 0, (float)texture->GetDataWidth(), (float)texture->GetDataHeight() }, {1, 1});
+            auto s = UnityEngine::Sprite::Create7(texture, upp::rect{ 0.f, 0.f, (float)texture->GetDataWidth(), (float)texture->GetDataHeight() }, upp::vector2{0.5, 0.5});
             button_->renderer->set_sprite(s);
 
             button_->renderer->set_enabled(true);
-             */
         }
         
         void update()

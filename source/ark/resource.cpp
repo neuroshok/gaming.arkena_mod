@@ -29,7 +29,7 @@ namespace ark::resource
 
         ark_trace("Load texture {}x{} {}", texture->GetDataWidth(), texture->GetDataHeight(), (uintptr_t)texture);
 
-        texture->LoadRawTextureData((intptr_t)tx_data, image.size);
+        texture->LoadRawTextureData1((uint8_t*)tx_data);
         texture->Apply2();
         return texture;
     }

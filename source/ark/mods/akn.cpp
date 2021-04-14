@@ -74,6 +74,7 @@ namespace akn
 
     void mod::do_role_distribution()
     {
+        ark_trace("do_role_distribution");
         std::vector<std::uint8_t> roles { 1, (int)role_type::pranker, 1, (int)role_type::voyager };
         std::vector<std::uint8_t> out;
 
@@ -92,6 +93,7 @@ namespace akn
 
     void mod::on_role_distribution(const std::vector<std::uint8_t>& roles)
     {
+        ark_trace("on_role_distribution");
         if (mod::players().size() != roles.size())
         {
             ark_trace("role dist error players: {} roles: {}", mod::players().size(), roles.size());
@@ -102,7 +104,7 @@ namespace akn
         {
             ark::mod::player()->IsImpostor = false;
 
-            //ark_trace("pid: {} role: {}", player->PlayerId, roles[player->PlayerId]);
+            ark_trace("player_id: {} role: {}", player->PlayerId, roles[player->PlayerId]);
 
             auto added_player = add_player(player->PlayerId, static_cast<akn::role_type>(roles[player->PlayerId]));
             //ark_trace("plocal id: {} role: {}", ark::mod::player()->PlayerId, (uintptr_t)added_player);

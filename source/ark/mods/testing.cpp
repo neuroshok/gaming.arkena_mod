@@ -10,15 +10,18 @@
 #include <au/IntroCutscene.hpp>
 #include <au/KillButtonManager.hpp>
 #include <au/PlayerControl.hpp>
+#include <au/HudManager.hpp>
 
 #include <au/Rpc.hpp>
-#include <cs/string.hpp>
 #include <cs/string.hpp>
 #include <au/UnityEngine/Material.hpp>
 #include <au/UnityEngine/Sprite.hpp>
 #include <au/UnityEngine/SpriteRenderer.hpp>
 #include <au/UnityEngine/Transform.hpp>
 #include <au/UnityEngine/Component.hpp>
+#include <au/UnityEngine/Texture2D.hpp>
+#include <au/HatManager.hpp>
+#include <au/PassiveButton.hpp>
 
 #include <analysis/testing_header.hpp>
 
@@ -35,6 +38,14 @@
 
 #include <ark/ui/core.hpp>
 
+#include <upp/object.hpp>
+#include <upp/game_object.hpp>
+#include <upp/vector2.hpp>
+#include <upp/vector3.hpp>
+#include <upp/rect.hpp>
+
+static HatManager* p = nullptr;
+
 namespace ark::mods
 {
     testing::testing(ark::core& pcore)
@@ -45,117 +56,47 @@ namespace ark::mods
 
     void testing::on_enable()
     {
-        //#include <analysis/KillOverlay.hooks.hpp>
-        //#include <analysis/Material.hooks.hpp>
-        //#include <analysis/DDPGLPLGFOI.hooks.hpp>
-        //#include <analysis/MNGKAKKOKPN.hooks.hpp>
-        //#include <analysis/GameObject.hooks.hpp>
-        //#include <analysis/PlayerControl.hooks.hpp>
-        //#include <analysis/ShipStatus.hooks.hpp>
-        //#include <analysis/KillButtonManager.hooks.hpp>
+        return;
 
-        ark::hook<&PlayerControl::HandleRpc>::overwrite(this, [](auto original, auto&& self, std::int8_t HKHMBLJFLMC, auto* /* MessageReader* */ ALMCIJKELCP) -> void {ark_trace("PlayerControl::HandleRpc(void), HKHMBLJFLMC(std::int8_t): {}, ALMCIJKELCP(MessageReader*): {}", HKHMBLJFLMC, (uintptr_t)ALMCIJKELCP);return original(self, HKHMBLJFLMC, ALMCIJKELCP);}); // 0x8E7980
-
-        static UnityEngine::GameObject* test = nullptr;
-        static float i = 0;
-        static float d = 1;
-
-        ark::hook<&KillButtonManager::ctor>::overwrite(this, [](auto original, auto&& self) -> void {
-            ark_trace("KillButtonManager::_ctor(void) called");
-
-            return original(self);
-        }); // 0xFE3460
-
-
-
-
-        /*
-        ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto original, auto&& self) -> void {
-            ark_trace("PerformKill");
-
-self->get_transform()->set_localPosition({-1, -1, 0});
-            //auto texture = self->renderer->get_sprite()->get_texture();
-            //auto texture = new UnityEngine::Texture2D;
-
-            auto texture = UnityEngine::instantiate<UnityEngine::Texture2D>(self->renderer->get_sprite()->get_texture());
-
-            auto texture = static_cast<UnityEngine::Texture2D*>(UnityEngine::Object::Instantiate(self->renderer->get_sprite()->get_texture()));
-
-            auto r = UnityEngine::Texture2D::Internal_CreateImpl(texture, ark::resources::icon.width, ark::resources::icon.height, 0, 4,  0, ark::ui::core::my_texture_);
-            texture->Apply();
-            ark_trace("r {}", r);
-            ark_trace("v {}", texture->GetDataWidth());
-
-            auto sprite = UnityEngine::Sprite::Create(texture, UnityEngine::Rect{0, 0, (float)ark::resources::icon.width, (float)ark::resources::icon.height}, {0, 0});
-
-
-            //self->renderer->set_size({100, 100});
-          //self->renderer->set_flipX(true);
-          self->renderer->set_sprite(sprite);
-
-        }); */// 0x102DE1
-
-
+        mod::hook_hud();
 
         ark::hook<&KillButtonManager::PerformKill>::overwrite(this, [this](auto original, auto&& self) -> void {
-            ark_trace("PerformKill");
+            ark_trace("kill");
+            //original(self);
 
-            original(self);
+            auto button_ = upp::instantiate(hud()->KillButton, hud()->get_transform(), true);
 
-            //self->renderer->set_color({1, 1, 1, });
+            //buttons_callback.emplace(uintptr_t(button_), [](){ ark_trace("ok"); });
 
-        }); // 0x102DE1
+            auto texture = ark::resource::load_texture(ark::resources::ability2);
 
+            button_->get_gameObject()->SetActive(true);
+            button_->set_enabled(true);
+            button_->isActive = true;
+            button_->SetCoolDown(0, 9);
 
+            button_->get_transform()->Translate1(upp::vector3{-2.5, -0.5, 0});
+            button_->get_transform()->set_localPosition(upp::vector3{0, -2, 0});
+            button_->get_transform()->set_localScale(upp::vector3{0.8, 0.8, 0.8});
 
-        static bool alive_ = true;
-        /*
-        ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {
-            static auto btn = new ::UseButton();
+            ark_trace("sprite {}", (uintptr_t)button_->renderer->get_sprite());
+            auto s = UnityEngine::Sprite::Create7(texture, upp::rect{ 0.f, 0.f, (float)texture->GetDataWidth(), (float)texture->GetDataHeight() }, upp::vector2{0.5, 0.5});
+            button_->renderer->set_sprite(s);
+            button_->renderer->set_enabled(true);
 
-            if (alive_) {
-                ark_trace("click {}");
-                alive_ = false;
-                //mod::local_kill(PlayerControl::instance(), PlayerControl::instance());
-                PlayerControl::instance()->Die(0);
+            ark_trace("sprite {}", (uintptr_t)button_->renderer->get_sprite());
 
-                //auto* test = il2cpp::make<UseButton>();
+            ark_trace("self sprite {}", (uintptr_t)self->renderer->get_sprite());
 
-                //auto test = UnityEngine::Object::Instantiate(btn);
-                //ark_trace("obj {}", (uintptr_t)btesttn);
-                //btn->AddComponent();
-                ark_trace("obj {}", (uintptr_t)btn->renderer);
-                ark_trace("obj {}", btn->DoClick());
-            }
-            else {
-                PlayerControl::instance()->Revive();
-                PlayerControl::instance()->moveable = true;
-                alive_ = true;
-                if (body_ptr)
-                {
-                    body_ptr->Destroy(body_ptr);
-                    body_ptr = nullptr;
-                }
-            }
-        });*/
+        });
 
 
-        ark::hook<&PlayerControl::HandleRpc>::after(this,
-            [this](PlayerControl* self, auto event, Hazel::MessageReader* data)
-            {
-                ark_trace("HandleRpc {}", event);
-/*
-                switch (static_cast<rpc>(event))
-                {
-                    case (rpc)rpc_mod::role_distribution:
-                    {
-                        on_role_distribution(data->read_vector<std::uint8_t>());
-                        break;
-                    }
-                }*/
+        ark::hook<&InnerNet::InnerNetClient::Update>::after(this, [this](auto&& self) -> void {
 
-            }
-        );
+        });
+
+
+
 
 
     }

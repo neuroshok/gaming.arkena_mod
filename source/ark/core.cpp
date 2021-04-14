@@ -37,16 +37,17 @@ namespace ark
 #else
         load<ark::mods::core>();
         //load<ark::mods::tools>();
-        //load<akn::mod>();
+        load<akn::mod>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tournament>();
         //load<ark::mods::whisperer>();
         //load<ark::mods::pranker>();
         //load<ark::mods::spy>();
-        load<ark::mods::auv>();
-        load<ark::mods::reverse>();
+        //load<ark::mods::auv>();
+        //load<ark::mods::reverse>();
         //load<ark::mods::analysis>();
+        //load<ark::mods::testing>();
 #endif
         init_settings();
     }

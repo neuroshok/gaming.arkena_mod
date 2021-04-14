@@ -6,6 +6,7 @@
 #include <au/EndGameManager.hpp>
 #include <au/GameData.hpp>
 #include <au/GameStartManager.hpp>
+#include <au/HatManager.hpp>
 #include <au/HudManager.hpp>
 #include <au/InnerNet/InnerNetClient.hpp>
 #include <au/IntroCutscene_Status.hpp>
@@ -41,6 +42,8 @@ namespace ark
         hkr(Hazel::MessageWriter*, AmongUsClient::StartEndGame);
 
         hk(EndGameManager::Start);
+
+        hk(HatManager::ctor);
 
         hk(HudManager::Start);
         hk(HudManager::Update);
