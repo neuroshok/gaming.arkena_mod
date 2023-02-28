@@ -87,7 +87,7 @@ endif()
 
 target_compile_options(arkena_mod PRIVATE /wd4674)
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURL_ROOT}/lib32/libcurl.lib ws2_32.lib)
+target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(arkena_mod PROPERTIES
