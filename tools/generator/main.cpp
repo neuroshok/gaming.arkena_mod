@@ -16,19 +16,20 @@ int main()
         using namespace il2cpp;
         spdlog::set_level(spdlog::level::trace);
 
-        ::generator gen;
-        //.add_filter(class_filter);
+        ::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
+        //add_filter(class_filter);
 
-        gen.process([](const Il2CppClass* klass) {
+        gen.process([&gen](const Il2CppClass* klass) {
             std::string kname = klass->_1.name;
-            if (kname.substr(0, 3) == "Key")
-            {
-                auto v = api::type_get_assembly_qualified_name(api::class_get_type(klass));
-                std::cout << "\n__" << klass->_1.name << " " << klass->_1.typeDefinition->genericContainerIndex;
-            }
+
+            auto v = api::type_get_assembly_qualified_name(api::class_get_type(klass));
+            //std::cout << "\nGENERATE " << klass->_1.name << " " << klass->_1.typeDefinition->genericContainerIndex;
+            //if (klass->_1.name == std::string("KeyCollection")) std::cout << "\n__" << api::type_get_name(api::class_get_type(klass)); //gen.make_cpp(klass);
+
         });
 
-        //gen.make_sources();
+        gen.make_sources();
+
     } catch (const std::exception& e)
     {
         spdlog::error(e.what());

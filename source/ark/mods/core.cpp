@@ -63,8 +63,8 @@ namespace ark::mods
 
                         if (start_manager_)
                         {
-                            mod::log("Compatible players {}/{}", compatible_players_count_, start_manager_->CurrentPlayers);
-                            if (start_manager_->CurrentPlayers == compatible_players_count_)
+                            mod::log("Compatible players {}/{}", compatible_players_count_, start_manager_->LastPlayerCount);
+                            if (start_manager_->LastPlayerCount == compatible_players_count_)
                             {
                                 compatible_players_count_ = 1;
                                 start_manager_->ReallyBegin(true);

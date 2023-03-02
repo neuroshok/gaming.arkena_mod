@@ -30,6 +30,7 @@ namespace ark
 {
     void init_hook()
     {
+        return;
         #ifdef ARK_NO_UI
             MH_Initialize();
         #endif
@@ -37,7 +38,6 @@ namespace ark
 #ifdef ARK_TESTING
         #include <analysis/testing.hpp>
 #else
-        hk(AmongUsClient::FixedUpdate);
         hk(AmongUsClient::FinishEndGame);
         hkr(Hazel::MessageWriter*, AmongUsClient::StartEndGame);
 
@@ -50,6 +50,7 @@ namespace ark
 
         hkr(bool, IntroCutscene_Status::MoveNext);
 
+        hk(InnerNet::InnerNetClient::FixedUpdate);
         hk(InnerNet::InnerNetClient::SetEndpoint);
         hk(InnerNet::InnerNetClient::Update);
 

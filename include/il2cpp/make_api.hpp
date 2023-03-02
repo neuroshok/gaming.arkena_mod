@@ -45,10 +45,13 @@ make_api(method_get_param, const il2cpp::Il2CppType*, (const il2cpp::MethodInfo*
 make_api(method_get_param_name, const char*, (const il2cpp::MethodInfo* method, uint32_t index), method, index);
 
 // type
+make_api(type_equals, bool, (const Il2CppType* type, const Il2CppType* otherType), type, otherType)
+
 make_api(type_get_assembly_qualified_name, char*, (const il2cpp::Il2CppType* type), type)
 make_api(type_get_name, char*, (const il2cpp::Il2CppType* type), type)
 make_api(type_get_type, int, (const il2cpp::Il2CppType* type), type)
 make_api(type_is_pointer_type, bool, (const il2cpp::Il2CppType* type), type)
+make_api(type_is_byref, bool, (const il2cpp::Il2CppType* type), type)
 make_api(type_get_object, il2cpp::Il2CppObject*, (const il2cpp::Il2CppType* type), type)
 make_api(type_get_attrs, uint32_t, (const il2cpp::Il2CppType* type), type)
 

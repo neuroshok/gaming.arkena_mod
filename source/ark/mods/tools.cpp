@@ -43,9 +43,8 @@ namespace ark::mods
         {
             if (setting<bool>("hide_code"))
             {
-                set_clipboard(self->GameRoomName->Text->str().substr(6));
-                auto str = cs::make_string(setting<std::string>("hide_code_text"));
-                self->GameRoomName->Text = str;
+                set_clipboard(self->GameRoomName->get_text().substr(6));
+                self->GameRoomName->set_text(setting<std::string>("hide_code_text"));
             }
         });
     }

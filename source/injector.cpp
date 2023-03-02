@@ -7,7 +7,6 @@
 #include <filesystem>
 
 #include <sstream>
-#include <atlstr.h>
 #include <TlHelp32.h>
 #include <psapi.h>
 #include <shellapi.h>

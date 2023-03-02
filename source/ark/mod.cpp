@@ -62,7 +62,7 @@ namespace ark
 
     void mod::set_player_name_color(PlayerControl* pc, upp::color color)
     {
-        pc->nameText->Color = color;
+        pc->nameText->set_color(color);
     }
 
     //
@@ -78,15 +78,15 @@ namespace ark
             self->subtitle_color.r = intro_.subtitle_color.r;
             self->subtitle_color.g = intro_.subtitle_color.g;
             self->subtitle_color.b = intro_.subtitle_color.b;
-            self->fade.g = 0;
-            self->fade.r = 0;
-            self->fade.b = 0;
+            self->color.g = 0;
+            self->color.r = 0;
+            self->color.b = 0;
             self->title_color.r = intro_.title_color.r;
             self->title_color.g = intro_.title_color.g;
             self->title_color.b = intro_.title_color.b;
 
-            self->_this->Title->Text = cs::make_string(intro_.title);
-            self->_this->ImpostorText->Text = cs::make_string(intro_.subtitle);
+            self->_this->Title->set_text(intro_.title);
+            self->_this->ImpostorText->set_text(intro_.subtitle);
 
             self->isImpostor = false;
 

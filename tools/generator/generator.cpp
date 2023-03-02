@@ -6,14 +6,17 @@
 
 #include <filesystem>
 #include <fstream>
+
 #include <il2cpp/api.hpp>
 #include <sstream>
 
 namespace fs = std::filesystem;
 
-generator::generator()
-    : output_path_{ "au/" }
+generator::generator(std::string input_path)
+    : input_path_{ std::move(input_path) }
+    , output_path_{ "au/" }
 {
+    SetDllDirectory(input_path_.c_str());
     auto handle = LoadLibrary("GameAssembly.dll");
     if (!handle) spdlog::error("Unable to load library");
 
@@ -59,12 +62,12 @@ bool generator::make_cpp(const Il2CppClass* k)
 {
     builder klass{ k };
 
-    //spdlog::info("Generate cpp {} @ {} - {}", klass.name, klass.path, klass.assembly_name);
+    spdlog::info("Generate cpp {} @ {} | {}", klass.name, klass.path, klass.assembly_name);
 
     if (!fs::exists(output_path_ + klass.path)) fs::create_directories(output_path_ + klass.path);
     if (fs::exists(output_path_ + klass.path + klass.filename + ".hpp"))
     {
-        //spdlog::warn("Ignore existing file {}", klass_path + klass_name + ".hpp");
+        //spdlog::warn("Ignore existing file {}", klass.path + klass.assembly_name + ".hpp");
         return false;
     }
 
@@ -94,7 +97,8 @@ bool generator::make_cpp(const Il2CppClass* k)
         {
             case il2cpp::TYPE_CLASS: {
                 make_cpp(api::class_from_type(type));
-                includes << "#include <au/" << builder::namespace_path(api::type_get_name(type), "/") << ".hpp>\n";
+                //includes << "#include <au/" << builder::namespace_path(api::type_get_name(type), "/") << ".hpp> // FWD\n";
+                includes << "namespace " << builder::type_namespace(type) << "{ struct " << builder::type_name(type) << "; }\n";
                 break;
             }
             case il2cpp::TYPE_STRING: {
@@ -117,7 +121,8 @@ bool generator::make_cpp(const Il2CppClass* k)
 
 
                 make_cpp(api::class_from_type(type));
-                includes << "#include <au/" << builder::namespace_path(base_type, "/") << ".hpp>\n";
+                //includes << "#include <au/" << builder::namespace_path(base_type, "/") << ".hpp> // FWD\n";
+                includes << "namespace " << builder::type_namespace(type) << "{ struct template<class...> " << builder::type_name(type) << "; }\n";
                 break;
             }
             case il2cpp::TYPE_VALUETYPE: {
