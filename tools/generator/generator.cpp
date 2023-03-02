@@ -45,7 +45,7 @@ generator::generator(std::string input_path)
         for (int i = 0; i < class_count; ++i)
         {
             auto klass = api::image_get_class(image, i);
-            klasses_.emplace_back(klass);
+            if (class_count == 2070) klasses_.emplace_back(klass);
         }
     }
 }

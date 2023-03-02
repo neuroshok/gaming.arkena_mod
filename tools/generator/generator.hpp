@@ -21,6 +21,6 @@ private:
     size_t assembly_count_ = 0;
     std::string input_path_;
     std::string output_path_;
-
+public:
     std::vector<const il2cpp::Il2CppClass*> klasses_;
 };

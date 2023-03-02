@@ -1,4 +1,5 @@
 #include "generator.hpp"
+#include "klass.hpp"
 #include "filter.hpp"
 
 #include <il2cpp/api.hpp>
@@ -8,6 +9,8 @@
 
 namespace fs = std::filesystem;
 using namespace std::string_literals;
+
+std::string il2cpp_info(const Il2CppClass* klass);
 
 int main()
 {
@@ -19,16 +22,16 @@ int main()
         ::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
         //add_filter(class_filter);
 
-        gen.process([&gen](const Il2CppClass* klass) {
-            std::string kname = klass->_1.name;
+        //std::cout << il2cpp_info(gen.klasses_[120]);
 
-            auto v = api::type_get_assembly_qualified_name(api::class_get_type(klass));
-            //std::cout << "\nGENERATE " << klass->_1.name << " " << klass->_1.typeDefinition->genericContainerIndex;
-            //if (klass->_1.name == std::string("KeyCollection")) std::cout << "\n__" << api::type_get_name(api::class_get_type(klass)); //gen.make_cpp(klass);
+        gen.process([&gen](const Il2CppClass* k) {
+        ::klass klass{ k };
 
+            std::cout << klass.info();
+            return;
         });
 
-        gen.make_sources();
+        //gen.make_sources();
 
     } catch (const std::exception& e)
     {
