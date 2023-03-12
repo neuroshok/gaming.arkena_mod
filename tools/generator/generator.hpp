@@ -1,26 +1,39 @@
 #pragma once
 
-#include <il2cpp/core.hpp>
+#include "klass.hpp"
 #include <functional>
+#include <il2cpp/core.hpp>
 #include <string>
 
 using namespace il2cpp;
 
-class generator
+namespace meta
 {
-public:
-    generator(std::string input_path);
+    class generator
+    {
+    public:
+        generator(std::string input_path);
 
-    void process(const std::function<void(const il2cpp::Il2CppClass*)>& fn);
+        void initialize();
 
-    bool make_cpp(const il2cpp::Il2CppClass* klass);
-    void make_sources();
+        void process();
+        void on_process(const std::function<void(meta::klass)>& fn);
 
-private:
-    il2cpp::Il2CppAssembly** assemblies_ = nullptr;
-    size_t assembly_count_ = 0;
-    std::string input_path_;
-    std::string output_path_;
-public:
-    std::vector<const il2cpp::Il2CppClass*> klasses_;
-};
+        void make_klass(const meta::klass& klass);
+        std::stringstream make_fields(const meta::klass& klass);
+        std::stringstream make_methods(const meta::klass& klass);
+
+        void filter_image(const std::string& name);
+        void filter_klass(const std::string& name);
+        std::string indent(int n);
+
+    private:
+        il2cpp::Il2CppAssembly** assemblies_ = nullptr;
+        size_t assembly_count_ = 0;
+        std::string input_path_;
+        std::string output_path_;
+        std::vector<std::string> images_;
+        std::vector<std::string> klasses_;
+        std::function<void(meta::klass)> on_process_;
+    };
+} // meta

@@ -7,7 +7,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace maps
+namespace meta
 {
     inline static std::unordered_map<std::string, std::string> obfus {
         { "PlayerControl", "PlayerControl" }
@@ -31,6 +31,3 @@ namespace maps
         { il2cpp::TYPE_OBJECT, "il2cpp::object*" },
     };
 } // filters
-
-
-

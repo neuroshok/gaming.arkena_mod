@@ -28,6 +28,7 @@ namespace ark::mods
         static bool alive_ = true;
         //static DDPGLPLGFOI* ptr = nullptr;
 /*
+ *
         ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {
             if (alive_) {
                 //PlayerControl::instance()->Die(1);

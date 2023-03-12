@@ -105,7 +105,7 @@ namespace il2cpp
 
         }
 
-        static void inititialize()
+        static void initialize()
         {
             #define ARK_MAKE_STATIC_INIT
             #include <il2cpp/make_api.hpp>

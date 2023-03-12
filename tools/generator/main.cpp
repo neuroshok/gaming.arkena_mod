@@ -19,19 +19,20 @@ int main()
         using namespace il2cpp;
         spdlog::set_level(spdlog::level::trace);
 
-        ::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
-        //add_filter(class_filter);
+        meta::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
+        //gen.filter_image("Assembly-CSharp.dll");
+        gen.filter_klass("PlayerControl");
 
         //std::cout << il2cpp_info(gen.klasses_[120]);
 
-        gen.process([&gen](const Il2CppClass* k) {
-        ::klass klass{ k };
+        gen.on_process([&gen](meta::klass klass) {
 
-            std::cout << klass.info();
+            //std::cout << klass.info();
+
             return;
         });
 
-        //gen.make_sources();
+        gen.process();
 
     } catch (const std::exception& e)
     {

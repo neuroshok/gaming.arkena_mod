@@ -19,7 +19,7 @@ namespace ark
         , version_{ ark::version{0, 1, 3} }
         , ui_{ *this }
     {
-        il2cpp::api::inititialize();
+        il2cpp::api::initialize();
         il2cpp::api::thread_attach(il2cpp::api::domain_get());
         //ark::load_console(console_);
         ark::init_logger((uintptr_t)hmodule_);

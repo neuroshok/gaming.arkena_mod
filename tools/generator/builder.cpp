@@ -369,8 +369,8 @@ std::string builder::type_name_str(const il2cpp::Il2CppType* type, bool pointer,
     }
 
     default:
-        if (maps::type_names.find(type_id) == maps::type_names.end()) output = "Typeid_" + std::to_string(type_id);
-        else output = maps::type_names[type_id];
+        if (meta::type_names.find(type_id) == meta::type_names.end()) output = "Typeid_" + std::to_string(type_id);
+        else output = meta::type_names[type_id];
     }
 
     return output;

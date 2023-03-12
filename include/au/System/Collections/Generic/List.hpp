@@ -15,7 +15,7 @@
 namespace System::Collections::Generic
 {
     template<class... Ts>
-struct List : ark::meta<List<Ts...>, il2cpp::Il2CppObject>
+    struct List : ark::meta<List<Ts...>, il2cpp::Il2CppObject>
     {
         static cs::array<Typeid_30>* _emptyArray(); // 0x0
         cs::array<Typeid_30>* _items; // 0x8
