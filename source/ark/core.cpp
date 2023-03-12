@@ -4,13 +4,16 @@
 
 #include <ark/core.hpp>
 #include <ark/hook.hpp>
-#include <ark/log.hpp>
-#include <ark/mod.hpp>
-#include <ark/mods.hpp>
+//#include <ark/log.hpp>
+//#include <ark/mod.hpp>
+//#include <ark/mods.hpp>
 
-#include <nlohmann/json.hpp>
+#include <il2cpp/api.hpp>
 #include <filesystem>
 #include <fstream>
+#include <nlohmann/json.hpp>
+
+#include <au/PlayerControl.hpp>
 
 namespace ark
 {
@@ -35,9 +38,9 @@ namespace ark
 #ifdef ARK_TESTING
         load<ark::mods::testing>();
 #else
-        load<ark::mods::core>();
+        //load<ark::mods::core>();
         //load<ark::mods::tools>();
-        load<akn::mod>();
+        //load<akn::mod>();
         //load<ark::mods::zombie>();
         //load<ark::mods::sniper>();
         //load<ark::mods::tournament>();
@@ -48,6 +51,7 @@ namespace ark
         //load<ark::mods::reverse>();
         //load<ark::mods::analysis>();
         //load<ark::mods::testing>();
+
 #endif
         init_settings();
     }
@@ -102,6 +106,7 @@ namespace ark
             }
 
             // load settings
+            /*
             for (const auto& mod : mods_)
             {
                 for (auto& setting : mod->settings())
@@ -122,6 +127,7 @@ namespace ark
                     }
                 }
             }
+             */
         }
     }
 

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <ark/log.hpp>
 #include <ark/module.hpp>
-#include <ark/mod.hpp>
 #include <ark/utility/function.hpp>
+#include <ark/utility/meta.hpp>
 
 #include <minhook/include/MinHook.h>
 
@@ -12,6 +13,14 @@
 
 namespace ark
 {
+// todo tmp
+class mod
+{
+public:
+    std::string name() { return "test"; }
+    std::vector<std::function<void()>> hooks_deleter_;
+};
+
     void init_hook();
 
     template<auto T, class Callback, class F>
@@ -38,9 +47,8 @@ namespace ark
             }
             if (MH_EnableHook((void*)address) != MH_OK)
             {
-                ark_trace("MH_EnableHook  {}", (uintptr_t)address);
+                ark_trace("MH_EnableHook failed {}", (uintptr_t)address);
             }
-
 
             callback = std::move(f);
         }
@@ -110,14 +118,20 @@ namespace ark
             mod->hooks_deleter_.emplace_back([mod] { before_hooks.erase(mod->name()); });
         }
 
+        static void after(method_type method)
+        {
+            after_hooks.emplace("__ark_global__", std::move(method));
+        }
+
         static void after(ark::mod* mod, method_type method)
         {
             assert(mod);
 
             after_hooks.emplace(mod->name(), std::move(method));
+            ark_trace("{}", (uintptr_t)after_hooks);
 
             // deleter
-            mod->hooks_deleter_.emplace_back([mod] { after_hooks.erase(mod->name()); });
+            //mod->hooks_deleter_.emplace_back([mod] { after_hooks.erase(mod->name()); });
         }
 
         static void overwrite(ark::mod* mod, overwrite_type method)

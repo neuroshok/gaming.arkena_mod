@@ -132,9 +132,17 @@ namespace meta
         ofs << "\n\n";
         ofs << klass_methods.str();
         ofs << "};\n";
-
         ofs << indent(0) << "} // " << klass.namespaze();
+        ofs << "\n\n";
 
+        // rva
+        ofs << "namespace ark::method_info\n{\n";
+        for (const auto& method : klass.methods())
+        {
+            ofs << indent(1) << "template<> inline uintptr_t rva<&" << klass.ns_name() << "::" << method.name() << ">() "
+                << "{ return " << "0x" << std::hex << meta::klass::rva(method.address()) << "; }\n";
+        }
+        ofs << "} // ark::method_info";
     }
 
     void generator::filter_image(const std::string& name)
