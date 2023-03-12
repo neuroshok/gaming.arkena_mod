@@ -1,9 +1,9 @@
+
 #include <ark/resource.hpp>
 
 #include <ark/log.hpp>
 #include <ark/ui/core.hpp>
 
-#include <au/UnityEngine/Texture2D.hpp>
 #include <il2cpp/api.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -23,15 +23,7 @@ namespace ark::resource
 
     UnityEngine::Texture2D* load_texture(resource::image& image)
     {
-        auto tx_data = ark::resource::load_image(image);
-        auto texture = il2cpp::new_object<UnityEngine::Texture2D>();
-        texture->ctor7(image.width, image.height, UnityEngine::TextureFormat::RGBA32, false);
-
-        ark_trace("Load texture {}x{} {}", texture->GetDataWidth(), texture->GetDataHeight(), (uintptr_t)texture);
-
-        texture->LoadRawTextureData1((uint8_t*)tx_data);
-        texture->Apply2();
-        return texture;
+        return nullptr;
     }
 
     unsigned char* load_image(ark::resource::image& image)

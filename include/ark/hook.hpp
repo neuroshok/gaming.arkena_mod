@@ -1,8 +1,9 @@
 #pragma once
 
+#include <ark/log.hpp>
 #include <ark/module.hpp>
-#include <ark/mod.hpp>
 #include <ark/utility/function.hpp>
+#include <ark/utility/meta.hpp>
 
 #include <minhook/include/MinHook.h>
 
@@ -12,6 +13,14 @@
 
 namespace ark
 {
+// todo tmp
+class mod
+{
+public:
+    std::string name() { return "test"; }
+    std::vector<std::function<void()>> hooks_deleter_;
+};
+
     void init_hook();
 
     template<auto T, class Callback, class F>
