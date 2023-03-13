@@ -25,9 +25,9 @@ int main()
 
         //std::cout << il2cpp_info(gen.klasses_[120]);
 
-        gen.on_process([&gen](meta::klass klass) {
+        gen.on_process([&gen](const meta::klass& klass) {
 
-            //std::cout << klass.info();
+            //std::cout << klass.type().info();
 
             return;
         });

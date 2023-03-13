@@ -17,9 +17,10 @@ namespace meta
         void initialize();
 
         void process();
-        void on_process(const std::function<void(meta::klass)>& fn);
+        void on_process(const std::function<void(const meta::klass&)>& fn);
 
         void make_klass(const meta::klass& klass);
+        std::stringstream make_deps(const meta::klass& klass);
         std::stringstream make_fields(const meta::klass& klass);
         std::stringstream make_methods(const meta::klass& klass);
 
@@ -34,6 +35,6 @@ namespace meta
         std::string output_path_;
         std::vector<std::string> images_;
         std::vector<std::string> klasses_;
-        std::function<void(meta::klass)> on_process_;
+        std::function<void(const meta::klass&)> on_process_;
     };
 } // meta

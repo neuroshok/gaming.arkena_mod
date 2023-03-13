@@ -3,9 +3,10 @@
 
 #include "klass.hpp"
 
-#include <vector>
-#include <memory>
+#include "utility.hpp"
 #include <iostream>
+#include <memory>
+#include <vector>
 
 namespace meta
 {
@@ -13,6 +14,8 @@ namespace meta
 
     static const meta::klass* get_klass(const il2cpp::Il2CppClass* k);
     static const meta::klass* get_klass(const il2cpp::Il2CppType* type);
+
+    void clean_name(std::string& name);
 
     const meta::klass* get_klass(const il2cpp::Il2CppClass* k)
     {

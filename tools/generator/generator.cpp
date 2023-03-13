@@ -66,7 +66,7 @@ namespace meta
         }
     }
 
-    void generator::on_process(const std::function<void(meta::klass)>& fn)
+    void generator::on_process(const std::function<void(const meta::klass&)>& fn)
     {
         on_process_ = fn;
     }
@@ -105,11 +105,15 @@ namespace meta
 
         std::stringstream out;
         // info
-        ofs << "/* " << klass.info() << " */\n\n";
+        ofs << "/* " << klass.type().info() << " */\n\n";
 
         // headers
         ofs << "#pragma once\n";
         ofs << "#include <ark/class.hpp>\n";
+
+        // class dependencies
+        std::stringstream klass_deps = make_deps(klass);
+        ofs << klass_deps.str() << "\n\n";
 
         // namespace
         ofs << "namespace " << klass.namespaze() << "\n{\n";
@@ -164,6 +168,20 @@ namespace meta
         return result;
     }
 
+    std::stringstream generator::make_deps(const klass& klass)
+    {
+        std::stringstream klass_deps;
+
+        for (const auto& type : klass.forwards())
+        {
+            if (!type.is_klass()) continue;
+            klass_deps << "namespace " << type.namespaze() << " { ";
+            klass_deps << "struct " << type.name() << "; }";
+            klass_deps << "\n";
+        }
+        return klass_deps;
+    }
+
     std::stringstream generator::make_fields(const klass& klass)
     {
         std::stringstream klass_fields;
@@ -185,7 +203,7 @@ namespace meta
                 // attributes
                 if (field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC)) klass_fields << "static ";
                 if (field.has_attribute(il2cpp::FIELD_ATTRIBUTE_LITERAL)) klass_fields << "constexpr ";
-                klass_fields << field.type_name() << " " << field.name();
+                klass_fields << field.type().ns_name() << " " << field.name();
                 if (!field.value().empty()) klass_fields << " = " << field.value();
                 klass_fields << ";";
             }
