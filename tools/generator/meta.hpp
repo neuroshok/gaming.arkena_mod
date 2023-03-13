@@ -16,7 +16,7 @@ namespace meta
 
     const meta::klass* get_klass(const il2cpp::Il2CppClass* k)
     {
-        for (const auto& klass : klasses)
+        for (auto& klass : klasses)
         {
             if (klass->ptr() == k)
             {
@@ -24,6 +24,7 @@ namespace meta
                 return klass.get();
             }
         }
+
         return nullptr;
     }
 

@@ -11,11 +11,43 @@ using namespace il2cpp;
 
 namespace meta
 {
+    type::type(const il2cpp::Il2CppType* type)
+        : type_ { type }
+        , type_id_ { api::type_get_type(type_) }
+    {
+        klass_ = api::class_from_type(type_);
+        assert(klass_);
+        if (api::type_get_type(type) == il2cpp::TYPE_ARRAY || api::type_get_type(type) == il2cpp::TYPE_SZARRAY)
+        {
+            is_array_ = true;
+            klass_ = api::type_get_class_or_element_class(type_);
+        }
+
+        auto* k = meta::get_klass(klass_);
+        name_ = k ? k->name() : "__" + std::to_string(type_id_) + "__";
+
+        if (is_array())
+        {
+            name_ = "std::array<" + name_ + ">";
+        }
+    }
+
+    const meta::klass* type::klass() const { return meta::get_klass(klass_); }
+
     klass::klass(const il2cpp::Il2CppClass* k)
         : klass_{ k }
         , type_{ il2cpp::api::class_get_type(klass_) }
         , type_id_{ il2cpp::api::type_get_type(type_) }
     {
+        assert(klass_);
+        assembly_name_ = api::type_get_assembly_qualified_name(type_);
+        name_ = std::string("__uninitialized__") + "/* " + api::type_get_name(type_) + " */";
+        initialized_ = false;
+
+        std::string n = api::class_get_name(klass_);
+        if ( n == "PlayerControl" || n == "GameData" || n == "PlayerInfo") {
+            spdlog::trace("construct {}", api::class_get_name(klass_));
+        }
     }
 
     std::string klass::info() const
@@ -69,7 +101,10 @@ namespace meta
     void klass::initialize()
     {
         if (initialized_) return;
-        initialized_ = true;
+        assert(klass_);
+
+        //std::string assembly_name = api::type_get_assembly_qualified_name(type_);
+
         parent_klass_ = meta::get_klass(api::class_get_declaring_type(klass_));
         std::string parent_klass = parent_klass_ ? parent_klass_->name() + std::string("_") : "";
 
@@ -130,11 +165,15 @@ namespace meta
         str_replace(path_, "::", "/");
         file_path_ = path_ + name_;
 
+        // set initialized here for recursivity (parent klass), but before fields
+        initialized_ = true;
+
+        //
+
         void* field_it = nullptr;
         for (auto i = 0; i < klass_->_2.field_count; ++i)
         {
-            //if (i == klass_->_2.field_count - 1) continue;
-            klass_field field{ *this, api::class_get_fields(klass_, &field_it) };
+            klass_field field{ this, api::class_get_fields(klass_, &field_it) };
             fields_.emplace_back(std::move(field));
         }
 
@@ -145,31 +184,22 @@ namespace meta
             methods_.emplace_back(klass_method{ *this, method });
 
         }
+
     }
 
-    klass_field::klass_field(const meta::klass& owner, il2cpp::FieldInfo* field_info)
+    klass_field::klass_field(const meta::klass* owner, il2cpp::FieldInfo* field_info)
         : owner_{ owner }
+        , type_{ field_info->type }
         , field_{ field_info }
     {
         name_ = field_->name;
         klass::clean_name(name_);
+        type_name_ = type_.name();
 
-        klass_ = meta::get_klass(field_->type);
-        if (!klass_)
-        {
-            type_name_ = api::type_get_name(field_->type) + std::string("/* noklass */");
-            name_ = "__unknown_type__";
-            return;
-        }
-
+        // todo default value
         // void* field_value = nullptr;
         // api::field_get_value(api::type_get_object(field_->type), field_, field_value);
         // value_ = std::to_string(reinterpret_cast<int>(field_value));
-
-        type_name_ = klass_->ns_name();
-        if (owner.is_enum() && klass_->ptr() == owner.ptr()) type_name_ = "";
-
-        if (name_.empty()) name_ = "__no_name__";
 
         //add_dep(field->type, true);
 
@@ -184,21 +214,20 @@ namespace meta
 
     klass_parameter::klass_parameter(const klass_method& method, const il2cpp::Il2CppType* type, int index)
         : method_{ method }
-        , klass_{ meta::get_klass(type) }
+        , type_{ meta::type{ type } }
         , index_{ index }
     {
         name_ =  il2cpp::api::method_get_param_name(&method_.info(), index_);
-        type_name_ = klass_ ? klass_->ns_name() : "__no_type__";
     }
 
     klass_method::klass_method(const meta::klass& owner, const il2cpp::MethodInfo* info)
         : klass_{ owner }
         , info_{ info }
+        , return_type_{ info_->return_type }
     {
         name_ = info_->name;
         klass::clean_name(name_);
         address_ = info_->methodPointer;
-        return_klass_ = meta::get_klass(info_->return_type);
 
         for (int param_index = 0; param_index < info_->parameters_count; ++param_index)
         {

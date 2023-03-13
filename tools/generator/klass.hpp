@@ -5,9 +5,28 @@
 
 namespace meta
 {
+    class klass;
     class klass_field;
     class klass_method;
     class klass_parameter;
+
+    class type
+    {
+    public:
+        type(const il2cpp::Il2CppType*);
+        const il2cpp::Il2CppType* ptr() const { return type_; }
+        const meta::klass* klass() const;
+        int type_id() const { return type_id_; }
+        const std::string& name() const { return name_; }
+        bool is_array() const { return is_array_; }
+
+    private:
+        const il2cpp::Il2CppType* type_;
+        int type_id_;
+        std::string name_;
+        const il2cpp::Il2CppClass* klass_;
+        bool is_array_ = false;
+    };
 
     class klass
     {
@@ -18,7 +37,9 @@ namespace meta
 
         std::string info() const;
         const il2cpp::Il2CppClass* ptr() const { return klass_; }
+        const il2cpp::Il2CppType* type() const { return type_; }
         int type_id() const { return type_id_; }
+        const std::string& assembly_name() const { return assembly_name_; }
         const std::string& name() const { return name_; }
         const std::string& namespaze() const { return namespaze_; }
         const std::string& ns_name() const { return ns_name_; }
@@ -26,6 +47,7 @@ namespace meta
         const std::string& path() const { return path_; }
         const std::vector<klass_field>& fields() const { return fields_; }
         const std::vector<klass_method>& methods() const { return methods_; }
+        bool is_initialized() const { return initialized_; }
         bool is_native() const { return is_native_; }
         bool is_enum() const { return is_enum_; }
         bool is_nested() const { return parent_klass_ != nullptr; }
@@ -46,6 +68,7 @@ namespace meta
 
     private:
         bool initialized_ = false;
+        std::string assembly_name_;
         std::string name_;
         std::string namespaze_;
         std::string cs_ns_name;
@@ -62,10 +85,10 @@ namespace meta
     class klass_field
     {
     public:
-        klass_field(const meta::klass& owner, il2cpp::FieldInfo* field_info);
+        klass_field(const meta::klass* owner, il2cpp::FieldInfo* field_info);
 
-        const meta::klass& klass() const { return *klass_; }
         const std::string& name() const { return name_; }
+        const meta::type& type() const { return type_; }
         const std::string& type_name() const { return type_name_; }
         int offset() const { return field_->offset; }
         int attributes() const { return il2cpp::api::type_get_attrs(field_->type); }
@@ -75,8 +98,8 @@ namespace meta
 
     private:
         il2cpp::FieldInfo* field_;
-        const meta::klass& owner_;
-        const meta::klass* klass_;
+        meta::type type_;
+        const meta::klass* owner_;
         std::string name_;
         std::string type_name_;
         std::string value_;
@@ -88,9 +111,9 @@ namespace meta
         klass_method(const meta::klass& owner, const il2cpp::MethodInfo*);
 
         const il2cpp::MethodInfo& info() const { return *info_; }
-        const meta::klass& klass() const { return klass_; }
+        const meta::klass& klass() const { return klass_; } // owning klass
         const std::string& name() const { return name_; }
-        const meta::klass& return_type() const { return *return_klass_; }
+        const meta::type& return_type() const { return return_type_; }
         il2cpp::Il2CppMethodPointer const address() const { return address_; }
         const std::vector<klass_parameter>& parameters() const { return parameters_; }
 
@@ -99,7 +122,7 @@ namespace meta
         const meta::klass& klass_;
         std::string name_;
         il2cpp::Il2CppMethodPointer address_;
-        mutable const meta::klass* return_klass_;
+        meta::type return_type_;
         std::vector<klass_parameter> parameters_;
     };
 
@@ -109,16 +132,15 @@ namespace meta
         klass_parameter(const klass_method& method_, const il2cpp::Il2CppType* type, int index);
 
         const meta::klass_method& method() const { return method_; }
-        const meta::klass& klass() const { return *klass_; }
+        const meta::klass& klass() const { return *type_.klass(); }
         const std::string& name() const { return name_; }
-        const std::string& type_name() const { return type_name_; }
+        const std::string& type_name() const { return type_.name(); }
         int index() const { return index_; }
 
     private:
         const meta::klass_method& method_;
-        const meta::klass* klass_ = nullptr;
+        meta::type type_;
         std::string name_;
-        std::string type_name_;
         int index_ = -1;
     };
 }

@@ -204,7 +204,7 @@ namespace meta
         {
             klass_methods << indent(2);
 
-            klass_methods << method.return_type().ns_name() << " ";
+            klass_methods << method.return_type().name() << " ";
             klass_methods << method.name() << "(";
 
             for (const auto& parameter : method.parameters())
