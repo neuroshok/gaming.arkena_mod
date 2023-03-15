@@ -20,9 +20,10 @@ namespace meta
         void on_process(const std::function<void(const meta::klass&)>& fn);
 
         void make_klass(const meta::klass& klass);
-        std::stringstream make_deps(const meta::klass& klass);
+        void make_deps(const klass& klass, std::stringstream& hpp_includes, std::stringstream& cpp_includes);
+        std::stringstream make_statics(const meta::klass& klass);
         std::stringstream make_fields(const meta::klass& klass);
-        std::stringstream make_methods(const meta::klass& klass);
+        std::stringstream make_methods(const meta::klass& klass, bool definition = false);
 
         void filter_image(const std::string& name);
         void filter_klass(const std::string& name);

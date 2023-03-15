@@ -15,6 +15,7 @@ namespace meta
         : type_ { type }
         , type_id_ { api::type_get_type(type_) }
         , klass_ { api::class_from_type(type_) }
+        , assembly_name_ { api::type_get_assembly_qualified_name(type_) }
         , name_ { "__uninitialized__" }
     {
     }
@@ -31,10 +32,11 @@ namespace meta
         if (namespaze_.empty()) namespaze_ = "au";
         name_ = api::class_get_name(klass_);
         clean_name(name_);
+        generic_name_ = name_;
 
         is_generic_ = api::class_is_generic(klass_);
         is_enum_ = api::class_is_enum(klass_);
-        is_valuetype_ = api::class_is_valuetype(klass_);
+        is_value_type_ = api::class_is_valuetype(klass_);
 
         switch (type_id_)
         {
@@ -42,79 +44,93 @@ namespace meta
             if (auto* k = api::class_get_declaring_type(klass_))
             {
                 auto* declaring_klass = meta::get_klass(k);
-                if (declaring_klass->namespaze() != "au" && namespaze_ != "au")
-                    namespaze_ = !declaring_klass->namespaze().empty() ? declaring_klass->namespaze() + "::" + namespaze_ : namespaze_;
-                name_ = declaring_klass->type().name() + std::string("_") + name_;
+                if (declaring_klass)
+                {
+                    if (declaring_klass->namespaze() != "au" && namespaze_ != "au")
+                        namespaze_ = !declaring_klass->namespaze().empty() ? declaring_klass->namespaze() + "::" + namespaze_ : namespaze_;
+                    name_ = declaring_klass->type().name() + std::string("_") + name_;
+                }
             }
+            is_pointer_ = true;
 
             break;
 
         case il2cpp::TYPE_VALUETYPE:
-
             break;
 
-        case il2cpp::TYPE_OBJECT: break;
+        case il2cpp::TYPE_OBJECT:
+            namespaze_ = "";
+            name_ = "void";
+            ns_name_ = "void";
+            is_native_ = true;
+            is_pointer_ = true;
+            break;
         case il2cpp::TYPE_STRING:
             namespaze_ = "cs";
             name_ = "string";
+            generic_name_ = "string";
+            is_pointer_ = true;
+            is_native_ = true;
 
             break;
         case il2cpp::TYPE_ARRAY:
         case il2cpp::TYPE_SZARRAY: {
             auto* element_klass = meta::get_klass(api::type_get_class_or_element_class(type_));
             if (element_klass)
-                ns_name_ = std::string("std::array<") + "::" + element_klass->ns_name() + ">";
-            else ns_name_ = "std::array<" + name_ + ">";
+            {
+                ns_name_ = std::string("cs::array<") + element_klass->type().ns_qualified_name() + ">";
+                file_path_ = element_klass->type().file_path();
+                is_native_ = element_klass->type().is_native();
+            }
+            else ns_name_ = "cs::array<" + name_ + ">";
             break;
         }
 
         case il2cpp::TYPE_GENERICINST: {
             name_ = name_.substr(0, name_.find("`"));
-            name_ += "<" + std::to_string(klass_->_2.genericRecursionDepth) + ">";
+            // todo
+            //name_ += "<" + std::to_string(klass_->_2.) + ">";
+            generic_name_ = name_ +  "<int>";
+            is_pointer_ = true;
 
             break;
         }
         default:
-            if (meta::type_names.find(type_id_) == meta::type_names.end()) name_ = "Typeid_" + std::to_string(type_id_);
+            if (meta::type_names.find(type_id_) == meta::type_names.end())
+            {
+                name_ = "Typeid_" + std::to_string(type_id_);
+                is_pointer_ = true;
+            }
             else
             {
                 namespaze_ = "";
                 name_ = meta::type_names[type_id_];
                 ns_name_ = name_;
             }
+            is_native_ = true;
         }
 
-        if (ns_name_.empty()) ns_name_ = namespaze_.empty() ? name_ :  namespaze_ + "::" + name_;
+        if (ns_name_.empty()) ns_name_ = namespaze_.empty() ? generic_name_ :  namespaze_ + "::" + generic_name_;
+
+        // add qualifiers
+        if (is_pointer_)
+        {
+            qualified_name_ = name_ + "*";
+            ns_qualified_name_ = ns_name_ + "*";
+        }
+        else
+        {
+            qualified_name_ = name_;
+            ns_qualified_name_ = ns_name_;
+        }
+
 
         path_ = namespaze_ + "/";
         str_replace(path_, "::", "/");
-        file_path_ = path_ + name_;
+        if (file_path_.empty()) file_path_ = path_ + name_;
 
         // set initialized here for recursivity (parent klass), but before fields
         initialized_ = true;
-
-
-        //klass_ = api::class_from_type(type_);
-//
-        //if (api::type_get_type(type) == il2cpp::TYPE_ARRAY || api::type_get_type(type) == il2cpp::TYPE_SZARRAY)
-        //{
-        //    is_array_ = true;
-        //    klass_ = api::type_get_class_or_element_class(type_);
-        //}
-
-        //auto* k = meta::get_klass(klass_);
-        //name_ = k ? k->ns_name() : "__" + std::to_string(type_id_) + "__";
-
-
-        //if (api::type_get_type(type) == il2cpp::TYPE_GENERICINST)
-        //{
-        //    auto* kk = api::class_from_type(type_);
-        //    name_ = kk ? kk->_1.name : "";
-        //}
-        if (is_array())
-        {
-            name_ = "std::array<" + name_ + ">";
-        }
     }
 
     const meta::klass* type::klass() const { return meta::get_klass(klass_); }
@@ -176,23 +192,26 @@ namespace meta
         for (auto i = 0; i < klass_->_2.field_count; ++i)
         {
             klass_field field{ this, api::class_get_fields(klass_, &field_it) };
-            auto v = field.type();
-            forwards_.emplace_back(v);
+            includes_.emplace_back(field.type());
             fields_.emplace_back(std::move(field));
         }
+
+        void* method_it = nullptr;
+        for (auto i = 0; i < klass_->_2.method_count; ++i)
+        {
+            klass_method method{ *this, api::class_get_methods(klass_, &method_it) };
+            includes_.emplace_back(method.return_type());
+            for (const auto& parameter : method.parameters())
+            {
+                includes_.emplace_back(parameter.type());
+            }
+            methods_.emplace_back(std::move(method));
+        }
+
         auto fs = [](auto& v1, auto& v2) { return v1.ns_name() > v2.ns_name(); };
         auto fu = [](auto& v1, auto& v2) { return v1.ns_name() == v2.ns_name(); };
-        std::sort(forwards_.begin(), forwards_.end(), fs);
-        forwards_.erase(std::unique(forwards_.begin(), forwards_.end(), fu), forwards_.end());
-
-//
-        //void* method_it = nullptr;
-        //for (auto i = 0; i < klass_->_2.method_count; ++i)
-        //{
-        //    auto method = api::class_get_methods(klass_, &method_it);
-        //    methods_.emplace_back(klass_method{ *this, method });
-        //}
-
+        std::sort(includes_.begin(), includes_.end(), fs);
+        includes_.erase(std::unique(includes_.begin(), includes_.end(), fu), includes_.end());
     }
 
     klass_field::klass_field(const meta::klass* owner, il2cpp::FieldInfo* field_info)
@@ -224,6 +243,7 @@ namespace meta
         , type_{ meta::type{ type } }
         , index_{ index }
     {
+        type_.initialize();
         name_ =  il2cpp::api::method_get_param_name(&method_.info(), index_);
     }
 
@@ -232,8 +252,11 @@ namespace meta
         , info_{ info }
         , return_type_{ info_->return_type }
     {
+        return_type_.initialize();
         name_ = info_->name;
+        str_replace(name_, ".", ""); // replace function names like a.b.c
         clean_name(name_);
+        ns_name_ = owner.ns_name() + "::" + name_;
         address_ = info_->methodPointer;
 
         for (int param_index = 0; param_index < info_->parameters_count; ++param_index)

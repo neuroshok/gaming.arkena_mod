@@ -11,6 +11,7 @@ namespace cs
         std::int32_t m_stringLength;
         char16_t m_firstChar;
 
+
         std::u16string_view to_view() const { return { &m_firstChar, static_cast<std::size_t>(m_stringLength) }; }
 
         std::string str() const { return ::to_utf8(to_view()); }

@@ -27,6 +27,7 @@ namespace ark::mods
         mod::hook_intro();
         static bool alive_ = true;
         //static DDPGLPLGFOI* ptr = nullptr;
+
 /*
  *
         ark::hook<&UseButton::DoClick>::overwrite(this, [this](auto&& o, auto&& self) {

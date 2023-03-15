@@ -19,10 +19,19 @@ namespace ark
 #ifdef ARK_TESTING
         #include <analysis/testing.hpp>
 #else
-    hk(PlayerControl::RpcSetColor);
 
-        ark::hook<&PlayerControl::RpcSetColor>::after([](auto&&, auto color){
+        hk(au::PlayerControl::SetColor);
+        hk(au::PlayerControl::FixedUpdate);
+
+        ark::hook<&au::PlayerControl::SetColor>::after([](auto&&, auto color){
             ark_trace("hook ok {}", color);
+            au::PlayerControl::LocalPlayer()->RpcSetName(cs::make_string("test"));
+            au::PlayerControl::LocalPlayer()->RpcSendChat(cs::make_string("coucou"));
+        });
+
+        ark::hook<&au::PlayerControl::FixedUpdate>::after([](auto&&){
+            auto p = reinterpret_cast<au::PlayerControl::internal_statics*>(il2cpp::api::template get_class<au::PlayerControl>()->static_fields)->LocalPlayer;
+            ark_trace("inVent {}", (uintptr_t)p);
         });
 #endif
     }

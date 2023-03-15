@@ -19,19 +19,6 @@ namespace ark
         inline const char* name();
 
         template<auto Method>
-        inline uintptr_t rva();
+        uintptr_t rva();
     } // method_info
-
-    // sizeof(meta) == 0
-    template<class K, class... Bases>
-    struct meta : Bases...
-    {
-        static auto statics()
-        {
-            static auto k = il2cpp::api::template get_class<K>();
-            assert(k);
-            //return reinterpret_cast<typename K::internal_statics*>(k->static_fields);*/
-            return reinterpret_cast<ark::meta_statics<K>*>(k->static_fields);
-        }
-    };
 } // ark

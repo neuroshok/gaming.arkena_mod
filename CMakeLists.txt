@@ -70,7 +70,7 @@ target_include_directories(lib_json INTERFACE third_party/json/include)
 file(GLOB_RECURSE ARK_SOURCES
         ${PROJECT_SOURCE_DIR}/include/ark/*
         ${PROJECT_SOURCE_DIR}/source/ark/*
-        ${PROJECT_SOURCE_DIR}/include/au/*)
+        ${PROJECT_SOURCE_DIR}/include/generated/*)
 
 add_library(arkena_mod SHARED ${ARK_SOURCES})
 add_library(arkena_mod_test SHARED
@@ -99,7 +99,7 @@ target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
 target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
 target_link_libraries(arkena_mod_test PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(arkena_mod_test PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(arkena_mod_test PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/generated)
 
 set_target_properties(arkena_mod PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"

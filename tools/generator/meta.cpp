@@ -10,9 +10,10 @@ namespace meta
         str_replace(name, ".cctor", "cctor");
         str_replace(name, "<", "");
         str_replace(name, ">", "");
+        str_replace(name, "[", "");
+        str_replace(name, "]", "");
         str_replace(name, "=", "");
         str_replace(name, "|", "");
-        str_replace(name, "`", "");
         str_replace(name, ".", "::");
     }
 } // meta

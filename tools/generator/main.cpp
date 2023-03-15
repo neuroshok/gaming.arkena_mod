@@ -22,6 +22,8 @@ int main()
         meta::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
         //gen.filter_image("Assembly-CSharp.dll");
         gen.filter_klass("PlayerControl");
+        //gen.filter_klass("Vector2");
+        //gen.filter_klass("StreamingContext");
 
         //std::cout << il2cpp_info(gen.klasses_[120]);
 

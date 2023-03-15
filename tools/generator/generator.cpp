@@ -18,7 +18,7 @@ namespace meta
 {
     generator::generator(std::string input_path)
         : input_path_{ std::move(input_path) }
-        , output_path_{ "au/" }
+        , output_path_{ "generated/" }
     {}
 
     void generator::initialize()
@@ -85,13 +85,13 @@ namespace meta
 
     void generator::make_klass(const meta::klass& klass)
     {
-        if (klass.is_native())
+        if (klass.type().is_native())
         {
             spdlog::warn("Ignore native type {}", klass.name());
             return;
         }
 
-        spdlog::info("Generate cpp {} @ {}", klass.name(), klass.path());
+        spdlog::info("Generate class {} @ {}", output_path_ + klass.name(), klass.path());
 
         if (!fs::exists(output_path_ + klass.path())) fs::create_directories(output_path_ + klass.path());
         if (fs::exists(output_path_ + klass.path() + klass.name() + ".hpp"))
@@ -100,53 +100,94 @@ namespace meta
             return;
         }
 
-        std::ofstream ofs(output_path_ + klass.path() + klass.name() + ".hpp");
-        if (!ofs.is_open()) throw std::logic_error("Unable to open file : " + output_path_ + klass.path() + klass.name() + ".hpp");
+        std::ofstream hpp(output_path_ + klass.path() + klass.name() + ".hpp");
+        std::ofstream cpp(output_path_ + klass.path() + klass.name() + ".cpp");
+        if (!hpp.is_open()) throw std::logic_error("Unable to open file : " + output_path_ + klass.path() + klass.name() + ".hpp");
+        if (!cpp.is_open()) throw std::logic_error("Unable to open file : " + output_path_ + klass.path() + klass.name() + ".cpp");
 
-        std::stringstream out;
         // info
-        ofs << "/* " << klass.type().info() << " */\n\n";
+        // ofs << "/* " << klass.type().info() << " */\n\n";
 
         // headers
-        ofs << "#pragma once\n";
-        ofs << "#include <ark/class.hpp>\n";
+        hpp << "#pragma once\n";
+        hpp << "#include <ark/class.hpp>\n\n";
 
         // class dependencies
-        std::stringstream klass_deps = make_deps(klass);
-        ofs << klass_deps.str() << "\n\n";
+        std::stringstream cpp_includes;
+        std::stringstream hpp_includes;
+        make_deps(klass, hpp_includes, cpp_includes);
+        hpp << hpp_includes.str() << "\n\n";
 
         // namespace
-        ofs << "namespace " << klass.namespaze() << "\n{\n";
+        hpp << "namespace " << klass.namespaze() << "\n{\n";
 
         // generic declaration
-        if (klass.is_generic())
+        if (klass.type().is_generic())
         {
-            ofs << indent(1) << "template<class... Ts>\n";
+            hpp << indent(1) << "template<class... Ts>\n";
         }
-
-        std::stringstream klass_fields = make_fields(klass);
-        std::stringstream klass_methods = make_methods(klass);
 
         // class declaration
-        std::string klass_type = "struct alignas(4) ";
-        if (klass.is_enum()) klass_type = "enum class";
-        ofs << klass_type << " " << klass.name() << "\n";
-        ofs << "{" << "\n";
-        ofs << klass_fields.str();
-        ofs << "\n\n";
-        ofs << klass_methods.str();
-        ofs << "};\n";
-        ofs << indent(0) << "} // " << klass.namespaze();
-        ofs << "\n\n";
+        std::string klass_type;
+        std::stringstream klass_meta;
+        std::stringstream klass_statics;
+        std::stringstream klass_fields;
+        std::stringstream klass_methods;
+        std::stringstream klass_methods_def;
+
+        if (!klass.type().is_enum())
+        {
+            klass_type = "struct alignas(4) ";
+            klass_meta << "    inline static auto internal_ns = \"" << (klass.namespaze() == "au" ? "" : klass.namespaze()) << "\";\n";
+            klass_meta << "    inline static auto internal_name = \"" << klass.name() << "\";\n\n";
+            klass_statics = make_statics(klass);
+            klass_fields =  make_fields(klass);
+            klass_methods = make_methods(klass);
+            klass_methods_def = make_methods(klass, true);
+        }
+        else
+        {
+            klass_type = "enum class";
+            klass_statics = make_statics(klass);
+        }
+
+        hpp << klass_type << " " << klass.name() << "\n";
+        hpp << "{" << "\n";
+        hpp << klass_meta.str();
+        hpp << klass_statics.str();
+        hpp << "\n";
+        hpp << klass_fields.str();
+        hpp << "\n\n";
+        hpp << klass_methods.str();
+        hpp << "};\n";
+        hpp << indent(0) << "} // " << klass.namespaze();
+        hpp << "\n\n";
 
         // rva
-        ofs << "namespace ark::method_info\n{\n";
+        hpp << "namespace ark::method_info\n{\n";
         for (const auto& method : klass.methods())
         {
-            ofs << indent(1) << "template<> inline uintptr_t rva<&" << klass.ns_name() << "::" << method.name() << ">() "
-                << "{ return " << "0x" << std::hex << meta::klass::rva(method.address()) << "; }\n";
+            std::string parameters;
+            for (const auto& parameter : method.parameters())
+            {
+                parameters += ", " + parameter.type().ns_qualified_name();
+            }
+            hpp << indent(1) << "method_rva(" << "0x" << std::hex << meta::klass::rva(method.address())
+                << ", " << method.klass().ns_name()
+                << ", " << method.return_type().ns_qualified_name()
+                << ", " << method.name()
+                << parameters
+                << ");\n";
         }
-        ofs << "} // ark::method_info";
+        hpp << "} // ark::method_info";
+
+        // cpp
+        cpp << "#include \"" << klass.name() << ".hpp\"\n\n";
+        cpp << cpp_includes.str() << "\n\n";
+        cpp << "namespace " << klass.namespaze() << "\n{\n";
+        cpp << klass_methods_def.str();
+        cpp << indent(0) << "} // " << klass.namespaze();
+        cpp << "\n\n";
     }
 
     void generator::filter_image(const std::string& name)
@@ -168,18 +209,28 @@ namespace meta
         return result;
     }
 
-    std::stringstream generator::make_deps(const klass& klass)
+    void generator::make_deps(const klass& klass, std::stringstream& hpp_includes, std::stringstream& cpp_includes)
     {
-        std::stringstream klass_deps;
+        std::stringstream includes;
+        std::stringstream forwards;
 
-        for (const auto& type : klass.forwards())
+        for (const auto& type : klass.includes())
         {
-            if (!type.is_klass()) continue;
-            klass_deps << "namespace " << type.namespaze() << " { ";
-            klass_deps << "struct " << type.name() << "; }";
-            klass_deps << "\n";
+            if (type.is_native()) continue;
+            if (type.is_value_type())
+            {
+                includes << "#include <" << type.file_path() << ".hpp>\n";
+            }
+            else
+            {
+                forwards << "namespace " << type.namespaze() << " { ";
+                forwards << "struct " << type.name() << "; }";
+                forwards << "\n";
+                cpp_includes << "#include <" << type.file_path() << ".hpp>\n";
+            }
         }
-        return klass_deps;
+
+        hpp_includes << includes.str() << forwards.str();
     }
 
     std::stringstream generator::make_fields(const klass& klass)
@@ -189,9 +240,11 @@ namespace meta
         int i = 0;
         for (const auto& field : klass.fields())
         {
+             if(field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC)) continue;
+
             klass_fields << indent(1);
             // enum
-            if (klass.is_enum())
+            if (klass.type().is_enum())
             {
                 std::string comma;
                 if (i > 0) comma = ", ";
@@ -201,9 +254,8 @@ namespace meta
             else
             {
                 // attributes
-                if (field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC)) klass_fields << "static ";
                 if (field.has_attribute(il2cpp::FIELD_ATTRIBUTE_LITERAL)) klass_fields << "constexpr ";
-                klass_fields << field.type().ns_name() << " " << field.name();
+                klass_fields << field.type().ns_qualified_name() << " " << field.name();
                 if (!field.value().empty()) klass_fields << " = " << field.value();
                 klass_fields << ";";
             }
@@ -214,24 +266,30 @@ namespace meta
         return klass_fields;
     }
 
-    std::stringstream generator::make_methods(const klass& klass)
+    std::stringstream generator::make_methods(const klass& klass, bool definition)
     {
         std::stringstream klass_methods;
 
         for (const auto& method : klass.methods())
         {
-            klass_methods << indent(2);
+            klass_methods << indent(1);
 
-            klass_methods << method.return_type().name() << " ";
+            klass_methods << method.return_type().ns_qualified_name() << " ";
+            if (definition) klass_methods << klass.name() << "::";
             klass_methods << method.name() << "(";
 
+            std::string call_parameters;
             for (const auto& parameter : method.parameters())
             {
-                if (parameter.index() != 0) klass_methods << ", ";
-                klass_methods << parameter.type_name() << " " << parameter.name();
+                std::string comma = parameter.index() == 0 ? "" : ", ";
+                klass_methods << comma << parameter.type().ns_qualified_name() << " " << parameter.name();
+                call_parameters += comma + parameter.name();
             }
 
-            klass_methods << ");" << " // 0x" << std::hex << meta::klass::rva(method.address());
+            std::string comma = method.parameters().empty() ? "" : ", ";
+            if (definition) klass_methods << ") { " << (method.return_type().type_id() != il2cpp::TYPE_VOID ? "return " : "") << "method_call(" << method.name() << comma << call_parameters << "); }";
+            else klass_methods << ");";
+            klass_methods << " // 0x" << std::hex << meta::klass::rva(method.address());
             klass_methods << "\n";
         }
         /*
@@ -271,5 +329,40 @@ namespace meta
          */
 
         return klass_methods;
+    }
+    std::stringstream generator::make_statics(const klass& klass)
+    {
+        std::stringstream klass_statics;
+        std::stringstream klass_statics_internal;
+
+        if (klass.type().is_klass()) klass_statics_internal << indent(1) << "struct internal_statics {\n";
+
+        int i = 0;
+        for (const auto& field : klass.fields())
+        {
+
+            if (field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC))
+            {
+                if (klass.type().is_klass())
+                {
+                    klass_statics << indent(1);
+                    klass_statics_internal << indent(2);
+                    klass_statics_internal << field.type().ns_qualified_name() << " " << field.name() << ";\n";
+
+                    klass_statics << "field_static(" << field.owner().name() << ", " << field.type().ns_qualified_name() << ", " << field.name() << ");\n";
+                }
+                else
+                {
+                    klass_statics << indent(1);
+                    std::string comma = i == 0 ? "" : ", ";
+                    klass_statics << comma << field.name() << "\n";
+                    ++i;
+                }
+            }
+        }
+
+        if (klass.type().is_klass()) klass_statics_internal << indent(1) << "};\n";
+
+        return std::stringstream{} << klass_statics_internal.str() << klass_statics.str();
     }
 }
