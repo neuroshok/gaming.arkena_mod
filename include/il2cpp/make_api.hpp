@@ -42,6 +42,7 @@ make_api(class_from_type, const il2cpp::Il2CppClass*, (const il2cpp::Il2CppType*
 make_api(class_is_enum, bool, (const il2cpp::Il2CppClass* klass), klass)
 make_api(class_is_generic, bool, (const il2cpp::Il2CppClass* klass), klass)
 make_api(class_is_valuetype, bool, (const il2cpp::Il2CppClass* klass), klass)
+make_api(class_is_inflated, bool, (const il2cpp::Il2CppClass* klass), klass)
 
 // field
 make_api(field_get_name, const char*, (il2cpp::FieldInfo* field), field)

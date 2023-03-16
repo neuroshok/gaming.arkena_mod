@@ -30,8 +30,8 @@ namespace ark
         });
 
         ark::hook<&au::PlayerControl::FixedUpdate>::after([](auto&&){
-            auto p = reinterpret_cast<au::PlayerControl::internal_statics*>(il2cpp::api::template get_class<au::PlayerControl>()->static_fields)->LocalPlayer;
-            ark_trace("inVent {}", (uintptr_t)p);
+
+            //ark_trace("inVent {}", (uintptr_t)p);
         });
 #endif
     }

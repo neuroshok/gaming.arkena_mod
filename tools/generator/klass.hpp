@@ -24,9 +24,9 @@ namespace meta
         const std::string& name() const { return name_; }
         const std::string& qualified_name() const { return qualified_name_; }
         const std::string& ns_qualified_name() const { return ns_qualified_name_; }
-        const std::string& generic_name() const { return generic_name_; }
         const std::string& namespaze() const { return namespaze_; }
         const std::string& ns_name() const { return ns_name_; }
+        const std::string& generic_declaration() const { return generic_declaration_; }
         const std::string& file_path() const { return file_path_; }
         const std::string& path() const { return path_; }
         bool is_klass() const { return type_id_ == il2cpp::TYPE_CLASS; }
@@ -49,7 +49,8 @@ namespace meta
         std::string name_;
         std::string qualified_name_;
         std::string ns_qualified_name_;
-        std::string generic_name_;
+        std::string generic_suffix_;
+        std::string generic_declaration_;
         std::string namespaze_;
         std::string ns_name_;
         std::string file_path_;
@@ -142,6 +143,8 @@ namespace meta
         const meta::type& return_type() const { return return_type_; }
         il2cpp::Il2CppMethodPointer const address() const { return address_; }
         const std::vector<klass_parameter>& parameters() const { return parameters_; }
+        bool is_static() const { return is_static_; }
+        bool is_virtual() const { return is_virtual_; }
 
     private:
         const il2cpp::MethodInfo* info_;
@@ -151,6 +154,9 @@ namespace meta
         il2cpp::Il2CppMethodPointer address_;
         meta::type return_type_;
         std::vector<klass_parameter> parameters_;
+
+        bool is_static_ = false;
+        bool is_virtual_ = false;
     };
 
     class klass_parameter

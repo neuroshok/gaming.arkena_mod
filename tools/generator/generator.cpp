@@ -106,7 +106,7 @@ namespace meta
         if (!cpp.is_open()) throw std::logic_error("Unable to open file : " + output_path_ + klass.path() + klass.name() + ".cpp");
 
         // info
-        // ofs << "/* " << klass.type().info() << " */\n\n";
+        hpp << "/* " << klass.type().info() << " */\n\n";
 
         // headers
         hpp << "#pragma once\n";
@@ -130,7 +130,8 @@ namespace meta
         // class declaration
         std::string klass_type;
         std::stringstream klass_meta;
-        std::stringstream klass_statics;
+        std::stringstream hpp_statics;
+        std::stringstream cpp_statics;
         std::stringstream klass_fields;
         std::stringstream klass_methods;
         std::stringstream klass_methods_def;
@@ -140,7 +141,7 @@ namespace meta
             klass_type = "struct alignas(4) ";
             klass_meta << "    inline static auto internal_ns = \"" << (klass.namespaze() == "au" ? "" : klass.namespaze()) << "\";\n";
             klass_meta << "    inline static auto internal_name = \"" << klass.name() << "\";\n\n";
-            klass_statics = make_statics(klass);
+            make_statics(klass, hpp_statics, cpp_statics);
             klass_fields =  make_fields(klass);
             klass_methods = make_methods(klass);
             klass_methods_def = make_methods(klass, true);
@@ -148,13 +149,13 @@ namespace meta
         else
         {
             klass_type = "enum class";
-            klass_statics = make_statics(klass);
+            make_statics(klass, hpp_statics, cpp_statics);
         }
 
         hpp << klass_type << " " << klass.name() << "\n";
         hpp << "{" << "\n";
         hpp << klass_meta.str();
-        hpp << klass_statics.str();
+        hpp << hpp_statics.str();
         hpp << "\n";
         hpp << klass_fields.str();
         hpp << "\n\n";
@@ -172,7 +173,8 @@ namespace meta
             {
                 parameters += ", " + parameter.type().ns_qualified_name();
             }
-            hpp << indent(1) << "method_rva(" << "0x" << std::hex << meta::klass::rva(method.address())
+            std::string method_rva = method.is_static() ? "method_static_rva" : "method_rva";
+            hpp << indent(1) << method_rva << "(" << "0x" << std::hex << meta::klass::rva(method.address())
                 << ", " << method.klass().ns_name()
                 << ", " << method.return_type().ns_qualified_name()
                 << ", " << method.name()
@@ -185,7 +187,8 @@ namespace meta
         cpp << "#include \"" << klass.name() << ".hpp\"\n\n";
         cpp << cpp_includes.str() << "\n\n";
         cpp << "namespace " << klass.namespaze() << "\n{\n";
-        cpp << klass_methods_def.str();
+        cpp << klass_methods_def.str() << "\n";
+        cpp << cpp_statics.str();
         cpp << indent(0) << "} // " << klass.namespaze();
         cpp << "\n\n";
     }
@@ -224,6 +227,7 @@ namespace meta
             else
             {
                 forwards << "namespace " << type.namespaze() << " { ";
+                if (type.is_generic()) forwards << type.assembly_name() << " ";
                 forwards << "struct " << type.name() << "; }";
                 forwards << "\n";
                 cpp_includes << "#include <" << type.file_path() << ".hpp>\n";
@@ -240,7 +244,7 @@ namespace meta
         int i = 0;
         for (const auto& field : klass.fields())
         {
-             if(field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC)) continue;
+            if(field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC)) continue;
 
             klass_fields << indent(1);
             // enum
@@ -274,6 +278,8 @@ namespace meta
         {
             klass_methods << indent(1);
 
+            if (method.is_virtual()) klass_methods << "/* virtual */";
+            if (method.is_static() && !definition) klass_methods << "static ";
             klass_methods << method.return_type().ns_qualified_name() << " ";
             if (definition) klass_methods << klass.name() << "::";
             klass_methods << method.name() << "(";
@@ -287,7 +293,8 @@ namespace meta
             }
 
             std::string comma = method.parameters().empty() ? "" : ", ";
-            if (definition) klass_methods << ") { " << (method.return_type().type_id() != il2cpp::TYPE_VOID ? "return " : "") << "method_call(" << method.name() << comma << call_parameters << "); }";
+            std::string static_call = method.is_static() ? "static_" : "";
+            if (definition) klass_methods << ") { " << (method.return_type().type_id() != il2cpp::TYPE_VOID ? "return " : "") << static_call << "method_call(" << method.name() << comma << call_parameters << "); }";
             else klass_methods << ");";
             klass_methods << " // 0x" << std::hex << meta::klass::rva(method.address());
             klass_methods << "\n";
@@ -330,12 +337,17 @@ namespace meta
 
         return klass_methods;
     }
-    std::stringstream generator::make_statics(const klass& klass)
+    void generator::make_statics(const klass& klass, std::stringstream& hpp_statics, std::stringstream& cpp_statics)
     {
         std::stringstream klass_statics;
-        std::stringstream klass_statics_internal;
+        std::stringstream klass_statics_declaration;
+        std::stringstream klass_statics_definition;
 
-        if (klass.type().is_klass()) klass_statics_internal << indent(1) << "struct internal_statics {\n";
+        if (!klass.type().is_enum())
+        {
+            klass_statics_declaration << indent(1) << "struct internal_statics;\n";
+            klass_statics_definition << indent(1) << "struct " << klass.name() << "::internal_statics {\n";
+        }
 
         int i = 0;
         for (const auto& field : klass.fields())
@@ -343,13 +355,14 @@ namespace meta
 
             if (field.has_attribute(il2cpp::FIELD_ATTRIBUTE_STATIC))
             {
-                if (klass.type().is_klass())
+                if (!klass.type().is_enum())
                 {
                     klass_statics << indent(1);
-                    klass_statics_internal << indent(2);
-                    klass_statics_internal << field.type().ns_qualified_name() << " " << field.name() << ";\n";
+                    klass_statics_definition << indent(2);
+                    klass_statics_definition << field.type().ns_qualified_name() << " " << field.name() << ";\n";
 
                     klass_statics << "field_static(" << field.owner().name() << ", " << field.type().ns_qualified_name() << ", " << field.name() << ");\n";
+                    cpp_statics << indent(1) << "field_static_impl(" << field.owner().name() << ", " << field.type().ns_qualified_name() << ", " << field.name() << ");\n";
                 }
                 else
                 {
@@ -361,8 +374,9 @@ namespace meta
             }
         }
 
-        if (klass.type().is_klass()) klass_statics_internal << indent(1) << "};\n";
+        if (!klass.type().is_enum()) klass_statics_definition << indent(1) << "};\n";
 
-        return std::stringstream{} << klass_statics_internal.str() << klass_statics.str();
+        hpp_statics << klass_statics_declaration.str() << klass_statics.str();
+        cpp_statics << klass_statics_definition.str();
     }
 }

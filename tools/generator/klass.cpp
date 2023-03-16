@@ -32,7 +32,6 @@ namespace meta
         if (namespaze_.empty()) namespaze_ = "au";
         name_ = api::class_get_name(klass_);
         clean_name(name_);
-        generic_name_ = name_;
 
         is_generic_ = api::class_is_generic(klass_);
         is_enum_ = api::class_is_enum(klass_);
@@ -68,12 +67,12 @@ namespace meta
         case il2cpp::TYPE_STRING:
             namespaze_ = "cs";
             name_ = "string";
-            generic_name_ = "string";
             is_pointer_ = true;
             is_native_ = true;
 
             break;
         case il2cpp::TYPE_ARRAY:
+            break;
         case il2cpp::TYPE_SZARRAY: {
             auto* element_klass = meta::get_klass(api::type_get_class_or_element_class(type_));
             if (element_klass)
@@ -82,7 +81,15 @@ namespace meta
                 file_path_ = element_klass->type().file_path();
                 is_native_ = element_klass->type().is_native();
             }
-            else ns_name_ = "cs::array<" + name_ + ">";
+            else
+            {
+                namespaze_ = "";
+                name_ = "void /* SZARRAY Typeid_" + std::to_string(type_id_) + " */";
+                ns_name_ = name_;
+                is_pointer_ = true;
+                is_native_ = true;
+            }
+
             break;
         }
 
@@ -90,15 +97,24 @@ namespace meta
             name_ = name_.substr(0, name_.find("`"));
             // todo
             //name_ += "<" + std::to_string(klass_->_2.) + ">";
-            generic_name_ = name_ +  "<int>";
+            generic_suffix_ = "<int>";
             is_pointer_ = true;
+            generic_declaration_ = "template<class...>";
+            is_generic_ = true;
 
+            break;
+        case il2cpp::TYPE_MVAR: //template parameter in method def
+                name_ = "void /* MVAR Typeid_" + std::to_string(type_id_) + " */";
+                ns_name_ = name_;
+                is_pointer_ = true;
+                is_native_ = true;
             break;
         }
         default:
             if (meta::type_names.find(type_id_) == meta::type_names.end())
             {
-                name_ = "Typeid_" + std::to_string(type_id_);
+                name_ = "void /* Typeid_" + std::to_string(type_id_) + " */";
+                ns_name_ = name_;
                 is_pointer_ = true;
             }
             else
@@ -110,7 +126,7 @@ namespace meta
             is_native_ = true;
         }
 
-        if (ns_name_.empty()) ns_name_ = namespaze_.empty() ? generic_name_ :  namespaze_ + "::" + generic_name_;
+        if (ns_name_.empty()) ns_name_ = namespaze_.empty() ? name_ + generic_suffix_ :  namespaze_ + "::" + name_ + generic_suffix_;
 
         // add qualifiers
         if (is_pointer_)
@@ -137,20 +153,27 @@ namespace meta
 
     std::string type::info() const
     {
+        auto* element_klass = meta::get_klass(api::type_get_class_or_element_class(type_));
+
         std::stringstream output;
-        // output << "\npath_: " << path_;
-        // return output.str();
-        //output << "\nAssembly: " << api::type_get_assembly_qualified_name(api::class_get_type(klass_));
+        output << "\nAssembly: " << api::type_get_assembly_qualified_name(api::class_get_type(klass_));
         output << "\nType: " << type_id_;
-        //output << "\nDeclaring: " << (parent_klass_ ? parent_klass_->name() : "");
-        //output << "\nDeclaringNS: " << (parent_klass_ ? parent_klass_->namespaze() : "");
+        output << "\nDeclaring: " << (element_klass ? element_klass->name() : "");
+        output << "\nDeclaringNS: " << (element_klass ? element_klass->namespaze() : "");
         output << "\nName: " << name_;
         output << "\nNamespace: " << namespaze_;
         output << "\nFilepath: " << file_path_;
-        //output << "\nIsEnum: " << is_enum();
-        //output << "\nIsGeneric: " << is_generic();
-        //output << "\nIsValueType: " << is_valuetype();
-        //output << "\nIsNested: " << is_nested();
+        output << "\nFlags: " << klass_->_1.typeDefinition->flags;
+        output << "\ngenericContainerIndex: " << klass_->_1.typeDefinition->genericContainerIndex;
+        output << "\nelementTypeIndex: " << klass_->_1.typeDefinition->elementTypeIndex;
+        output << "\ndeclaringTypeIndex: " << klass_->_1.typeDefinition->declaringTypeIndex;
+        output << "\nHasElementClass: " << (klass_->_1.element_class == nullptr);
+        output << "\nAlignment: " << (int)(klass_->_2.naturalAligment);
+        output << "\nVTableCount: " << (klass_->_2.vtable_count);
+        output << "\nIsEnum: " << is_enum();
+        output << "\nIsGeneric: " << is_generic();
+        output << "\nIsValueType: " << is_value_type();
+        output << "\nIsInflated: " << api::class_is_inflated(klass_);
 
         if (klass_->_2.nested_type_count > 0)
         {
@@ -258,6 +281,8 @@ namespace meta
         clean_name(name_);
         ns_name_ = owner.ns_name() + "::" + name_;
         address_ = info_->methodPointer;
+        is_static_ = info_->flags & METHOD_ATTRIBUTE_STATIC;
+        is_virtual_ = info_->flags & METHOD_ATTRIBUTE_VIRTUAL;
 
         for (int param_index = 0; param_index < info_->parameters_count; ++param_index)
         {

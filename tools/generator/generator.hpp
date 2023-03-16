@@ -21,7 +21,7 @@ namespace meta
 
         void make_klass(const meta::klass& klass);
         void make_deps(const klass& klass, std::stringstream& hpp_includes, std::stringstream& cpp_includes);
-        std::stringstream make_statics(const meta::klass& klass);
+        void make_statics(const klass& klass, std::stringstream& hpp_statics, std::stringstream& cpp_statics);
         std::stringstream make_fields(const meta::klass& klass);
         std::stringstream make_methods(const meta::klass& klass, bool definition = false);
 
