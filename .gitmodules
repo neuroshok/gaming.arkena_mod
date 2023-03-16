@@ -4,9 +4,6 @@
 [submodule "third_party/rcmp"]
 	path = third_party/rcmp
 	url = https://github.com/Smertig/rcmp
-[submodule "third_party/imgui"]
-	path = third_party/imgui
-	url = https://github.com/ocornut/imgui
 [submodule "third_party/kiero"]
 	path = third_party/kiero
 	url = https://github.com/Rebzzel/kiero
@@ -19,3 +16,6 @@
 [submodule "third_party/restclient-cpp"]
 	path = third_party/restclient-cpp
 	url = https://github.com/mrtazz/restclient-cpp.git
+[submodule "third_party/imgui"]
+	path = third_party/imgui
+	url = https://github.com/ocornut/imgui.git
