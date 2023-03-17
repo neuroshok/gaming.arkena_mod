@@ -20,6 +20,13 @@ namespace il2cpp
         return std::invoke(function, args...);
     }
 
+    template <class Signature>
+    inline Signature bcall(uintptr_t rva)
+    {
+        auto address = ark::base_address() + rva;
+        return std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+    }
+
     struct Il2CppImage;
     struct Il2CppThread;
     struct Il2CppAssembly;

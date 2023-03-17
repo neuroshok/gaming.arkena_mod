@@ -225,7 +225,7 @@ namespace meta
         std::stringstream includes;
         std::stringstream forwards;
 
-        if (klass.parent())
+        if (klass.parent() && !klass.type().is_enum())
         {
             includes << "#include <" << klass.parent()->file_path() << ".hpp>\n";
         }
@@ -233,7 +233,7 @@ namespace meta
         for (const auto& type : klass.includes())
         {
             if (type.is_native()) continue;
-            if (type.is_enum())
+            if (type.is_value_type())
             {
                 includes << "#include <" << type.file_path() << ".hpp>\n";
             }

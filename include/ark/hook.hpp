@@ -108,6 +108,11 @@ public:
             });
         }
 
+        static void before(method_type method)
+        {
+            before_hooks.emplace("__ark_global__", std::move(method));
+        }
+
         static void before(ark::mod* mod, method_type method)
         {
             assert(mod);

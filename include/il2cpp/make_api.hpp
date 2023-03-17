@@ -31,6 +31,7 @@ make_api(thread_attach, il2cpp::Il2CppThread*, (const il2cpp::Il2CppDomain* d), 
 
 // class
 make_api(class_from_name, il2cpp::Il2CppClass*, (const il2cpp::Il2CppImage* image, const char* namespaze, const char* name), image, namespaze, name)
+make_api(class_enum_basetype, const Il2CppType*,  (const il2cpp::Il2CppClass* klass), klass)
 make_api(class_get_fields, il2cpp::FieldInfo*,  (const il2cpp::Il2CppClass* klass, void* *iter), klass, iter)
 make_api(class_get_methods, const il2cpp::MethodInfo*,  (const il2cpp::Il2CppClass* klass, void* *iter), klass, iter)
 make_api(class_get_declaring_type, il2cpp::Il2CppClass*, (const il2cpp::Il2CppClass* klass), klass)

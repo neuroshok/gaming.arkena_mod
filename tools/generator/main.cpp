@@ -21,10 +21,8 @@ int main()
 
         meta::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
         //gen.filter_image("Assembly-CSharp.dll");
-        // gen.filter_klass("PlayerControl");
-        //gen.filter_klass("ParseFailureKind");
-        //gen.filter_klass("Enum_ParseFailureKind");
-        //gen.filter_klass("SystemTypes");
+        //gen.filter_klass("PlayerControl");
+        //gen.filter_klass("SendOption");
 
         //std::cout << il2cpp_info(gen.klasses_[120]);
 

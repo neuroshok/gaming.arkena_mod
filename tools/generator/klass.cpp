@@ -48,8 +48,6 @@ namespace meta
             break;
 
         case il2cpp::TYPE_VALUETYPE:
-            is_pointer_ = true;
-
             break;
 
         case il2cpp::TYPE_OBJECT:
@@ -227,11 +225,12 @@ namespace meta
 
         initialized_ = true;
 
-        // parent
-        declaring_ =  meta::get_klass(api::class_get_declaring_type(klass_));
+        // declaring
+        declaring_ = meta::get_klass(api::class_get_declaring_type(klass_));
+
         // parent
         parent_ = meta::get_klass(klass_->_1.parent);
-        if (type_.is_enum()) parent_ = nullptr;
+        if (type_.is_enum()) parent_ = meta::get_klass(api::class_enum_basetype(klass_));
 
         // fields
         void* field_it = nullptr;
