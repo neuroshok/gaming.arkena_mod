@@ -3,6 +3,7 @@
 #include <ark/core.hpp>
 #include "au/PlayerControl.hpp"
 
+
 #include <il2cpp/api.hpp>
 
 #define hkr(R, H) ark_trace("init hook {}", #H); hook<&H>::init<R>()
@@ -20,13 +21,12 @@ namespace ark
         #include <analysis/testing.hpp>
 #else
 
-        hk(au::PlayerControl::SetColor);
         hk(au::PlayerControl::FixedUpdate);
+        hk(au::PlayerControl::SetColor);
 
         ark::hook<&au::PlayerControl::SetColor>::after([](auto&&, auto color){
             ark_trace("hook ok {}", color);
-            au::PlayerControl::LocalPlayer()->RpcSetName(cs::make_string("test"));
-            au::PlayerControl::LocalPlayer()->RpcSendChat(cs::make_string("coucou"));
+            if (au::PlayerControl::LocalPlayer()) au::PlayerControl::LocalPlayer()->RpcSetName(cs::make_string("test"));
         });
 
         ark::hook<&au::PlayerControl::FixedUpdate>::after([](auto&&){

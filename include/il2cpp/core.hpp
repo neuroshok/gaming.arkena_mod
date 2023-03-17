@@ -12,11 +12,12 @@ namespace il2cpp
 {
     using Il2CppMethodPointer = void(*)();
 
-    template <class Signature>
-    inline Signature call(uintptr_t rva)
+    template <class Signature, class... Args>
+    inline auto call(uintptr_t rva, Args&&... args)
     {
         auto address = ark::base_address() + rva;
-        return std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+        auto function = std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+        return std::invoke(function, args...);
     }
 
     struct Il2CppImage;
@@ -207,23 +208,22 @@ namespace il2cpp
 
     struct Il2CppTypeDefinition
     {
-        int32_t nameIndex;
-        int32_t namespaceIndex;
-        int32_t byvalTypeIndex;
-        int32_t byrefTypeIndex;
-        int32_t declaringTypeIndex;
-        int32_t parentIndex;
-        int32_t elementTypeIndex;
-        int32_t genericContainerIndex;
+        int32_t  nameIndex;
+        int32_t  namespaceIndex;
+        int32_t  byvalTypeIndex ;
+        int32_t  declaringTypeIndex;
+        int32_t  parentIndex;
+        int32_t  elementTypeIndex;
+        int32_t  genericContainerIndex;
         uint32_t flags;
-        int32_t fieldStart;
-        int32_t methodStart;
-        int32_t eventStart;
-        int32_t propertyStart;
-        int32_t nestedTypesStart;
-        int32_t interfacesStart;
-        int32_t vtableStart;
-        int32_t interfaceOffsetsStart;
+        int32_t  fieldStart;
+        int32_t  methodStart;
+        int32_t  eventStart;
+        int32_t  propertyStart;
+        int32_t  nestedTypesStart;
+        int32_t  interfacesStart;
+        int32_t  vtableStart;
+        int32_t  interfaceOffsetsStart;
         uint16_t method_count;
         uint16_t property_count;
         uint16_t field_count;

@@ -26,10 +26,14 @@ namespace meta
         const std::string& ns_qualified_name() const { return ns_qualified_name_; }
         const std::string& namespaze() const { return namespaze_; }
         const std::string& ns_name() const { return ns_name_; }
+        const std::string& generic_ns_name() const { return generic_ns_name_; }
         const std::string& generic_declaration() const { return generic_declaration_; }
         const std::string& file_path() const { return file_path_; }
         const std::string& path() const { return path_; }
         bool is_klass() const { return type_id_ == il2cpp::TYPE_CLASS; }
+        bool is_abstract() const { return flags_ & il2cpp::TYPE_ATTRIBUTE_ABSTRACT; }
+        bool is_interface() const { return flags_ & il2cpp::TYPE_ATTRIBUTE_INTERFACE; }
+        bool is_static() const { return (flags_ & il2cpp::TYPE_ATTRIBUTE_ABSTRACT) != 0 && (flags_ & il2cpp::TYPE_ATTRIBUTE_SEALED) != 0; }
         bool is_enum() const { return is_enum_; }
         bool is_value_type() const { return is_value_type_; }
         bool is_generic() const { return is_generic_; }
@@ -44,11 +48,13 @@ namespace meta
         const il2cpp::Il2CppType* type_;
         int type_id_;
         const il2cpp::Il2CppClass* klass_;
+        uint32_t flags_ = 0;
 
         std::string assembly_name_;
         std::string name_;
         std::string qualified_name_;
         std::string ns_qualified_name_;
+        std::string generic_ns_name_;
         std::string generic_suffix_;
         std::string generic_declaration_;
         std::string namespaze_;
@@ -78,22 +84,27 @@ namespace meta
         const std::string& name() const { return type_.name(); }
         const std::string& namespaze() const { return type_.namespaze(); }
         const std::string& ns_name() const { return type_.ns_name(); }
+        const std::string& generic_ns_name() const { return type_.generic_ns_name(); }
         const std::string& file_path() const { return type_.file_path(); }
         const std::string& path() const { return type_.path(); }
+        const meta::klass* declaring() const { return declaring_; }
+        const meta::klass* parent() const { return parent_; }
+        int alignment() const { return klass_->_2.naturalAligment; }
         const std::vector<klass_field>& fields() const { return fields_; }
         const std::vector<klass_method>& methods() const { return methods_; }
         const std::vector<meta::type>& includes() const { return includes_; }
         bool is_initialized() const { return initialized_; }
-        bool is_nested() const { return parent_klass_ != nullptr; }
 
         static void clean_name(std::string& name);
         static uintptr_t rva(il2cpp::Il2CppMethodPointer);
+        static std::string rva_str(il2cpp::Il2CppMethodPointer);
 
     private:
         const il2cpp::Il2CppClass* klass_;
         meta::type type_;
 
-        mutable const meta::klass* parent_klass_ = nullptr;
+        mutable const meta::klass* declaring_ = nullptr;
+        mutable const meta::klass* parent_ = nullptr;
 
         std::vector<klass_field> fields_;
         std::vector<klass_method> methods_;

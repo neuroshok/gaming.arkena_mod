@@ -12,6 +12,7 @@ namespace meta
         str_replace(name, ">", "");
         str_replace(name, "[", "");
         str_replace(name, "]", "");
+        str_replace(name, ",", "");
         str_replace(name, "=", "");
         str_replace(name, "|", "");
         str_replace(name, ".", "::");
