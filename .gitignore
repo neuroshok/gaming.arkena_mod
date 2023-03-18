@@ -11,7 +11,7 @@ build/
 resource/local/
 
 # generated files
-**.generated.hpp
+generated/
 
 # cmake build folders
 **cmake-*/
