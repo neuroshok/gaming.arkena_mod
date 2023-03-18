@@ -4,10 +4,7 @@
 #include <spdlog/fmt/ostr.h>
 #include <spdlog/spdlog.h>
 
-//#include <au/UnityEngine/Vector2.hpp>
-//#include <au/UnityEngine/Vector3.hpp>
-
-#define ark_assert(C, M) if (!C) {ark_trace("Asssertion failed: {}", M);} assert(C)
+#define ark_assert(C, M) if (!C) { ark_trace("Asssertion failed: {}", M); } assert(C)
 
 namespace ark
 {

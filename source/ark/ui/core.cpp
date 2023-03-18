@@ -163,7 +163,7 @@ namespace ark::ui
         ImGui_ImplWin32_NewFrame();
 
         ImGui::NewFrame();
-        //ui::core::instance().make_main();
+        ui::core::instance().make_main();
         ImGui::EndFrame();
 
         ImGui::Render();

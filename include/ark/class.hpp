@@ -4,9 +4,7 @@
 #include <cs/array.hpp>
 //#include <cs/list.hpp>
 
-#include <ark/utility/function.hpp>
-#include <ark/utility/meta.hpp>
-#include <ark/utility/preprocessor.hpp>
+#include <ark/meta.hpp>
 
 // windows macro, generated files use this identifier
 #undef DECIMAL_NEG

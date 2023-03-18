@@ -1,12 +1,11 @@
 #pragma once
 
-#include <Windows.h>
+#include <ark/utility.hpp>
 
+#include <Windows.h>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
-#include <bit>
-
-#include <ark/module.hpp>
 
 namespace il2cpp
 {
@@ -18,13 +17,6 @@ namespace il2cpp
         auto address = ark::base_address() + rva;
         auto function = std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
         return function(args...);
-    }
-
-    template <class Signature>
-    inline Signature bcall(uintptr_t rva)
-    {
-        auto address = ark::base_address() + rva;
-        return std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
     }
 
     struct Il2CppImage;

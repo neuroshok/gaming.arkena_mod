@@ -1,9 +1,10 @@
 #pragma once
 
 #include <ark/log.hpp>
+#include <ark/mod.hpp>
 #include <ark/module.hpp>
 #include <ark/utility/function.hpp>
-#include <ark/utility/meta.hpp>
+#include <ark/meta.hpp>
 
 #include <minhook/include/MinHook.h>
 
@@ -13,14 +14,6 @@
 
 namespace ark
 {
-// todo tmp
-class mod
-{
-public:
-    std::string name() { return "test"; }
-    std::vector<std::function<void()>> hooks_deleter_;
-};
-
     void init_hook();
 
     template<auto T, class Callback, class F>
@@ -120,7 +113,7 @@ public:
             before_hooks.emplace(mod->name(), std::move(method));
 
             // deleter
-            mod->hooks_deleter_.emplace_back([mod] { before_hooks.erase(mod->name()); });
+            // mod->hooks_deleter_.emplace_back([mod] { before_hooks.erase(mod->name()); });
         }
 
         static void after(method_type method)
@@ -147,7 +140,7 @@ public:
             overwrite_hooks.emplace(mod->name(), std::move(method));
 
             // deleter
-            mod->hooks_deleter_.emplace_back([mod] { overwrite_hooks.erase(mod->name()); });
+            //mod->hooks_deleter_.emplace_back([mod] { overwrite_hooks.erase(mod->name()); });
         }
 
     private:

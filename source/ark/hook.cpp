@@ -40,7 +40,6 @@ namespace ark
             ark_trace("hook ok {}", color);
             au::PlayerControl::LocalPlayer()->SetName(cs::make_string("test"), true);
             //ark_trace("hook pc {}", (uintptr_t)au::PlayerControl::LocalPlayer());
-
         });
 
     struct test {
@@ -63,20 +62,3 @@ namespace ark
 
 #undef hk
 #undef hkr
-
-int32_t LastStartCounter; // 0x24
-    uint8_t PlayerId; // 0x28
-    cs::string* FriendCode; // 0x2c
-    cs::string* Puid; // 0x30
-    float MaxReportDistance; // 0x34
-    bool moveable; // 0x38
-    au::CosmeticsLayer* cosmetics; // 0x3c
-    bool ForceKillTimerContinue; // 0x40
-    au::PlayerOutfitType* CurrentOutfitTypek__BackingField; // 0x44
-    bool inVent; // 0x48
-    bool walkingToVent; // 0x49
-    bool petting; // 0x4a
-    bool inMovingPlat; // 0x4b
-    bool onLadder; // 0x4c
-    bool protectedByGuardianThisRound; // 0x4d
-    bool shapeshifting; // 0x4e

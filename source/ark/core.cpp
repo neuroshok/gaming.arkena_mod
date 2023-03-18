@@ -2,10 +2,11 @@
 #include <KnownFolders.h>
 #include <shlobj.h>
 
+#include <ark/module.hpp>
 #include <ark/core.hpp>
 #include <ark/hook.hpp>
 //#include <ark/log.hpp>
-//#include <ark/mod.hpp>
+#include <ark/mod.hpp>
 //#include <ark/mods.hpp>
 
 #include <il2cpp/api.hpp>
@@ -32,6 +33,8 @@ namespace ark
         ui_.load();
         #endif
         ark::init_hook();
+
+        load("au_mod");
 
         //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
@@ -71,6 +74,26 @@ namespace ark
             {
                 break;
             }
+        }
+    }
+
+    void core::load(const std::string& mod_name)
+    {
+        // auto handle = ark_os_module_load((mod_name + ark_os_sharelibext).c_str());
+        auto handle = ark_os_module_load("E:\\project\\arkmongus\\bin\\au_mod.dll");
+        if (!handle) error("core", "unable to load mod " + mod_name);
+        else
+        {
+            mods_.emplace_back(std::make_unique<ark::mod>(*this, mod_name));
+            ark_info("Mod {} {} loaded", mods_.back()->version().str(), mods_.back()->name());
+            mods_.back()->enable();
+
+            // get main pointer
+            auto load_ptr = reinterpret_cast<Module_load_ptr>(ark_os_module_function(handle, "mod_load"));
+            if (!load_ptr)
+                error("core", "function mod_load missing");
+            else
+                load_ptr(*mods_.back());
         }
     }
 
@@ -167,8 +190,6 @@ namespace ark
         return logs_;
     }
 
-    ark::resources& core::resources() { return resources_; }
-
     std::string core::settings_path()
     {
         TCHAR szPath[MAX_PATH];
@@ -179,4 +200,5 @@ namespace ark
         auto path =  std::string(szPath) + "\\arkmongus.settings.json";
         return path;
     }
+
 } // ark
