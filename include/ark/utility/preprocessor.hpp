@@ -1,6 +1,6 @@
 #pragma once
 
-#define method_call(Klass, ReturnType, ArgTypes, Args) il2cpp::call<ReturnType(Klass::*)ArgTypes>Args
+#define method_call(Klass, ReturnType, ArgTypes, Args) il2cpp::call<ReturnType(*)ArgTypes>Args
 #define static_method_call(Klass, ReturnType, ArgTypes, Args) il2cpp::call<ReturnType(*)ArgTypes>Args
 #define method_rva(RVA, Klass, ReturnType, FunctionName, ...) \
 template<> inline uintptr_t rva<static_cast<ReturnType(Klass::*)(__VA_ARGS__)>( &Klass::FunctionName)>() { return RVA; }

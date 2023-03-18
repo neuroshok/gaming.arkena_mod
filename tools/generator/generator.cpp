@@ -306,9 +306,9 @@ namespace meta
                 call_parameters_type += comma + parameter.type().ns_qualified_name();
                 call_parameters_name += comma + parameter.name();
             }
-
-            // method_call(PlayerControl, au::GameData_PlayerOutfit*, (), (0x6d3cc0));
             std::string comma = method.parameters().empty() ? "" : ", ";
+            call_parameters_type = (method.is_static() ? "" : "decltype(this)" + comma) + call_parameters_type;
+
             std::string static_call = method.is_static() ? "static_" : "";
             std::string method_call_this = method.is_static() ? "" : ", this";
             if (definition) klass_methods << ") { "

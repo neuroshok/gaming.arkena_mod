@@ -17,7 +17,7 @@ namespace il2cpp
     {
         auto address = ark::base_address() + rva;
         auto function = std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
-        return std::invoke(function, args...);
+        return function(args...);
     }
 
     template <class Signature>

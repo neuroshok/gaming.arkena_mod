@@ -38,8 +38,8 @@ namespace ark
 
         ark::hook<&au::PlayerControl::SetColor>::before([](auto&&, auto color){
             ark_trace("hook ok {}", color);
+            au::PlayerControl::LocalPlayer()->SetName(cs::make_string("test"), true);
             //ark_trace("hook pc {}", (uintptr_t)au::PlayerControl::LocalPlayer());
-
 
         });
 
@@ -50,10 +50,7 @@ namespace ark
 
         ark::hook<&au::PlayerControl::FixedUpdate>::before([](auto&&){
 
-            //au::PlayerControl::LocalPlayer()->SetColor(0);
-            auto* r = reinterpret_cast<test*>(il2cpp::api::template get_class<au::PlayerControl>()->static_fields)->LocalPlayer;
-            //if (au::PlayerControl::LocalPlayer()) ark_trace("test  {}", (uintptr_t)r);
-            //if (au::PlayerControl::LocalPlayer()) ark_trace("LocalPlayer  {}", (uintptr_t)au::PlayerControl::LocalPlayer());
+            if (au::PlayerControl::LocalPlayer()) au::PlayerControl::LocalPlayer()->RpcSetName(cs::make_string("test"));
             if (au::PlayerControl::LocalPlayer()) ark_trace(" {} {} "
                           , au::PlayerControl::LocalPlayer()->moveable
                           , au::PlayerControl::LocalPlayer()->inVent
