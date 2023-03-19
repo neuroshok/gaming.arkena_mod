@@ -1,30 +1,26 @@
 #pragma once
 
-#include <ark/log.hpp>
 #include <au/player.hpp>
 #include <vector>
 
 namespace au
 {
     class core;
+    class mod;
 
-    class gamestate
+    class ARK_SHARED gamestate
     {
+        friend class core;
+
     public:
-        gamestate(au::core& core) : core_{ core } {}
+        virtual void on_start_meeting(au::player& reporter/*, au::playerstate& target*/);
+        virtual void on_cast_vote(uint8_t playerId, uint8_t suspectIdx) {}
 
-        void on_start_meeting(au::player reporter/*, au::playerstate& target*/)
-        {
-            ark_trace("on start meeting by {}", reporter.name());
-            reporter.set_color(0x00FF00);
-            // net_servercall(reported, set_color, value);
-        }
-
-        const std::vector<au::player>& players() { return players_; }
-
+        au::mod& mod();
+        const std::vector<au::player>& players();
 
     private:
-        au::core& core_;
+        au::mod* mod_ = nullptr;
         std::vector<au::player> players_;
     };
-} // auv
+} // au

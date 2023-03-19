@@ -2,13 +2,13 @@
 
 #include <Windows.h>
 
-namespace ark
+namespace au
 {
     class mod;
 } // ark
 
-using Module_load_ptr = int (*)(ark::mod&);
-using Module_unload_ptr = int (*)(ark::mod&);
+using Module_load_ptr = int (*)(au::mod&);
+using Module_unload_ptr = int (*)(au::mod&);
 
 #define ark_os_module_function GetProcAddress
 #define ark_os_module_load(path) LoadLibraryA(path)

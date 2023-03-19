@@ -8,12 +8,13 @@
 #include <ark/mod.hpp>
 
 #include <au/core.hpp>
+#include <au/mod.hpp>
 
 #include <il2cpp/api.hpp>
 
-#include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
+#include <nlohmann/json.hpp>
 
 namespace ark
 {
@@ -37,7 +38,7 @@ namespace ark
         // load among us mod framework
         au_core_->load();
 
-        load("amodus");
+        load<au::mod>("amodus");
 
         //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
@@ -63,27 +64,6 @@ namespace ark
             if (GetAsyncKeyState(VK_F2) & 1)
             {
                 break;
-            }
-        }
-    }
-
-    void core::load(const std::string& mod_name)
-    {
-        // auto handle = ark_os_module_load((mod_name + ark_os_sharelibext).c_str());
-        auto handle = ark_os_module_load("E:\\project\\arkmongus\\bin\\amodus.dll");
-        if (!handle) error("core", "unable to load mod " + mod_name);
-        else
-        {
-            // get main pointer
-            auto load_ptr = reinterpret_cast<Module_load_ptr>(ark_os_module_function(handle, "mod_load"));
-            if (!load_ptr) error("core", "function mod_load missing");
-            else
-            {
-                mods_.emplace_back(std::make_unique<ark::mod>(*this, mod_name));
-                bool error_code = load_ptr(*mods_.back());
-                if (error_code) ark_info("Mod loading error {}", mods_.back()->name());
-                ark_info("Mod {} version {} loaded", mods_.back()->name(), mods_.back()->version().str());
-                mods_.back()->enable();
             }
         }
     }
@@ -159,12 +139,12 @@ namespace ark
         ark_trace(error_message);
     }
 
-    const std::vector<std::unique_ptr<ark::mod>>& core::mods()
+    const std::vector<std::unique_ptr<au::mod>>& core::mods()
     {
         return mods_;
     }
 
-    ark::mod& core::mod(const std::string& name)
+    au::mod& core::mod(const std::string& name)
     {
         auto it = std::find_if(mods_.begin(), mods_.end(), [&name](const auto& mod) { return mod->name() == name; });
         assert(it != mods_.end());

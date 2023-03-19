@@ -1,49 +1,43 @@
 #pragma once
 
-#include <ark/hook.hpp>
-#include <au/gamestate.hpp>
+#include <ark/module.hpp>
+#include <ark/log.hpp>
 #include <au/network.hpp>
+#include <au/gamestate.hpp>
 #include <au/player.hpp>
 
-#include <gen/au/ShipStatus.hpp>
-#include <gen/InnerNet/InnerNetClient.hpp>
+#include <memory>
+
+namespace ark { class core; }
 
 namespace au
 {
+    class mod;
+
     class core
     {
     public:
-        core(ark::core& core)
-            : ark_core_{ core }
-            , network_{ *this }
-            , gamestate_{ *this }
-        {}
+        core(ark::core& core);
 
-        void load()
-        {
-            ark::hook<&au::PlayerControl::HandleRpc>::before([this](auto&&, auto event, Hazel::MessageReader* data){
-                ark_trace("RPC {}", (int)event);
+        void load();
 
-                if (event == 99)
-                {
-                    network_.receive();
+        void set_gamestate_class(au::mod*, std::unique_ptr<au::gamestate>);
+        void set_player_class(au::mod*, std::unique_ptr<au::player>);
 
-                    // auto rpc_id = readid();
-                    // network.rpc(rpc_id)(params);
-                    ark_trace("custom rpc");
-                }
-            });
-
-            ark::hook<&au::ShipStatus::StartMeeting>::before([this](auto&&, au::PlayerControl* reporter, au::GameData_PlayerInfo* target){
-                ark_trace("StartMeeting");
-                gamestate_.on_start_meeting(au::player::from(reporter));
-                network_.send();
-            });
-        }
+        ark::core& ark_core();
+        au::gamestate& gamestate();
 
     private:
         ark::core& ark_core_;
         au::network network_;
-        au::gamestate gamestate_;
+        std::unique_ptr<au::gamestate> gamestate_;
+        std::unique_ptr<au::player> player_;
     };
+
+    // wtf this bug, symbol not found when defined in the .cpp, working without unique_ptr as parameter but working for gamestate ?!!
+    inline void core::set_player_class(au::mod* mod, std::unique_ptr<au::player> player)
+    {
+        player_ = std::move(player);
+        player_->mod_ = mod;
+    }
 } // au

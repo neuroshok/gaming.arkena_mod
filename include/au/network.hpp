@@ -1,10 +1,14 @@
 #pragma once
 
+/*
+#include <ark/version.hpp>
+#include <ark/log.hpp>
+
 #include <au/AmongUsClient.hpp>
 #include <au/PlayerControl.hpp>
 #include <Hazel/MessageReader.hpp>
 #include <Hazel/MessageWriter.hpp>
-
+*/
 #include <vector>
 
 namespace au
@@ -13,9 +17,11 @@ namespace au
 
     class network
     {
-    public:
-        network(au::core& core) : core_{ core } {}
 
+    public:
+        network(au::core& core)  {}
+        //network(au::core& core) : core_{ core } {}
+/*
         void send()
         {
             auto* writer = AmongUsClient::Instance()->StartRpcImmediately( PlayerControl::LocalPlayer()->NetId, std::uint8_t(99), Hazel::SendOption::Reliable, -1);
@@ -101,6 +107,7 @@ namespace au
     private:
         au::core& core_;
         std::vector<int> rpcs_;
+         */
     };
 
 } // au

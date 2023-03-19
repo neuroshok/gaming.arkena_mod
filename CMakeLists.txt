@@ -69,9 +69,13 @@ target_include_directories(lib_json INTERFACE third_party/json/include)
 # arkena_mod
 file(GLOB_RECURSE ARK_SOURCES
         ${PROJECT_SOURCE_DIR}/include/ark/*
-        ${PROJECT_SOURCE_DIR}/source/ark/*)
+        ${PROJECT_SOURCE_DIR}/source/ark/*
+        )
 
 file(GLOB_RECURSE AU_SOURCES
+        ${PROJECT_SOURCE_DIR}/source/au/*.cpp
+        )
+file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/au/PlayerControl.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/GameData_PlayerInfo.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/InnerNet/InnerNetClient.cpp
@@ -80,7 +84,7 @@ file(GLOB_RECURSE AU_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/au/AmongUsClient.cpp
         )
 
-add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES})
+add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})
 
 target_compile_features(arkena_mod PRIVATE cxx_std_20)
 
@@ -101,6 +105,8 @@ target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include ${PR
 
 set_target_properties(arkena_mod PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib/"
+    ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/"
     OUTPUT_NAME "arkena_mod"
 )
 

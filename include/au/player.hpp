@@ -1,22 +1,27 @@
 #pragma once
 
+#include "au/DeathReason.hpp"
 #include <cs/string.hpp>
-
-#include <gen/au/PlayerOutfitType.hpp>
-#include <gen/au/GameData_PlayerInfo.hpp>
-#include <gen/au/PlayerControl.hpp>
 
 namespace au
 {
-    struct player
+    class PlayerControl;
+    class mod;
+    class gamestate;
+
+    struct ARK_SHARED player
     {
+        friend class core;
+        player();
         player(au::PlayerControl* au_player) : au_player_{ au_player } {}
 
-        std::string name() const
-        {
-            return au_player_->_cachedData->get_PlayerName()->str();
-        }
+        virtual void on_die(au::DeathReason reason, bool assignGhostRole) {}
 
+        au::mod& mod();
+        au::gamestate& gamestate();
+
+        std::string name() const;
+        /*
         // rpc_server(set_color)
         void server_set_color(uint32_t hex_value)
         {
@@ -26,23 +31,22 @@ namespace au
             // send(player.id, 99, rpc_id<&server_set_color>)
             //StartRpcImmediately(uint32_t targetNetId, uint8_t callId, Hazel::SendOption option, int32_t targetClientId)
         }
-
         void server_set_color_impl()
         {
             //au_player_->SetColor()
         }
+        void set_color(uint32_t hex_value);*/
 
-        void set_color(uint32_t hex_value)
-        {
-            au_player_->RawSetColor(hex_value);
-        }
+        static au::player* local();
 
-        static au::player from(au::PlayerControl* au_player)
+        static au::player* get(au::PlayerControl* au_player)
         {
-            au::player player{ au_player };
-            return player;
+            return new au::player;
         }
 
         au::PlayerControl* au_player_;
+
+    private:
+        au::mod* mod_ = nullptr;
     };
 } // au

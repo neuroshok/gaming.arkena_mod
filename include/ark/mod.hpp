@@ -6,6 +6,8 @@
 #include <ark/setting.hpp>
 #include <ark/version.hpp>
 
+#include <vector>
+
 namespace ark
 {
     namespace ui { class core; }
