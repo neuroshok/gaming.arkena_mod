@@ -6,11 +6,12 @@
 #include <ark/ui/core.hpp>
 #include <ark/version.hpp>
 
-#include <vector>
 #include <deque>
+#include <vector>
 #include <concepts>
 
 namespace ark { class mod; }
+namespace au { class core; }
 
 namespace Concept
 {
@@ -59,6 +60,8 @@ namespace ark
         HMODULE hmodule_;
         FILE* console_;
         ui::core ui_;
+
+        std::unique_ptr<au::core> au_core_;
 
         //ark::discord discord_;
         ark::version version_;

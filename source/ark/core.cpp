@@ -5,16 +5,15 @@
 #include <ark/module.hpp>
 #include <ark/core.hpp>
 #include <ark/hook.hpp>
-//#include <ark/log.hpp>
 #include <ark/mod.hpp>
-//#include <ark/mods.hpp>
+
+#include <au/core.hpp>
 
 #include <il2cpp/api.hpp>
+
+#include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
-#include <nlohmann/json.hpp>
-
-#include <au/PlayerControl.hpp>
 
 namespace ark
 {
@@ -22,6 +21,7 @@ namespace ark
         : hmodule_{ hmodule }
         , version_{ ark::version{0, 1, 3} }
         , ui_{ *this }
+        , au_core_{ std::make_unique<au::core>(*this) }
     {
         il2cpp::api::initialize();
         il2cpp::api::thread_attach(il2cpp::api::domain_get());
@@ -34,26 +34,16 @@ namespace ark
         #endif
         ark::init_hook();
 
-        load("au_mod");
+        // load among us mod framework
+        au_core_->load();
+
+        load("amodus");
 
         //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
 
 #ifdef ARK_TESTING
         load<ark::mods::testing>();
 #else
-        //load<ark::mods::core>();
-        //load<ark::mods::tools>();
-        //load<akn::mod>();
-        //load<ark::mods::zombie>();
-        //load<ark::mods::sniper>();
-        //load<ark::mods::tournament>();
-        //load<ark::mods::whisperer>();
-        //load<ark::mods::pranker>();
-        //load<ark::mods::spy>();
-        //load<ark::mods::auv>();
-        //load<ark::mods::reverse>();
-        //load<ark::mods::analysis>();
-        //load<ark::mods::testing>();
 
 #endif
         init_settings();
@@ -80,20 +70,21 @@ namespace ark
     void core::load(const std::string& mod_name)
     {
         // auto handle = ark_os_module_load((mod_name + ark_os_sharelibext).c_str());
-        auto handle = ark_os_module_load("E:\\project\\arkmongus\\bin\\au_mod.dll");
+        auto handle = ark_os_module_load("E:\\project\\arkmongus\\bin\\amodus.dll");
         if (!handle) error("core", "unable to load mod " + mod_name);
         else
         {
-            mods_.emplace_back(std::make_unique<ark::mod>(*this, mod_name));
-            ark_info("Mod {} {} loaded", mods_.back()->version().str(), mods_.back()->name());
-            mods_.back()->enable();
-
             // get main pointer
             auto load_ptr = reinterpret_cast<Module_load_ptr>(ark_os_module_function(handle, "mod_load"));
-            if (!load_ptr)
-                error("core", "function mod_load missing");
+            if (!load_ptr) error("core", "function mod_load missing");
             else
-                load_ptr(*mods_.back());
+            {
+                mods_.emplace_back(std::make_unique<ark::mod>(*this, mod_name));
+                bool error_code = load_ptr(*mods_.back());
+                if (error_code) ark_info("Mod loading error {}", mods_.back()->name());
+                ark_info("Mod {} version {} loaded", mods_.back()->name(), mods_.back()->version().str());
+                mods_.back()->enable();
+            }
         }
     }
 

@@ -66,14 +66,14 @@ namespace ark
             hooking<Method, F, functional_type>::make(std::forward<F>(f));
         }
 
-        template<class Return_type = void>
         static void init()
         {
-            process([](auto&& original, auto&& self, auto&&... args) -> Return_type
+            using ReturnType = ark::function_trait<decltype(Method)>::return_type;
+            process([](auto&& original, auto&& self, auto&&... args) -> ReturnType
             {
-                if constexpr (!std::is_same_v<Return_type, void>)
+                if constexpr (!std::is_same_v<ReturnType, void>)
                 {
-                    Return_type v;
+                    ReturnType v;
                     if (overwrite_hooks.size() > 0)
                     {
                         for (const auto& [_, hk] : overwrite_hooks) v = hk(original, self, args...);
@@ -101,13 +101,20 @@ namespace ark
             });
         }
 
+        static void ensure_init()
+        {
+            if (!initialized) init();
+        }
+
         static void before(method_type method)
         {
+            ensure_init();
             before_hooks.emplace("__ark_global__", std::move(method));
         }
 
         static void before(ark::mod* mod, method_type method)
         {
+            ensure_init();
             assert(mod);
 
             before_hooks.emplace(mod->name(), std::move(method));
@@ -118,11 +125,13 @@ namespace ark
 
         static void after(method_type method)
         {
+            ensure_init();
             after_hooks.emplace("__ark_global__", std::move(method));
         }
 
         static void after(ark::mod* mod, method_type method)
         {
+            ensure_init();
             assert(mod);
 
             after_hooks.emplace(mod->name(), std::move(method));
@@ -134,6 +143,7 @@ namespace ark
 
         static void overwrite(ark::mod* mod, overwrite_type method)
         {
+            ensure_init();
             assert(mod);
             assert(before_hooks.size() == 0 && after_hooks.size() == 0);
 
@@ -144,6 +154,7 @@ namespace ark
         }
 
     private:
+        inline static bool initialized = false;
         inline static std::unordered_map<std::string, method_type> before_hooks;
         inline static std::unordered_map<std::string, method_type> after_hooks;
         inline static std::unordered_map<std::string, overwrite_type> overwrite_hooks;

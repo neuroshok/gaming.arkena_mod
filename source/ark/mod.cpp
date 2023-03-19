@@ -48,7 +48,13 @@ namespace ark
     ark::version mod::version() const { return version_; }
     bool mod::synchronized() const { return synchronized_; }
 
-    void mod::set_description(const std::string& desc) { description_ = desc; }
+    void mod::set_info(ark::mod_info info)
+    {
+        name_ = std::move(info.name);
+        description_ = std::move(info.description);
+        version_ = std::move(info.version);
+        fullname_ = name_ + "-" + version_.str();
+    }
 
     mod::settings_type& mod::settings() { return settings_; }
 

@@ -11,6 +11,13 @@ namespace ark
     namespace ui { class core; }
     class core;
 
+    struct mod_info
+    {
+        std::string name;
+        ark::version version;
+        std::string description;
+    };
+
     class ARK_SHARED mod
     {
         friend class ark::ui::core;
@@ -46,6 +53,8 @@ namespace ark
         void enable();
         void disable();
 
+        void set_info(ark::mod_info info);
+
         ark::core& core();
         const std::string& name() const;
         const std::string& fullname() const;
@@ -53,9 +62,6 @@ namespace ark
         const std::string& description() const;
         bool synchronized() const;
         bool enabled() const;
-
-        //
-        void set_description(const std::string&);
 
         // settings
         //void add_setting(ark::setting);
@@ -83,7 +89,7 @@ namespace ark
     template<class... Ts>
     void mod::add_setting(Ts&&... ts)
     {
-        settings_.emplace_back(std::move(ts)...);
+        settings().emplace_back(std::move(ts)...);
     }
 
     template<class T>

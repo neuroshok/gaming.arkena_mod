@@ -7,9 +7,7 @@
 #include <imgui.h>
 #include <iostream>
 
-#undef KIERO_USE_MINHOOK
 #include <kiero.h>
-#define KIERO_USE_MINHOOK 1
 
 #pragma comment (lib, "d3d11.lib")
 
