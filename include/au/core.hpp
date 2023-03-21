@@ -21,8 +21,13 @@ namespace au
 
         void load();
 
-        void set_gamestate_class(au::mod*, std::unique_ptr<au::gamestate>);
-        void set_player_class(au::mod*, std::unique_ptr<au::player>);
+        void make_gamestate();
+
+        void set_gamestate_class(au::mod*, std::function<std::unique_ptr<au::gamestate>()>);
+        void set_player_class(au::mod*, std::function<std::unique_ptr<au::player>()>);
+
+        void init_hooks();
+        void game_hooks();
 
         ark::core& ark_core();
         au::gamestate& gamestate();
@@ -30,14 +35,11 @@ namespace au
     private:
         ark::core& ark_core_;
         au::network network_;
+        std::function<std::unique_ptr<au::player>()> make_player_;
+        std::function<std::unique_ptr<au::gamestate>()> make_gamestate_;
         std::unique_ptr<au::gamestate> gamestate_;
-        std::unique_ptr<au::player> player_;
-    };
 
-    // wtf this bug, symbol not found when defined in the .cpp, working without unique_ptr as parameter but working for gamestate ?!!
-    inline void core::set_player_class(au::mod* mod, std::unique_ptr<au::player> player)
-    {
-        player_ = std::move(player);
-        player_->mod_ = mod;
-    }
+        // todo support multiple mods // std::vector<std::map<au::mod, au::game>> with au::game { player, gamestate }
+        au::mod* mod_ = nullptr;
+    };
 } // au

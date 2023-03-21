@@ -141,6 +141,17 @@ namespace ark
             //mod->hooks_deleter_.emplace_back([mod] { after_hooks.erase(mod->name()); });
         }
 
+        static void overwrite(overwrite_type method)
+        {
+            ensure_init();
+            assert(before_hooks.size() == 0 && after_hooks.size() == 0);
+
+            overwrite_hooks.emplace("__ark_global__", std::move(method));
+
+            // deleter
+            //mod->hooks_deleter_.emplace_back([mod] { overwrite_hooks.erase(mod->name()); });
+        }
+
         static void overwrite(ark::mod* mod, overwrite_type method)
         {
             ensure_init();

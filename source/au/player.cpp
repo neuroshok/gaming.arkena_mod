@@ -1,5 +1,3 @@
-#pragma once
-
 #include <au/mod.hpp>
 #include <au/core.hpp>
 #include <au/player.hpp>
@@ -12,6 +10,8 @@
 
 namespace au
 {
+    std::unique_ptr<au::player> player::local_player;
+
     player::player() = default;
 
     std::string player::name() const
@@ -19,9 +19,15 @@ namespace au
         return au_player_->_cachedData->get_PlayerName()->str();
     }
 
-    au::player* player::local()
+    au::PlayerControl* player::au_player() const
     {
-        return new player;
+        return au_player_;
+    }
+
+    au::player& player::local()
+    {
+        ark_assert(local_player, "player::local_player is null");
+        return *local_player;
     }
     au::mod& player::mod()
     {

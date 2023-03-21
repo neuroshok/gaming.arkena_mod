@@ -15,14 +15,14 @@ namespace au
     public:
         mod(au::core& au_core, std::string name);
 
-        void register_player(std::unique_ptr<au::player> player);
-        void register_gamestate(std::unique_ptr<au::gamestate> gamestate);
+        void register_gamestate(std::function<std::unique_ptr<au::gamestate>()> make_gamestate);
+        void register_player(std::function<std::unique_ptr<au::player>()> make_player);
 
         template<class T>
         void register_class()
         {
-            if constexpr (std::is_base_of_v<au::gamestate, T>) register_gamestate(std::make_unique<T>());
-            else if constexpr (std::is_base_of_v<au::player, T>) register_player(std::make_unique<T>());
+            if constexpr (std::is_base_of_v<au::gamestate, T>) register_gamestate([]{ return std::make_unique<T>(); });
+            else if constexpr (std::is_base_of_v<au::player, T>) register_player([]{ return std::make_unique<T>(); });
         }
 
         au::core& core();

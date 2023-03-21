@@ -10,16 +10,16 @@ namespace au
         , au_core_{ au_core }
     {}
 
-    void mod::register_player(std::unique_ptr<au::player> player)
+    void mod::register_player(std::function<std::unique_ptr<au::player>()> make_player)
     {
         log("Register player");
-        au_core_.set_player_class(this, std::move(player));
+        au_core_.set_player_class(this, std::move(make_player));
     }
 
-    void mod::register_gamestate(std::unique_ptr<au::gamestate> gamestate)
+    void mod::register_gamestate(std::function<std::unique_ptr<au::gamestate>()> make_gamestate)
     {
         log("Register gamestate");
-        au_core_.set_gamestate_class(this, std::move(gamestate));
+        au_core_.set_gamestate_class(this, std::move(make_gamestate));
     }
 
     au::core& mod::core() { return au_core_; }

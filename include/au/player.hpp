@@ -1,19 +1,18 @@
 #pragma once
 
-#include "au/DeathReason.hpp"
+#include <gen/au/DeathReason.hpp>
 #include <cs/string.hpp>
 
 namespace au
 {
-    class PlayerControl;
+    struct PlayerControl;
     class mod;
     class gamestate;
 
-    struct ARK_SHARED player
+    class ARK_SHARED player
     {
-        friend class core;
+    public:
         player();
-        player(au::PlayerControl* au_player) : au_player_{ au_player } {}
 
         virtual void on_die(au::DeathReason reason, bool assignGhostRole) {}
 
@@ -21,6 +20,7 @@ namespace au
         au::gamestate& gamestate();
 
         std::string name() const;
+        au::PlayerControl* au_player() const;
         /*
         // rpc_server(set_color)
         void server_set_color(uint32_t hex_value)
@@ -37,16 +37,14 @@ namespace au
         }
         void set_color(uint32_t hex_value);*/
 
-        static au::player* local();
-
-        static au::player* get(au::PlayerControl* au_player)
-        {
-            return new au::player;
-        }
-
-        au::PlayerControl* au_player_;
+        static au::player& local();
 
     private:
+        static std::unique_ptr<au::player> local_player;
+
+        au::PlayerControl* au_player_ = nullptr;
         au::mod* mod_ = nullptr;
+
+        friend class core;
     };
 } // au
