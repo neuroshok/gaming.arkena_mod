@@ -21,7 +21,9 @@
 #include <gen/InnerNet/InnerNetClient.hpp>
 #include <gen/InnerNet/ClientData.hpp>
 #include <gen/TMPro/TextMeshPro.hpp>
+
 #include <gen/UnityEngine/Application.hpp>
+#include <gen/UnityEngine/Collider2D.hpp>
 
 #include "au/LogicGameFlowNormal.hpp"
 #include <memory>
@@ -49,6 +51,20 @@ namespace au
         init_hooks(); // initialisation hooks
         game_hooks();
 
+        ark_core_.on_debug([]{
+            ark_trace("ok {}", (uintptr_t)au::PlayerControl::LocalPlayer());
+            if (au::PlayerControl::LocalPlayer())
+            {
+                static bool state = false;
+                state = !state;
+                au::PlayerControl::LocalPlayer()->SetLevel(99999);
+                ark_trace("MyPhysics {}", (uintptr_t)au::PlayerControl::LocalPlayer()->MyPhysics);
+                ark_trace("Collider {}", (uintptr_t)au::PlayerControl::LocalPlayer()->Collider);
+                au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);
+
+            }
+        });
+
         //player_hooks();
 
         ark::hook<&au::PlayerControl::HandleRpc>::before([this](auto&&, auto event, Hazel::MessageReader* data){
@@ -63,14 +79,6 @@ namespace au
             }
         });
 
-
-        ark::hook<&au::PlayerControl::Die>::after([this](auto* self, au::DeathReason reason, bool assignGhostRole) {
-            for (auto& player : gamestate_->players())
-            {
-                ark_trace("Collider ");
-                player->au_player()->MyPhysics->set_enabled(false);
-            }
-        });
 
         ark::hook<&au::PlayerControl::Die>::after([this](auto* self, au::DeathReason reason, bool assignGhostRole) {
             auto* player = gamestate_->player(self);
@@ -113,11 +121,6 @@ namespace au
         ark::hook<&InnerNet::InnerNetClient::FixedUpdate>::after([this](auto&&){
             ark_trace("{}", (intptr_t)au::PlayerControl::LocalPlayer());
         });*/
-
-        ark::hook<&au::ShipStatus::StartMeeting>::after([this](auto&&, au::PlayerControl* reporter, au::GameData_PlayerInfo* target){
-            ark_trace("testing");
-            reporter->MyPhysics->set_enabled(false);
-        });
 
         ark::hook<&au::ShipStatus::StartMeeting>::before([this](auto&&, au::PlayerControl* reporter, au::GameData_PlayerInfo* target){
             if (gamestate_)

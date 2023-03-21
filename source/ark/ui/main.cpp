@@ -7,7 +7,7 @@
 
 namespace ark::ui
 {
-    void core::make_main()
+    void core::draw_main()
     {
         ImGui::StyleColorsDark();
         ImGuiStyle& style = ImGui::GetStyle();

@@ -59,6 +59,8 @@ namespace ark
 
         void init_settings();
 
+        void debug();
+        void on_debug(std::function<void()>);
         void log(const std::string& mod_name, const std::string& message);
         void error(const std::string& mod_name, const std::string& message);
 
@@ -75,6 +77,7 @@ namespace ark
         ui::core ui_;
 
         std::unique_ptr<au::core> au_core_;
+        std::function<void()> on_debug_;
 
         //ark::discord discord_;
         ark::version version_;

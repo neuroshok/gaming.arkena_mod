@@ -161,7 +161,7 @@ namespace ark::ui
         ImGui_ImplWin32_NewFrame();
 
         ImGui::NewFrame();
-        ui::core::instance().make_main();
+        ui::core::instance().draw();
         ImGui::EndFrame();
 
         ImGui::Render();
@@ -190,5 +190,11 @@ namespace ark::ui
     {
         assert(instance_);
         return *instance_;
+    }
+
+    void core::draw()
+    {
+        draw_main();
+        draw_debug();
     }
 } // ark

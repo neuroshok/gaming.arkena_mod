@@ -125,6 +125,16 @@ namespace ark
         }
     }
 
+    void core::debug()
+    {
+        if (on_debug_) on_debug_();
+    }
+
+    void core::on_debug(std::function<void()> fn)
+    {
+        on_debug_ = std::move(fn);
+    }
+
     void core::log(const std::string& mod_name, const std::string& message)
     {
         if (logs_.size() > 10) logs_.pop_back();

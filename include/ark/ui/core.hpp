@@ -18,7 +18,9 @@ namespace ark::ui
         void load();
         void unload();
 
-        void make_main();
+        void draw();
+        void draw_debug();
+        void draw_main();
 
         render_function_type GetD3D11PresentFunction();
         static bool GetD3D11SwapchainDeviceContext(IDXGISwapChain** pSwapchain, ID3D11Device** pDevice, ID3D11DeviceContext** pContextTable);
