@@ -72,6 +72,7 @@ namespace meta
                 ns_name_ = std::string("cs::array<") + element_klass->type().ns_qualified_name() + ">";
                 file_path_ = element_klass->type().file_path();
                 is_native_ = element_klass->type().is_native();
+                is_pointer_ = true;
             }
             else
             {
