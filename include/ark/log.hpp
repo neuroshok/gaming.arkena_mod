@@ -12,6 +12,12 @@ namespace ark
 } // ark
 
 template<class Message, class... Ts>
+void ark_error(Message&& m, Ts&&... ts)
+{
+    spdlog::error(m, ts...);
+    spdlog::get("arkena_mod")->error(m, ts...);
+}
+template<class Message, class... Ts>
 void ark_trace(Message&& m, Ts&&... ts)
 {
     spdlog::trace(m, ts...);

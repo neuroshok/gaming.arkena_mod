@@ -12,8 +12,10 @@
 
 #include <il2cpp/api.hpp>
 
+#include "UnityEngine/Application.hpp"
 #include <filesystem>
 #include <fstream>
+
 #include <nlohmann/json.hpp>
 
 namespace ark
@@ -33,14 +35,13 @@ namespace ark
         #ifndef ARK_NO_UI
         ui_.load();
         #endif
-        ark::init_hook();
 
         // load among us mod framework
         au_core_->load();
 
         load<au::mod>("amodus");
 
-        //ark_trace("Game version : {}", ::UnityEngine::Application::get_version());
+        ark_info("Game version : {}", ::UnityEngine::Application::get_version()->str());
 
 #ifdef ARK_TESTING
         load<ark::mods::testing>();

@@ -3,8 +3,8 @@
 #include <ark/log.hpp>
 #include <ark/mod.hpp>
 #include <ark/module.hpp>
-#include <ark/utility/function.hpp>
 #include <ark/meta.hpp>
+#include <ark/utility/function.hpp>
 
 #include <minhook/include/MinHook.h>
 
@@ -14,7 +14,7 @@
 
 namespace ark
 {
-    void init_hook();
+    ARK_SHARED void native_hook(void* address, void* hook_function, void** original);
 
     template<auto T, class Callback, class F>
     struct hooking;
@@ -33,16 +33,7 @@ namespace ark
         static void make(Callback&& f)
         {
             original = reinterpret_cast<flat_method_type>(address);
-
-            if (MH_CreateHook((void*)address, reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original)) != MH_OK)
-            {
-                ark_trace("MH_CreateHook failed {}", (uintptr_t)address);
-            }
-            if (MH_EnableHook((void*)address) != MH_OK)
-            {
-                ark_trace("MH_EnableHook failed {}", (uintptr_t)address);
-            }
-
+            native_hook(reinterpret_cast<void*>(address), reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original));
             callback = std::move(f);
         }
 

@@ -1,30 +1,16 @@
 #include <ark/hook.hpp>
 
-#include <ark/core.hpp>
-#include "au/PlayerControl.hpp"
-#include <au/ShipStatus.hpp>
-
-
-#include <il2cpp/api.hpp>
-
-#define hkr(R, H) ark_trace("init hook {}", #H); hook<&H>::init<R>()
-#define hk(H) ark_trace("init hook {}", #H); hook<&H>::init<>()
-
 namespace ark
 {
-    void init_hook()
+    void native_hook(void* address, void* hook_function, void** original)
     {
-        #ifdef ARK_NO_UI
-            MH_Initialize();
-        #endif
-
-#ifdef ARK_TESTING
-        #include <analysis/testing.hpp>
-#else
-
-#endif
+        if (MH_CreateHook(address, hook_function, original) != MH_OK)
+        {
+            ark_error("MH_CreateHook failed 0x{0:X}", reinterpret_cast<uintptr_t>(address) - ark::base_address());
+        }
+        if (MH_EnableHook(address) != MH_OK)
+        {
+            ark_error("MH_EnableHook failed 0x{0:X}", reinterpret_cast<uintptr_t>(address) - ark::base_address());
+        }
     }
 } // ark
-
-#undef hk
-#undef hkr

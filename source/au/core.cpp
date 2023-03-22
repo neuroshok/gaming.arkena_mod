@@ -62,6 +62,7 @@ namespace au
                 ark_trace("Collider {}", (uintptr_t)au::PlayerControl::LocalPlayer()->Collider);
                 au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);
 
+
             }
         });
 
@@ -87,7 +88,7 @@ namespace au
             gamestate_->on_die(*gamestate_->player(self), reason, assignGhostRole);
         });
 
-        ark::hook<&au::IntroCutscene::CoBegin>::after([this](au::IntroCutscene* self) -> System::Collections::IEnumerator* {
+        ark::hook<&au::IntroCutscene::BeginCrewmate>::after([this](au::IntroCutscene* self, auto&&) {
             ark_trace("IntroCutscene end");
             self->RoleText->m_text = cs::make_string("test________________________");
             self->YouAreText->m_text = cs::make_string("test________________________");

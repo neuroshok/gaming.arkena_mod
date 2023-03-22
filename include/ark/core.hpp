@@ -38,8 +38,15 @@ namespace ark
         void load(const std::string& mod_name)
         {
             // auto handle = ark_os_module_load((mod_name + ark_os_sharelibext).c_str());
-            auto handle = ark_os_module_load("E:\\project\\arkmongus\\bin\\amodus.dll");
-            if (!handle) error("core", "unable to load mod " + mod_name);
+
+            char buffer[MAX_PATH];
+            GetModuleFileName(hmodule_, buffer, MAX_PATH) ;
+            std::string module_root = buffer;
+            module_root = module_root.substr(0, module_root.rfind("\\"));
+            std::string module_path = module_root + "\\mods" + "\\" + mod_name + ark_os_sharelibext;
+
+            auto handle = ark_os_module_load(module_path.c_str());
+            if (!handle) error("core", "unable to load mod " + mod_name + " from " + module_path);
             else
             {
                 // get main pointer
