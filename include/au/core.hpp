@@ -32,12 +32,18 @@ namespace au
         ark::core& ark_core();
         au::gamestate& gamestate();
 
+        au::GameManager* au_game_manager() { return au_game_manager_;}
+        au::HudManager* au_hud_manager() { return au_hud_manager_; }
+
     private:
         ark::core& ark_core_;
         au::network network_;
         std::function<std::unique_ptr<au::player>()> make_player_;
         std::function<std::unique_ptr<au::gamestate>()> make_gamestate_;
         std::unique_ptr<au::gamestate> gamestate_;
+
+        au::GameManager* au_game_manager_ = nullptr;
+        au::HudManager* au_hud_manager_ = nullptr;
 
         // todo support multiple mods // std::vector<std::map<au::mod, au::game>> with au::game { player, gamestate }
         au::mod* mod_ = nullptr;

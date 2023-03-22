@@ -1,6 +1,6 @@
 #pragma once
 
-#include <au/UnityEngine/Vector3.hpp>
+#include <UnityEngine/Vector3.hpp>
 
 namespace upp
 {

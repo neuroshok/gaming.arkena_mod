@@ -1,6 +1,8 @@
 #include <au/gamestate.hpp>
 
 #include <ark/log.hpp>
+#include <au/core.hpp>
+#include <au/mod.hpp>
 #include <au/player.hpp>
 
 #include <gen/au/GameManager.hpp>
@@ -21,8 +23,9 @@ namespace au
 
     void gamestate::end_game(int reason)
     {
-        ark_assert(au_game_manager_, "au_game_manager_ is null");
-        au_game_manager_->RpcEndGame(static_cast<au::GameOverReason>(reason), false);
+        auto* au_game_manager = mod().core().au_game_manager();
+        ark_assert(au_game_manager, "au_game_manager_ is null");
+        au_game_manager->RpcEndGame(static_cast<au::GameOverReason>(reason), false);
     }
 
     au::mod& gamestate::mod()

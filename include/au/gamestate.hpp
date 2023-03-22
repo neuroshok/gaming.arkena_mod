@@ -9,6 +9,7 @@ namespace au
     class mod;
     struct PlayerControl;
     struct GameManager;
+    struct HudManager;
 
     class ARK_SHARED gamestate
     {
@@ -34,7 +35,6 @@ namespace au
         friend class core;
 
         au::mod* mod_ = nullptr;
-        au::GameManager* au_game_manager_ = nullptr;
         std::vector<std::unique_ptr<au::player>> players_;
     };
 } // au

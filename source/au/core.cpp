@@ -24,8 +24,12 @@
 
 #include <gen/UnityEngine/Application.hpp>
 #include <gen/UnityEngine/Collider2D.hpp>
+#include <gen/UnityEngine/Transform.hpp>
 
-#include "au/LogicGameFlowNormal.hpp"
+#include <au/FollowerCamera.hpp>
+#include <au/HudManager.hpp>
+#include <au/LightSource.hpp>
+#include <au/LogicGameFlowNormal.hpp>
 #include <memory>
 
 #define hook_gamestate(AuMethod, Method) \
@@ -39,6 +43,7 @@ ark::hook<&AuMethod>::after([this](auto&&, auto&&... ts) \
     if (player_) player_->Method(ts...); \
 });
 
+static bool ability = false;
 namespace au
 {
     core::core(ark::core& core)
@@ -51,18 +56,33 @@ namespace au
         init_hooks(); // initialisation hooks
         game_hooks();
 
-        ark_core_.on_debug([]{
-            ark_trace("ok {}", (uintptr_t)au::PlayerControl::LocalPlayer());
+        ark_core_.on_debug([this]{
             if (au::PlayerControl::LocalPlayer())
             {
+                /*
                 static bool state = false;
                 state = !state;
                 au::PlayerControl::LocalPlayer()->SetLevel(99999);
-                ark_trace("MyPhysics {}", (uintptr_t)au::PlayerControl::LocalPlayer()->MyPhysics);
-                ark_trace("Collider {}", (uintptr_t)au::PlayerControl::LocalPlayer()->Collider);
-                au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);
+                au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);*/
 
+                if (au_hud_manager_)
+                {
 
+                    //ark_trace("ok {}", gamestate_->players().size());
+                    auto* p = gamestate_->players()[1]->au_player();
+                    au_hud_manager_->PlayerCam->SetTarget(p);
+                    ability = true;
+
+                    //au_hud_manager_->PlayerCam->SetTarget(p);
+                    //
+                    //UnityEngine::Vector3 vec;
+                    //vec.x = p->GetTruePosition().x;
+                    //vec.y = p->GetTruePosition().y;
+                    //auto* transform = gamestate_->players()[0]->au_player()->lightSource->get_transform();
+                    //ark_trace("__ {} {}", transform->get_position().x, transform->get_position().y);
+
+                    //->set_position(vec);
+                }
             }
         });
 
@@ -80,7 +100,6 @@ namespace au
             }
         });
 
-
         ark::hook<&au::PlayerControl::Die>::after([this](auto* self, au::DeathReason reason, bool assignGhostRole) {
             auto* player = gamestate_->player(self);
             ark_assert(player, "player not found");
@@ -88,14 +107,34 @@ namespace au
             gamestate_->on_die(*gamestate_->player(self), reason, assignGhostRole);
         });
 
-        ark::hook<&au::IntroCutscene::BeginCrewmate>::after([this](au::IntroCutscene* self, auto&&) {
-            ark_trace("IntroCutscene end");
-            self->RoleText->m_text = cs::make_string("test________________________");
-            self->YouAreText->m_text = cs::make_string("test________________________");
-             //gamestate_->on_die(gamestate_->player(self), endReason, showAd);
+        ark::hook<&au::PlayerControl::FixedUpdate>::after([this](auto* self) {
+
+            if (ability)
+            {
+                auto* p = gamestate_->players()[1]->au_player();
+                UnityEngine::Vector3 vec;
+                vec.x = p->GetTruePosition().x;
+                vec.y = p->GetTruePosition().y;
+                au::PlayerControl::LocalPlayer()->lightSource->get_transform()->set_position(vec);
+            }
         });
 
+        ark::hook<&au::IntroCutscene::ShowRole>::overwrite([this](auto&& original, au::IntroCutscene* self) -> System::Collections::IEnumerator* {
+            ark_trace("ShowRole");
+            ark_trace("self->TeamTitle->m_text {}", self->TeamTitle->m_text->str());
+            self->TeamTitle->m_text = cs::make_string("__");
+            self->ImpostorText->m_text = cs::make_string("__");
+            self->YouAreText->m_text = cs::make_string("__");
+            self->RoleText->m_text = cs::make_string("__");
+            self->RoleBlurbText->m_text = cs::make_string("__");
+             //gamestate_->on_die(gamestate_->player(self), endReason, showAd);
+            original(self);
+        });
 
+        ark::hook<&au::IntroCutscene::BeginCrewmate>::overwrite([this](auto&& original, au::IntroCutscene* self, auto&& v) {
+            ark_trace("BeginCrewmate");
+            original(self, v);
+        });
 
 
         // update player list, create new players // clientData->Id is unique
@@ -184,8 +223,15 @@ namespace au
         ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
             ark_assert(gamestate_, "gamestate is null");
             gamestate_->on_begin_play();
-            gamestate_->au_game_manager_ = self;
+            au_game_manager_ = self;
         });
+
+        ark::hook<&au::HudManager::Start>::after([this](auto* self) {
+            ark_assert(gamestate_, "gamestate is null");
+            ark_trace("init hud_manager");
+            au_hud_manager_ = self;
+        });
+
 
         ark::hook<&au::GameManager::RpcEndGame>::after([this](auto* self, au::GameOverReason endReason, bool showAd) {
             ark_trace("send end");
