@@ -26,10 +26,12 @@
 #include <gen/UnityEngine/Collider2D.hpp>
 #include <gen/UnityEngine/Transform.hpp>
 
+#include <au/GameStartManager.hpp>
 #include <au/FollowerCamera.hpp>
 #include <au/HudManager.hpp>
 #include <au/LightSource.hpp>
 #include <au/LogicGameFlowNormal.hpp>
+
 #include <memory>
 
 #define hook_gamestate(AuMethod, Method) \
@@ -65,23 +67,19 @@ namespace au
                 au::PlayerControl::LocalPlayer()->SetLevel(99999);
                 au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);*/
 
+                for (const auto& player : gamestate_->players())
+                {
+                    ark_trace("send rpc to {}", player->au_player()->NetId);
+                    auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
+                    au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
+                }
+
                 if (au_hud_manager_)
                 {
-
                     //ark_trace("ok {}", gamestate_->players().size());
-                    auto* p = gamestate_->players()[1]->au_player();
-                    au_hud_manager_->PlayerCam->SetTarget(p);
-                    ability = true;
-
-                    //au_hud_manager_->PlayerCam->SetTarget(p);
-                    //
-                    //UnityEngine::Vector3 vec;
-                    //vec.x = p->GetTruePosition().x;
-                    //vec.y = p->GetTruePosition().y;
-                    //auto* transform = gamestate_->players()[0]->au_player()->lightSource->get_transform();
-                    //ark_trace("__ {} {}", transform->get_position().x, transform->get_position().y);
-
-                    //->set_position(vec);
+                    // auto* p = gamestate_->players()[1]->au_player();
+                    // au_hud_manager_->PlayerCam->SetTarget(p);
+                    // ability = true;
                 }
             }
         });
@@ -215,30 +213,40 @@ namespace au
 
 
         // make gamestate when joining game
-        ark::hook<&au::AmongUsClient::OnGameJoined>::after([this](auto&&...) { make_gamestate(); });
+        ark::hook<&au::AmongUsClient::OnGameJoined>::after([this](auto&&...) { ark_trace("join game"); make_gamestate(); });
     }
 
         void core::game_hooks()
-    {
-        ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
-            ark_assert(gamestate_, "gamestate is null");
-            gamestate_->on_begin_play();
-            au_game_manager_ = self;
-        });
+        {
+            ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
+                ark_assert(gamestate_, "GameManager::StartGame gamestate is null");
+                gamestate_->on_begin_play();
+                au_game_manager_ = self;
 
-        ark::hook<&au::HudManager::Start>::after([this](auto* self) {
-            ark_assert(gamestate_, "gamestate is null");
-            ark_trace("init hud_manager");
-            au_hud_manager_ = self;
-        });
+                for (const auto& player : gamestate_->players())
+                {
+                    ark_trace("send rpc to {}", player->au_player()->NetId);
+                    auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
+                    au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
+                }
+            });
 
+            // called when joining lobby
+            ark::hook<&au::HudManager::Start>::after([this](auto* self) {
+                ark_assert(gamestate_, "gamestate is null");
+                ark_trace("init hud_manager");
+                au_hud_manager_ = self;
+            });
 
-        ark::hook<&au::GameManager::RpcEndGame>::after([this](auto* self, au::GameOverReason endReason, bool showAd) {
-            ark_trace("send end");
+            ark::hook<&au::GameManager::RpcEndGame>::after([this](auto* self, au::GameOverReason endReason, bool showAd) {
+                ark_trace("send end");
 
-             //gamestate_->on_die(gamestate_->player(self), endReason, showAd);
-        });
-    }
+                // gamestate_->on_die(gamestate_->player(self), endReason, showAd);
+            });
 
-
+            // fix
+            ark::hook<&au::GameStartManager::Update>::after([this](auto* self) {
+                self->MinPlayers = 1;
+            });
+        }
 } // au
