@@ -8,8 +8,10 @@ namespace meta
     {
         str_replace(name, ".ctor", "ctor");
         str_replace(name, ".cctor", "cctor");
-        str_replace(name, "<", "");
-        str_replace(name, ">", "");
+        // some symbols start with <> followed by a number so we need a '_' at the start
+        str_replace(name, "<", "_");
+        str_replace(name, ">", "_");
+
         str_replace(name, "[", "");
         str_replace(name, "]", "");
         str_replace(name, ",", "");
