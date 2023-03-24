@@ -130,6 +130,19 @@ set_target_properties(launcher PROPERTIES
     OUTPUT_NAME "Arkmongus"
 )
 
+# proxy loader
+add_library(proxy_loader SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES} source/ark/loader/version.def)
+target_compile_definitions(proxy_loader PUBLIC LOADER_PROXY)
+target_link_libraries(proxy_loader PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
+target_include_directories(proxy_loader PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
+
+set_target_properties(proxy_loader PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+    ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/bin/"
+    OUTPUT_NAME "version"
+)
+
 # injector
 add_executable(injector ${PROJECT_SOURCE_DIR}/source/injector.cpp)
 add_dependencies(injector arkena_mod)

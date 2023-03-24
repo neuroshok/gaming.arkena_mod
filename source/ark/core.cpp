@@ -41,7 +41,7 @@ namespace ark
 
         load<au::mod>("amodus");
 
-        ark_info("Game version : {}", ::UnityEngine::Application::get_version()->str());
+        //ark_info("Game version : {}", ::UnityEngine::Application::get_version()->str());
 
 #ifdef ARK_TESTING
         load<ark::mods::testing>();

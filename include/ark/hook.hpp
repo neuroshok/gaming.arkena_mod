@@ -32,12 +32,16 @@ namespace ark
 
         static void make(Callback&& f)
         {
-            original = reinterpret_cast<flat_method_type>(address);
-            native_hook(reinterpret_cast<void*>(address), reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original));
+            original = reinterpret_cast<flat_method_type>(get_address());
+            native_hook(reinterpret_cast<void*>(get_address()), reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original));
             callback = std::move(f);
         }
 
-        static inline uintptr_t address = ark::base_address() + ark::method_info::rva<T>();
+        static uintptr_t get_address()
+        {
+            return ark::base_address() + ark::method_info::rva<T>();
+        }
+
         static inline flat_method_type original = nullptr;
         static inline std::optional<Callback> callback = std::nullopt;
     };

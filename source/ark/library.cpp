@@ -1,9 +1,45 @@
-#include <Windows.h>
+#include <ark/library.hpp>
 
 #include <ark/core.hpp>
+#include <fstream>
+
+HMODULE dll_module;
+/*
+DWORD WINAPI Load(LPVOID lpParam) {
+	load_version();
+	if (!dll_module)
+		return 0;
+
+
+	MessageBox(NULL, (LPCSTR)L"It's working!", (LPCSTR)L"version proxy", MB_OK | MB_ICONINFORMATION | MB_SYSTEMMODAL);
+
+
+	// your payload goes here
+
+	return 0;
+}
+
+extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HMODULE hmodule, DWORD fdwReason, LPVOID lpvReserved)
+{
+    switch (fdwReason) {
+    case DLL_PROCESS_ATTACH:
+        DisableThreadLibraryCalls(hmodule);
+        CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Load, hmodule, 0, nullptr);
+        break;
+    case DLL_PROCESS_DETACH:
+        FreeLibrary(dll_module);
+        break;
+    }
+    return TRUE;
+}*/
 
 DWORD WINAPI HackThread(HMODULE hmodule)
 {
+    static bool init = false;
+    if (init) return 0;
+    init = true;
+    load_version();
+
 #ifndef ARK_NO_CONSOLE
     FILE* console_;
     if (!AllocConsole()) ark_trace("console allocation failed");
@@ -12,6 +48,8 @@ DWORD WINAPI HackThread(HMODULE hmodule)
     SetConsoleOutputCP(65001);
 #endif
 
+
+    Sleep(3000);
     {
         ark::core core{hmodule};
         core.run();
@@ -27,7 +65,6 @@ DWORD WINAPI HackThread(HMODULE hmodule)
 }
 
 
-
 extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HMODULE hmodule, DWORD fdwReason, LPVOID lpvReserved)
 {
     switch (fdwReason)
@@ -40,6 +77,7 @@ extern "C" __declspec(dllexport) BOOL WINAPI DllMain(HMODULE hmodule, DWORD fdwR
             break;
 
         case DLL_THREAD_DETACH:
+            FreeLibrary(dll_module);
             break;
 
         case DLL_PROCESS_DETACH:
