@@ -11,8 +11,7 @@ namespace ark
 {
     void init_logger(std::uintptr_t id)
     {
-        //auto file_name = "arkmongus_logs" + std::to_string((unsigned)id) + ".txt";
-        auto file_name = "arkmongus_logs.txt";
+        auto file_name = "arkmongus_logs" + std::to_string((unsigned)id) + ".txt";
         auto file_path = std::filesystem::temp_directory_path() / file_name;
         if (std::filesystem::exists(file_path)) std::filesystem::remove(file_path);
         std::cout << "Log to: " << file_path << "\n";
