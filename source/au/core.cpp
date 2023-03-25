@@ -32,6 +32,7 @@
 #include <au/LightSource.hpp>
 #include <au/LogicGameFlowNormal.hpp>
 
+#include "au/IntroCutscene_ShowRoled__35.hpp"
 #include <memory>
 
 #define hook_gamestate(AuMethod, Method) \
@@ -117,7 +118,7 @@ namespace au
             }
         });
 
-        ark::hook<&au::IntroCutscene::ShowRole>::overwrite([this](auto&& original, au::IntroCutscene* self) -> System::Collections::IEnumerator* {
+        /*ark::hook<&au::IntroCutscene::ShowRole>::overwrite([this](auto&& original, au::IntroCutscene* self) -> System::Collections::IEnumerator* {
             ark_trace("ShowRole");
             ark_trace("self->TeamTitle->m_text {}", self->TeamTitle->m_text->str());
             self->TeamTitle->m_text = cs::make_string("__");
@@ -127,7 +128,9 @@ namespace au
             self->RoleBlurbText->m_text = cs::make_string("__");
              //gamestate_->on_die(gamestate_->player(self), endReason, showAd);
             original(self);
-        });
+            return nullptr;
+        });*/
+
 
         ark::hook<&au::IntroCutscene::BeginCrewmate>::overwrite([this](auto&& original, au::IntroCutscene* self, auto&& v) {
             ark_trace("BeginCrewmate");
@@ -216,37 +219,39 @@ namespace au
         ark::hook<&au::AmongUsClient::OnGameJoined>::after([this](auto&&...) { ark_trace("join game"); make_gamestate(); });
     }
 
-        void core::game_hooks()
-        {
-            ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
-                ark_assert(gamestate_, "GameManager::StartGame gamestate is null");
-                gamestate_->on_begin_play();
-                au_game_manager_ = self;
+    void core::game_hooks()
+    {
+        ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
+            ark_assert(gamestate_, "GameManager::StartGame gamestate is null");
+            gamestate_->on_begin_play();
+            au_game_manager_ = self;
 
-                for (const auto& player : gamestate_->players())
-                {
-                    ark_trace("send rpc to {}", player->au_player()->NetId);
-                    auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
-                    au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
-                }
-            });
+            //for (const auto& player : gamestate_->players())
+            //{
+            //    ark_trace("send rpc to {}", player->au_player()->NetId);
+            //    auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
+            //    au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
+            //}
+        });
 
-            // called when joining lobby
-            ark::hook<&au::HudManager::Start>::after([this](auto* self) {
-                ark_assert(gamestate_, "gamestate is null");
-                ark_trace("init hud_manager");
-                au_hud_manager_ = self;
-            });
 
-            ark::hook<&au::GameManager::RpcEndGame>::after([this](auto* self, au::GameOverReason endReason, bool showAd) {
-                ark_trace("send end");
 
-                // gamestate_->on_die(gamestate_->player(self), endReason, showAd);
-            });
+        // called when joining lobby
+        ark::hook<&au::HudManager::Start>::after([this](auto* self) {
+            ark_assert(gamestate_, "gamestate is null");
+            ark_trace("init hud_manager");
+            au_hud_manager_ = self;
+        });
 
-            // fix
-            ark::hook<&au::GameStartManager::Update>::after([this](auto* self) {
-                self->MinPlayers = 1;
-            });
-        }
+        ark::hook<&au::GameManager::RpcEndGame>::overwrite([this](auto&& original, auto* self, au::GameOverReason endReason, bool showAd) {
+            ark_trace("send end");
+
+            // gamestate_->on_die(gamestate_->player(self), endReason, showAd);
+        });
+
+        // fix
+        ark::hook<&au::GameStartManager::Update>::after([this](auto* self) {
+            self->MinPlayers = 1;
+        });
+    }
 } // au
