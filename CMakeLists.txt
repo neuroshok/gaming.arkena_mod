@@ -22,17 +22,17 @@ target_include_directories(lib_imgui INTERFACE
         ${PROJECT_SOURCE_DIR}/third_party/imgui)
 
 # lib_discord_sdk
-add_library(lib_discord_sdk INTERFACE)
+#add_library(lib_discord_sdk INTERFACE)
 
-file(GLOB_RECURSE DISCORD_SDK_SOURCES
-        ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/source/*)
+#file(GLOB_RECURSE DISCORD_SDK_SOURCES
+#        ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/source/*)
 
-target_sources(lib_discord_sdk INTERFACE ${DISCORD_SDK_SOURCES})
+#target_sources(lib_discord_sdk INTERFACE ${DISCORD_SDK_SOURCES})
 
-target_include_directories(lib_discord_sdk INTERFACE
-        ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/source/)
+#target_include_directories(lib_discord_sdk INTERFACE
+#        ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/source/)
 
-target_link_libraries(lib_discord_sdk INTERFACE ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/lib/discord_game_sdk.dll.lib)
+#target_link_libraries(lib_discord_sdk INTERFACE ${PROJECT_SOURCE_DIR}/third_party/discord_sdk/lib/discord_game_sdk.dll.lib)
 
 
 # lib_restcpp
@@ -108,7 +108,7 @@ endif()
 
 target_compile_options(arkena_mod PRIVATE /wd4674)
 target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
+target_link_libraries(arkena_mod PRIVATE lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
 target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
 
 set_target_properties(arkena_mod PROPERTIES
@@ -132,7 +132,7 @@ set_target_properties(launcher PROPERTIES
 # proxy loader
 add_library(proxy_loader SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES} source/ark/loader/version.def)
 target_compile_definitions(proxy_loader PUBLIC LOADER_PROXY)
-target_link_libraries(proxy_loader PRIVATE lib_discord_sdk lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
+target_link_libraries(proxy_loader PRIVATE lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
 target_include_directories(proxy_loader PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
 
 set_target_properties(proxy_loader PROPERTIES

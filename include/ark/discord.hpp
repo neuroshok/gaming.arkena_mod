@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include <ark/log.hpp>
 #include <discord.h>
 
@@ -27,7 +27,7 @@ namespace ark
                   ark_trace(message);
               });
 
-/*
+
             ::discord::Activity activity{};
             activity.SetState("Arkmongus");
             activity.SetDetails("[sniper][bomberman]");
@@ -46,7 +46,7 @@ namespace ark
             state_.core->ActivityManager().UpdateActivity(activity, [](::discord::Result result) {});
 
             state_.core->ActivityManager().RegisterCommand("steam://rungameid/945360");
-            state_.core->ActivityManager().RegisterSteam(945360);*/
+            state_.core->ActivityManager().RegisterSteam(945360);
         }
 
         void run() { core_->RunCallbacks(); }
@@ -57,3 +57,5 @@ namespace ark
 
     };
 }// ark
+
+*/
