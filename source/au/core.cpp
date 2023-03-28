@@ -59,7 +59,8 @@ namespace au
         init_hooks(); // initialisation hooks
         game_hooks();
 
-        ark_core_.on_debug([this]{
+        ark_core_.on_debug([this](int index){
+            if (index > 0) return;
             if (au::PlayerControl::LocalPlayer())
             {
                 /*
@@ -70,6 +71,7 @@ namespace au
 
                 for (const auto& player : gamestate_->players())
                 {
+                    if (player->au_player()->NetId == au::PlayerControl::LocalPlayer()->NetId) continue;
                     ark_trace("send rpc to {}", player->au_player()->NetId);
                     auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
                     au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
@@ -87,15 +89,23 @@ namespace au
 
         //player_hooks();
 
-        ark::hook<&au::PlayerControl::HandleRpc>::before([this](auto&&, auto event, Hazel::MessageReader* data){
+        ark::hook<&au::PlayerControl::HandleRpc>::before([this](auto&&, auto event, Hazel::MessageReader* rdata){
             //ark_trace("RPC {}", (int)event);
             if (event == 99)
             {
-                //network_.receive();
+                for (auto& mod : ark_core_.mods())
+                {
+                    ark_trace("custom rpc call");
 
+                    std::vector<std::byte> data;
+                    // auto data = network::read_data(rdata);
+
+                    auto fn = mod->rpcs_.begin()->second;
+                    if (fn) fn(data);
+                }
                 // auto rpc_id = readid();
                 // network.rpc(rpc_id)(params);
-                ark_trace("custom rpc");
+                //rpcs_[rid]();
             }
         });
 
@@ -140,11 +150,11 @@ namespace au
 
         // update player list, create new players // clientData->Id is unique
         ark::hook<&InnerNet::InnerNetClient::UpdateCachedClients>::after([this](auto* self, InnerNet::ClientData* clientData, au::PlayerControl* character) {
-            ark_assert(gamestate_, "gamestate is null");
-            auto mod_player = make_player_();
-            mod_player->au_player_ = character;
-            mod_player->mod_ = mod_;
-            gamestate_->add_player(std::move(mod_player));
+            // ark_assert(gamestate_, "gamestate is null");
+            // auto mod_player = make_player_();
+            // mod_player->au_player_ = character;
+            // //mod_player->mod_ = mod_;
+            // gamestate_->add_player(std::move(mod_player));
         });
 
 
@@ -187,13 +197,12 @@ namespace au
         {
             ark_trace("make gamestate");
             gamestate_ = make_gamestate_();
-            gamestate_->mod_ = mod_;
+            ark_assert(gamestate_, "make_gamestate failed");
         }
     }
 
     void core::set_gamestate_class(au::mod* mod, std::function<std::unique_ptr<au::gamestate>()> make_gamestate)
     {
-        mod_ = mod;
         make_gamestate_ = std::move(make_gamestate);
     }
 
@@ -244,7 +253,7 @@ namespace au
         });
 
         ark::hook<&au::GameManager::RpcEndGame>::overwrite([this](auto&& original, auto* self, au::GameOverReason endReason, bool showAd) {
-            ark_trace("send end");
+            //ark_trace("send end");
 
             // gamestate_->on_die(gamestate_->player(self), endReason, showAd);
         });

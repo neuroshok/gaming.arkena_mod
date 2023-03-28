@@ -126,12 +126,16 @@ namespace ark
         }
     }
 
-    void core::debug()
+    void core::debug(int index)
     {
-        if (on_debug_) on_debug_();
+        if (on_debug_) on_debug_(index);
+        for (auto& mod : mods_)
+        {
+            mod->debug(index);
+        }
     }
 
-    void core::on_debug(std::function<void()> fn)
+    void core::on_debug(std::function<void(int)> fn)
     {
         on_debug_ = std::move(fn);
     }

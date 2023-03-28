@@ -10,10 +10,9 @@ namespace ark::ui
     {
         ImGui::Begin("Debug");
 
-        if (ImGui::Button("Test"))
-        {
-            core_.debug();
-        }
+        if (ImGui::Button("Debug0")) core_.debug(0);
+        if (ImGui::Button("Debug1")) core_.debug(1);
+        if (ImGui::Button("Debug2")) core_.debug(2);
 
         ImGui::End();
     }
