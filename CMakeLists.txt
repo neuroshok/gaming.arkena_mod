@@ -137,9 +137,15 @@ target_include_directories(proxy_loader PRIVATE ${PROJECT_SOURCE_DIR}/include ${
 
 set_target_properties(proxy_loader PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
-    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
-    ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/bin/"
+    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib/"
+    ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/"
     OUTPUT_NAME "version"
+    ARCHIVE_OUTPUT_NAME "arkena_mod"
+    LIBRARY_OUTPUT_NAME "arkena_mod"
+)
+# copy files to the game directory
+add_custom_command(TARGET proxy_loader POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:proxy_loader> ${GAME_ROOT}
 )
 
 # injector
