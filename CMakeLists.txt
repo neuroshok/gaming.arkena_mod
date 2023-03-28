@@ -146,6 +146,7 @@ set_target_properties(proxy_loader PROPERTIES
 # copy files to the game directory
 add_custom_command(TARGET proxy_loader POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:proxy_loader> ${GAME_ROOT}
+    COMMENT "Copy version.dll to ${GAME_ROOT}"
 )
 
 # injector
