@@ -14,7 +14,9 @@ namespace au
 {
     class core;
 
-    gamestate::gamestate() = default;
+    gamestate::gamestate(au::mod& mod)
+        : mod_{ mod }
+    {}
 
     void gamestate::add_player(std::unique_ptr<au::player> player)
     {
@@ -30,8 +32,7 @@ namespace au
 
     au::mod& gamestate::mod()
     {
-        ark_assert(mod_, "gamestate::mod is null");
-        return *mod_;
+        return mod_;
     }
 
     au::player* gamestate::player(au::PlayerControl* player_control)

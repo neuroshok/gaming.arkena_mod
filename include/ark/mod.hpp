@@ -7,6 +7,7 @@
 #include <ark/version.hpp>
 
 #include <vector>
+#include <functional>
 
 namespace ark
 {
@@ -33,6 +34,21 @@ namespace ark
         mod(const mod&) = delete;
         mod& operator=(const mod&) = delete;
 
+        virtual void on_debug(std::function<void(int)>);
+
+        virtual void on_enable() {}
+        virtual void on_disable() {}
+        virtual void on_settings_update() {}
+
+        virtual void send_rpc(uintptr_t rid, void* object, std::vector<std::byte> data) {}
+
+        void register_rpc(uintptr_t rid, void* object);
+
+        auto rpc(uintptr_t rid)
+        {
+            return rpcs_[rid];
+        }
+
         void log(const std::string& data);
 
         template<class... Ts>
@@ -48,9 +64,7 @@ namespace ark
             core_.error(name_, std::format(message, ts...));
         }
 
-        virtual void on_enable() {}
-        virtual void on_disable() {}
-        virtual void on_settings_update() {}
+        void debug(int index);
 
         void enable();
         void disable();
@@ -83,6 +97,9 @@ namespace ark
         bool synchronized_;
         bool enabled_;
         std::vector<ark::setting> settings_;
+
+        std::function<void(int)> on_debug_;
+    public: std::unordered_map<uintptr_t, std::function<void(const std::vector<std::byte>&)>> rpcs_;
     };
 }// ark
 

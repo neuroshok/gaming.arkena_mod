@@ -14,7 +14,7 @@ namespace au
     class ARK_SHARED gamestate
     {
     public:
-        gamestate();
+        gamestate(au::mod&);
         gamestate(const gamestate&) = delete;
         gamestate& operator=(const gamestate&) = delete;
 
@@ -32,9 +32,7 @@ namespace au
         const std::vector<std::unique_ptr<au::player>>& players();
 
     private:
-        friend class core;
-
-        au::mod* mod_ = nullptr;
+        au::mod& mod_;
         std::vector<std::unique_ptr<au::player>> players_;
     };
 } // au

@@ -150,11 +150,9 @@ namespace au
 
         // update player list, create new players // clientData->Id is unique
         ark::hook<&InnerNet::InnerNetClient::UpdateCachedClients>::after([this](auto* self, InnerNet::ClientData* clientData, au::PlayerControl* character) {
-            // ark_assert(gamestate_, "gamestate is null");
-            // auto mod_player = make_player_();
-            // mod_player->au_player_ = character;
-            // //mod_player->mod_ = mod_;
-            // gamestate_->add_player(std::move(mod_player));
+            ark_assert(gamestate_, "gamestate is null");
+            auto mod_player = make_player_(character);
+            gamestate_->add_player(std::move(mod_player));
         });
 
 
@@ -206,7 +204,7 @@ namespace au
         make_gamestate_ = std::move(make_gamestate);
     }
 
-    void core::set_player_class(au::mod*, std::function<std::unique_ptr<au::player>()> make_player)
+    void core::set_player_class(au::mod*, std::function<std::unique_ptr<au::player>(au::PlayerControl*)> make_player)
     {
         make_player_ = std::move(make_player);
     }

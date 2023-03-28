@@ -12,7 +12,7 @@ namespace au
     class ARK_SHARED player
     {
     public:
-        player();
+        player(au::mod&, au::PlayerControl*);
 
         virtual void on_die(au::DeathReason reason, bool assignGhostRole) {}
 
@@ -42,8 +42,8 @@ namespace au
     private:
         static std::unique_ptr<au::player> local_player;
 
+        au::mod& mod_;
         au::PlayerControl* au_player_ = nullptr;
-        au::mod* mod_ = nullptr;
 
         friend class core;
     };

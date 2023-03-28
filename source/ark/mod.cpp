@@ -34,10 +34,27 @@ namespace ark
         log("Disable mod {}", name_);
     }
 
+    //! \param rid the impl function with the form of void _impl(void* object, const std::vector<std::byte>& data);
+    void mod::register_rpc(uintptr_t rid, void* object)
+    {
+        auto fn = std::bind_front(reinterpret_cast<void(*)(void*, const std::vector<std::byte>&)>(rid), object);
+        rpcs_.emplace(rid, std::move(fn));
+    }
+
     void mod::log(const std::string& data)
     {
         ark_trace(data);
         core_.log(name_, data);
+    }
+
+    void mod::debug(int index)
+    {
+        if (on_debug_) on_debug_(index);
+    }
+
+    void mod::on_debug(std::function<void(int)> fn)
+    {
+        on_debug_ = std::move(fn);
     }
 
     ark::core& mod::core() { return core_; }

@@ -12,7 +12,10 @@ namespace au
 {
     std::unique_ptr<au::player> player::local_player;
 
-    player::player() = default;
+    player::player(au::mod& mod, au::PlayerControl* au_player)
+        : mod_{ mod }
+        , au_player_{ au_player }
+    {}
 
     std::string player::name() const
     {
@@ -31,14 +34,12 @@ namespace au
     }
     au::mod& player::mod()
     {
-        ark_assert(mod_, "player::mod is null");
-        return *mod_;
+        return mod_;
     }
 
     au::gamestate& player::gamestate()
     {
-        ark_assert(mod_, "player::mod is null");
-        return mod_->core().gamestate();
+        return mod_.core().gamestate();
     }
 
     /*void player::set_color(uint32_t hex_value)
