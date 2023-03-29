@@ -11,6 +11,7 @@
 
 #include <concepts>
 #include <filesystem>
+#include <functional>
 #include <vector>
 
 namespace ark { class mod; }

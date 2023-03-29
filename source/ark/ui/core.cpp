@@ -28,11 +28,11 @@ namespace ark::ui
     {
         ark_trace("Initialize UI");
         auto init_status = kiero::init(kiero::RenderType::Auto);
-        if (init_status != kiero::Status::Success) ark_trace("UI init error {}", init_status);
+        if (init_status != kiero::Status::Success) ark_trace("UI init error {}", (int)init_status);
 
         original_render_function = GetD3D11PresentFunction();
         auto hook_status = kiero::bind(8, (void**)&original_render_function, &ui::core::render_function);
-        if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", hook_status);
+        if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", (int)hook_status);
     }
 
     void core::unload()

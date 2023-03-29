@@ -1,31 +1,33 @@
 #pragma once
 
 #include <cassert>
-#include <spdlog/fmt/ostr.h>
-#include <spdlog/spdlog.h>
+#include <format>
+#include <string>
 
 #define ark_assert(C, M) if (!C) { ark_trace("Asssertion failed: {}", M); } assert(C)
 
 namespace ark
 {
-    void init_logger(std::uintptr_t);
+    void init_logger(uintptr_t);
+    void error(const std::string& logger, const std::string& message);
+    void info(const std::string& logger, const std::string& message);
+    void trace(const std::string& logger, const std::string& message);
 } // ark
 
 template<class Message, class... Ts>
-void ark_error(Message&& m, Ts&&... ts)
+void ark_error(Message&& message, Ts&&... ts)
 {
-    spdlog::error(m, ts...);
-    spdlog::get("arkena_mod")->error(m, ts...);
+    ark::error("arkena_mod", std::vformat(message, std::make_format_args(ts...)));
 }
+
 template<class Message, class... Ts>
-void ark_trace(Message&& m, Ts&&... ts)
+void ark_info(Message&& message, Ts&&... ts)
 {
-    spdlog::trace(m, ts...);
-    spdlog::get("arkena_mod")->trace(m, ts...);
+    ark::info("arkena_mod", std::vformat(message, std::make_format_args(ts...)));
 }
-template<class... Ts>
-void ark_info(Ts&&... ts)
+
+template<class Message, class... Ts>
+void ark_trace(Message&& message, Ts&&... ts)
 {
-    spdlog::info(ts...);
-    spdlog::get("arkena_mod")->info(ts...);
+    ark::trace("arkena_mod", std::vformat(message, std::make_format_args(ts...)));
 }

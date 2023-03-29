@@ -3,6 +3,8 @@
 #include <gen/au/DeathReason.hpp>
 #include <cs/string.hpp>
 
+#include <memory>
+
 namespace au
 {
     struct PlayerControl;

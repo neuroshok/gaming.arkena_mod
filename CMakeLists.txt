@@ -139,14 +139,17 @@ set_target_properties(arkena_mod PROPERTIES
 )
 
 # proxy loader
-add_library(proxy_loader SHARED $<TARGET_OBJECTS:lib_arkena_mod>)
+add_library(proxy_loader SHARED
+        $<TARGET_OBJECTS:lib_arkena_mod>
+        source/ark/loader/version.def
+        )
 add_dependencies(proxy_loader arkena_mod)
 target_link_libraries(proxy_loader PUBLIC spdlog)
 
 # copy version file to the game directory
 if (GAME_ROOT)
     add_custom_command(TARGET proxy_loader POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:proxy_loader> ${GAME_ROOT}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:proxy_loader> ${GAME_ROOT}/version.dll
         COMMENT "Copy version.dll to ${GAME_ROOT}"
     )
 endif()

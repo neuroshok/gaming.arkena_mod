@@ -5,8 +5,10 @@
 #include <ark/module.hpp>
 #include <ark/setting.hpp>
 #include <ark/version.hpp>
+#include <ark/log.hpp>
 
 #include <vector>
+#include <format>
 #include <functional>
 
 namespace ark
@@ -56,13 +58,13 @@ namespace ark
         void log(const std::string& message, Ts&&... ts)
         {
             ark_trace("[{}] " + message, name(), ts...);
-            core_.log(name_, fmt::format(message, ts...));
+            core_.log(name_, std::vformat(message, std::make_format_args(ts...)));
         }
 
         template<class... Ts>
         void error(const std::string& message, Ts&&... ts)
         {
-            core_.error(name_, std::format(message, ts...));
+            core_.error(name_, std::vformat(message, std::make_format_args(ts...)));
         }
 
         void draw();
@@ -119,7 +121,7 @@ namespace ark
     {
         auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting.name() == name; });
         if (setting_it != settings_.end()) return setting_it->template get<T>();
-        ark_trace("setting {} not found", name);
+        log("setting {} not found", name);
         return T{};
     }
 } // ark

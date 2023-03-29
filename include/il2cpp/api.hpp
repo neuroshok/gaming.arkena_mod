@@ -1,10 +1,12 @@
 #pragma once
 
 #include <ark/module.hpp>
+#include <ark/log.hpp>
+
 #include <il2cpp/core.hpp>
 #include <il2cpp/type.hpp>
 
-#include <spdlog/spdlog.h>
+#include <stdexcept> // for make_api.hpp
 
 namespace il2cpp
 {
@@ -67,7 +69,7 @@ namespace il2cpp
                 auto img = assembly_get_image(*it);
                 if (!img)
                 {
-                    spdlog::error("null assembly..");
+                    ark_error("null assembly..");
                     continue;
                 }
 
@@ -87,7 +89,7 @@ namespace il2cpp
                 if (cls) break;
             }
 
-            if (cls == nullptr) spdlog::error("class not found {} in {}", class_, namespace_[0] ? namespace_ : "(none)");
+            if (cls == nullptr) ark_error("class not found {} in {}", class_, namespace_[0] ? namespace_ : "(none)");
 
             static auto klass = cls;
             return klass;

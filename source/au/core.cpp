@@ -287,7 +287,7 @@ namespace au
             static bool tusmo_open = false;
 
             // todo check if usable first
-            ark_trace("Use for {}", self->Room);
+            ark_trace("Use for {}", (int)self->Room);
             auto* task = self->FindTask(au::PlayerControl::LocalPlayer());
             ark_trace("task {}", task->Idk__BackingField);
             tusmo_open = true;
