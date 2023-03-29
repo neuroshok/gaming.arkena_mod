@@ -7,19 +7,8 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 add_subdirectory(third_party/spdlog)
 
 # imgui
-add_library(lib_imgui INTERFACE)
-
-target_sources(lib_imgui INTERFACE
-    ${PROJECT_SOURCE_DIR}/third_party/imgui/imgui.cpp
-    ${PROJECT_SOURCE_DIR}/third_party/imgui/imgui_draw.cpp
-    ${PROJECT_SOURCE_DIR}/third_party/imgui/imgui_widgets.cpp
-    ${PROJECT_SOURCE_DIR}/third_party/imgui/imgui_tables.cpp
-    ${PROJECT_SOURCE_DIR}/third_party/imgui/backends/imgui_impl_dx11.cpp
-    #${PROJECT_SOURCE_DIR}/third_party/imgui/backends/imgui_impl_opengl3.cpp
-    ${PROJECT_SOURCE_DIR}/third_party/imgui/backends/imgui_impl_win32.cpp)
-
-target_include_directories(lib_imgui INTERFACE
-        ${PROJECT_SOURCE_DIR}/third_party/imgui)
+set(IMGUI_ROOT ${PROJECT_SOURCE_DIR}/third_party/imgui)
+include(cmake/imgui.cmake)
 
 # lib_discord_sdk
 #add_library(lib_discord_sdk INTERFACE)
