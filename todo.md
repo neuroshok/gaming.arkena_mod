@@ -7,4 +7,5 @@
 - Guid (generator issue)
 - ValueTypes should not inherit from anything (generator issue)
 - array parameter should not forward enum classes
+- add ARK_SHARED on classes to export symbols
 DestroyableSingleton<GameStartManager>
