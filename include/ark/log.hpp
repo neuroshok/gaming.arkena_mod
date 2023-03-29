@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ark/module.hpp>
+
 #include <cassert>
 #include <format>
 #include <string>
@@ -9,9 +11,9 @@
 namespace ark
 {
     void init_logger(uintptr_t);
-    void error(const std::string& message);
-    void info(const std::string& message);
-    void trace(const std::string& message);
+    ARK_SHARED void error(const std::string& message);
+    ARK_SHARED void info(const std::string& message);
+    ARK_SHARED void trace(const std::string& message);
 } // ark
 
 template<class Message, class... Ts>

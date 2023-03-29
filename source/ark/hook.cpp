@@ -1,5 +1,7 @@
 #include <ark/hook.hpp>
 
+#include <minhook/include/MinHook.h>
+
 namespace ark
 {
     void native_hook(void* address, void* hook_function, void** original)

@@ -17,6 +17,7 @@
 #include <fstream>
 
 #include <nlohmann/json.hpp>
+#include <minhook/include/MinHook.h>
 
 namespace ark
 {
@@ -161,6 +162,7 @@ namespace ark
 
     void core::log(const std::string& mod_name, const std::string& message)
     {
+        ark_trace("[" + mod_name + "] " + message);
         if (logs_.size() > 10) logs_.pop_back();
         logs_.push_front("[" + mod_name + "] " + message);
     }

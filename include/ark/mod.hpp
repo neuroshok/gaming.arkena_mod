@@ -57,8 +57,7 @@ namespace ark
         template<class... Ts>
         void log(const std::string& message, Ts&&... ts)
         {
-            ark_trace("[{}] " + message, name(), ts...);
-            core_.log(name_, std::vformat(message, std::make_format_args(ts...)));
+            log(std::vformat(message, std::make_format_args(ts...)));
         }
         template<class... Ts>
         void error(const std::string& message, Ts&&... ts)

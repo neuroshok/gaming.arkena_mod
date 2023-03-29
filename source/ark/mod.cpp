@@ -43,7 +43,6 @@ namespace ark
 
     void mod::log(const std::string& data)
     {
-        ark_trace(data);
         core_.log(name_, data);
     }
 

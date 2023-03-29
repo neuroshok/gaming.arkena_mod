@@ -6,8 +6,6 @@
 #include <ark/meta.hpp>
 #include <ark/utility/function.hpp>
 
-#include <minhook/include/MinHook.h>
-
 #include <functional>
 #include <optional>
 #include <vector>
