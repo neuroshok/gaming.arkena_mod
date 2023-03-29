@@ -1,9 +1,7 @@
-#include <ark/library.hpp>
-
 #include <filesystem>
-
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+
+HMODULE dll_module = nullptr;
 
 #define WRAPPER_FUNC(name) o##name = GetProcAddress(dll_module, ###name)
 
@@ -27,7 +25,6 @@
     }
 #endif
 
-__declspec(dllexport) void WINAPI GetFileVersionInfoA();
 WRAPPER_GENFUNC(GetFileVersionInfoA);
 WRAPPER_GENFUNC(GetFileVersionInfoByHandle);
 WRAPPER_GENFUNC(GetFileVersionInfoExW);

@@ -34,5 +34,3 @@ namespace au
         au::core& au_core_;
     };
 } // au
-
-extern "C" ARK_EXPORT int mod_load(au::mod& mod);

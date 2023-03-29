@@ -9,25 +9,25 @@
 namespace ark
 {
     void init_logger(uintptr_t);
-    void error(const std::string& logger, const std::string& message);
-    void info(const std::string& logger, const std::string& message);
-    void trace(const std::string& logger, const std::string& message);
+    void error(const std::string& message);
+    void info(const std::string& message);
+    void trace(const std::string& message);
 } // ark
 
 template<class Message, class... Ts>
 void ark_error(Message&& message, Ts&&... ts)
 {
-    ark::error("arkena_mod", std::vformat(message, std::make_format_args(ts...)));
+    ark::error(std::vformat(message, std::make_format_args(ts...)));
 }
 
 template<class Message, class... Ts>
 void ark_info(Message&& message, Ts&&... ts)
 {
-    ark::info("arkena_mod", std::vformat(message, std::make_format_args(ts...)));
+    ark::info(std::vformat(message, std::make_format_args(ts...)));
 }
 
 template<class Message, class... Ts>
 void ark_trace(Message&& message, Ts&&... ts)
 {
-    ark::trace("arkena_mod", std::vformat(message, std::make_format_args(ts...)));
+    ark::trace(std::vformat(message, std::make_format_args(ts...)));
 }

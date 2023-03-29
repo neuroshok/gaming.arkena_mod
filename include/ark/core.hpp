@@ -39,11 +39,7 @@ namespace ark
         template<Concept::mod Mod>
         void load(const std::string& mod_name)
         {
-            char buffer[MAX_PATH];
-            GetModuleFileName(hmodule_, buffer, MAX_PATH) ;
-            std::string module_root = buffer;
-            module_root = module_root.substr(0, module_root.rfind("\\"));
-            std::string module_path = module_root + "\\mods" + "\\" + mod_name + ark_os_sharelibext;
+            std::string module_path = mods_root_+ mod_name + ".dll";
 
             if (!std::filesystem::exists(module_path))
             {
@@ -80,16 +76,17 @@ namespace ark
         void log(const std::string& mod_name, const std::string& message);
         void error(const std::string& mod_name, const std::string& message);
 
-        const std::vector<std::unique_ptr<au::mod>>& mods();
+        const std::vector<std::unique_ptr<au::mod>>& mods() const;
         au::mod& mod(const std::string& name);
         const ark::version& version() const;
         const std::deque<std::string>& logs() const;
 
         static std::string settings_path();
+        const std::string& mods_root() const;
 
     public:
         HMODULE hmodule_;
-        FILE* console_;
+        std::string mods_root_;
         ui::core ui_;
 
         std::unique_ptr<au::core> au_core_;

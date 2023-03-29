@@ -22,15 +22,22 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ ark::version{0, 1, 3} }
+        , version_{ ark::version{0, 2, 0} }
         , ui_{ *this }
         , au_core_{ std::make_unique<au::core>(*this) }
     {
+        ark::init_logger((uintptr_t)hmodule_);
+        ark_info("Initialize ark::core version {}", version_.str());
+
+        char buffer[MAX_PATH];
+        GetModuleFileName(hmodule_, buffer, MAX_PATH) ;
+        std::string module_root = buffer;
+        mods_root_ = module_root.substr(0, module_root.rfind('\\')) +  "\\mods\\";
+        ark_trace("Mods root: {}", mods_root_);
+
         il2cpp::api::initialize();
         il2cpp::api::thread_attach(il2cpp::api::domain_get());
         //ark::load_console(console_);
-        ark::init_logger((uintptr_t)hmodule_);
-        ark_info("Initialize ark::core version {}", version_.str());
 
         #ifndef ARK_NO_UI
         ui_.load();
@@ -39,7 +46,19 @@ namespace ark
         // load among us mod framework
         au_core_->load();
 
-        load<au::mod>("amodus");
+        // load all mods
+        if (std::filesystem::exists(mods_root_))
+        {
+            for (const auto& entry : std::filesystem::directory_iterator(mods_root_))
+            {
+                if (entry.path().extension() != ".dll") continue;
+                std::string mod_name = entry.path().stem().generic_string();
+                ark_trace("Loading mod {}", mod_name);
+                load<au::mod>(mod_name);
+            }
+        }
+
+        //load<au::mod>("amodus");
 
         //ark_info("Game version : {}", ::UnityEngine::Application::get_version()->str());
 
@@ -148,13 +167,13 @@ namespace ark
 
     void core::error(const std::string& mod_name, const std::string& message)
     {
-        std::string error_message = "[" + mod_name + "] ERROR " + message;
+        std::string error_message = "[" + mod_name + "] " + message;
         if (logs_.size() > 10) logs_.pop_back();
         logs_.push_front(error_message);
-        ark_trace(error_message);
+        ark_error(error_message);
     }
 
-    const std::vector<std::unique_ptr<au::mod>>& core::mods()
+    const std::vector<std::unique_ptr<au::mod>>& core::mods() const
     {
         return mods_;
     }
@@ -187,4 +206,8 @@ namespace ark
         return path;
     }
 
+    const std::string& core::mods_root() const
+    {
+        return mods_root_;
+    }
 } // ark
