@@ -11,6 +11,10 @@
 #include <format>
 #include <functional>
 
+
+struct ImGuiContext;
+
+
 namespace ark
 {
     namespace ui { class core; }
@@ -36,7 +40,7 @@ namespace ark
         mod(const mod&) = delete;
         mod& operator=(const mod&) = delete;
 
-        virtual void on_draw(std::function<void()>);
+        virtual void on_draw(std::function<void(ImGuiContext*)>);
         virtual void on_debug(std::function<void(int)>);
 
         virtual void on_enable() {}
@@ -65,7 +69,7 @@ namespace ark
             core_.error(name_, std::vformat(message, std::make_format_args(ts...)));
         }
 
-        void draw();
+        void draw(ImGuiContext*);
         void debug(int index);
 
         void enable();
@@ -103,7 +107,7 @@ namespace ark
         bool enabled_;
         std::vector<ark::setting> settings_;
 
-        std::function<void()> on_draw_;
+        std::function<void(ImGuiContext*)> on_draw_;
         std::function<void(int)> on_debug_;
     public: std::unordered_map<uintptr_t, std::function<void(const std::vector<std::byte>&)>> rpcs_;
     };

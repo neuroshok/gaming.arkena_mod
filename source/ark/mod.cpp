@@ -46,12 +46,12 @@ namespace ark
         core_.log(name_, data);
     }
 
-    void mod::draw()
+    void mod::draw(ImGuiContext* imgui_context)
     {
-        if (on_draw_) on_draw_();
+        if (on_draw_) on_draw_(imgui_context);
     }
 
-    void mod::on_draw(std::function<void()> fn)
+    void mod::on_draw(std::function<void(ImGuiContext*)> fn)
     {
         on_draw_ = std::move(fn);
     }

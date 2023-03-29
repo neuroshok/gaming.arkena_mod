@@ -4,6 +4,7 @@
 
 const D3D_DRIVER_TYPE DRIVER_TYPE_LIST[4] = { D3D_DRIVER_TYPE_REFERENCE, D3D_DRIVER_TYPE_SOFTWARE, D3D_DRIVER_TYPE_HARDWARE, D3D_DRIVER_TYPE_WARP };
 
+struct ImGuiContext;
 namespace ark{ class core; }
 
 namespace ark::ui
@@ -40,6 +41,7 @@ namespace ark::ui
         bool main_state_ = false;
 
         inline static ui::core* instance_ = nullptr;
+        inline static ImGuiContext* imgui_context;
 
         inline static render_function_type original_render_function = nullptr;
         inline static WNDPROC OriginalWndProcFunction;

@@ -142,7 +142,7 @@ namespace ark::ui
             pSwapChain->GetDesc(&desc);
 
             window = desc.OutputWindow;
-            ImGui::CreateContext();
+            imgui_context = ImGui::CreateContext();
             ImGui_ImplWin32_Init(window);
             ImGui_ImplDX11_Init(device, context);
 
@@ -201,7 +201,7 @@ namespace ark::ui
         // draw mods specific ui
         for (auto& mod : core_.mods())
         {
-            mod->draw();
+            mod->draw(imgui_context);
         }
     }
 } // ark
