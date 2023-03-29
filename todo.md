@@ -6,4 +6,5 @@
 - HudManager, GameStartManager should inherit from DestroyableSingleton (add bool + mono behaviour base qas quickfix) (generator issue) 
 - Guid (generator issue)
 - ValueTypes should not inherit from anything (generator issue)
+- array parameter should not forward enum classes
 DestroyableSingleton<GameStartManager>
