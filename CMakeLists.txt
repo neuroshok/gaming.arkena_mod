@@ -66,12 +66,11 @@ add_subdirectory(third_party/json)
 add_library(lib_json INTERFACE)
 target_include_directories(lib_json INTERFACE third_party/json/include)
 
-# arkena_mod
+# lib arkena_mod
 file(GLOB_RECURSE ARK_SOURCES
-        ${PROJECT_SOURCE_DIR}/include/ark/*
-        ${PROJECT_SOURCE_DIR}/source/ark/*
+        ${PROJECT_SOURCE_DIR}/include/ark/*.hpp
+        ${PROJECT_SOURCE_DIR}/source/ark/*.cpp
         )
-
 file(GLOB_RECURSE AU_SOURCES
         ${PROJECT_SOURCE_DIR}/source/au/*.cpp
         )
@@ -95,36 +94,33 @@ file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Object.cpp
         )
 
-add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})
-
-target_compile_features(arkena_mod PRIVATE cxx_std_20)
+add_library(lib_arkena_mod OBJECT ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})
 
 if (NO_UI)
-    target_compile_definitions(arkena_mod PUBLIC ARK_NO_UI=1)
+    target_compile_definitions(lib_arkena_mod PUBLIC ARK_NO_UI=1)
 endif()
 if (TESTING)
-    target_compile_definitions(arkena_mod PUBLIC ARK_TESTING=1)
+    target_compile_definitions(lib_arkena_mod PUBLIC ARK_TESTING=1)
 endif()
 if (NO_CONSOLE)
-    target_compile_definitions(arkena_mod PUBLIC ARK_NO_CONSOLE=1)
+    target_compile_definitions(lib_arkena_mod PUBLIC ARK_NO_CONSOLE=1)
 endif()
 
-target_compile_options(arkena_mod PRIVATE /wd4674)
-target_compile_definitions(arkena_mod PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PRIVATE lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
-target_include_directories(arkena_mod PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
+target_compile_options(lib_arkena_mod PUBLIC /wd4674)
+target_compile_definitions(lib_arkena_mod PUBLIC WIN32_LEAN_AND_MEAN NOMINMAX)
+target_link_libraries(lib_arkena_mod PUBLIC lib_imgui lib_kiero spdlog lib_json ${CURLLIB_PATH} ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
+target_include_directories(lib_arkena_mod PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
 
-set_target_properties(arkena_mod PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
-    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib/"
-    ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/"
-    OUTPUT_NAME "arkena_mod")
+
+# set_target_properties(arkena_mod PROPERTIES
+#     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+#     LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib/"
+#     ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/"
+#     OUTPUT_NAME "arkena_mod")
 
 # launcher
 set(ARK_ICON "${PROJECT_SOURCE_DIR}/resource/icon.rc" "${PROJECT_SOURCE_DIR}/resource/icon.ico")
-
 add_executable(launcher ${PROJECT_SOURCE_DIR}/source/launcher.cpp ${ARK_ICON})
-add_dependencies(launcher arkena_mod)
 target_include_directories(launcher PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(launcher PROPERTIES
@@ -132,42 +128,38 @@ set_target_properties(launcher PROPERTIES
     OUTPUT_NAME "Arkmongus"
 )
 
-# proxy loader
-add_library(proxy_loader SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES} source/ark/loader/version.def)
-target_compile_definitions(proxy_loader PUBLIC LOADER_PROXY)
-target_link_libraries(proxy_loader PRIVATE lib_imgui lib_kiero spdlog lib_json ${CURL_ROOT}/build/libcurl32.lib ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
-target_include_directories(proxy_loader PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
-
-set_target_properties(proxy_loader PROPERTIES
+# arkena_mod
+add_library(arkena_mod SHARED $<TARGET_OBJECTS:lib_arkena_mod>)
+target_link_libraries(arkena_mod PUBLIC spdlog)
+set_target_properties(arkena_mod PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
     LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/lib/"
     ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/lib/"
-    OUTPUT_NAME "version"
-    ARCHIVE_OUTPUT_NAME "arkena_mod"
-    LIBRARY_OUTPUT_NAME "arkena_mod"
+    OUTPUT_NAME "arkena_mod"
 )
-# copy files to the game directory
-add_custom_command(TARGET proxy_loader POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:proxy_loader> ${GAME_ROOT}
-    COMMENT "Copy version.dll to ${GAME_ROOT}"
-)
+
+# proxy loader
+add_library(proxy_loader SHARED $<TARGET_OBJECTS:lib_arkena_mod>)
+add_dependencies(proxy_loader arkena_mod)
+target_link_libraries(proxy_loader PUBLIC spdlog)
+
+# copy version file to the game directory
+if (GAME_ROOT)
+    add_custom_command(TARGET proxy_loader POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:proxy_loader> ${GAME_ROOT}
+        COMMENT "Copy version.dll to ${GAME_ROOT}"
+    )
+endif()
 
 # injector
-add_executable(injector ${PROJECT_SOURCE_DIR}/source/injector.cpp)
-add_dependencies(injector arkena_mod)
-target_include_directories(injector PRIVATE ${PROJECT_SOURCE_DIR}/include)
-
-add_custom_command(TARGET arkena_mod POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod0.dll
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod1.dll
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod2.dll
-        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/arkena_mod.dll ${PROJECT_SOURCE_DIR}/bin/arkena_mod3.dll
-)
-
-set_target_properties(injector PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
-    OUTPUT_NAME "injector"
-)
+# add_executable(injector ${PROJECT_SOURCE_DIR}/source/injector.cpp)
+# add_dependencies(injector arkena_mod)
+# target_include_directories(injector PRIVATE ${PROJECT_SOURCE_DIR}/include)
+#
+# set_target_properties(injector PROPERTIES
+#     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+#     OUTPUT_NAME "injector"
+# )
 
 # bin2cpp
 add_executable(bin2cpp ${PROJECT_SOURCE_DIR}/source/bin2cpp.cpp)
