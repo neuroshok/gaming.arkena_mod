@@ -33,6 +33,7 @@ namespace au
 
         void init_hooks();
         void game_hooks();
+        void testing_hooks();
 
         ark::core& ark_core();
         au::gamestate& gamestate();

@@ -47,6 +47,16 @@ namespace ark
         core_.log(name_, data);
     }
 
+    void mod::draw()
+    {
+        if (on_draw_) on_draw_();
+    }
+
+    void mod::on_draw(std::function<void()> fn)
+    {
+        on_draw_ = std::move(fn);
+    }
+
     void mod::debug(int index)
     {
         if (on_debug_) on_debug_(index);

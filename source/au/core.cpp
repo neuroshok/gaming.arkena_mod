@@ -9,9 +9,12 @@
 
 #include <gen/au/IntroCutscene.hpp>
 #include <gen/au/GameManager.hpp>
+#include <gen/au/Console.hpp>
 #include <gen/au/PlayerControl.hpp>
+#include <gen/au/PlayerTask.hpp>
 #include <gen/au/ShipStatus.hpp>
 #include <gen/au/MeetingHud.hpp>
+#include <gen/au/Minigame.hpp>
 #include <gen/au/AmongUsClient.hpp>
 #include <gen/au/PlayerPhysics.hpp>
 #include <gen/au/GameData.hpp>
@@ -33,6 +36,8 @@
 #include <au/LogicGameFlowNormal.hpp>
 
 #include "au/IntroCutscene_ShowRoled__35.hpp"
+#include "au/WeaponsMinigame.hpp"
+#include "imgui.h"
 #include <memory>
 
 #define hook_gamestate(AuMethod, Method) \
@@ -58,6 +63,7 @@ namespace au
     {
         init_hooks(); // initialisation hooks
         game_hooks();
+        testing_hooks();
 
         ark_core_.on_debug([this](int index){
             if (index > 0) return;
@@ -260,5 +266,60 @@ namespace au
         ark::hook<&au::GameStartManager::Update>::after([this](auto* self) {
             self->MinPlayers = 1;
         });
+    }
+
+
+    void core::testing_hooks()
+    {
+        ark::hook<&au::WeaponsMinigame::Begin>::overwrite([this](auto&& o, auto* self, au::PlayerTask* task) {
+            ark_trace("WeaponsMinigame");
+            //return o(self, task);
+        });
+
+
+        ark::hook<&au::PlayerControl::SetTasks>::after([this](auto&& self,auto* list) {
+            //ark_trace("SetTasks for {}", self->PlayerId);
+        });
+
+
+
+        ark::hook<&au::Console::Use>::overwrite([this](auto&& o, auto&& self) {
+            static bool tusmo_open = false;
+
+            // todo check if usable first
+            ark_trace("Use for {}", self->Room);
+            auto* task = self->FindTask(au::PlayerControl::LocalPlayer());
+            ark_trace("task {}", task->Idk__BackingField);
+            tusmo_open = true;
+            ark_core_.mods()[0]->on_draw([task]{
+                if (tusmo_open)
+                {
+                    ImGui::Begin("TUSMO GAME");
+
+                    if (ImGui::Button("OnWin"))
+                    {
+                        tusmo_open = false;
+                        //au::PlayerControl::LocalPlayer()->CompleteTask(task->Idk__BackingField);
+                        if (task) au::PlayerControl::LocalPlayer()->RemoveTask(task);
+                    }
+
+                    ImGui::End();
+                }
+
+            });
+            //au::PlayerControl::LocalPlayer()->CompleteTask(task->Idk__BackingField);
+            //au::PlayerControl::LocalPlayer()->RemoveTask(task);
+
+        });
+
+
+
+        // ok
+        ark::hook<static_cast<void(au::Minigame::*)()>(&au::Minigame::Close)>::after([this](auto* self) {ark_trace("Close");});
+
+        /*ark::hook<static_cast<void(au::Minigame::*)(bool)>(&au::Minigame::Close)>::after([this](auto* self, bool) {
+            ark_trace("Minigame Close");
+        });*/
+
     }
 } // au

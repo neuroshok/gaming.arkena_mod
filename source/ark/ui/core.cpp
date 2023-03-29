@@ -1,6 +1,7 @@
 #include <ark/ui/core.hpp>
 
 #include <ark/core.hpp>
+#include <au/mod.hpp>
 
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
@@ -196,5 +197,11 @@ namespace ark::ui
     {
         draw_main();
         draw_debug();
+
+        // draw mods specific ui
+        for (auto& mod : core_.mods())
+        {
+            mod->draw();
+        }
     }
 } // ark

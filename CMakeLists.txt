@@ -77,7 +77,9 @@ file(GLOB_RECURSE AU_SOURCES
         )
 file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/au/AmongUsClient.cpp
+        ${PROJECT_SOURCE_DIR}/include/gen/au/Console.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/PlayerControl.cpp
+        ${PROJECT_SOURCE_DIR}/include/gen/au/PlayerTask.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/FollowerCamera.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/GameManager.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/GameData_PlayerInfo.cpp
@@ -90,6 +92,7 @@ file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Behaviour.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Transform.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Component.cpp
+        ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Object.cpp
         )
 
 add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})
