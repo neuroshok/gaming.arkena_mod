@@ -282,38 +282,6 @@ namespace au
         });
 
 
-
-        ark::hook<&au::Console::Use>::overwrite([this](auto&& o, auto&& self) {
-            static bool tusmo_open = false;
-
-            // todo check if usable first
-            ark_trace("Use for {}", (int)self->Room);
-            auto* task = self->FindTask(au::PlayerControl::LocalPlayer());
-            ark_trace("task {}", task->Idk__BackingField);
-            tusmo_open = true;
-            ark_core_.mods()[0]->on_draw([task]{
-                if (tusmo_open)
-                {
-                    ImGui::Begin("TUSMO GAME");
-
-                    if (ImGui::Button("OnWin"))
-                    {
-                        tusmo_open = false;
-                        //au::PlayerControl::LocalPlayer()->CompleteTask(task->Idk__BackingField);
-                        if (task) au::PlayerControl::LocalPlayer()->RemoveTask(task);
-                    }
-
-                    ImGui::End();
-                }
-
-            });
-            //au::PlayerControl::LocalPlayer()->CompleteTask(task->Idk__BackingField);
-            //au::PlayerControl::LocalPlayer()->RemoveTask(task);
-
-        });
-
-
-
         // ok
         ark::hook<static_cast<void(au::Minigame::*)()>(&au::Minigame::Close)>::after([this](auto* self) {ark_trace("Close");});
 
