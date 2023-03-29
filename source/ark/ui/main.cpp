@@ -53,13 +53,10 @@ namespace ark::ui
                         }
                         else
                         {
-                            static bool v;
-                            if (ImGui::Checkbox(mod->fullname().c_str(), &v))
+                            if (ImGui::Checkbox(mod->fullname().c_str(), &mod->ui_enable_state))
                             {
-                                if (mod->enabled())
-                                    mod->disable();
-                                else
-                                    mod->enable();
+                                if (mod->enabled()) mod->disable();
+                                else mod->enable();
                             }
                         }
 

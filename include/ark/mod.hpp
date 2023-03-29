@@ -90,6 +90,9 @@ namespace ark
         template<class T>
         T setting(const std::string& name) const;
 
+        // ui states
+        bool ui_enable_state = false;
+
     private:
         ark::core& core_;
         std::string name_;
