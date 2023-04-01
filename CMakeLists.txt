@@ -159,7 +159,11 @@ set_target_properties(bin2cpp PROPERTIES
 )
 
 # generator
-file(GLOB_RECURSE GENERATOR_SOURCES ${PROJECT_SOURCE_DIR}/tools/generator/*)
+file(GLOB_RECURSE GENERATOR_SOURCES
+        ${PROJECT_SOURCE_DIR}/tools/generator/*.cpp
+        ${PROJECT_SOURCE_DIR}/source/ark/meta.cpp
+        ${PROJECT_SOURCE_DIR}/source/ark/log.cpp
+        )
 
 add_executable(generator ${GENERATOR_SOURCES})
 target_include_directories(generator PRIVATE ${PROJECT_SOURCE_DIR}/include)

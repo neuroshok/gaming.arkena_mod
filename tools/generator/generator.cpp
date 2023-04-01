@@ -1,13 +1,13 @@
 #include "generator.hpp"
 
 #include "meta.hpp"
-#include "builder.hpp"
 #include "filter.hpp"
 #include "maps.hpp"
 
 #include <filesystem>
 #include <fstream>
 
+#include <spdlog/spdlog.h>
 #include <il2cpp/api.hpp>
 #include <iostream>
 #include <sstream>
@@ -25,7 +25,7 @@ namespace meta
     {
         SetDllDirectory(input_path_.c_str());
         auto handle = LoadLibrary("GameAssembly.dll");
-        if (!handle) spdlog::error("Unable to load library");
+        if (!handle) spdlog::error("Unable to load library {}", input_path_);
 
         api::initialize();
 

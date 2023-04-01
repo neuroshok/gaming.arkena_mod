@@ -19,8 +19,8 @@ int main()
         using namespace il2cpp;
         spdlog::set_level(spdlog::level::trace);
 
-        meta::generator gen{ "D:\\game\\steam\\steamapps\\common\\Among Us" };
-        //gen.filter_image("Assembly-CSharp.dll");
+        meta::generator gen{ R"(D:\tmp\au_injection\Build)" };
+        gen.filter_image("Assembly-CSharp.dll");
         //gen.filter_klass("PlayerControl");
         //gen.filter_klass("SendOption");
 

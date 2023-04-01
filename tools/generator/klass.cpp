@@ -7,6 +7,9 @@
 #include <il2cpp/api.hpp>
 #include <il2cpp/core.hpp>
 
+#include <sstream>
+#include <algorithm>
+
 using namespace il2cpp;
 
 namespace meta
