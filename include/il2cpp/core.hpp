@@ -19,6 +19,13 @@ namespace il2cpp
         return function(args...);
     }
 
+    template <class Signature, class... Args>
+    inline auto call_absolute(uintptr_t address, Args&&... args)
+    {
+        auto function = std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+        return function(args...);
+    }
+
     struct Il2CppImage;
     struct Il2CppThread;
     struct Il2CppAssembly;
