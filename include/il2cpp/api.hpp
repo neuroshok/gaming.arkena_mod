@@ -52,59 +52,15 @@ namespace il2cpp
         #include <il2cpp/make_api.hpp>
         #undef ARK_MAKE_MEMBER
 
+        static ARK_SHARED il2cpp::Il2CppClass* get_class(const std::string& ns, const std::string& klass);
+
         template<class T>
         static inline il2cpp::Il2CppClass* get_class()
         {
             auto namespace_ = T::internal_ns;
             auto class_ = T::internal_name;
 
-            auto dom = domain_get();
-
-            std::size_t assembly_count = 0;
-            const auto assemblies = domain_get_assemblies(dom, &assembly_count);
-
-            Il2CppClass* cls = nullptr;
-
-            for (auto it = assemblies; it != assemblies + assembly_count; ++it) {
-                auto img = assembly_get_image(*it);
-                if (!img)
-                {
-                    ark_error("null assembly..");
-                    continue;
-                }
-
-/*
-                auto c = api::image_get_class_count(img);
-                for (int i = 0; i < c; ++i)
-                {
-                    if(api::image_get_class(img, i)->_1.namespaze == std::string(""))
-                    {
-                        //ark_trace(": {} {}", api::image_get_class(img, i)->_1.name, api::image_get_class(img, i)->_1.namespaze);
-                        auto v = il2cpp::api::type_get_assembly_qualified_name(il2cpp::api::class_get_type(api::image_get_class(img, i)));
-                        std::cout << "\n__" << v;
-                    }
-                }*/
-
-                cls = class_from_name(img, namespace_, class_);
-                if (cls) break;
-            }
-
-            if (cls == nullptr) ark_error("class not found {} in {}", class_, namespace_[0] ? namespace_ : "(none)");
-
-            static auto klass = cls;
-            return klass;
-        }
-
-        static auto test()
-        {
-
-            /*
-            auto address = ark::base_address() + 0x1c52160;
-
-            auto k = reinterpret_cast<il2cpp::Il2CppClass**>(address);
-            ark_trace("k {}", (uintptr_t)k);
-            ark_trace("k {}", (*k)->_1.name);*/
-
+            return get_class(namespace_, class_);
         }
 
         static void initialize()

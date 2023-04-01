@@ -51,6 +51,7 @@ namespace ark
         if (on_draw_) on_draw_(imgui_context);
     }
 
+    // draw is called from the render thread
     void mod::on_draw(std::function<void(ImGuiContext*)> fn)
     {
         on_draw_ = std::move(fn);

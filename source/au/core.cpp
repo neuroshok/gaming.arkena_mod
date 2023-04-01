@@ -75,13 +75,13 @@ namespace au
                 au::PlayerControl::LocalPlayer()->SetLevel(99999);
                 au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);*/
 
-                for (const auto& player : gamestate_->players())
-                {
-                    if (player->au_player()->NetId == au::PlayerControl::LocalPlayer()->NetId) continue;
-                    ark_trace("send rpc to {}", player->au_player()->NetId);
-                    auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
-                    au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
-                }
+                // for (const auto& player : gamestate_->players())
+                // {
+                //     if (player->au_player()->NetId == au::PlayerControl::LocalPlayer()->NetId) continue;
+                //     ark_trace("send rpc to {}", player->au_player()->NetId);
+                //     auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
+                //     au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
+                // }
 
                 if (au_hud_manager_)
                 {
@@ -122,6 +122,7 @@ namespace au
             gamestate_->on_die(*gamestate_->player(self), reason, assignGhostRole);
         });
 
+        /*
         ark::hook<&au::PlayerControl::FixedUpdate>::after([this](auto* self) {
 
             if (ability)
@@ -132,7 +133,7 @@ namespace au
                 vec.y = p->GetTruePosition().y;
                 au::PlayerControl::LocalPlayer()->lightSource->get_transform()->set_position(vec);
             }
-        });
+        });*/
 
         /*ark::hook<&au::IntroCutscene::ShowRole>::overwrite([this](auto&& original, au::IntroCutscene* self) -> System::Collections::IEnumerator* {
             ark_trace("ShowRole");
@@ -156,9 +157,11 @@ namespace au
 
         // update player list, create new players // clientData->Id is unique
         ark::hook<&InnerNet::InnerNetClient::UpdateCachedClients>::after([this](auto* self, InnerNet::ClientData* clientData, au::PlayerControl* character) {
-            ark_assert(gamestate_, "gamestate is null");
-            auto mod_player = make_player_(character);
-            gamestate_->add_player(std::move(mod_player));
+            if (gamestate_)
+            {
+                auto mod_player = make_player_(character);
+                gamestate_->add_player(std::move(mod_player));
+            }
         });
 
 
@@ -196,8 +199,7 @@ namespace au
 
     void core::make_gamestate()
     {
-        ark_assert(make_gamestate_, "gamestate not registered");
-        if (!gamestate_)
+        if (make_gamestate_ && !gamestate_)
         {
             ark_trace("make gamestate");
             gamestate_ = make_gamestate_();
@@ -235,9 +237,12 @@ namespace au
     void core::game_hooks()
     {
         ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
-            ark_assert(gamestate_, "GameManager::StartGame gamestate is null");
-            gamestate_->on_begin_play();
-            au_game_manager_ = self;
+            if (gamestate_)
+            {
+                ark_trace("init game_manager_");
+                gamestate_->on_begin_play();
+                au_game_manager_ = self;
+            }
 
             //for (const auto& player : gamestate_->players())
             //{
@@ -251,20 +256,23 @@ namespace au
 
         // called when joining lobby
         ark::hook<&au::HudManager::Start>::after([this](auto* self) {
-            ark_assert(gamestate_, "gamestate is null");
-            ark_trace("init hud_manager");
-            au_hud_manager_ = self;
+            if (gamestate_)
+            {
+                ark_trace("init hud_manager");
+                au_hud_manager_ = self;
+            }
         });
 
-        ark::hook<&au::GameManager::RpcEndGame>::overwrite([this](auto&& original, auto* self, au::GameOverReason endReason, bool showAd) {
+        /*ark::hook<&au::GameManager::RpcEndGame>::overwrite([this](auto&& original, auto* self, au::GameOverReason endReason, bool showAd) {
             //ark_trace("send end");
 
             // gamestate_->on_die(gamestate_->player(self), endReason, showAd);
-        });
+        });*/
 
         // fix
         ark::hook<&au::GameStartManager::Update>::after([this](auto* self) {
             self->MinPlayers = 1;
+            ark_trace("set min players to 1");
         });
     }
 
@@ -277,10 +285,11 @@ namespace au
         });
 
 
+
+
         ark::hook<&au::PlayerControl::SetTasks>::after([this](auto&& self,auto* list) {
             //ark_trace("SetTasks for {}", self->PlayerId);
         });
-
 
         // ok
         ark::hook<static_cast<void(au::Minigame::*)()>(&au::Minigame::Close)>::after([this](auto* self) {ark_trace("Close");});

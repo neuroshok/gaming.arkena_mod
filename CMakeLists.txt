@@ -59,6 +59,7 @@ target_include_directories(lib_json INTERFACE third_party/json/include)
 file(GLOB_RECURSE ARK_SOURCES
         ${PROJECT_SOURCE_DIR}/include/ark/*.hpp
         ${PROJECT_SOURCE_DIR}/source/ark/*.cpp
+        ${PROJECT_SOURCE_DIR}/source/il2cpp/*.cpp
         )
 file(GLOB_RECURSE AU_SOURCES
         ${PROJECT_SOURCE_DIR}/source/au/*.cpp
