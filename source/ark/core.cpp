@@ -36,8 +36,14 @@ namespace ark
         mods_root_ = module_root.substr(0, module_root.rfind('\\')) +  "\\mods\\";
         ark_trace("Mods root: {}", mods_root_);
 
+            //        auto xt = LoadLibrary("D:\\tmp\\au_test\\au1\\__GameAssembly.dll");
+            //ark_trace("H : {}", (uintptr_t)xt);
+            //auto* r = il2cpp::call_absolute<void*(*)()>((uintptr_t)xt + 0x59BB00);
+            //ark_trace("r : {}", (uintptr_t)r);
+
         il2cpp::api::initialize();
-        il2cpp::api::thread_attach(il2cpp::api::domain_get());
+        auto* thread = il2cpp::api::thread_attach(il2cpp::api::domain_get());
+        ark_trace("thread id {}", (uintptr_t)thread);
         //ark::load_console(console_);
 
         #ifndef ARK_NO_UI

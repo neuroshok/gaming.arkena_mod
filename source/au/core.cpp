@@ -9,6 +9,7 @@
 
 #include <gen/au/IntroCutscene.hpp>
 #include <gen/au/GameManager.hpp>
+#include <gen/au/EndGameNavigation.hpp>
 #include <gen/au/Console.hpp>
 #include <gen/au/PlayerControl.hpp>
 #include <gen/au/PlayerTask.hpp>
@@ -28,6 +29,7 @@
 #include <gen/UnityEngine/Application.hpp>
 #include <gen/UnityEngine/Collider2D.hpp>
 #include <gen/UnityEngine/Transform.hpp>
+#include <gen/UnityEngine/SpriteRenderer.hpp>
 
 #include <au/GameStartManager.hpp>
 #include <au/FollowerCamera.hpp>
@@ -35,6 +37,7 @@
 #include <au/LightSource.hpp>
 #include <au/LogicGameFlowNormal.hpp>
 
+#include "au/EndGameManager.hpp"
 #include "au/IntroCutscene_ShowRoled__35.hpp"
 #include "au/WeaponsMinigame.hpp"
 #include "imgui.h"
@@ -52,6 +55,8 @@ ark::hook<&AuMethod>::after([this](auto&&, auto&&... ts) \
 });
 
 static bool ability = false;
+static UnityEngine::Sprite* SPRITE = nullptr;
+
 namespace au
 {
     core::core(ark::core& core)
@@ -67,6 +72,38 @@ namespace au
 
         ark_core_.on_debug([this](int index){
             if (index > 0) return;
+
+
+            auto xt = LoadLibrary("D:\\tmp\\au_test\\au1\\__GameAssembly.dll");
+            ark_trace("H : {}", (uintptr_t)xt);
+
+            auto* init_ptr = GetProcAddress(GetModuleHandleA("__GameAssembly.dll"), "il2cpp_init");
+            ark_trace("init_ptr : {}", (uintptr_t)init_ptr);
+            auto r = il2cpp::api::process<int(*)(const char*)>(init_ptr, "__GameAssembly.dll");
+            ark_trace("r : {}", (uintptr_t)r);
+
+            auto* init_dom = GetProcAddress(GetModuleHandleA("__GameAssembly.dll"), "il2cpp_domain_get");
+            auto dom = il2cpp::api::process<il2cpp::Il2CppDomain*(*)()>(init_dom);
+            ark_trace("dom : {}", dom->friendly_name);
+
+            auto* init_th = GetProcAddress(GetModuleHandleA("__GameAssembly.dll"), "il2cpp_thread_attach");
+            auto th = il2cpp::api::process<il2cpp::Il2CppThread*(*)(il2cpp::Il2CppDomain*)>(init_th, dom);
+            ark_trace("th : {}", (uintptr_t)th);
+
+            std::size_t assembly_count = 0;
+            auto* init_dga = GetProcAddress(GetModuleHandleA("__GameAssembly.dll"), "il2cpp_domain_get_assemblies");
+            auto dga = il2cpp::api::process<il2cpp::Il2CppAssembly**(*)(il2cpp::Il2CppDomain*, std::size_t*)>(init_dga, dom, &assembly_count);
+            ark_trace("dga : {}", assembly_count);
+
+            // DO_API(Il2CppObject*, il2cpp_runtime_invoke, (const MethodInfo * method, void *obj, void **params, Il2CppException **exc));
+
+            //std::size_t assembly_count = 0;
+            //const auto assemblies = domain_get_assemblies(dom, &assembly_count);
+
+            SPRITE = il2cpp::call_absolute<UnityEngine::Sprite*(*)()>((uintptr_t)xt + 0x59DEC0);
+            ark_trace("SPRITE : {}", (uintptr_t)SPRITE);
+
+
             if (au::PlayerControl::LocalPlayer())
             {
                 /*
@@ -297,6 +334,12 @@ namespace au
         /*ark::hook<static_cast<void(au::Minigame::*)(bool)>(&au::Minigame::Close)>::after([this](auto* self, bool) {
             ark_trace("Minigame Close");
         });*/
+
+        ark::hook<&au::EndGameManager::SetEverythingUp>::after([this](auto* self){
+            self->Navigation->PlayAgainButton->set_sprite(SPRITE);
+            ark_trace("SetEverythingUp");
+        });
+
 
     }
 } // au

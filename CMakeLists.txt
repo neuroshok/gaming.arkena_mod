@@ -82,6 +82,7 @@ file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Transform.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Component.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Object.cpp
+        ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/SpriteRenderer.cpp
         )
 
 add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})
