@@ -10,12 +10,13 @@ namespace fs = std::filesystem;
 void encode(const std::string& resource_name)
 {
     std::ifstream ifs("../resource/graphic/" + resource_name + ".png", std::ios::binary);
-    if (!ifs.is_open()) throw "file not found";
+    if (!ifs.is_open()) throw "input file not found";
 
     std::vector<unsigned char> data(std::istreambuf_iterator<char>(ifs), {});
     ifs.close();
 
-    std::ofstream ofs("../source/ark/resource/" + resource_name + ".cpp");
+    std::ofstream ofs("../source/ark/resource/embed/" + resource_name + ".cpp");
+    if (!ofs.is_open()) throw "output file not found";
 
     std::string header = "#include <ark/resource.hpp>\n\n";
     header += "static const unsigned char raw_data[] = {\n";
@@ -39,12 +40,13 @@ void encode(const std::string& resource_name)
 
 int main()
 {
-    std::string resource_name = "button";
+    std::string resource_path = "../resource/graphic/";
+    std::string resource_name = "mod";
 
-    for (auto& entry : fs::directory_iterator("../resource/graphic/"))
+    for (auto& entry : fs::directory_iterator(resource_path))
     {
-        std::cout << "\nProcessing " << entry.path().stem();
-        encode(entry.path().stem().u8string());
+        std::cout << "\nProcessing " << entry.path().stem() << " at " << entry.path().generic_string();
+        encode(entry.path().stem().generic_string());
     }
 
     return 0;

@@ -23,10 +23,12 @@ namespace ark::ui
         ImGui::SetNextWindowPos({ io.DisplaySize.x - width, 0 });
         ImGui::SetNextWindowSize({ width, menu_height });
 
-        ImGui::Begin("Arkmongus", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
-        auto title = "Arkmongus " + core_.version().str();
+        ImGui::Begin("arkena_mod", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
+        auto title = "arkena_mod " + core_.version().str();
+        //ImGui::Image((void*)core_.resources().ntx_mod.handle, ImVec2(menu_height, menu_height));
 
-        //ImGui::Image((void*)core_.resources().ntx_icon.handle, ImVec2(menu_height, menu_height));
+        ImGui::Image((void*)core_.resources().ntx_icon.handle, ImVec2(menu_height, menu_height));
+
         ImGui::SameLine();
         if (ImGui::Button(title.c_str(), ImVec2(width - menu_height, menu_height)))
             main_state_ = !main_state_;
