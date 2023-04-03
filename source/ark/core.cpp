@@ -47,6 +47,9 @@ namespace ark
         // load among us mod framework
         au_core_->load();
 
+        // load resources
+        //resources_.load();
+
         // load all mods
         if (std::filesystem::exists(mods_root_))
         {
@@ -195,6 +198,11 @@ namespace ark
     const std::deque<std::string>& core::logs() const
     {
         return logs_;
+    }
+
+    ark::resources& core::resources()
+    {
+        return resources_;
     }
 
     std::string core::settings_path()

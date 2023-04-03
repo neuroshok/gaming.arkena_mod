@@ -6,6 +6,7 @@
 #include <ark/ui/core.hpp>
 #include <ark/module.hpp>
 #include <ark/version.hpp>
+#include <ark/resource.hpp>
 
 #include <deque>
 
@@ -80,6 +81,7 @@ namespace ark
         au::mod& mod(const std::string& name);
         const ark::version& version() const;
         const std::deque<std::string>& logs() const;
+        ark::resources& resources();
 
         static std::string settings_path();
         const std::string& mods_root() const;
@@ -88,6 +90,7 @@ namespace ark
         HMODULE hmodule_;
         std::string mods_root_;
         ui::core ui_;
+        ark::resources resources_;
 
         std::unique_ptr<au::core> au_core_;
         std::function<void(int)> on_debug_;

@@ -61,9 +61,9 @@ namespace au
 
     void core::load()
     {
-        init_hooks(); // initialisation hooks
-        game_hooks();
-        testing_hooks();
+        // init_hooks(); // initialisation hooks
+        // game_hooks();
+        // testing_hooks();
 
         ark_core_.on_debug([this](int index){
             if (index > 0) return;
@@ -95,6 +95,7 @@ namespace au
 
         //player_hooks();
 
+        /*
         ark::hook<&au::PlayerControl::HandleRpc>::before([this](auto&&, auto event, Hazel::MessageReader* rdata){
             //ark_trace("RPC {}", (int)event);
             if (event == 99)
@@ -116,11 +117,14 @@ namespace au
         });
 
         ark::hook<&au::PlayerControl::Die>::after([this](auto* self, au::DeathReason reason, bool assignGhostRole) {
-            auto* player = gamestate_->player(self);
-            ark_assert(player, "player not found");
-            player->on_die(reason, assignGhostRole);
-            gamestate_->on_die(*gamestate_->player(self), reason, assignGhostRole);
-        });
+            if (gamestate_)
+            {
+                auto* player = gamestate_->player(self);
+                ark_assert(player, "player not found");
+                player->on_die(reason, assignGhostRole);
+                gamestate_->on_die(*gamestate_->player(self), reason, assignGhostRole);
+            }
+        });*/
 
         /*
         ark::hook<&au::PlayerControl::FixedUpdate>::after([this](auto* self) {
@@ -149,6 +153,7 @@ namespace au
         });*/
 
 
+        /*
         ark::hook<&au::IntroCutscene::BeginCrewmate>::overwrite([this](auto&& original, au::IntroCutscene* self, auto&& v) {
             ark_trace("BeginCrewmate");
             original(self, v);
@@ -162,7 +167,7 @@ namespace au
                 auto mod_player = make_player_(character);
                 gamestate_->add_player(std::move(mod_player));
             }
-        });
+        });*/
 
 
         /*ark::hook<static_cast<void(au::GameData_PlayerInfo::*)(au::PlayerControl*)>(&au::GameData_PlayerInfo::ctor)>::after([this](au::GameData_PlayerInfo* self, au::PlayerControl* pc){
@@ -180,6 +185,7 @@ namespace au
             ark_trace("{}", (intptr_t)au::PlayerControl::LocalPlayer());
         });*/
 
+        /*
         ark::hook<&au::ShipStatus::StartMeeting>::before([this](auto&&, au::PlayerControl* reporter, au::GameData_PlayerInfo* target){
             if (gamestate_)
             {
@@ -189,7 +195,7 @@ namespace au
                 ark_assert(player, "player not found");
                 gamestate_->on_start_meeting(*player, autarget);
             }
-        });
+        });*/
 
         //hook_player(au::PlayerControl::Die, on_die);
 
