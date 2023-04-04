@@ -23,7 +23,7 @@ namespace ark
 {
     core::core(HMODULE hmodule)
         : hmodule_{ hmodule }
-        , version_{ ark::version{0, 2, 0} }
+        , version_{ ark::version{ARK_VERSION_MAJOR, ARK_VERSION_MINOR, ARK_VERSION_FIX, ARK_VERSION_META} }
         , ui_{ *this }
         , au_core_{ std::make_unique<au::core>(*this) }
     {

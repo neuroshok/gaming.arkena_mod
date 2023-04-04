@@ -4,6 +4,25 @@ project(arkena_mod)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+# version
+set(ARK_VERSION_MAJOR 0)
+set(ARK_VERSION_MINOR 3)
+set(ARK_VERSION_FIX 0)
+set(ARK_VERSION_META "")
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    if (ARK_VERSION_META)
+        set(ARK_VERSION_META "-${ARK_VERSION_META}")
+    endif ()
+else()
+    string(TIMESTAMP CURRENT_DATE "%s")
+    string(SUBSTRING ${CURRENT_DATE} 4 -1 CURRENT_DATE)
+    if (ARK_VERSION_META)
+        set(ARK_VERSION_META "${ARK_VERSION_META}-${CURRENT_DATE}")
+    endif ()
+endif ()
+
+# spdlog
 add_subdirectory(third_party/spdlog)
 
 # imgui
@@ -95,6 +114,13 @@ endif()
 if (NO_CONSOLE)
     target_compile_definitions(arkena_mod PUBLIC ARK_NO_CONSOLE=1)
 endif()
+
+target_compile_definitions(arkena_mod PUBLIC
+        ARK_VERSION_MAJOR=${ARK_VERSION_MAJOR}
+        ARK_VERSION_MINOR=${ARK_VERSION_MINOR}
+        ARK_VERSION_FIX=${ARK_VERSION_FIX}
+        ARK_VERSION_META="${ARK_VERSION_META}"
+        )
 
 target_compile_options(arkena_mod PUBLIC /wd4674)
 target_compile_definitions(arkena_mod PUBLIC ARK_SHARED_EXPORT WIN32_LEAN_AND_MEAN NOMINMAX)
