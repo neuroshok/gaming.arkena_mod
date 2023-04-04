@@ -10,3 +10,4 @@
 - add ARK_SHARED on classes to export symbols
 - out variables should be ref (generator issue) // float Console::CanUse(au::GameData_PlayerInfo* pc, bool canUse, bool couldUse), add ref to canUse & couldUse
 DestroyableSingleton<GameStartManager>
+- handle template parameters
