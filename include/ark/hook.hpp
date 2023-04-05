@@ -47,8 +47,7 @@ namespace ark
     template<auto Method>
     class hook
     {
-        using method_type = typename ark::function_trait<decltype(Method)>::method_type;
-        using class_type = typename ark::function_trait<decltype(Method)>::class_type;
+        using method_type = typename ark::function_trait<decltype(Method)>::noret_method_type; // no return for before / after hooks
         using overwrite_type = typename ark::function_trait<decltype(Method)>::overwrite_method_type;
 
     public:
