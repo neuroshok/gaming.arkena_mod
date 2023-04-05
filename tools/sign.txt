@@ -1,1 +1,9 @@
-signtool.exe sign /v /f bin\cert.pfx /p passwd  "Arkmongus.exe"
+# create the certificate
+$cert = New-SelfSignedCertificate -DNSName "neuroshok.com" -CertStoreLocation Cert:\CurrentUser\My -Type CodeSigningCert -Subject “neuroshok”
+# export it with :
+- execute "mmc"
+- add certificate (current user)
+- export with priv key
+
+# sign the binary
+signtool sign /debug /a /fd SHA256 /f cert.pfx /p __password__ arkena_mod.dll
