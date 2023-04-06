@@ -141,6 +141,8 @@ namespace meta
         std::stringstream klass_methods;
         std::stringstream klass_methods_def;
 
+        std::stringstream hooks;
+
         if (!klass.type().is_enum())
         {
             klass_type = "struct alignas(" + std::to_string(klass.alignment()) + ") ";
@@ -188,8 +190,14 @@ namespace meta
                 << ", " << method.name()
                 << parameters
                 << ");\n";
+
+            hooks << "// ark::hook<&" << method.klass().ns_name() << "::" << method.name() << ">::after([](auto&&...) { ark_trace(\"" << method.name() << "\"); });"
+                << "\n";
         }
-        hpp << "} // ark::method_info";
+        hpp << "} // ark::method_info\n";
+
+        // hooks
+        hpp << "\n\n" << hooks.str() << "\n";
 
         // cpp
         cpp << "#include \"" << klass.name() << ".hpp\"\n\n";
