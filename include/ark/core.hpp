@@ -7,6 +7,7 @@
 #include <ark/module.hpp>
 #include <ark/version.hpp>
 #include <ark/resource.hpp>
+#include <ark/updater.hpp>
 
 #include <deque>
 
@@ -91,6 +92,7 @@ namespace ark
         std::string mods_root_;
         ui::core ui_;
         ark::resources resources_;
+        ark::updater updater_;
 
         std::unique_ptr<au::core> au_core_;
         std::function<void(int)> on_debug_;

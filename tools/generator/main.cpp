@@ -19,10 +19,10 @@ int main()
         using namespace il2cpp;
         spdlog::set_level(spdlog::level::trace);
 
-        meta::generator gen{ R"(D:\tmp\au_injection\Build)" };
-        gen.filter_image("Assembly-CSharp.dll");
-        //gen.filter_klass("PlayerControl");
-        //gen.filter_klass("SendOption");
+        meta::generator gen{ R"(D:\tmp\au_test\au1)" };
+        //gen.filter_image("Assembly-CSharp.dll");
+        gen.filter_klass("PlayerControl");
+        //gen.filter_klass("ReInput");
 
         //std::cout << il2cpp_info(gen.klasses_[120]);
 

@@ -148,6 +148,7 @@ namespace ark::ui
 
             OriginalWndProcFunction = (WNDPROC)SetWindowLong(window, GWLP_WNDPROC, (LONG)WndProcHook);
             ImGui::GetIO().ImeWindowHandle = window;
+            ImGuiIO& io = ImGui::GetIO();
 
             // CreateRenderTarget
             ID3D11Texture2D* pBackBuffer;

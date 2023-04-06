@@ -30,6 +30,8 @@ namespace ark
         ark::init_logger((uintptr_t)hmodule_);
         ark_info("Initialize ark::core version {}", version_.str());
 
+        updater_.check();
+
         char buffer[MAX_PATH];
         GetModuleFileName(hmodule_, buffer, MAX_PATH) ;
         std::string module_root = buffer;
@@ -37,7 +39,7 @@ namespace ark
         ark_trace("Mods root: {}", mods_root_);
 
         il2cpp::api::initialize();
-        il2cpp::api::thread_attach(il2cpp::api::domain_get());
+        //il2cpp::api::thread_attach(il2cpp::api::domain_get());
         //ark::load_console(console_);
 
         #ifndef ARK_NO_UI

@@ -1,13 +1,14 @@
 cmake_minimum_required(VERSION 3.17)
+
 project(arkena_mod)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
 # version
 set(ARK_VERSION_MAJOR 0)
 set(ARK_VERSION_MINOR 3)
-set(ARK_VERSION_FIX 0)
+set(ARK_VERSION_FIX 3)
 set(ARK_VERSION_META "")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -44,15 +45,7 @@ include(cmake/imgui.cmake)
 
 
 # lib_restcpp
-# if (CURL_ROOT)
-#     set(CURL_DIR ${CURL_ROOT})
-#     set(CURL_INCLUDE_DIR ${CURL_DIR}/include)
-#     set(CURL_LIBRARY ${CURL_DIR}/lib)
-# endif()
-#
-# set(BUILD_SHARED_LIBS NO)
-# add_subdirectory(third_party/restclient-cpp)
-# target_compile_definitions(restclient-cpp PUBLIC CURL_STATICLIB=1)
+find_package(restclient-cpp CONFIG REQUIRED)
 
 # kiero
 add_library(lib_kiero INTERFACE)
@@ -124,8 +117,12 @@ target_compile_definitions(arkena_mod PUBLIC
 
 target_compile_options(arkena_mod PUBLIC /wd4674)
 target_compile_definitions(arkena_mod PUBLIC ARK_SHARED_EXPORT WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PUBLIC lib_imgui lib_kiero spdlog lib_json ${CURLLIB_PATH} ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
-target_include_directories(arkena_mod PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/include/gen)
+target_link_libraries(arkena_mod PUBLIC lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURLLIB_PATH} ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
+target_include_directories(arkena_mod PUBLIC
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/include/gen
+        ${PROJECT_SOURCE_DIR}/third_party/restclient-cpp/include
+        )
 
 # arkena_mod
 target_link_libraries(arkena_mod PUBLIC spdlog)
