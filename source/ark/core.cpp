@@ -153,16 +153,20 @@ namespace ark
 
     void core::debug(int index)
     {
-        if (on_debug_) on_debug_(index);
-        for (auto& mod : mods_)
-        {
-            mod->debug(index);
-        }
+        #ifdef ARK_DEBUG
+            if (on_debug_) on_debug_(index);
+            for (auto& mod : mods_)
+            {
+                mod->debug(index);
+            }
+        #endif
     }
 
     void core::on_debug(std::function<void(int)> fn)
     {
-        on_debug_ = std::move(fn);
+        #ifdef ARK_DEBUG
+            on_debug_ = std::move(fn);
+        #endif
     }
 
     void core::log(const std::string& mod_name, const std::string& message)

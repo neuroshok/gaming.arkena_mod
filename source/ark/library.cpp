@@ -4,20 +4,20 @@
 DWORD WINAPI HackThread(HMODULE hmodule)
 {
 
-#ifndef ARK_NO_CONSOLE
+#ifdef ARK_DEBUG
     FILE* console_;
     if (!AllocConsole()) ark_trace("console allocation failed");
     freopen_s(&console_, "CONOUT$", "w", stdout);
 
     SetConsoleOutputCP(65001);
 #endif
-
+    Sleep(2000);
     {
         ark::core core{ hmodule };
         core.run();
     }
 
-#ifndef ARK_NO_CONSOLE
+#ifdef ARK_DEBUG
     fclose(console_);
     FreeConsole();
 #endif

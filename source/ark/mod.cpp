@@ -115,4 +115,6 @@ namespace ark
 
         on_settings_update();
     }
+
+    ImGuiContext* mod::ui_context() { return ui::core::imgui_context; }
 } // ark

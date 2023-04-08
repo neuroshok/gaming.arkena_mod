@@ -101,11 +101,8 @@ add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})
 if (NO_UI)
     target_compile_definitions(arkena_mod PUBLIC ARK_NO_UI=1)
 endif()
-if (TESTING)
-    target_compile_definitions(arkena_mod PUBLIC ARK_TESTING=1)
-endif()
-if (NO_CONSOLE)
-    target_compile_definitions(arkena_mod PUBLIC ARK_NO_CONSOLE=1)
+if (ARK_DEBUG)
+    target_compile_definitions(arkena_mod PUBLIC ARK_DEBUG=1)
 endif()
 
 target_compile_definitions(arkena_mod PUBLIC

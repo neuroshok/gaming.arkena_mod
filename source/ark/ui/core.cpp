@@ -149,6 +149,7 @@ namespace ark::ui
             OriginalWndProcFunction = (WNDPROC)SetWindowLong(window, GWLP_WNDPROC, (LONG)WndProcHook);
             ImGui::GetIO().ImeWindowHandle = window;
             ImGuiIO& io = ImGui::GetIO();
+            io.Fonts->AddFontFromFileTTF("D:\\avenir.ttf", 48);
 
             // CreateRenderTarget
             ID3D11Texture2D* pBackBuffer;
@@ -197,7 +198,10 @@ namespace ark::ui
     void core::draw()
     {
         draw_main();
-        draw_debug();
+
+        #ifdef ARK_DEBUG
+            draw_debug();
+        #endif
 
         // draw mods specific ui
         for (auto& mod : core_.mods())
