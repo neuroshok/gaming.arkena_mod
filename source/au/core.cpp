@@ -61,7 +61,7 @@ namespace au
 
     void core::load()
     {
-        // init_hooks(); // initialisation hooks
+         init_hooks(); // initialisation hooks
         // game_hooks();
         // testing_hooks();
 
@@ -199,7 +199,7 @@ namespace au
 
         //hook_player(au::PlayerControl::Die, on_die);
 
-        hook_gamestate(au::MeetingHud::CmdCastVote, on_cast_vote);
+        //hook_gamestate(au::MeetingHud::CmdCastVote, on_cast_vote);
         //hook_gamestate(au::MeetingHud::RpcVotingComplete, on_cast_vote);
     }
 

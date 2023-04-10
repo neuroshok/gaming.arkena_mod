@@ -1,5 +1,4 @@
-#ifndef INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD
-#define INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD
+#pragma once
 
 #include <ark/core.hpp>
 #include <ark/module.hpp>
@@ -29,22 +28,23 @@ namespace ark
 
     class ARK_SHARED mod
     {
+        friend class ark::mod_api;
         friend class ark::ui::core;
 
     public:
         using settings_type = std::vector<ark::setting>;
 
     public:
-        explicit mod(ark::core& core, std::string name, ark::version = {0, 0, 1}, bool synchronized = true);
+        mod();
 
         mod(const mod&) = delete;
         mod& operator=(const mod&) = delete;
 
-        virtual void on_draw(std::function<void(ImGuiContext*)>);
+        virtual void on_draw();
         virtual void on_debug(std::function<void(int)>);
 
-        virtual void on_enable() {}
-        virtual void on_disable() {}
+        virtual void on_enable();
+        virtual void on_disable();
         virtual void on_settings_update() {}
 
         virtual void send_rpc(uintptr_t rid, void* object, std::vector<std::byte> data) {}
@@ -69,7 +69,6 @@ namespace ark
             core_.error(name_, std::vformat(message, std::make_format_args(ts...)));
         }
 
-        void draw(ImGuiContext*);
         void debug(int index);
 
         void enable();
@@ -101,7 +100,7 @@ namespace ark
         bool ui_enable_state = false;
 
     private:
-        ark::core& core_;
+        ark::core* core_;
         std::string name_;
         ark::version version_;
         std::string fullname_;
@@ -110,8 +109,8 @@ namespace ark
         bool enabled_;
         std::vector<ark::setting> settings_;
 
-        std::function<void(ImGuiContext*)> on_draw_;
         std::function<void(int)> on_debug_;
+
     public: std::unordered_map<uintptr_t, std::function<void(const std::vector<std::byte>&)>> rpcs_;
     };
 }// ark
@@ -133,5 +132,3 @@ namespace ark
         return T{};
     }
 } // ark
-
-#endif// INCLUDE_ARKMOD_MOD_HPP_ARKENA_MOD

@@ -42,6 +42,11 @@ namespace ark
         //il2cpp::api::thread_attach(il2cpp::api::domain_get());
         //ark::load_console(console_);
 
+        if (MH_Initialize() != MH_OK)
+        {
+            ark_error("Hook initialization failed");
+        }
+
         #ifndef ARK_NO_UI
         ui_.load();
         #endif
@@ -60,19 +65,16 @@ namespace ark
                 if (entry.path().extension() != ".dll") continue;
                 std::string mod_name = entry.path().stem().generic_string();
                 ark_trace("Loading mod {}", mod_name);
-                load<au::mod>(mod_name);
+                load(mod_name);
             }
         }
 
-        //load<au::mod>("amodus");
+        #ifndef ARK_NO_UI
+        ui_.run();
+        #endif
 
         //ark_info("Game version : {}", ::UnityEngine::Application::get_version()->str());
 
-#ifdef ARK_TESTING
-        load<ark::mods::testing>();
-#else
-
-#endif
         init_settings();
     }
 
@@ -87,9 +89,46 @@ namespace ark
         {
             //discord_.run();
 
-            if (GetAsyncKeyState(VK_F2) & 1)
+            /*if (GetAsyncKeyState(VK_F2) & 1)
             {
                 break;
+            }*/
+        }
+    }
+
+    void core::load(const std::string& mod_name)
+    {
+        std::string module_path = mods_root_+ mod_name + ".dll";
+
+        if (!std::filesystem::exists(module_path))
+        {
+            error("core", "unable to find mod " + mod_name + " at " + module_path);
+            return;
+        }
+        auto handle = ark_os_module_load(module_path.c_str());
+        if (!handle)
+        {
+            error("core", "unable to load mod " + mod_name + " from " + module_path );
+            return;
+        }
+        else
+        {
+            // get main pointer
+            auto load_ptr = reinterpret_cast<Module_load_ptr>(ark_os_module_function(handle, "mod_load"));
+            if (!load_ptr) error("core", "function mod_load missing");
+            else
+            {
+                ark::mod_api mod_api{ *this, mod_name };
+                bool error_code = load_ptr(mod_api);
+                if (error_code) ark_info("Mod loading error {}", mod_name);
+                else
+                {
+                    auto mod_ptr = mod_api.make(this, mod_name);
+
+                    ark_info("Mod {} version {} loaded", mod_ptr->name(), mod_ptr->version().str());
+                    mod_ptr->enable();
+                    mods_.emplace_back(std::move(mod_ptr));
+                }
             }
         }
     }
@@ -184,12 +223,12 @@ namespace ark
         ark_error(error_message);
     }
 
-    const std::vector<std::unique_ptr<au::mod>>& core::mods() const
+    const std::vector<std::unique_ptr<ark::mod>>& core::mods() const
     {
         return mods_;
     }
 
-    au::mod& core::mod(const std::string& name)
+    ark::mod& core::mod(const std::string& name)
     {
         auto it = std::find_if(mods_.begin(), mods_.end(), [&name](const auto& mod) { return mod->name() == name; });
         assert(it != mods_.end());

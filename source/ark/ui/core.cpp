@@ -3,11 +3,12 @@
 #include <ark/core.hpp>
 #include <au/mod.hpp>
 
+#include <ark/resource/font/main_font.hpp>
+
 #include <backends/imgui_impl_dx11.h>
 #include <backends/imgui_impl_win32.h>
 #include <imgui.h>
-#include <iostream>
-
+#include <imgui_internal.h>
 #include <kiero.h>
 
 #pragma comment (lib, "d3d11.lib")
@@ -31,8 +32,9 @@ namespace ark::ui
         if (init_status != kiero::Status::Success) ark_trace("UI init error {}", (int)init_status);
 
         original_render_function = GetD3D11PresentFunction();
-        auto hook_status = kiero::bind(8, (void**)&original_render_function, &ui::core::render_function);
-        if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", (int)hook_status);
+        imgui_context = ImGui::CreateContext();
+
+        imgui_context->IO.Fonts->AddFontFromMemoryCompressedTTF(main_font_compressed_data, main_font_compressed_size, 16);
     }
 
     void core::unload()
@@ -142,14 +144,12 @@ namespace ark::ui
             pSwapChain->GetDesc(&desc);
 
             window = desc.OutputWindow;
-            imgui_context = ImGui::CreateContext();
+
             ImGui_ImplWin32_Init(window);
             ImGui_ImplDX11_Init(device, context);
 
             OriginalWndProcFunction = (WNDPROC)SetWindowLong(window, GWLP_WNDPROC, (LONG)WndProcHook);
             ImGui::GetIO().ImeWindowHandle = window;
-            ImGuiIO& io = ImGui::GetIO();
-            io.Fonts->AddFontFromFileTTF("D:\\avenir.ttf", 48);
 
             // CreateRenderTarget
             ID3D11Texture2D* pBackBuffer;
@@ -206,7 +206,16 @@ namespace ark::ui
         // draw mods specific ui
         for (auto& mod : core_.mods())
         {
-            mod->draw(imgui_context);
+            mod->on_draw();
         }
+    }
+
+    void core::run()
+    {
+        // build font atlas before rendering
+        imgui_context->IO.Fonts->Build();
+
+        auto hook_status = kiero::bind(8, (void**)&original_render_function, &ui::core::render_function);
+        if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", (int)hook_status);
     }
 } // ark

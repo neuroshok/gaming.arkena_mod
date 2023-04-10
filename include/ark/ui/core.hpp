@@ -23,6 +23,8 @@ namespace ark::ui
         void draw_debug();
         void draw_main();
 
+        void run();
+
         render_function_type GetD3D11PresentFunction();
         static bool GetD3D11SwapchainDeviceContext(IDXGISwapChain** pSwapchain, ID3D11Device** pDevice, ID3D11DeviceContext** pContextTable);
         void CleanupDeviceD3D();
@@ -41,7 +43,7 @@ namespace ark::ui
         bool main_state_ = false;
 
         inline static ui::core* instance_ = nullptr;
-        inline static ImGuiContext* imgui_context;
+        inline static ImGuiContext* imgui_context = nullptr;
 
         inline static render_function_type original_render_function = nullptr;
         inline static WNDPROC OriginalWndProcFunction;

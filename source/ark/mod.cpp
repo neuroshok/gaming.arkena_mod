@@ -7,12 +7,12 @@
 
 namespace ark
 {
-    mod::mod(ark::core& core, std::string name, ark::version version, bool synchronized)
-        : core_{ core }
-        , name_{ std::move(name) }
-        , version_{ version }
-        , fullname_{ name_ + "-" + version.str() }
-        , synchronized_{ synchronized }
+    mod::mod()
+        : core_{ nullptr }
+        , name_{ "__no_name__" }
+        , version_{ ark::version{} }
+        , fullname_{ name_ + "-" + version_.str() }
+        , synchronized_{ true }
         , enabled_{ false }
     {
     }
@@ -34,6 +34,9 @@ namespace ark
         log("Disable mod {}", name_);
     }
 
+    void mod::on_enable() {}
+    void mod::on_disable() {}
+
     //! \param rid the impl function with the form of void _impl(void* object, const std::vector<std::byte>& data);
     void mod::register_rpc(uintptr_t rid, void* object)
     {
@@ -43,18 +46,12 @@ namespace ark
 
     void mod::log(const std::string& data)
     {
-        core_.log(name_, data);
-    }
-
-    void mod::draw(ImGuiContext* imgui_context)
-    {
-        if (on_draw_) on_draw_(imgui_context);
+        core().log(name_, data);
     }
 
     // draw is called from the render thread
-    void mod::on_draw(std::function<void(ImGuiContext*)> fn)
+    void mod::on_draw()
     {
-        on_draw_ = std::move(fn);
     }
 
     void mod::debug(int index)
@@ -67,7 +64,7 @@ namespace ark
         on_debug_ = std::move(fn);
     }
 
-    ark::core& mod::core() { return core_; }
+    ark::core& mod::core() { return *core_; }
     const std::string& mod::name() const { return name_; }
     const std::string& mod::fullname() const { return fullname_; }
     const std::string& mod::description() const { return description_; }
@@ -116,5 +113,9 @@ namespace ark
         on_settings_update();
     }
 
-    ImGuiContext* mod::ui_context() { return ui::core::imgui_context; }
+    ImGuiContext* mod::ui_context()
+    {
+        ark_assert(ui::core::imgui_context, "ui_context is null");
+        return ui::core::imgui_context;
+    }
 } // ark

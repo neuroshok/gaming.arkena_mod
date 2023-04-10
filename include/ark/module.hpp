@@ -2,13 +2,13 @@
 
 #include <Windows.h>
 
-namespace au
+namespace ark
 {
-    class mod;
+    class mod_api;
 } // ark
 
-using Module_load_ptr = int (*)(au::mod&);
-using Module_unload_ptr = int (*)(au::mod&);
+using Module_load_ptr = int (*)(ark::mod_api&);
+using Module_unload_ptr = int (*)(ark::mod_api&);
 
 #define ark_os_module_function GetProcAddress
 #define ark_os_module_load(path) LoadLibrary(path)
@@ -24,4 +24,4 @@ using Module_unload_ptr = int (*)(au::mod&);
     #define ARK_SHARED ARK_IMPORT
 #endif
 
-extern "C" ARK_EXPORT int mod_load(au::mod& mod);
+extern "C" ARK_EXPORT int mod_load(ark::mod_api& mod);

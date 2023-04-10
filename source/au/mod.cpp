@@ -8,9 +8,7 @@
 
 namespace au
 {
-    mod::mod(au::core& au_core, std::string name)
-        : ark::mod(au_core.ark_core(), name)
-        , au_core_{ au_core }
+    mod::mod()
     {}
 
     void mod::send_rpc(uintptr_t rid, void* object, std::vector<std::byte> data)
@@ -23,14 +21,14 @@ namespace au
     void mod::register_player(std::function<std::unique_ptr<au::player>(au::PlayerControl*)> make_player)
     {
         log("Register player");
-        au_core_.set_player_class(this, std::move(make_player));
+        //au_core_.set_player_class(this, std::move(make_player));
     }
 
     void mod::register_gamestate(std::function<std::unique_ptr<au::gamestate>()> make_gamestate)
     {
         log("Register gamestate");
-        au_core_.set_gamestate_class(this, std::move(make_gamestate));
+        //au_core_.set_gamestate_class(this, std::move(make_gamestate));
     }
 
-    au::core& mod::core() { return au_core_; }
+    au::core& mod::core() { return static_cast<au::core&>(mod::core()); }
 } // au

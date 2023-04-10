@@ -4,6 +4,11 @@
 #include <string>
 #include <variant>
 
+namespace ui
+{
+    class core;
+} // ui
+
 namespace ark
 {
     struct setting

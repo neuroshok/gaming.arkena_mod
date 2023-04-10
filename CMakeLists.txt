@@ -8,7 +8,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 # version
 set(ARK_VERSION_MAJOR 0)
 set(ARK_VERSION_MINOR 3)
-set(ARK_VERSION_FIX 3)
+set(ARK_VERSION_FIX 4)
 set(ARK_VERSION_META "")
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -171,11 +171,17 @@ endif()
 # )
 
 # bin2cpp
-add_executable(bin2cpp ${PROJECT_SOURCE_DIR}/source/bin2cpp.cpp)
-
+add_executable(bin2cpp ${PROJECT_SOURCE_DIR}/tools/bin2cpp/main.cpp)
 set_target_properties(bin2cpp PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
     OUTPUT_NAME "bin2cpp"
+)
+
+# bin2cpp_compressed
+add_executable(bin2cpp_compressed ${PROJECT_SOURCE_DIR}/tools/bin2cpp_compressed/main.cpp)
+set_target_properties(bin2cpp_compressed PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin/"
+    OUTPUT_NAME "bin2cpp_compressed"
 )
 
 # generator

@@ -5,6 +5,7 @@
 #include <ark/log.hpp>
 #include <ark/ui/core.hpp>
 #include <ark/module.hpp>
+#include <ark/mod_api.hpp>
 #include <ark/version.hpp>
 #include <ark/resource.hpp>
 #include <ark/updater.hpp>
@@ -14,6 +15,7 @@
 #include <concepts>
 #include <filesystem>
 #include <functional>
+
 #include <vector>
 
 namespace ark { class mod; }
@@ -38,37 +40,8 @@ namespace ark
         ~core();
 
         void run();
-        template<Concept::mod Mod>
-        void load(const std::string& mod_name)
-        {
-            std::string module_path = mods_root_+ mod_name + ".dll";
 
-            if (!std::filesystem::exists(module_path))
-            {
-                error("core", "unable to find mod " + mod_name + " at " + module_path);
-                return;
-            }
-            auto handle = ark_os_module_load(module_path.c_str());
-            if (!handle)
-            {
-                error("core", "unable to load mod " + mod_name + " from " + module_path );
-                return;
-            }
-            else
-            {
-                // get main pointer
-                auto load_ptr = reinterpret_cast<Module_load_ptr>(ark_os_module_function(handle, "mod_load"));
-                if (!load_ptr) error("core", "function mod_load missing");
-                else
-                {
-                    mods_.emplace_back(std::make_unique<Mod>(*au_core_, mod_name));
-                    bool error_code = load_ptr(*mods_.back());
-                    if (error_code) ark_info("Mod loading error {}", mods_.back()->name());
-                    ark_info("Mod {} version {} loaded", mods_.back()->name(), mods_.back()->version().str());
-                    mods_.back()->enable();
-                }
-            }
-        }
+        void load(const std::string& mod_name);
         void unload(const std::string& name);
 
         void init_settings();
@@ -78,8 +51,8 @@ namespace ark
         void log(const std::string& mod_name, const std::string& message);
         void error(const std::string& mod_name, const std::string& message);
 
-        const std::vector<std::unique_ptr<au::mod>>& mods() const;
-        au::mod& mod(const std::string& name);
+        const std::vector<std::unique_ptr<ark::mod>>& mods() const;
+        ark::mod& mod(const std::string& name);
         const ark::version& version() const;
         const std::deque<std::string>& logs() const;
         ark::resources& resources();
@@ -99,7 +72,7 @@ namespace ark
 
         //ark::discord discord_;
         ark::version version_;
-        std::vector<std::unique_ptr<au::mod>> mods_;
+        std::vector<std::unique_ptr<ark::mod>> mods_;
         std::deque<std::string> logs_;
     };
 }// ark

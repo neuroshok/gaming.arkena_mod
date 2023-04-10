@@ -14,7 +14,7 @@ namespace au
     class ARK_SHARED mod : public ark::mod
     {
     public:
-        mod(au::core& au_core, std::string name);
+        mod();
 
         void send_rpc(uintptr_t rid, void* object, std::vector<std::byte> data) override;
 
@@ -27,12 +27,11 @@ namespace au
         {
             if constexpr (std::is_base_of_v<au::gamestate, T>) register_gamestate([]{ return std::make_unique<T>(); });
             else if constexpr (std::is_base_of_v<au::player, T>) register_player([]{ return std::make_unique<T>(); });
-            else if constexpr (std::is_base_of_v<ark::mod, T>) register_mod([]{ return std::make_unique<T>(); });
+            else if constexpr (std::is_base_of_v<au::mod, T>) register_mod([]{ return std::make_unique<T>(); });
         }
 
         au::core& core();
 
     private:
-        au::core& au_core_;
     };
 } // au
