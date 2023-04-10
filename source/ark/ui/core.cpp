@@ -182,10 +182,11 @@ namespace ark::ui
         GetCursorPos(&mPos);
         ScreenToClient(window, &mPos);
 
-        ImGui::GetIO().MousePos.x = mPos.x;
-        ImGui::GetIO().MousePos.y = mPos.y;
+        io.MousePos.x = mPos.x;
+        io.MousePos.y = mPos.y;
 
         ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+        if (io.WantCaptureMouse) return 1;
 
         return CallWindowProcW(OriginalWndProcFunction, hWnd, uMsg, wParam, lParam);
     }
