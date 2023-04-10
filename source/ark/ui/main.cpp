@@ -15,12 +15,12 @@ namespace ark::ui
 
         ImGuiIO& io = ImGui::GetIO();
 
-        float menu_height = io.DisplaySize.y / 24;
-        float width = io.DisplaySize.x / 3;
+        float menu_height = 24;
+        float width = 300;
         float main_height = io.DisplaySize.y - menu_height;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
-        ImGui::SetNextWindowPos({ io.DisplaySize.x - width, 0 });
+        ImGui::SetNextWindowPos({ 0, 0 });
         ImGui::SetNextWindowSize({ width, menu_height });
 
         ImGui::Begin("arkena_mod", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
@@ -38,7 +38,7 @@ namespace ark::ui
 
         if (main_state_)
         {
-            ImGui::SetNextWindowPos({ io.DisplaySize.x - width, menu_height });
+            ImGui::SetNextWindowPos({ 0, menu_height });
             ImGui::SetNextWindowSize({ width, main_height });
 
             ImGui::Begin("main", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
