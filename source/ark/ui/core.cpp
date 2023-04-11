@@ -191,6 +191,7 @@ namespace ark::ui
 
         return CallWindowProcW(OriginalWndProcFunction, hWnd, uMsg, wParam, lParam);
     }
+
     ui::core& core::instance()
     {
         assert(instance_);
@@ -199,7 +200,7 @@ namespace ark::ui
 
     void core::draw()
     {
-        draw_main();
+        if (ark_core().state() != ark::core::state_type::playing) draw_main();
 
         #ifdef ARK_DEBUG
             draw_debug();

@@ -36,6 +36,9 @@ namespace ark
     class core
     {
     public:
+        enum class state_type { idle, playing };
+
+
         explicit core(HMODULE);
         ~core();
 
@@ -43,6 +46,9 @@ namespace ark
 
         void load(const std::string& mod_name);
         void unload(const std::string& name);
+
+        void set_state(state_type);
+        state_type state() const;
 
         void init_settings();
         void on_ui_initialized();
@@ -67,6 +73,7 @@ namespace ark
         ark::ui::core ui_;
         ark::resources resources_;
         ark::updater updater_;
+        state_type state_;
 
         std::unique_ptr<au::core> au_core_;
         std::function<void(int)> on_debug_;

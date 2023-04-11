@@ -62,7 +62,7 @@ namespace au
     void core::load()
     {
          init_hooks(); // initialisation hooks
-        // game_hooks();
+         game_hooks();
         // testing_hooks();
 
         ark_core_.on_debug([this](int index){
@@ -243,6 +243,8 @@ namespace au
     void core::game_hooks()
     {
         ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
+            ark_core_.set_state(ark::core::state_type::playing);
+
             if (gamestate_)
             {
                 ark_trace("init game_manager_");
@@ -262,6 +264,8 @@ namespace au
 
         // called when joining lobby
         ark::hook<&au::HudManager::Start>::after([this](auto* self) {
+            ark_core_.set_state(ark::core::state_type::idle);
+
             if (gamestate_)
             {
                 ark_trace("init hud_manager");
@@ -278,7 +282,6 @@ namespace au
         // fix
         ark::hook<&au::GameStartManager::Update>::after([this](auto* self) {
             self->MinPlayers = 1;
-            ark_trace("set min players to 1");
         });
     }
 

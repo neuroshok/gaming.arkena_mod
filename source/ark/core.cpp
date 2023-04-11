@@ -138,6 +138,9 @@ namespace ark
         ark_trace("Mod {} unloaded", name);
     }
 
+    void core::set_state(state_type state) { state_ = state; }
+    core::state_type core::state() const { return state_; }
+
     void core::init_settings()
     {
         if (!std::filesystem::exists(core::settings_path()))
@@ -192,7 +195,6 @@ namespace ark
     {
         for (auto& mod : mods_)
         {
-            ark_trace("load texture {}", mod->root() + "icon.png");
             ui_.load_texture(mod->root() + "icon.png", mod->image_);
         }
     }
