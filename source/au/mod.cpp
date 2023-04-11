@@ -8,7 +8,8 @@
 
 namespace au
 {
-    mod::mod()
+    mod::mod(ark::mod_api& api)
+        : ark::mod(api)
     {}
 
     void mod::send_rpc(uintptr_t rid, void* object, std::vector<std::byte> data)

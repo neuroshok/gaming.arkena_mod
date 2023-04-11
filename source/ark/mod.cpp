@@ -8,11 +8,12 @@
 namespace ark
 {
     // initialized by core::make()
-    mod::mod()
-        : core_{ nullptr }
-        , name_{ "__no_name__" }
+    mod::mod(ark::mod_api& api)
+        : core_{ api.ark_core() }
+        , name_{ api.name() }
         , version_{ ark::version{} }
         , fullname_{ name_ + "-" + version_.str() }
+        , root_{ core_.mods_root() + name_ + "/" }
         , synchronized_{ true }
         , enabled_{ false }
     {
@@ -66,7 +67,7 @@ namespace ark
         on_debug_ = std::move(fn);
     }
 
-    ark::core& mod::core() { return *core_; }
+    ark::core& mod::core() { return core_; }
     const std::string& mod::name() const { return name_; }
     const std::string& mod::fullname() const { return fullname_; }
     const std::string& mod::description() const { return description_; }

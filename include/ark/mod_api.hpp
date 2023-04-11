@@ -27,7 +27,7 @@ namespace ark
         template<class T>
         void register_class()
         {
-            if constexpr (std::is_base_of_v<ark::mod, T>) register_mod([]{ return std::unique_ptr<ark::mod>(new T); });
+            if constexpr (std::is_base_of_v<ark::mod, T>) register_mod([this]{ return std::unique_ptr<ark::mod>(new T{ *this }); });
         }
 
         ark::core& ark_core() { return core_; }

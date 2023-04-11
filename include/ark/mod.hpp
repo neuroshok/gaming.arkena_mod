@@ -43,7 +43,7 @@ namespace ark
         using settings_type = std::vector<ark::setting>;
 
     public:
-        mod();
+        mod(ark::mod_api&);
 
         mod(const mod&) = delete;
         mod& operator=(const mod&) = delete;
@@ -111,7 +111,7 @@ namespace ark
         bool ui_enable_state = false;
 
     private:
-        ark::core* core_;
+        ark::core& core_;
         std::string name_;
         ark::version version_;
         std::string fullname_;

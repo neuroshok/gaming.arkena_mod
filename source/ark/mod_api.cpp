@@ -19,9 +19,6 @@ namespace ark
     {
         ark_assert(make_mod_, "make_mod not set");
         auto mod = make_mod_();
-        mod->core_ = core;
-        mod->name_ = name;
-        mod->root_ = core->mods_root() + name + "/";
         return mod;
     }
 
