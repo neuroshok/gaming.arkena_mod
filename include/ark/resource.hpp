@@ -10,30 +10,20 @@ namespace ark::resource
 
     unsigned char* load_image(ark::resource::image& image);
     //UnityEngine::Texture2D* load_texture(resource::image&);
-    bool load_texture(ID3D11ShaderResourceView** out_srv, ark::resource::image&);
+    bool load_texture(unsigned char* image_data, ark::resource::image&);
+    bool load_texture(const std::string& file, ark::resource::image&);
+
 
     struct image
     {
+        using handle_type = ID3D11ShaderResourceView*;
+
         int width{};
         int height{};
         int size{};
         const unsigned char* data{};
+        handle_type native_handle = nullptr;
     };
-
-    struct native_texture
-    {
-        using handle_type = ID3D11ShaderResourceView*;
-
-        explicit native_texture(image& image_) : image{ image_ }, handle{ nullptr }
-        {
-            //load_texture(&handle, image_);
-        }
-
-        image& image;
-        handle_type handle;
-    };
-
-
 } // ui::resource
 
 namespace ark
@@ -41,7 +31,7 @@ namespace ark
     struct resources
     {
         static resource::image icon;
-        resource::native_texture ntx_icon{ icon };
+        //resource::native_texture ntx_icon{ icon };
         //#define ARK_RESOURCE_MEMBER
         //#include <ark/resource/embed.hpp>
         //#undef ARK_RESOURCE_MEMBER

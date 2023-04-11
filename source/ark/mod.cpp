@@ -7,6 +7,7 @@
 
 namespace ark
 {
+    // initialized by core::make()
     mod::mod()
         : core_{ nullptr }
         , name_{ "__no_name__" }
@@ -19,6 +20,7 @@ namespace ark
 
     void mod::enable()
     {
+
         log("Enable mod {}", name_);
         enabled_ = true;
         on_enable();
@@ -68,6 +70,10 @@ namespace ark
     const std::string& mod::name() const { return name_; }
     const std::string& mod::fullname() const { return fullname_; }
     const std::string& mod::description() const { return description_; }
+    const ark::resource::image& mod::image() const { return image_; }
+    const std::vector<ark::link>& mod::authors() const { return authors_; }
+    const std::string& mod::root() const { return root_; }
+
     bool mod::enabled() const { return enabled_; }
     ark::version mod::version() const { return version_; }
     bool mod::synchronized() const { return synchronized_; }
@@ -76,6 +82,7 @@ namespace ark
     {
         name_ = std::move(info.name);
         description_ = std::move(info.description);
+        authors_ = std::move(info.authors);
         version_ = std::move(info.version);
         fullname_ = name_ + "-" + version_.str();
     }

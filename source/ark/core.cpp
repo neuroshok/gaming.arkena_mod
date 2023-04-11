@@ -33,7 +33,7 @@ namespace ark
         updater_.check();
 
         char buffer[MAX_PATH];
-        GetModuleFileName(hmodule_, buffer, MAX_PATH) ;
+        GetModuleFileName(hmodule_, buffer, MAX_PATH);
         std::string module_root = buffer;
         mods_root_ = module_root.substr(0, module_root.rfind('\\')) +  "\\mods\\";
         ark_trace("Mods root: {}", mods_root_);
@@ -62,7 +62,6 @@ namespace ark
         {
             for (const auto& entry : std::filesystem::directory_iterator(mods_root_))
             {
-                if (entry.path().extension() != ".dll") continue;
                 std::string mod_name = entry.path().stem().generic_string();
                 ark_trace("Loading mod {}", mod_name);
                 load(mod_name);
@@ -98,7 +97,7 @@ namespace ark
 
     void core::load(const std::string& mod_name)
     {
-        std::string module_path = mods_root_+ mod_name + ".dll";
+        std::string module_path = mods_root_ + mod_name + "/" + mod_name + ".dll";
 
         if (!std::filesystem::exists(module_path))
         {
@@ -165,7 +164,6 @@ namespace ark
             }
 
             // load settings
-            /*
             for (const auto& mod : mods_)
             {
                 for (auto& setting : mod->settings())
@@ -186,7 +184,16 @@ namespace ark
                     }
                 }
             }
-             */
+        }
+    }
+
+    // load texture when rendering api is initialized
+    void core::on_ui_initialized()
+    {
+        for (auto& mod : mods_)
+        {
+            ark_trace("load texture {}", mod->root() + "icon.png");
+            ui_.load_texture(mod->root() + "icon.png", mod->image_);
         }
     }
 

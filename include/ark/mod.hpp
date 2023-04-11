@@ -19,16 +19,24 @@ namespace ark
     namespace ui { class core; }
     class core;
 
+    struct link
+    {
+        std::string name;
+        std::string url;
+    };
+
     struct mod_info
     {
         std::string name;
         ark::version version;
         std::string description;
+        std::vector<ark::link> authors;
     };
 
     class ARK_SHARED mod
     {
         friend class ark::mod_api;
+        friend class ark::core;
         friend class ark::ui::core;
 
     public:
@@ -81,6 +89,9 @@ namespace ark
         const std::string& fullname() const;
         ark::version version() const;
         const std::string& description() const;
+        const ark::resource::image& image() const;
+        const std::vector<ark::link>& authors() const;
+        const std::string& root() const;
         bool synchronized() const;
         bool enabled() const;
 
@@ -105,6 +116,9 @@ namespace ark
         ark::version version_;
         std::string fullname_;
         std::string description_;
+        ark::resource::image image_;
+        std::vector<ark::link> authors_;
+        std::string root_;
         bool synchronized_;
         bool enabled_;
         std::vector<ark::setting> settings_;

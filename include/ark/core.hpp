@@ -19,7 +19,7 @@
 #include <vector>
 
 namespace ark { class mod; }
-namespace au { class core; class mod; }
+namespace au { class core; }
 
 namespace Concept
 {
@@ -45,6 +45,7 @@ namespace ark
         void unload(const std::string& name);
 
         void init_settings();
+        void on_ui_initialized();
 
         void debug(int index);
         void on_debug(std::function<void(int)>);
@@ -60,10 +61,10 @@ namespace ark
         static std::string settings_path();
         const std::string& mods_root() const;
 
-    public:
+    private:
         HMODULE hmodule_;
         std::string mods_root_;
-        ui::core ui_;
+        ark::ui::core ui_;
         ark::resources resources_;
         ark::updater updater_;
 

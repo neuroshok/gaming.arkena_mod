@@ -158,6 +158,7 @@ namespace ark::ui
             pBackBuffer->Release();
 
             init = true;
+            ui::core::instance().ark_core().on_ui_initialized();
         }
 
         ImGui_ImplDX11_NewFrame();
@@ -218,5 +219,10 @@ namespace ark::ui
 
         auto hook_status = kiero::bind(8, (void**)&original_render_function, &ui::core::render_function);
         if (hook_status != kiero::Status::Success) ark_trace("UI init hook error {}", (int)hook_status);
+    }
+
+    void core::load_texture(const std::string& file, resource::image& image)
+    {
+        ark::resource::load_texture(file, image);
     }
 } // ark

@@ -1,9 +1,11 @@
 #include <ark/ui/core.hpp>
 
 #include <ark/core.hpp>
+#include <ark/resource.hpp>
 #include <au/mod.hpp>
 
 #include <imgui.h>
+#include <shellapi.h>
 
 namespace ark::ui
 {
@@ -27,7 +29,7 @@ namespace ark::ui
         auto title = "arkena_mod " + core_.version().str();
         //ImGui::Image((void*)core_.resources().ntx_mod.handle, ImVec2(menu_height, menu_height));
 
-        ImGui::Image((void*)core_.resources().ntx_icon.handle, ImVec2(menu_height, menu_height));
+        //ImGui::Image((void*)core_.resources().ntx_icon.handle, ImVec2(menu_height, menu_height));
 
         ImGui::SameLine();
         if (ImGui::Button(title.c_str(), ImVec2(width - menu_height, menu_height)))
@@ -49,35 +51,7 @@ namespace ark::ui
                 {
                     for (const auto& mod : core_.mods())
                     {
-                        if (mod->name() == "core")
-                        {
-                            ImGui::TextColored({ 0.2, 0.8, 0.8, 1 }, "%s", mod->fullname().c_str());
-                        }
-                        else
-                        {
-                            if (ImGui::Checkbox(mod->fullname().c_str(), &mod->ui_enable_state))
-                            {
-                                if (mod->enabled()) mod->disable();
-                                else mod->enable();
-                            }
-                        }
-
-                        if (mod->description().size() > 0)
-                        {
-                            ImGui::SameLine();
-                            ImGui::TextUnformatted("?");
-                            if (ImGui::IsItemHovered())
-                            {
-                                if (!mod->description().empty())
-                                {
-                                    ImGui::BeginTooltip();
-                                    ImGui::PushTextWrapPos(ImGui::GetFontSize() * 20.0f);
-                                    ImGui::TextUnformatted(mod->description().c_str());
-                                    ImGui::PopTextWrapPos();
-                                    ImGui::EndTooltip();
-                                }
-                            }
-                        }
+                        draw_mod_preview(*mod);
                     }
                     ImGui::EndTabItem();
                 }
@@ -161,6 +135,7 @@ namespace ark::ui
                                     }
                                     else if constexpr (std::is_same_v<T, std::string>)
                                     {
+                                        // todo handle string with imgui stl
                                         auto& str = std::get<std::string>(setting.value());
                                         if (ImGui::InputText(id.c_str(), str.data(), str.capacity(), ImGuiInputTextFlags_EnterReturnsTrue))
                                         {
@@ -177,9 +152,75 @@ namespace ark::ui
                     }
                     ImGui::EndTabItem();
                 }
+
+                if (ImGui::BeginTabItem("About"))
+                {
+                    ImGui::Text("Dev by Arkena");
+                    ImGui::Text("github:neuroshok/gaming.arkena_mod");
+                }
                 ImGui::EndTabBar();
             }
         }
         ImGui::End();
     }
-}
+
+    void draw_mod_preview(mod& mod)
+    {
+        ImGui::Image((void*)mod.image().native_handle, ImVec2(mod.image().width, mod.image().height));
+        ImGui::SameLine();
+
+        if (mod.name() == "core")
+        {
+            ImGui::TextColored({ 0.2, 0.8, 0.8, 1 }, "%s", mod.fullname().c_str());
+        }
+        else
+        {
+            ImGui::TextColored({ 0.22, 0.76, 1, 1 }, "%s", mod.fullname().c_str());
+
+            /*
+                if (mod.enabled()) mod.disable();
+                else mod.enable();
+            }*/
+        }
+
+        if (mod.description().size() > 0)
+        {
+            ImGui::SameLine();
+            ImGui::TextUnformatted("?");
+            if (ImGui::IsItemHovered())
+            {
+                if (!mod.description().empty())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::PushTextWrapPos(ImGui::GetFontSize() * 20.0f);
+                    ImGui::TextUnformatted(mod.description().c_str());
+                    ImGui::PopTextWrapPos();
+                    ImGui::EndTooltip();
+                }
+            }
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(0, 0, 0, 0));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(0, 0, 0, 0));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(0, 0, 0, 0));
+
+        ImGui::Button("Authors:");
+
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 120 ,0 ,255));
+
+        for (const auto& author : mod.authors())
+        {
+            ImGui::SameLine();
+
+            if (ImGui::Button(author.name.c_str()))
+            {
+                if (!author.url.empty()) ShellExecuteA( nullptr, "open", author.url.c_str(), nullptr, nullptr, SW_SHOWNORMAL );
+            }
+            if (!author.url.empty() && ImGui::IsItemHovered()) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        }
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
+    }
+} // ark::ui

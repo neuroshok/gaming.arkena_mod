@@ -1,14 +1,18 @@
 #pragma once
 
+#include <string>
 #include <d3d11.h>
 
 const D3D_DRIVER_TYPE DRIVER_TYPE_LIST[4] = { D3D_DRIVER_TYPE_REFERENCE, D3D_DRIVER_TYPE_SOFTWARE, D3D_DRIVER_TYPE_HARDWARE, D3D_DRIVER_TYPE_WARP };
 
 struct ImGuiContext;
-namespace ark{ class core; }
+namespace ark { class core; class mod; }
+namespace ark::resource { class image; }
 
 namespace ark::ui
 {
+    void draw_mod_preview(ark::mod& mod);
+
     class core
     {
         using render_function_type = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
@@ -25,11 +29,14 @@ namespace ark::ui
 
         void run();
 
+        void load_texture(const std::string& file, ark::resource::image&);
+
         render_function_type GetD3D11PresentFunction();
         static bool GetD3D11SwapchainDeviceContext(IDXGISwapChain** pSwapchain, ID3D11Device** pDevice, ID3D11DeviceContext** pContextTable);
         void CleanupDeviceD3D();
         void CleanupRenderTarget();
 
+        ark::core& ark_core() { return core_; }
         static ui::core& instance();
 
         static LRESULT CALLBACK WndProcHook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

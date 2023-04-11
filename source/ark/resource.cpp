@@ -17,8 +17,8 @@ namespace ark
         #include <ark/resource/embed.hpp>
         #undef ARK_RESOURCE_LOADER
 
-        auto state = load_texture(&ntx_icon.handle, ntx_icon.image);
-        ark_trace("state {} {}", (void*)ntx_icon.handle, ntx_icon.image.size);
+        //auto state = load_texture(&ntx_icon.handle, ntx_icon.image);
+        //ark_trace("state {} {}", (void*)ntx_icon.handle, ntx_icon.image.size);
     }
 } // ark
 
@@ -43,13 +43,17 @@ namespace ark::resource
         return stbi_load_from_memory(image.data, image.size, &image.width, &image.height, nullptr, 4);
     }
 
-    bool load_texture(ID3D11ShaderResourceView** out_srv, ark::resource::image& image)
+    bool load_texture(const std::string& file, ark::resource::image& image)
     {
-
-        unsigned char* image_data = stbi_load_from_memory(image.data, image.size, &image.width, &image.height, nullptr, 4);
-
+        unsigned char* image_data = stbi_load(file.c_str(), &image.width, &image.height, nullptr, 4);
         if (image_data == nullptr) return false;
 
+        return load_texture(image_data, image);
+    }
+
+
+    bool load_texture(unsigned char* image_data, ark::resource::image& image)
+    {
         // Create texture
         D3D11_TEXTURE2D_DESC desc;
         ZeroMemory(&desc, sizeof(desc));
@@ -68,7 +72,7 @@ namespace ark::resource
         subResource.pSysMem = image_data;
         subResource.SysMemPitch = desc.Width * 4;
         subResource.SysMemSlicePitch = 0;
-        //ui::core::device->CreateTexture2D(&desc, &subResource, &pTexture);
+        ui::core::device->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -77,8 +81,10 @@ namespace ark::resource
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        ui::core::device->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
+        ui::core::device->CreateShaderResourceView(pTexture, &srvDesc, &image.native_handle);
         pTexture->Release();
+
+        stbi_image_free(image_data);
 
         return true;
     }
