@@ -167,6 +167,7 @@ namespace ark
             }
 
             // load settings
+            ark_trace("Load settings");
             for (const auto& mod : mods_)
             {
                 for (auto& setting : mod->settings())
@@ -186,6 +187,8 @@ namespace ark
                         }
                     }
                 }
+                // notify mod
+                mod->on_settings_update();
             }
         }
     }
@@ -266,7 +269,7 @@ namespace ark
         {
             ark_trace("appdata not found");
         }
-        auto path =  std::string(szPath) + "\\arkmongus.settings.json";
+        auto path =  std::string(szPath) + "\\arkena_mod.settings.json";
         return path;
     }
 

@@ -142,7 +142,7 @@ namespace ark
     {
         auto setting_it = std::find_if(settings_.begin(), settings_.end(), [&name](auto&& setting){ return setting.name() == name; });
         if (setting_it != settings_.end()) return setting_it->template get<T>();
-        log("setting {} not found", name);
+        ark_trace("setting {} not found", name);
         return T{};
     }
 } // ark
