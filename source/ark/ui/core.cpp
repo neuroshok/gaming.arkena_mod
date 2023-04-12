@@ -187,7 +187,8 @@ namespace ark::ui
         io.MousePos.y = mPos.y;
 
         ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
-        if (io.WantCaptureMouse) return 1;
+        // todo mouse inputs are blocked sometimes, need to unfocus focus the application
+        //if (io.WantCaptureMouse) return 1;
 
         return CallWindowProcW(OriginalWndProcFunction, hWnd, uMsg, wParam, lParam);
     }
