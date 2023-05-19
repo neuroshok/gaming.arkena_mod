@@ -4,8 +4,8 @@ namespace il2cpp
 {
     il2cpp::Il2CppClass* api::get_class(const std::string& namespaze, const std::string& klass)
     {
-        static Il2CppClass* sklass = nullptr;
-        if (sklass) return sklass;
+        //static Il2CppClass* sklass = nullptr;
+        //if (sklass) return sklass;
 
         auto dom = domain_get();
 
@@ -31,7 +31,8 @@ namespace il2cpp
         if (cls == nullptr)
             ark_error("class not found {} in {}", klass.c_str(), !namespaze.empty() ? namespaze : "(no_namespace)");
 
-        sklass = cls;
-        return sklass;
+        return cls;
+        //sklass = cls;
+        //return sklass;
     }
 } // il2cpp

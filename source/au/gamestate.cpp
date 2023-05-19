@@ -25,7 +25,7 @@ namespace au
 
     void gamestate::end_game(int reason)
     {
-        auto* au_game_manager = mod().core().au_game_manager();
+        auto* au_game_manager = mod().au_core().au_game_manager();
         ark_assert(au_game_manager, "au_game_manager_ is null");
         au_game_manager->RpcEndGame(static_cast<au::GameOverReason>(reason), false);
     }

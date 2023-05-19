@@ -68,6 +68,7 @@ namespace ark
     }
 
     ark::core& mod::core() { return core_; }
+    au::core& mod::au_core() { return core_.au_core(); }
     const std::string& mod::name() const { return name_; }
     const std::string& mod::fullname() const { return fullname_; }
     const std::string& mod::description() const { return description_; }

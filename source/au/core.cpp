@@ -7,6 +7,10 @@
 #include <au/mod.hpp>
 #include <au/player.hpp>
 
+#include <gen/au/AbilityButton.hpp>
+#include <gen/au/UseButton.hpp>
+
+
 #include <gen/au/IntroCutscene.hpp>
 #include <gen/au/GameManager.hpp>
 #include <gen/au/Console.hpp>
@@ -14,12 +18,14 @@
 #include <gen/au/PlayerTask.hpp>
 #include <gen/au/ShipStatus.hpp>
 #include <gen/au/MeetingHud.hpp>
+#include <gen/au/HudManager.hpp>
 #include <gen/au/Minigame.hpp>
 #include <gen/au/AmongUsClient.hpp>
 #include <gen/au/PlayerPhysics.hpp>
 #include <gen/au/GameData.hpp>
 #include <gen/au/GameData_PlayerInfo.hpp>
 #include <gen/au/GameData_PlayerOutfit.hpp>
+#include <gen/Hazel/MessageWriter.hpp>
 
 #include <gen/InnerNet/InnerNetClient.hpp>
 #include <gen/InnerNet/ClientData.hpp>
@@ -28,6 +34,8 @@
 #include <gen/UnityEngine/Application.hpp>
 #include <gen/UnityEngine/Collider2D.hpp>
 #include <gen/UnityEngine/Transform.hpp>
+#include <gen/UnityEngine/SpriteRenderer.hpp>
+#include <gen/UnityEngine/Color.hpp>
 
 #include <au/GameStartManager.hpp>
 #include <au/FollowerCamera.hpp>
@@ -52,6 +60,8 @@ ark::hook<&AuMethod>::after([this](auto&&, auto&&... ts) \
 });
 
 static bool ability = false;
+std::atomic_bool debug_state = false;
+
 namespace au
 {
     core::core(ark::core& core)
@@ -61,43 +71,21 @@ namespace au
 
     void core::load()
     {
-         init_hooks(); // initialisation hooks
-         game_hooks();
-        // testing_hooks();
+        init_hooks(); // initialisation hooks
+        game_hooks();
+        testing_hooks();
 
-        ark_core_.on_debug([this](int index){
+        // todo move execution from imgui thread to game thread
+        /*ark_core_.add_debug_button([this](int index){
             if (index > 0) return;
-            if (au::PlayerControl::LocalPlayer())
-            {
-                /*
-                static bool state = false;
-                state = !state;
-                au::PlayerControl::LocalPlayer()->SetLevel(99999);
-                au::PlayerControl::LocalPlayer()->Collider->set_enabled(state);*/
-
-                // for (const auto& player : gamestate_->players())
-                // {
-                //     if (player->au_player()->NetId == au::PlayerControl::LocalPlayer()->NetId) continue;
-                //     ark_trace("send rpc to {}", player->au_player()->NetId);
-                //     auto* Writer = au::AmongUsClient::Instance()->StartRpc(player->au_player()->NetId, 99, Hazel::SendOption::Reliable);
-                //     au::AmongUsClient::Instance()->FinishRpcImmediately(Writer);
-                // }
-
-                if (au_hud_manager_)
-                {
-                    //ark_trace("ok {}", gamestate_->players().size());
-                    // auto* p = gamestate_->players()[1]->au_player();
-                    // au_hud_manager_->PlayerCam->SetTarget(p);
-                    // ability = true;
-                }
-            }
-        });
+            debug_state = true;
+        });*/
 
         //player_hooks();
 
-        /*
+
         ark::hook<&au::PlayerControl::HandleRpc>::before([this](auto&&, auto event, Hazel::MessageReader* rdata){
-            //ark_trace("RPC {}", (int)event);
+            ark_trace("RPC {}", (int)event);
             if (event == 99)
             {
                 for (auto& mod : ark_core_.mods())
@@ -124,7 +112,7 @@ namespace au
                 player->on_die(reason, assignGhostRole);
                 gamestate_->on_die(*gamestate_->player(self), reason, assignGhostRole);
             }
-        });*/
+        });
 
         /*
         ark::hook<&au::PlayerControl::FixedUpdate>::after([this](auto* self) {
@@ -152,8 +140,6 @@ namespace au
             return nullptr;
         });*/
 
-
-        /*
         ark::hook<&au::IntroCutscene::BeginCrewmate>::overwrite([this](auto&& original, au::IntroCutscene* self, auto&& v) {
             ark_trace("BeginCrewmate");
             original(self, v);
@@ -164,10 +150,10 @@ namespace au
         ark::hook<&InnerNet::InnerNetClient::UpdateCachedClients>::after([this](auto* self, InnerNet::ClientData* clientData, au::PlayerControl* character) {
             if (gamestate_)
             {
-                auto mod_player = make_player_(character);
-                gamestate_->add_player(std::move(mod_player));
+                auto mod_player = make_player(character);
+                if (mod_player) gamestate_->add_player(std::move(mod_player));
             }
-        });*/
+        });
 
 
         /*ark::hook<static_cast<void(au::GameData_PlayerInfo::*)(au::PlayerControl*)>(&au::GameData_PlayerInfo::ctor)>::after([this](au::GameData_PlayerInfo* self, au::PlayerControl* pc){
@@ -185,7 +171,7 @@ namespace au
             ark_trace("{}", (intptr_t)au::PlayerControl::LocalPlayer());
         });*/
 
-        /*
+
         ark::hook<&au::ShipStatus::StartMeeting>::before([this](auto&&, au::PlayerControl* reporter, au::GameData_PlayerInfo* target){
             if (gamestate_)
             {
@@ -195,11 +181,11 @@ namespace au
                 ark_assert(player, "player not found");
                 gamestate_->on_start_meeting(*player, autarget);
             }
-        });*/
+        });
 
         //hook_player(au::PlayerControl::Die, on_die);
 
-        //hook_gamestate(au::MeetingHud::CmdCastVote, on_cast_vote);
+        hook_gamestate(au::MeetingHud::CmdCastVote, on_cast_vote);
         //hook_gamestate(au::MeetingHud::RpcVotingComplete, on_cast_vote);
     }
 
@@ -211,6 +197,19 @@ namespace au
             gamestate_ = make_gamestate_();
             ark_assert(gamestate_, "make_gamestate failed");
         }
+    }
+
+    std::unique_ptr<au::player> core::make_player(au::PlayerControl* au_player)
+    {
+        if (make_player_)
+        {
+            ark_trace("make player {}", (uintptr_t)au_player);
+            auto player = make_player_(au_player);
+            ark_assert(player, "make_player failed");
+            return player;
+        }
+        ark_assert(false, "make_player not set");
+        return nullptr;
     }
 
     void core::set_gamestate_class(au::mod* mod, std::function<std::unique_ptr<au::gamestate>()> make_gamestate)
@@ -242,6 +241,14 @@ namespace au
 
     void core::game_hooks()
     {
+        ark::hook<&au::AmongUsClient::FixedUpdate>::after([this](auto* self) {
+            if (debug_state)
+            {
+                ark_core_.debug(0);
+                debug_state = false;
+            }
+        });
+
         ark::hook<&au::GameManager::StartGame>::after([this](auto* self) {
             ark_core_.set_state(ark::core::state_type::playing);
 
@@ -270,8 +277,33 @@ namespace au
             {
                 ark_trace("init hud_manager");
                 au_hud_manager_ = self;
+                ark_trace("UseButton {} {}", au_hud_manager_->UseButton->position.x, au_hud_manager_->UseButton->position.y);
+                //auto* object = UnityEngine::Object::Instantiate(au_hud_manager_->AbilityButton, { 0, 0, 0}, {}, au_hud_manager_->get_transform());
+                //auto* button = static_cast<au::AbilityButton*>(object);
+                //button->graphic = au_hud_manager_->UseButton->graphic;
+
+                auto* button = il2cpp::new_object<au::AbilityButton>();
+                //auto* renderer = il2cpp::new_object<UnityEngine::SpriteRenderer>();
+                //button->position = {0, 0, 0};
+                //button->graphic = renderer;
+                //au_hud_manager_->AbilityButton->graphic = au_hud_manager_->UseButton->graphic;
+                //au_hud_manager_->AbilityButton->SetEnabled();
+                //ark_trace("renderer: {}", (uintptr_t)renderer);
+                //ark_trace("button: {}", (uintptr_t)button);
+
+
+                //static_cast<au::UseButton*>(object)->SetCoolDown(2, 4);
+                //static_cast<au::UseButton*>(object)->SetFillUp(2, 4);
+                //static_cast<au::UseButton*>(object)->SetEnabled();
+                //static_cast<au::UseButton*>(object)->isCoolingDown = true;
+                //static_cast<au::UseButton*>(object)->OverrideText(cs::make_string("9"));
             }
         });
+
+        ark::hook<&au::UseButton::DoClick>::after([this](auto&& self) {
+            ark_trace("DoClick {}", (uintptr_t)self);
+        });
+
 
         /*ark::hook<&au::GameManager::RpcEndGame>::overwrite([this](auto&& original, auto* self, au::GameOverReason endReason, bool showAd) {
             //ark_trace("send end");
@@ -292,9 +324,6 @@ namespace au
             ark_trace("WeaponsMinigame");
             //return o(self, task);
         });
-
-
-
 
         ark::hook<&au::PlayerControl::SetTasks>::after([this](auto&& self,auto* list) {
             //ark_trace("SetTasks for {}", self->PlayerId);

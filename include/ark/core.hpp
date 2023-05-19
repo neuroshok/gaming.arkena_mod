@@ -58,6 +58,7 @@ namespace ark
         void log(const std::string& mod_name, const std::string& message);
         void error(const std::string& mod_name, const std::string& message);
 
+        au::core& au_core();
         const std::vector<std::unique_ptr<ark::mod>>& mods() const;
         ark::mod& mod(const std::string& name);
         const ark::version& version() const;

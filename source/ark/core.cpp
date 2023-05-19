@@ -235,6 +235,8 @@ namespace ark
         ark_error(error_message);
     }
 
+    au::core& core::au_core() { return *au_core_; }
+
     const std::vector<std::unique_ptr<ark::mod>>& core::mods() const
     {
         return mods_;

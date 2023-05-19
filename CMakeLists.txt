@@ -77,6 +77,7 @@ file(GLOB_RECURSE AU_SOURCES
         ${PROJECT_SOURCE_DIR}/source/au/*.cpp
         )
 file(GLOB_RECURSE AU_GEN_SOURCES
+        ${PROJECT_SOURCE_DIR}/include/gen/au/AbilityButton.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/AmongUsClient.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/Console.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/PlayerControl.cpp
@@ -85,6 +86,7 @@ file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/au/GameManager.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/GameData_PlayerInfo.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/au/GameData_PlayerOutfit.cpp
+        ${PROJECT_SOURCE_DIR}/include/gen/au/ActionButton.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/InnerNet/InnerNetClient.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/Hazel/MessageReader.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/Hazel/MessageWriter.cpp
@@ -94,6 +96,7 @@ file(GLOB_RECURSE AU_GEN_SOURCES
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Transform.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Component.cpp
         ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/Object.cpp
+        ${PROJECT_SOURCE_DIR}/include/gen/UnityEngine/SpriteRenderer.cpp
         )
 
 add_library(arkena_mod SHARED ${ARK_SOURCES} ${AU_SOURCES} ${AU_GEN_SOURCES})

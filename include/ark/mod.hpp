@@ -85,6 +85,7 @@ namespace ark
         void set_info(ark::mod_info info);
 
         ark::core& core();
+        au::core& au_core();
         const std::string& name() const;
         const std::string& fullname() const;
         ark::version version() const;

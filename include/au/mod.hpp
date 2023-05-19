@@ -21,7 +21,12 @@ namespace au
         void register_gamestate(std::function<std::unique_ptr<au::gamestate>()> make_gamestate);
         void register_player(std::function<std::unique_ptr<au::player>(au::PlayerControl*)> make_player);
 
-        au::core& core();
+        template<class T>
+        void register_class()
+        {
+            if constexpr (std::is_base_of_v<au::gamestate, T>) register_gamestate([this]{ return std::unique_ptr<au::gamestate>(new T{ *this }); });
+            else if constexpr (std::is_base_of_v<au::player, T>) register_player([this](au::PlayerControl* pc){ return std::unique_ptr<au::player>(new T{ *this, pc }); });
+        }
 
     private:
     };

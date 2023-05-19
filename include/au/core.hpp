@@ -25,6 +25,7 @@ namespace au
         void load();
 
         void make_gamestate();
+        std::unique_ptr<au::player> make_player(au::PlayerControl*);
 
         void set_gamestate_class(au::mod*, std::function<std::unique_ptr<au::gamestate>()>);
 

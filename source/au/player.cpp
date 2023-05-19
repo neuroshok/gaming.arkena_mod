@@ -39,7 +39,7 @@ namespace au
 
     au::gamestate& player::gamestate()
     {
-        return mod_.core().gamestate();
+        return mod_.au_core().gamestate();
     }
 
     /*void player::set_color(uint32_t hex_value)
