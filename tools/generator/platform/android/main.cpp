@@ -15,38 +15,117 @@
 #include <il2cpp/api.hpp>
 #include <spdlog/spdlog.h>
 
-/*
-void il2cpp_api_init(void *handle) {
-    LOGI("il2cpp_handle: %p", handle);
-    init_il2cpp_api(handle);
-    if (il2cpp_domain_get_assemblies) {
-        Dl_info dlInfo;
-        if (dladdr((void *) il2cpp_domain_get_assemblies, &dlInfo)) {
-            il2cpp_base = reinterpret_cast<uint64_t>(dlInfo.dli_fbase);
-        }
-        LOGI("il2cpp_base: %" PRIx64"", il2cpp_base);
-    } else {
-        LOGE("Failed to initialize il2cpp api.");
-        return;
-    }
-    while (!il2cpp_is_vm_thread(nullptr)) {
-        LOGI("Waiting for il2cpp_init...");
-        sleep(1);
-    }
-    auto domain = il2cpp_domain_get();
-    il2cpp_thread_attach(domain);
-}*/
+
+
+#include <EGL/egl.h> // need to make a common.h that contains all these headers cuz this is nasty
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
+#include <GLES2/gl2platform.h>
+#include "../third_party/imgui/imgui.h"
+#include "../third_party/imgui/backends/imgui_impl_android.h"
+#include "../third_party/imgui/backends/imgui_impl_opengl3.h"
+
+
+
+void DrawImGui()
+{
+    ImGui::StyleColorsDark();
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.WindowBorderSize = 0;
+
+    ImGuiIO& io = ImGui::GetIO();
+
+    float menu_height = 24;
+    float width = 300;
+    float main_height = io.DisplaySize.y - menu_height;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
+    ImGui::SetNextWindowPos({ 0, 0 });
+    ImGui::SetNextWindowSize({ width, menu_height });
+
+    ImGui::Begin("arkena_mod", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
+    std::string title = "arkena_mod 0.5.0";
+
+    ImGui::SameLine();
+    if (ImGui::Button(title.c_str(), ImVec2(width - menu_height, menu_height)))
+
+    ImGui::End();
+    ImGui::End();
+}
+
+
+
+
 
 
 void gen();
 
-void (*original)(void* thiz);
+void (*original)(void* thiz, float);
 
-void hook_func(void* thiz)
+void hook_func(void* thiz, float time)
 {
-    ark::info("hook_func");
-    original(thiz);
+    original(thiz, 0);
 }
+
+
+
+    static bool imgui_init = false;
+
+int  glWidth, glHeight;
+void SetupImGui()
+{
+    if (!imgui_init)
+    {
+        ark::error("imgui context");
+        auto context = ImGui::CreateContext();
+        if (!context)
+        {
+            ark::error("imgui fail");
+            return;
+        }
+        ImGuiIO &io = ImGui::GetIO();
+
+        io.DisplaySize = ImVec2((float)glWidth, (float)glHeight);
+
+        ImGui::GetStyle().ScaleAllSizes(3.0f);
+
+        ark::error("imgui init android & gl");
+
+        ImGui_ImplAndroid_Init(nullptr);
+        ImGui_ImplOpenGL3_Init();
+
+        imgui_init = true;
+    }
+}
+
+
+EGLBoolean (*original_imgui)(EGLDisplay _display, EGLSurface _surface);
+EGLBoolean hook_imgui(EGLDisplay _display, EGLSurface _surface) {
+    eglQuerySurface(_display, _surface, EGL_WIDTH, &glWidth);
+    eglQuerySurface(_display, _surface, EGL_HEIGHT, &glHeight);
+
+    SetupImGui();
+
+    if (imgui_init)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        ark::error("ImGui_ImplOpenGL3_NewFrame");
+        ImGui_ImplOpenGL3_NewFrame();
+
+        ImGui::NewFrame();
+
+        DrawImGui();
+
+        ImGui::EndFrame();
+        ImGui::Render();
+        glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+
+    return original_imgui(_display, _surface);
+}
+
 
 void* main_thread(void*)
 {
@@ -59,12 +138,6 @@ void* main_thread(void*)
 
     ark::info("vmthread: " + std::to_string(il2cpp::api::is_vm_thread(nullptr)));
 
-    il2cpp::Il2CppDomain* domain = api::domain_get();
-    ark::info("domain: " + std::to_string(uintptr_t(domain)));
-
-    auto thread = il2cpp::api::thread_attach(domain);
-    ark::info("thread: " + std::to_string(uintptr_t(thread)) + " " + std::to_string(uintptr_t(thread)));
-
 
     Dl_info dlInfo;
     uintptr_t il2cpp_base;
@@ -73,8 +146,30 @@ void* main_thread(void*)
         ark::info("il2cpp_base: " + std::to_string(uintptr_t(il2cpp_base)));
     }
 
+    // imgui
+        ark::info("imgui");
+
+    auto eglhandle = dlopen("libEGL.so", RTLD_LAZY);
+    const char *dlopen_error = dlerror();
+    if (dlopen_error)
+    {
+        eglhandle = dlopen("libunity.so", RTLD_LAZY); // I have no idea if this works it was just to me that it would fix crashes so I did it really quickly
+    }
+    auto eglSwapBuffers = dlsym(eglhandle, "eglSwapBuffers");
+    const char *dlsym_error = dlerror();
+    if (dlsym_error)
+    {
+        ark::info("dlsym_error");
+    } else
+    {
+        ark::info("hook");
+        DobbyHook(eglSwapBuffers, (void *) hook_imgui, (void **) &original_imgui);
+    }
+
+
     // 0x1243694
-    DobbyHook((void*)(il2cpp_base + 0x1243694), (void*)hook_func, (void**)&original);
+    DobbyHook((void*)(il2cpp_base + 0x1220C78), (void*)hook_func, (void**)&original);
+
 
     return nullptr;
 }
