@@ -12,7 +12,7 @@ namespace meta
     class generator
     {
     public:
-        generator(std::string input_path);
+        generator(std::string input_path, std::string output_path = "generated/");
 
         void initialize();
 

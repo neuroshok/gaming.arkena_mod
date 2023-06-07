@@ -32,7 +32,7 @@ namespace ark
         {
             original = reinterpret_cast<flat_method_type>(get_address());
             native_hook(reinterpret_cast<void*>(get_address()), reinterpret_cast<void*>(&hook_function), reinterpret_cast<void**>(&original));
-            callback = std::move(f);
+            callback.emplace(std::move(f));
         }
 
         static uintptr_t get_address()
@@ -60,13 +60,13 @@ namespace ark
 
         static void init()
         {
-            using ReturnType = ark::function_trait<decltype(Method)>::return_type;
+            using ReturnType = typename ark::function_trait<decltype(Method)>::return_type;
             process([](auto&& original, auto&& self, auto&&... args) -> ReturnType
             {
                 if constexpr (!std::is_same_v<ReturnType, void>)
                 {
                     ReturnType v;
-                    if (overwrite_hooks.size() > 0)
+                    if (!overwrite_hooks.empty())
                     {
                         for (const auto& [_, hk] : overwrite_hooks) v = hk(original, self, args...);
                         return v;
@@ -82,7 +82,7 @@ namespace ark
                 }
                 else
                 {
-                    if (overwrite_hooks.size() > 0) for (const auto& [_, hk] : overwrite_hooks) hk(original, self, args...);
+                    if (!overwrite_hooks.empty()) for (const auto& [_, hk] : overwrite_hooks) hk(original, self, args...);
                     else
                     {
                         for (const auto &[_, hk] : before_hooks) hk(self, args...);

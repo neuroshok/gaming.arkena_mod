@@ -1,6 +1,4 @@
-#include <Windows.h>
-#include <KnownFolders.h>
-#include <shlobj.h>
+#include <ark/platform.hpp>
 
 #include <ark/module.hpp>
 #include <ark/core.hpp>
@@ -38,7 +36,7 @@ namespace ark
         mods_root_ = module_root.substr(0, module_root.rfind('\\')) +  "\\mods\\";
         ark_trace("Mods root: {}", mods_root_);
 
-        il2cpp::api::initialize();
+        il2cpp::api::initialize(platform_module_handle(platform_module_name));
         //il2cpp::api::thread_attach(il2cpp::api::domain_get());
         //ark::load_console(console_);
 
@@ -104,7 +102,7 @@ namespace ark
             error("core", "unable to find mod " + mod_name + " at " + module_path);
             return;
         }
-        auto handle = ark_os_module_load(module_path.c_str());
+        auto handle = platform_module_load(module_path.c_str());
         if (!handle)
         {
             error("core", "unable to load mod " + mod_name + " from " + module_path );
@@ -113,7 +111,7 @@ namespace ark
         else
         {
             // get main pointer
-            auto load_ptr = reinterpret_cast<Module_load_ptr>(ark_os_module_function(handle, "mod_load"));
+            auto load_ptr = reinterpret_cast<Module_load_ptr>(platform_module_function(handle, "mod_load"));
             if (!load_ptr) error("core", "function mod_load missing");
             else
             {

@@ -1,9 +1,8 @@
 #pragma once
 
 #include <ark/meta.hpp>
+#include <ark/utility.hpp>
 
-#include <Windows.h>
-#include <bit>
 #include <cstddef>
 #include <cstdint>
 
@@ -15,14 +14,14 @@ namespace il2cpp
     inline auto call(uintptr_t rva, Args&&... args)
     {
         auto address = ark::base_address() + rva;
-        auto function = std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+        auto function = ark::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
         return function(args...);
     }
 
     template <class Signature, class... Args>
     inline auto call_absolute(uintptr_t address, Args&&... args)
     {
-        auto function = std::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
+        auto function = ark::bit_cast<Signature>(reinterpret_cast<il2cpp::Il2CppMethodPointer>(address));
         return function(args...);
     }
 

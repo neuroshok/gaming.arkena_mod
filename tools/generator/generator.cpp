@@ -16,32 +16,38 @@ namespace fs = std::filesystem;
 
 namespace meta
 {
-    generator::generator(std::string input_path)
+    generator::generator(std::string input_path, std::string output_path)
         : input_path_{ std::move(input_path) }
-        , output_path_{ "generated/" }
+        , output_path_{ std::move(output_path) }
     {}
 
     void generator::initialize()
     {
-        SetDllDirectory(input_path_.c_str());
-        auto handle = LoadLibrary("GameAssembly.dll");
-        if (!handle) spdlog::error("Unable to load library {}", input_path_);
+        //SetDllDirectory(input_path_.c_str());
+        //auto handle = LoadLibrary("GameAssembly.dll");
+        auto handle = platform_module_handle(platform_module_name);
+        if (!handle) ark::error("Unable to load library" +  input_path_);
 
-        api::initialize();
+        api::initialize(handle);
+        
+        ark::info("Initialize api");
+        auto status = api::init("GameAssembly");
+        if (!status) ark::error("init failed: GameAssembly");
 
-        spdlog::info("Initialize api");
-        api::init("GameAssembly");
+        api::init("libil2cpp");
+        if (!status) ark::error("init failed: GameAssembly");
+
 
         auto dom = api::domain_get();
         assemblies_ = (il2cpp::Il2CppAssembly**)api::domain_get_assemblies(dom, &assembly_count_);
-        if (assembly_count_ == 0) spdlog::error("assembly error: size == 0");
+        if (assembly_count_ == 0) ark::error("assembly error: size == 0");
 
         for (auto it = assemblies_; it != assemblies_ + assembly_count_; ++it)
         {
             auto image = api::assembly_get_image(*it);
             if (!image)
             {
-                spdlog::error("null assembly");
+                ark::error("null assembly");
                 continue;
             }
 
@@ -51,7 +57,7 @@ namespace meta
 
             auto class_count = api::image_get_class_count(image);
 
-            spdlog::info("Load image {} Classes : {}", image_name, class_count);
+            ark::info("Load image " + image_name + " Classes : " + std::to_string(class_count));
 
             for (int i = 0; i < class_count; ++i)
             {

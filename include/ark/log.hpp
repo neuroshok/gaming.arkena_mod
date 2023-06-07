@@ -3,8 +3,12 @@
 #include <ark/module.hpp>
 
 #include <cassert>
-#include <format>
+//#include <format>
 #include <string>
+
+#ifdef __ANDROID__
+    #include <android/log.h>
+#endif
 
 #define ark_assert(C, M) if (!C) { ark_trace("Asssertion failed: {}", M); } assert(C)
 
@@ -19,17 +23,17 @@ namespace ark
 template<class Message, class... Ts>
 void ark_error(Message&& message, Ts&&... ts)
 {
-    ark::error(std::vformat(message, std::make_format_args(ts...)));
+    //ark::error(std::vformat(message, std::make_format_args(ts...)));
 }
 
 template<class Message, class... Ts>
 void ark_info(Message&& message, Ts&&... ts)
 {
-    ark::info(std::vformat(message, std::make_format_args(ts...)));
+    //ark::info(std::vformat(message, std::make_format_args(ts...)));
 }
 
 template<class Message, class... Ts>
 void ark_trace(Message&& message, Ts&&... ts)
 {
-    ark::trace(std::vformat(message, std::make_format_args(ts...)));
+    //ark::trace(std::vformat(message, std::make_format_args(ts...)));
 }

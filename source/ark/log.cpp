@@ -2,7 +2,8 @@
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/wincolor_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 
 #include <filesystem>
 #include <iostream>
@@ -19,7 +20,7 @@ namespace ark
         auto file_logger = spdlog::basic_logger_mt("file", file_path.string());
         auto logger = std::make_shared<spdlog::logger>("core");
 
-        logger->sinks().emplace_back(std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>());
+        logger->sinks().emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
 
         file_logger->set_level(spdlog::level::critical);
         logger->set_level(spdlog::level::trace);
@@ -32,13 +33,21 @@ namespace ark
 
     void error(const std::string& message)
     {
+    #ifdef __ANDROID__
+        __android_log_print(ANDROID_LOG_ERROR, "ARK", "%s", message.c_str());
+    #else
         spdlog::get("file")->error(message);
         spdlog::get("core")->error(message);
+    #endif
     }
     void info(const std::string& message)
     {
+    #ifdef __ANDROID__
+        __android_log_print(ANDROID_LOG_INFO, "ARK", "%s", message.c_str());
+    #else
         spdlog::get("file")->info(message);
         spdlog::get("core")->info(message);
+    #endif
     }
     void trace(const std::string& message)
     {

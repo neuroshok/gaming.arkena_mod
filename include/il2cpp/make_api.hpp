@@ -1,25 +1,35 @@
+// todo allow empty variadics
+
 #ifdef ARK_MAKE_MEMBER
     #define make_api(Name, Return, Params, ...) \
     static Return Name Params \
     { return process<Return(*)Params>(Name##_ptr, __VA_ARGS__); }
+    #define make_api_proc(Name, Return) \
+    static Return Name () \
+    { return process<Return(*)()>(Name##_ptr); }
 #endif
 
 #ifdef ARK_MAKE_STATIC
     #define make_api(Name, Return, Params, ...) \
-    static inline FARPROC Name##_ptr = nullptr;
+    static inline platform_fptr_type Name##_ptr = nullptr;
+    #define make_api_proc(Name, Return) \
+    static inline platform_fptr_type Name##_ptr = nullptr;
 #endif
 
 #ifdef ARK_MAKE_STATIC_INIT
     #define make_api(Name, Return, Params, ...) \
-    Name##_ptr = GetProcAddress(GetModuleHandleA("GameAssembly.dll"), "il2cpp_" #Name); \
-    if (!Name##_ptr) throw std::runtime_error(std::string(#Name) + " is null");
+    Name##_ptr = platform_module_function(base, "il2cpp_" #Name); \
+    if (!Name##_ptr) { ark::error(std::string(#Name) + " is null (ARK_MAKE_STATIC_INIT)"); throw std::runtime_error(std::string(#Name) + " is null"); }
+    #define make_api_proc(Name, Return) \
+    Name##_ptr = platform_module_function(base, "il2cpp_" #Name); \
+    if (!Name##_ptr) { ark::error(std::string(#Name) + " is null (ARK_MAKE_STATIC_INIT)"); throw std::runtime_error(std::string(#Name) + " is null"); }
 #endif
 
 //! https://github.com/nneonneo/Il2CppVersions
 
 make_api(init, int, (const char* domain_name), domain_name)
 
-make_api(domain_get, il2cpp::Il2CppDomain*, ())
+make_api_proc(domain_get, il2cpp::Il2CppDomain*)
 make_api(domain_get_assemblies, const il2cpp::Il2CppAssembly**, (const il2cpp::Il2CppDomain* d, size_t* s), d, s)
 make_api(assembly_get_image, const il2cpp::Il2CppImage*, (const il2cpp::Il2CppAssembly* as), as)
 
@@ -27,7 +37,9 @@ make_api(image_get_name, const char*,  (const Il2CppImage* image), image)
 make_api(image_get_class_count, size_t, (const il2cpp::Il2CppImage* image), image)
 make_api(image_get_class, const il2cpp::Il2CppClass*, (const il2cpp::Il2CppImage* image, std::size_t index), image, index)
 
+// thread
 make_api(thread_attach, il2cpp::Il2CppThread*, (const il2cpp::Il2CppDomain* d), d)
+make_api(is_vm_thread, bool, (Il2CppThread* thread), thread)
 
 // class
 make_api(class_from_name, il2cpp::Il2CppClass*, (const il2cpp::Il2CppImage* image, const char* namespaze, const char* name), image, namespaze, name)
@@ -85,10 +97,11 @@ make_api(string_new_len, il2cpp::string*, (const char* text, int32_t len), text,
 // gc
 make_api(gchandle_new, uint32_t, (const il2cpp::Il2CppObject* k, bool pinned), k, pinned)
 make_api(gchandle_free, void, (uint32_t gchandle), gchandle)
-make_api(gc_enable, void, ())
-make_api(gc_disable, void, ())
+make_api_proc(gc_enable, void)
+make_api_proc(gc_disable, void)
 
 #undef make_api
+#undef make_api_proc
 
 
 

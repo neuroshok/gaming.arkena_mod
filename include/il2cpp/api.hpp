@@ -10,13 +10,48 @@
 
 namespace il2cpp
 {
-    class api;
+    class api
+    {
+    public:
+        static ARK_SHARED il2cpp::Il2CppClass* get_class(const std::string& ns, const std::string& klass);
 
-    template<class T>
+        template<class T>
+        static inline il2cpp::Il2CppClass* get_class()
+        {
+            auto namespace_ = T::internal_ns;
+            auto class_ = T::internal_name;
+
+            return get_class(namespace_, class_);
+        }
+
+    public:
+        template<class T, class... Args>
+        static decltype(auto) process(platform_fptr_type function_address, Args&&... args)
+        {
+            return reinterpret_cast<T>(function_address)(std::forward<Args>(args)...);
+        }
+
+        static void initialize(void* base)
+        {
+            #define ARK_MAKE_STATIC_INIT
+            #include <il2cpp/make_api.hpp>
+            #undef ARK_MAKE_STATIC_INIT
+        }
+
+        #define ARK_MAKE_STATIC
+        #include <il2cpp/make_api.hpp>
+        #undef ARK_MAKE_STATIC
+
+        #define ARK_MAKE_MEMBER
+        #include <il2cpp/make_api.hpp>
+        #undef ARK_MAKE_MEMBER
+    };
+
+    /*template<class T>
     auto build()
     {
         return il2cpp::api::template object_new<T>(api::template get_class<T>());
-    }
+    }*/
 
     template<class T, class... Ts>
     T* make(Ts&&... ts)
@@ -44,41 +79,4 @@ namespace il2cpp
 
     template<class T>
     auto make_array(int size) { return reinterpret_cast<il2cpp::array<T>*>(il2cpp::api::array_new(api::template get_class<T>(), size)); }
-
-    class api
-    {
-    public:
-        #define ARK_MAKE_MEMBER
-        #include <il2cpp/make_api.hpp>
-        #undef ARK_MAKE_MEMBER
-
-        static ARK_SHARED il2cpp::Il2CppClass* get_class(const std::string& ns, const std::string& klass);
-
-        template<class T>
-        static inline il2cpp::Il2CppClass* get_class()
-        {
-            auto namespace_ = T::internal_ns;
-            auto class_ = T::internal_name;
-
-            return get_class(namespace_, class_);
-        }
-
-        static void initialize()
-        {
-            #define ARK_MAKE_STATIC_INIT
-            #include <il2cpp/make_api.hpp>
-            #undef ARK_MAKE_STATIC_INIT
-        }
-
-    public:
-        template<class T, class... Args>
-        static decltype(auto) process(FARPROC function_address, Args&&... args)
-        {
-            return reinterpret_cast<T>(function_address)(std::forward<Args>(args)...);
-        }
-
-        #define ARK_MAKE_STATIC
-        #include <il2cpp/make_api.hpp>
-        #undef ARK_MAKE_STATIC
-    };
 } // il2cpp

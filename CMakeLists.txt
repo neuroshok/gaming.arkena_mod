@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 
 project(arkena_mod)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
 # version
@@ -45,7 +45,7 @@ include(cmake/imgui.cmake)
 
 
 # lib_restcpp
-find_package(restclient-cpp CONFIG REQUIRED)
+#find_package(restclient-cpp CONFIG REQUIRED)
 
 # kiero
 add_library(lib_kiero INTERFACE)
@@ -57,9 +57,16 @@ target_sources(lib_kiero INTERFACE
         ${PROJECT_SOURCE_DIR}/third_party/kiero/minhook/src/trampoline.c
         ${PROJECT_SOURCE_DIR}/third_party/kiero/minhook/src/hde/hde32.c)
 
-target_include_directories(lib_kiero INTERFACE
-        ${PROJECT_SOURCE_DIR}/third_party/kiero/backends/
-        ${PROJECT_SOURCE_DIR}/third_party/imgui)
+# dobby
+if (ARK_PLATFORM STREQUAL "android")
+    add_library(lib_hook INTERFACE)
+    target_include_directories(lib_hook INTERFACE ${PROJECT_SOURCE_DIR}/third_party/Dobby/include)
+
+    option(DOBBY_GENERATE_SHARED "Build shared library" OFF)
+    add_subdirectory(third_party/Dobby)
+    target_link_libraries(lib_hook INTERFACE dobby_static)
+endif ()
+
 
 # nlohmann
 set(JSON_BuildTests OFF CACHE INTERNAL "")
@@ -117,11 +124,11 @@ target_compile_definitions(arkena_mod PUBLIC
 
 target_compile_options(arkena_mod PUBLIC /wd4674)
 target_compile_definitions(arkena_mod PUBLIC ARK_SHARED_EXPORT WIN32_LEAN_AND_MEAN NOMINMAX)
-target_link_libraries(arkena_mod PUBLIC lib_imgui lib_kiero spdlog lib_json restclient-cpp ${CURLLIB_PATH} ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
+target_link_libraries(arkena_mod PUBLIC lib_imgui lib_kiero spdlog lib_json ${CURLLIB_PATH} ws2_32.lib crypt32.lib Wldap32.lib Normaliz.lib)
 target_include_directories(arkena_mod PUBLIC
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/include/gen
-        ${PROJECT_SOURCE_DIR}/third_party/restclient-cpp/include
+        #${PROJECT_SOURCE_DIR}/third_party/restclient-cpp/include
         )
 
 # arkena_mod
@@ -188,17 +195,37 @@ set_target_properties(bin2cpp_compressed PROPERTIES
 )
 
 # generator
-file(GLOB_RECURSE GENERATOR_SOURCES
+file(GLOB GENERATOR_SOURCES
         ${PROJECT_SOURCE_DIR}/tools/generator/*.cpp
+        ${PROJECT_SOURCE_DIR}/tools/generator/platform/android/main.cpp
         ${PROJECT_SOURCE_DIR}/source/ark/meta.cpp
         ${PROJECT_SOURCE_DIR}/source/ark/log.cpp
         )
 
-add_executable(generator ${GENERATOR_SOURCES})
-target_include_directories(generator PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(generator PRIVATE spdlog)
+if (ARK_PLATFORM STREQUAL "android")
+    add_library(generator SHARED ${GENERATOR_SOURCES})
+    find_library(log-lib log)
+    target_link_libraries(generator PUBLIC lib_hook)
+else ()
+    add_executable(generator ${GENERATOR_SOURCES})
+endif ()
+
+target_include_directories(generator PRIVATE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/tools/generator)
+target_link_libraries(generator PRIVATE spdlog ${log-lib})
 
 set_target_properties(generator PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin"
+    LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin"
     OUTPUT_NAME "generator"
 )
+
+if (GAME_ROOT)
+    add_custom_command(TARGET generator POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:generator> ${GAME_ROOT}/lib/arm64-v8a/libmain.so
+            COMMAND apktool b ${GAME_ROOT}
+            COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/android/uber-apk-signer.jar -a ${GAME_ROOT}/dist/au.apk
+            COMMENT "Deploy to ${GAME_ROOT}"
+            DEPENDS
+            VERBATIM
+    )
+endif()

@@ -43,7 +43,7 @@ namespace ark
     //! \param rid the impl function with the form of void _impl(void* object, const std::vector<std::byte>& data);
     void mod::register_rpc(uintptr_t rid, void* object)
     {
-        auto fn = std::bind_front(reinterpret_cast<void(*)(void*, const std::vector<std::byte>&)>(rid), object);
+        auto fn = [rid, object](const std::vector<std::byte>& bytes){ return reinterpret_cast<void(*)(void*, const std::vector<std::byte>&)>(rid)(object, bytes); };
         rpcs_.emplace(rid, std::move(fn));
     }
 

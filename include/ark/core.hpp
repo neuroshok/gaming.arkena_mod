@@ -12,7 +12,6 @@
 
 #include <deque>
 
-#include <concepts>
 #include <filesystem>
 #include <functional>
 
@@ -20,16 +19,6 @@
 
 namespace ark { class mod; }
 namespace au { class core; }
-
-namespace Concept
-{
-    template<class Mod>
-    concept mod = requires
-    {
-        Mod::name;
-        std::derived_from<Mod, ark::mod>;
-    };
-} // Concept
 
 namespace ark
 {

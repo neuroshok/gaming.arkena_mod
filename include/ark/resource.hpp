@@ -18,6 +18,9 @@ namespace ark::resource
     {
         using handle_type = ID3D11ShaderResourceView*;
 
+        image() = default;
+        image(int s, const unsigned char* d) : size{ s }, data{ d } {}
+
         int width{};
         int height{};
         int size{};

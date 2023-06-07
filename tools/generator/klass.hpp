@@ -3,6 +3,7 @@
 
 #include <il2cpp/api.hpp>
 #include <unordered_set>
+#include <vector>
 
 namespace meta
 {
